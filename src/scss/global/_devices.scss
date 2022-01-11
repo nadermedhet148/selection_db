@@ -1,0 +1,107 @@
+@media screen and (min-width: 1264px) {
+  // Large and Extra Large
+  .text-h1:not(.all-sizes) {
+    line-height: 1.2 !important;
+  }
+}
+
+@media screen and (max-width: 1263px) {
+  // Medium Screens
+  .v-application {
+    .text-h5 {
+      font-size: 23px !important;
+      &.line-height-enhance {
+        line-height: 35px !important;
+      }
+    }
+    .text-h3:not(.all-sizes) {
+      font-size: 35px !important;
+      line-height: 40px !important;
+    }
+    .text-h2:not(.all-sizes) {
+      font-size: 50px !important;
+      line-height: 1.2 !important;
+    }
+    .text-h1:not(.all-sizes) {
+      line-height: 1.2 !important;
+    }
+  }
+}
+
+@media screen and (max-width: 959px) {
+  // Small Screens
+  .v-application {
+    .text-h5 {
+      font-size: 21px !important;
+      &.line-height-enhance {
+        line-height: 33px !important;
+      }
+    }
+    .text-h3:not(.all-sizes) {
+      font-size: 34px !important;
+      line-height: 39px !important;
+    }
+    .text-h1:not(.all-sizes) {
+      font-size: 75px !important;
+      line-height: 1 !important;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  // Extar Small Screens
+  .v-application {
+    .text-h5 {
+      font-size: 18px !important;
+      &.line-height-enhance {
+        line-height: 30px !important;
+      }
+      &.small {
+        font-size: 18px !important;
+      }
+    }
+    .text-h4:not(.all-sizes) {
+      font-size: 25px !important;
+      line-height: 30px !important;
+    }
+    .text-h3:not(.all-sizes) {
+      font-size: 32px !important;
+      line-height: 38px !important;
+    }
+    .text-h2:not(.all-sizes) {
+      font-size: 38px !important;
+      line-height: 40px !important;
+    }
+    .text-h1:not(.all-sizes) {
+      font-size: 40px !important;
+      line-height: 40px !important;
+    }
+    .layout.pt-5 {
+      padding-top: 15px !important;
+    }
+  }
+}
+
+.container {
+  @media (min-width: 1592px) {
+    // max-width: 1300px;
+    max-width: 1600px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  @media (min-width: 1264px) {
+    max-width: 1600px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  @media (min-width: 960px) {
+    max-width: 1600px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  @media (min-width: 1904px) {
+    max-width: 1785px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

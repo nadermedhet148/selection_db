@@ -1,0 +1,225 @@
+* {
+  font-family: "Roboto", "Cairo", sans-serif;
+  font-weight: bold !important;
+}
+body {
+  font-family: "Roboto", "Cairo", sans-serif !important;
+  line-height: 1.5;
+  .v-application {
+    font-family: "Roboto", "Cairo", sans-serif !important;
+    line-height: 1.5;
+    .font-weight-simibold {
+      font-weight: 600 !important;
+    }
+    // List Items
+    .v-list-item.wrap {
+      .v-list-item__content {
+        .v-list-item__title:not(.no-wrap),
+        .v-list-item__subtitle:not(.no-wrap) {
+          white-space: initial;
+        }
+      }
+    }
+    // Vue2-Editor
+    .quillWrapper {
+      .ql-container,
+      .ql-toolbar {
+        font-family: "Roboto", "Cairo", sans-serif !important;
+        .ql-editor {
+          direction: auto;
+        }
+      }
+    }
+    $numbers: 1, 2, 3, 4, 5;
+    $typos: "text-body-1", "text-body-2", "text-caption", "text-subtitle-1",
+      "text-subtitle-2", "text-overline", "text-button", "v-list-item__title",
+      "blockquote", "v-chip", "headline";
+    @for $i from 1 through 6 {
+      .text-h#{$i} {
+        font-family: "Roboto", "Cairo", sans-serif !important;
+      }
+    }
+    @each $typo in $typos {
+      .#{$typo} {
+        font-family: "Roboto", "Cairo", sans-serif !important;
+      }
+    }
+    // .v-card:not(.normal-card):not(.v-select-list) {
+    //     // background: #fff;
+    //     border-radius: 8px;
+    //     border: 1px solid #eceff1;
+    //     box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+    //     margin: 0 auto 20px;
+    //     max-width: 1280px;
+    //     overflow: hidden;
+    //     .card-body {
+    //         padding: 30px 25px;
+    //     }
+    //     .v-card__text {
+    //         line-height: 23px;
+    //     }
+    // }
+    .text-h5 {
+      &.line-height-enhance {
+        line-height: 35px !important;
+      }
+      &.small {
+        font-size: 20px !important;
+      }
+    }
+    @media screen and (max-width: 599px) {
+      @each $number in $numbers {
+        .px-xs-#{$number} {
+          padding-left: #{$number * 3}px;
+          padding-right: #{$number * 3}px;
+        }
+        // .py-xs-#{$number} {
+        //     padding-top: #{$number*3}px;
+        //     padding-bottom: #{$number*3}px;
+        // }
+      }
+    }
+    .v-text-field {
+      .v-input__prepend-inner {
+        padding-right: 10px;
+      }
+      &.has-file-input {
+        .v-input__append-outer {
+          display: none;
+        }
+      }
+    }
+
+    ul.v-expansion-panel {
+      li.v-expansion-panel__container {
+        padding: 5px 0;
+      }
+    }
+
+    .v-list:not(.dense) {
+      .v-list-item {
+        .v-list-item__title,
+        .v-list-item__subtitle {
+          line-height: 20px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+    }
+    .v-text-field.dialog-text-field {
+      .v-label--active {
+        left: -34px !important;
+      }
+    }
+    // Reset Text-Transform
+    .text-none {
+      text-transform: none;
+    }
+
+    .v-chip {
+      &.no-chip {
+        display: initial !important;
+        white-space: initial;
+        .v-chip__content {
+          display: initial !important;
+        }
+      }
+    }
+
+    // Create a centered checkbox
+    .v-input--checkbox {
+      &.center-checkbox {
+        .v-input__slot {
+          flex-direction: column-reverse;
+          .v-input--selection-controls__input {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+
+    // Increase textarea line height
+    .v-textarea {
+      &.v-text-field--solo-inverted {
+        textarea {
+          color: inherit !important;
+        }
+      }
+      textarea {
+        line-height: 2;
+      }
+    }
+
+    // Fix Avatar overflow
+    .v-avatar.avatar-front {
+      overflow: visible;
+    }
+
+    // Fix [hint]v-messages line-height
+    .v-messages {
+      .v-messages__wrapper {
+        .v-messages__message {
+          line-height: 1.5;
+        }
+      }
+    }
+
+    // Fix prominent alert icon
+    .v-alert--prominent {
+      .v-alert__icon {
+        height: 35px;
+        min-width: 35px;
+        align-self: flex-start;
+        margin-left: 8px;
+        .v-icon {
+          font-size: 30px;
+        }
+      }
+    }
+
+    // Fix v-tabs that needs a v-divider under tabs
+    .v-tabs.has-divider {
+      .v-slide-group__content {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+
+  .v-badge {
+    &.with-padding {
+      .v-badge__wrapper {
+        .v-badge__badge {
+          font-size: 13px;
+          height: 30px;
+          padding-top: 8px;
+        }
+      }
+    }
+    &:not(.default-badge) {
+      padding: 0 !important;
+      .v-badge__wrapper {
+        padding: 0 !important;
+        .v-badge__badge {
+          padding: 0 !important;
+          height: 30px;
+          width: 30px;
+        }
+      }
+    }
+  }
+
+  .v-menu__content {
+    &.menuable__content__active {
+      // z-index: 13 !important;
+    }
+  }
+
+  .v-color-picker {
+    &.theme--dark {
+      input {
+        color: white;
+      }
+    }
+  }
+}

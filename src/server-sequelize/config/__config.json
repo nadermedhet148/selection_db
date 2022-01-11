@@ -1,0 +1,198 @@
+{
+  "moqadem": {
+    "title": "الأساسي",
+    "username": "sa",
+    "password": "a@sh",
+    "host": "192.9.201.30",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "SHABANA",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 300000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "local": {
+    "title": "local",
+    "username": "SA",
+    "password": "nader@55",
+    "host": "localhost",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "SQLEXPRESS",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "nozom": {
+    "title": "النظم",
+    "username": "SA",
+    "password": "p@ssword",
+    "host": "192.9.201.15",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "SQLEXPRESS",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "moqadem_laptop": {
+    "title": "لابتوب المقدم",
+    "username": "sa",
+    "password": "a@sh",
+    "host": "DESKTOP-LJ8KU1B",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "instanceName": "SHABANA",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "dash": {
+    "title": "داش",
+    "username": "sa",
+    "password": "a@sh",
+    "host": "DESKTOP-BPD15NN",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "DASHSERVER",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false,
+    "logging_comment": "Remove the word 'comment', add false. just like the others above"
+  },
+  "mohsen": {
+    "title": "محسن",
+    "username": "sa",
+    "password": "M0h$en",
+    "host": "MOHSEN",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "MSSQLSERVER",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "saad": {
+    "title": "محمد سعد",
+    "username": "mohmedelwany",
+    "password": "12345MRELWANY",
+    "host": "DESKTOP-I0IIKND",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "instanceName": "ELWANY",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "beltagy": {
+    "title": "بلتاجي",
+    "username": "sa",
+    "password": "123",
+    "host": "DEMO",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "instanceName": "DEMO",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
+  "kareem": {
+    "title": "kemooo",
+    "username": "sa",
+    "password": "123",
+    "host": "LAPTOP-8OA9AFOQ",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "instanceName": "KAREEM",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "logging": false
+  }
+}

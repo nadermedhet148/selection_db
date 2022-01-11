@@ -1,0 +1,9 @@
+// .v-dialog__content.v-dialog__content--active {
+//   z-index: 9999 !important;
+// }
+.v-dialog.v-dialog--active.v-dialog--scrollable {
+  &:not(.v-dialog--fullscreen) {
+    // max-height: 80%;
+    // margin-top: 5%;
+  }
+}

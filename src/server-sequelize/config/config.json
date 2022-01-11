@@ -1,0 +1,24 @@
+{
+  "comment": "This is a test json file",
+  "title": "داش",
+  "username": "sa",
+  "password": "a@sh",
+  "host": "DESKTOP-BPD15NN",
+  "database": "MilitaryRecordsDB",
+  "dialect": "mssql",
+  "seederStorage": "json",
+  "seederStoragePath": "sequelize-data.json",
+  "seederStorageTableName": "SequelizeData",
+  "dialectOptions": {
+    "options": {
+      "instanceName": "DASHSERVER",
+      "encrypt": false,
+      "trustServerCertificate": true,
+      "requestTimeout": 30000
+    }
+  },
+  "define": {
+    "timestamps": false
+  },
+  "logging": false
+}

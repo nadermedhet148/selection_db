@@ -1,0 +1,75 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Military Records New System",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAF1c5SVqxfUqV8=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "User",
+					"ownedElements": [
+						{
+							"_type": "UMLLink",
+							"_id": "AAAAAAF1c5UnkxgafWE=",
+							"_parent": {
+								"$ref": "AAAAAAF1c5SVqxfUqV8="
+							},
+							"end1": {
+								"_type": "UMLLinkEnd",
+								"_id": "AAAAAAF1c5UnkxgbYl4=",
+								"_parent": {
+									"$ref": "AAAAAAF1c5UnkxgafWE="
+								},
+								"reference": {
+									"$ref": "AAAAAAF1c5SVqxfUqV8="
+								}
+							},
+							"end2": {
+								"_type": "UMLLinkEnd",
+								"_id": "AAAAAAF1c5UnkxgcHPE=",
+								"_parent": {
+									"$ref": "AAAAAAF1c5UnkxgafWE="
+								},
+								"reference": {
+									"$ref": "AAAAAAF1c5UnJRf95Go="
+								}
+							}
+						}
+					]
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAF1c5UnJRf95Go=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Object1"
+				}
+			]
+		}
+	],
+	"author": "Military Records of Border Guards",
+	"company": "Armed forces of Egypt",
+	"copyright": "Hamdi Mohamed",
+	"version": "0.3.7"
+}

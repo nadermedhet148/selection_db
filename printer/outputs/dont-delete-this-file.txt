@@ -1,0 +1,1 @@
+App won't use this file, but it won't create "outputs" folder while installing on a new device without it.

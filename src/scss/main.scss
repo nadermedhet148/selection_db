@@ -1,0 +1,25 @@
+@import "fonts/bkoodak.scss";
+@import "global/modify_mdc";
+@import "global/reset_elements";
+@import "global/firebase";
+@import "global/rtl";
+@import "global/colors";
+@import "global/nprogress";
+@import "global/devices";
+@import "global/effects";
+@import "themes";
+@import "global/added_classes";
+@import "global/border";
+@import "global/perfect-scrollbar";
+@import "global/apexchart";
+@import "global/dialogs";
+
+// Pages
+@import "pages/toolbarUser";
+@import "pages/project_tree";
+@import "pages/service_provider";
+@import "pages/home";
+@import "pages/call";
+
+// Items
+@import "items/military-table";

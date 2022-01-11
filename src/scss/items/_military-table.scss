@@ -1,0 +1,25 @@
+.military-table-container {
+  position: relative;
+  // padding-top: 40px;
+  .military-table {
+    overflow-y: auto;
+    overflow-x: auto;
+    table {
+      width: 100%;
+      thead {
+        background-color: var(--v-primary-base);
+        .v-chip {
+          // width: 100%;
+        }
+      }
+      tbody {
+        tr {
+          td {
+            text-align: center;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}

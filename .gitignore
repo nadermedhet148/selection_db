@@ -1,0 +1,52 @@
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Custom
+/src/other
+/nowatch
+/layout
+/src/server-sequelize/Old
+/Cut-From-Node-Modules
+old_src
+/dev-server/files
+/server/files
+/server
+/src/server-mssql
+/dev-server/save-files/*
+/dev-server/passwords.txt
+/printer/outputs/*.docx
+/printer/outputs/*.xlsx
+/printer/outputs/*.pdf
+/printer/extracted-images/*.jpg
+/printer/cards/*
+/dev-server/records/audio/*.mp3
+/dev-server/records/video/*.mp4
+/dev-server/records/video/*.avi
+/dev-server-copy
+/node_modules_admin-eye
+/node_modules_dev_server
+#Electron-builder output
+/dist_electron
+/dist_electron_old
+
+# Sequelize
+/sequelize

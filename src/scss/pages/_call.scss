@@ -1,0 +1,39 @@
+.call-card {
+  position: relative;
+  padding: 0 !important;
+  max-width: 100%;
+  .call-center-div {
+    height: calc(100vh - 64px - 64px - 305px);
+    max-width: 100%;
+    &.fullscreen-true {
+      height: calc(100vh - 64px - 64px - 101px);
+    }
+  }
+  .remote-stream-card {
+    // width: 640px;
+    // height: 480px;
+    height: calc(100vh - 64px - 64px - 340px);
+    max-width: 100%;
+    &.fullscreen-true {
+      height: calc(100vh - 64px - 64px - 101px);
+    }
+    video {
+      position: relative;
+      width: inherit;
+      height: inherit;
+    }
+  }
+  .all-streams-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 130px;
+    background: transparent;
+    // video {
+    //   position: relative;
+    //   width: inherit;
+    //   height: inherit;
+    // }
+  }
+}

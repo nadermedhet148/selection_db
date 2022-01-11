@@ -1,0 +1,64 @@
+// Top app bar
+
+.v-application {
+  @media screen and (min-width: 600px) {
+    .v-toolbar__content > .v-tabs:first-child,
+    .v-toolbar__extension > .v-tabs:first-child {
+      margin-left: 55px;
+    }
+  }
+}
+
+// Top app bar with hidden tabs
+.v-application--is-rtl
+  .v-tabs--align-with-title
+  > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing)
+  > .v-slide-group__wrapper
+  > .v-tabs-bar__content
+  > .v-tab:first-child,
+.v-application--is-rtl
+  .v-tabs--align-with-title
+  > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing)
+  > .v-slide-group__wrapper
+  > .v-tabs-bar__content
+  > .v-tabs-slider-wrapper
+  + .v-tab {
+  // margin-right: 42px;
+  margin-right: 0px;
+}
+
+.v-application--is-rtl
+  .v-tabs--align-with-title
+  > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing)
+  > .v-slide-group__wrapper
+  > .v-tabs-bar__content {
+  padding-right: 42px;
+  // margin-right: 0px;
+}
+
+// Side app bar
+
+.v-application {
+  .v-navigation-drawer {
+    .v-list-group {
+      .v-list-group__items {
+        transition: all 1s linear;
+      }
+      &.v-list-group--active {
+        .v-list-group__items {
+          background: linear-gradient(
+            0deg,
+            rgba(255, 0, 0, 0.18),
+            rgba(255, 0, 0, 0.03)
+          );
+        }
+      }
+    }
+    &.v-navigation-drawer--mini-variant {
+      .v-list-item > :first-child {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+}
