@@ -254,7 +254,7 @@ function initModels(sequelize) {
     foreignKey: "ID"
   });
   Situations.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
-  // Soldier.hasMany(Situations, { as: "Situations", foreignKey: "ID" });
+  Soldier.hasMany(Situations, { as: "Situations", foreignKey: "ID" });
   Soldier.belongsTo(Soldier, { as: "ID_Soldier_Soldier", foreignKey: "ID" });
   Soldier.hasOne(Soldier, { as: "Soldier", foreignKey: "ID" });
   Twsiat.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
@@ -278,72 +278,6 @@ function initModels(sequelize) {
   Weapon.hasMany(SMSoldier, { as: "SMSoldiers", foreignKey: "WeaponID" });
   Soldier.belongsTo(Weapon, { as: "Weapon", foreignKey: "WeaponID" });
   Weapon.hasMany(Soldier, { as: "Soldiers", foreignKey: "WeaponID" });
-
-  Conscriptes.belongsToMany(FollowingRigion, {
-    as: "new_FollowRigionID_FollowingRigions",
-    through: Followers,
-    foreignKey: "ID",
-    otherKey: "FollowRigionID"
-  });
-  Conscriptes.belongsToMany(SituationStates, {
-    as: "new_SituationID_SituationStates",
-    through: SituationDecision,
-    foreignKey: "ID",
-    otherKey: "SituationID"
-  });
-  Conscriptes.belongsToMany(SituationStates, {
-    as: "new_SituationID_SituationStates_Situations",
-    through: Situations,
-    foreignKey: "ID",
-    otherKey: "SituationID"
-  });
-  Conscriptes.belongsTo(Centre, { as: "new_Centre", foreignKey: "CentreID" });
-  Centre.hasMany(Conscriptes, {
-    as: "new_Conscriptess",
-    foreignKey: "CentreID"
-  });
-  Conscriptes.belongsTo(City, { as: "new_City", foreignKey: "CityID" });
-  City.hasMany(Conscriptes, { as: "new_Conscriptess", foreignKey: "CityID" });
-  Conscriptes.belongsTo(Duty, { as: "new_Duty", foreignKey: "DutyID" });
-  Duty.hasMany(Conscriptes, { as: "new_Conscriptess", foreignKey: "DutyID" });
-
-  Brothers.belongsTo(Conscriptes, {
-    as: "new_ID_Conscriptes",
-    foreignKey: "ID"
-  });
-  Conscriptes.hasOne(Brothers, { as: "new_Brother", foreignKey: "ID" });
-  Followers.belongsTo(Conscriptes, {
-    as: "new_ID_Conscriptes",
-    foreignKey: "ID"
-  });
-  Conscriptes.hasMany(Followers, { as: "new_Followers", foreignKey: "ID" });
-  SituationDecision.belongsTo(Conscriptes, {
-    as: "new_ID_Conscriptes",
-    foreignKey: "ID"
-  });
-  Conscriptes.hasMany(SituationDecision, {
-    as: "new_SituationDecisions",
-    foreignKey: "ID"
-  });
-  Situations.belongsTo(Conscriptes, {
-    as: "new_ID_Conscriptes",
-    foreignKey: "ID"
-  });
-  Conscriptes.hasMany(Situations, { as: "new_Situations", foreignKey: "ID" });
-  Conscriptes.belongsTo(Conscriptes, {
-    as: "new_ID_Conscriptes_Conscriptes",
-    foreignKey: "ID"
-  });
-  Conscriptes.hasOne(Conscriptes, { as: "new_Conscriptes", foreignKey: "ID" });
-  Twsiat.belongsTo(Conscriptes, { as: "new_ID_Conscriptes", foreignKey: "ID" });
-  Conscriptes.hasMany(Twsiat, { as: "new_Twsiats", foreignKey: "ID" });
-  Conscriptes.belongsTo(Unit, { as: "new_Unit", foreignKey: "UnitID" });
-  Unit.hasMany(Conscriptes, { as: "new_Conscriptess", foreignKey: "UnitID" });
-  Weapon.hasMany(Conscriptes, {
-    as: "new_Conscriptess",
-    foreignKey: "WeaponID"
-  });
-  Conscriptes.belongsTo(Weapon, { as: "new_Weapon", foreignKey: "WeaponID" });
 
   return {
     Brothers,

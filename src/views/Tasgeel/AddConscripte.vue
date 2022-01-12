@@ -43,7 +43,7 @@
                       : false
                   "
                   @keyup.enter="
-                    item.model == 'militaryId' ? findConscripte() : () => {}
+                    item.model == 'ID' ? findConscripte() : () => {}
                   "
                   @keydown.tab="
                     item.model == 'militaryId'
@@ -196,7 +196,7 @@ export default {
     findingConscripte: false,
     conscripte: {
       conscriptionDate: null,
-      unitId: null
+      unitID: null
     },
     isEnhaa: false,
     groups: [
@@ -206,94 +206,112 @@ export default {
         forEnhaa: true,
         items: [
           {
-            model: "militaryId",
+            model: "ID",
             label: "الرقم العسكري",
             type: "text",
             counter: 13,
             forEnhaa: true
           },
           {
-            model: "fullName",
+            model: "Name",
             label: "الإسم الكامل",
             type: "text",
             forEnhaa: true
           },
           {
-            model: "tripartiteNumber",
+            model: "TripleNo",
             label: "الرقم الثلاثي",
             type: "text"
           },
           {
-            model: "degreeId",
-            label: "الدرجة",
-            type: "select",
-            forEnhaa: true
+            model: "IndexNo",
+            label: "رقم السجل ",
+            type: "text"
           },
           {
-            model: "licenseId",
-            label: "درجة الرخصة",
+            model: "SoldierLevel",
+            label: "الدرجة",
             type: "select"
           },
           {
-            model: "stateIdCurrent",
+            model: "SoldierStatus",
             label: "حالة الفرد",
             type: "select",
             forEnhaa: true
           },
           {
-            model: "stateId",
+            model: "EndingCause",
             label: "سبب الإنهاء",
-            type: "select",
-            forEnhaa: true
+            type: "text"
           },
           {
-            model: "qualificationId",
+            model: "KnowledgeLevel",
             label: "المؤهل",
             type: "select"
           },
+
           {
-            model: "areaId",
-            label: "منطقة التجنيد",
-            type: "select"
-          },
-          {
-            model: "groupId",
+            model: "SoldierCategory",
             label: "الفئة",
             type: "select"
           },
           {
-            model: "sourceId",
+            model: "SourceId",
             label: "جهة الإمداد",
-            type: "select"
+            type: "text",
+            readonly: true
           },
           {
-            model: "additionalYearStateId",
+            model: "RecuTreat",
             label: "المعاملة التجنيدية",
             type: "select"
           },
           {
-            model: "reductionStateId",
-            label: "قرار التخفيض",
-            type: "select"
+            model: "MissingTime",
+            label: "مدة الفاقدة",
+            type: "text"
           },
+          // {
+          //   model: "reductionStateId",
+          //   label: "قرار التخفيض",
+          //   type: "select"
+          // },
           {
-            model: "periodId",
+            model: "RecuStage",
             label: "المرحلة التجنيدية",
             type: "select"
           },
+          // {
+          //   model: "periodId",
+          //   label: "الحاق",
+          //   type: "select"
+          // },
           {
-            model: "ignorantId",
-            label: "موقف محو الأمية",
+            model: "DutyID",
+            label: " الواجب المدرب عليه",
             type: "select"
           },
           {
-            model: "ignorantSupporterId",
-            label: "مؤيد محو الأمية",
-            type: "select"
+            model: "",
+            label: "التسكين",
+            type: "text",
+            readonly: true
+          },
+
+          {
+            model: "",
+            label: " مركز التدريب",
+            type: "text",
+            readonly: true
           },
           {
-            model: "microfilmId",
-            label: "رقم الفيلم",
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
+            model: "Direction",
+            label: " الاتجاه",
             type: "select"
           }
         ]
@@ -303,75 +321,90 @@ export default {
         desc: "",
         items: [
           {
-            model: "forceId",
+            model: "WeaponID",
             label: "السلاح",
             type: "select"
           },
           {
-            model: "unitId",
+            model: "UnitID",
             label: "الوحدة",
             type: "select"
           },
           {
-            model: "zoneId",
-            label: "الجيش / المنطقة",
-            type: "select"
+            model: "",
+            label: " التشكيل",
+            type: "text",
+            readonly: true
           }
         ]
       },
       {
         title: "بيانات شخصية",
         desc: "",
-        forEnhaa: true,
         items: [
           {
-            model: "birthDate",
+            model: "BirthDate",
             label: "تاريخ الميلاد",
-            type: "date",
-            forEnhaa: true
+            type: "date"
           },
           {
-            model: "nationalId",
+            model: "NationalId",
             label: "الرقم القومي",
             type: "text",
-            counter: 14,
-            forEnhaa: true
+            counter: 14
           },
           {
-            model: "phone",
+            model: "SoldierTELE",
             label: "رقم التليفون",
             type: "text",
             counter: 11,
             forEnhaa: true
           },
           {
-            model: "address",
-            label: "العنوان المدني",
+            model: "RelevantTELE",
+            label: "رقم تلفون الاقارب",
             type: "text",
-            forEnhaa: true
+            counter: 11
           },
           {
-            model: "governorateId",
+            model: "Address",
+            label: "العنوان المدني",
+            type: "text"
+          },
+          {
+            model: "Job",
+            label: "المهنة ",
+            type: "text"
+          },
+          {
+            model: "CityID",
             label: "المحافظة",
-            type: "select",
-            forEnhaa: true
+            type: "select"
           },
           {
-            model: "religionId",
+            model: "CentreID",
+            label: "المركز",
+            type: "select"
+          },
+          {
+            model: "Religion",
             label: "الديانة",
-            type: "select",
-            forEnhaa: true
+            type: "select"
           },
           {
-            model: "bloodTypeId",
+            model: "BloodType",
             label: "فصيلة الدم",
             type: "select"
           },
           {
-            model: "martialStateId",
-            label: "الحالة الإجتماعية",
-            type: "select",
-            forEnhaa: true
+            model: "College",
+            label: "الكلية ",
+            type: "select"
+          },
+          {
+            model: "Specialization",
+            label: "التخصص ",
+            type: "text"
           }
         ]
       },
@@ -381,65 +414,228 @@ export default {
         forEnhaa: true,
         items: [
           {
-            model: "conscriptionDate",
+            model: "RecuStartDate",
             label: "تاريخ التجنيد",
             type: "date",
             forEnhaa: true
           },
           {
-            model: "demobilizationDateStarter",
-            label: "تاريخ التسريح المبدئي",
-            type: "date",
-            readonly: true
-          },
-          // {
-          //   model: "demobilizationDateMoqarar",
-          //   label: "تاريخ التسريح المفرر",
-          //   type: "date",
-          //   readonly: true
-          // },
-          {
-            model: "demobilizationDate",
-            label: "تاريخ التسريح النهائي",
-            type: "date",
-            readonly: true
+            model: "RecuEndDate",
+            label: "تاريخ التسريح",
+            type: "date"
           },
           {
-            model: "endingDutyDate",
-            label: "تاريخ إنهاء الخدمة ( يضعه قسم الإنهاء )",
-            type: "date",
-            readonly: true,
-            forEnhaa: true
+            model: "RecuRegion",
+            label: "منطقة التجنيد",
+            type: "select"
           },
           {
-            model: "notes",
+            model: "Notes",
             label: "ملاحظات عامة",
             type: "textarea",
             forEnhaa: true
-          },
-          {
-            model: "notesDemobilization",
-            label: "ملاحظات تسريح",
-            type: "textarea"
           }
         ]
       }
     ],
     selects: {
-      degreeId: {
-        table: "degrees",
-        text: "degreeType",
-        value: "degreeId"
+      SoldierLevel: {
+        text: "text",
+        value: "text",
+        data: [...["جندي", "عريف", "رقيب", "رقيب اول ", "مساعد ", "مساعد اول"]]
       },
-      governorateId: {
-        table: "governorates",
-        text: "displayedText",
-        value: "id"
+      KnowledgeLevel: {
+        text: "text",
+        value: "text",
+        data: [
+          ...["عليا", "فوق متوسطة", "متوسطة", "عادة"].map(text => ({ text }))
+        ]
       },
-      religionId: {
-        table: "religions",
-        text: "displayedText",
-        value: "id"
+      Religion: {
+        text: "text",
+        value: "text",
+        data: [...["اخري", "مسيحي", "مسلم"].map(text => ({ text }))]
+      },
+      RecuTreat: {
+        text: "text",
+        value: "text",
+        data: [
+          ...["بدون", "سنة قابلة للرفع", "سنة غير قابلة للرفعس"].map(text => ({
+            text
+          }))
+        ]
+      },
+      SoldierCategory: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "صف",
+            "كاتب عسكري",
+            "كاتب مالي",
+            "سائق عجل",
+            "مهني ",
+            "حرفي"
+          ].map(text => ({ text }))
+        ]
+      },
+      BloodType: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "A",
+            "A+",
+            "A-",
+            "B",
+            "B+",
+            "B-",
+            "O",
+            "O+",
+            "O-",
+            "AB",
+            "AB+",
+            "AB-"
+          ].map(text => ({ text }))
+        ]
+      },
+      RecuRegion: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "القاهرة",
+            "الجيزة",
+            "الأسكندرية",
+            "الزقازيق",
+            "أسيوط",
+            "طنطا",
+            "قنا",
+            "المنصورة",
+            "المنيا"
+          ].map(text => ({ text }))
+        ]
+      },
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: [
+          ...["الاولي", "الثانية", "الثالثة", "الرابعة"].map(text => ({ text }))
+        ]
+      },
+      SoldierStatus: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "",
+            "محول الى متطوع",
+            "ترقى ملازم شرف",
+            "نقل على الإحتياط",
+            "اعفاء نهائى",
+            "اعفاء مؤقت",
+            "القبول بالكليات العسكريه",
+            "رفت جوازى",
+            "رفت وجوبى",
+            "عدم الصلاحيه الفنيه",
+            "الاستقاله",
+            "عدم رغبه فى التجنيد",
+            "الوفاه اثناء الخدمه",
+            "الوفاه اثناء الغياب",
+            "بلوغ السن القانونى",
+            "مستجد بالمركز",
+            "بالخدمة",
+            "رفت طبي",
+            "منتهى خدمته",
+            "نقل خارج السلاح",
+            "امني",
+            "هارب",
+            "إجراءات إنهاء خدمة"
+          ].map(text => ({ text }))
+        ]
+      },
+      College: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "فوق متوسطة",
+            "متوسطة",
+            "عادة",
+            "اداب",
+            "هندسة",
+            "حاسبات ومعلومات",
+            "تربية",
+            "طب بشري",
+            "طب بيطري",
+            "طب اسنان",
+            "صيدلة",
+            "الالسن",
+            "خدمة اجتماعيه",
+            "جامعة عمالية",
+            "حقوق",
+            "تجارة",
+            "زراعة",
+            "شريعة وقانون",
+            "دراسات اسلامية",
+            "اصول دين",
+            "فنون جميلة",
+            "فنون تطبيقية",
+            "اقتصاد وعلوم سياسية",
+            "اعلام",
+            "تربية رياضية",
+            "علوم",
+            "سياحة وفنادق",
+            "تربية نوعية",
+            "تمريض",
+            "تربية موسيقية",
+            "تربية فنية",
+            "اثار",
+            "دار العلوم"
+          ].map(text => ({ text }))
+        ]
+      },
+      Direction: {
+        text: "text",
+        value: "text",
+        data: [
+          ...[
+            "",
+            "ج2",
+            "ج3",
+            "جنوبى",
+            "شمالى",
+            "غربى",
+            "مركزى",
+            "مج المخابرات",
+            "رئاسة مج مخ والأمن",
+            "رئاسة ومكاتب مج مخ البحر الأحمر",
+            "رئاسة ومكاتب مج مخ الجنوبى",
+            "رئاسة ومكاتب مج مخ الشمالى",
+            "رئاسة ومكاتب مج مخ الغربى",
+            "رئاسة ومكاتب مج مخ ج2 ",
+            "رئاسة ومكاتب مج مخ ج3",
+            "قيادات القطاعات",
+            "كتائب م م م د",
+            "قيادة الفوج 103",
+            "قيادة الكتيبة 104"
+          ].map(text => ({ text }))
+        ]
+      },
+      CityID: {
+        table: "City",
+        text: "City",
+        value: "CityID"
+      },
+      CentreID: {
+        table: "Centre",
+        text: "Centre",
+        value: "CentreID"
+      },
+      DutyID: {
+        table: "Duty",
+        text: "Duty",
+        value: "DutyID"
       },
       periodId: {
         table: "periods",
@@ -461,11 +657,7 @@ export default {
         text: "displayedText",
         table: "ignorantSupporters"
       },
-      bloodTypeId: {
-        table: "bloodTypes",
-        text: "displayedText",
-        value: "id"
-      },
+
       groupId: {
         table: "groups",
         text: "groupName",
@@ -481,25 +673,15 @@ export default {
         text: "sourceName",
         value: "sourceId"
       },
-      stateId: {
-        table: "dutyStates",
-        text: "text",
-        value: "stateId"
-      },
       martialStateId: {
         table: "martialStates",
         text: "state",
         value: "martialStateId"
       },
-      qualificationId: {
-        table: "qualifications",
-        text: "name",
-        value: "qualificationId"
-      },
-      forceId: {
-        table: "forces",
-        text: "name",
-        value: "forceId"
+      WeaponID: {
+        table: "Weapon",
+        text: "Weapon",
+        value: "WeaponID"
       },
       reductionStateId: {
         table: "reductionStates",
@@ -516,21 +698,12 @@ export default {
         text: "state",
         value: "additionalYearStateId"
       },
-      stateId: {
-        table: "dutyStates",
-        text: "text",
-        value: "stateId"
-      },
-      areaId: {
-        table: "mobilizationAreas",
-        text: "name",
-        value: "areaId"
-      },
-      unitId: {
-        table: "units",
-        value: "unitId",
-        text: "unitText",
-        attrs: ["zoneId"]
+
+      UnitID: {
+        table: "Unit",
+        value: "UnitID",
+        text: "Unit"
+        // attrs: ["zoneId"]
       },
       licenseId: {
         table: "licenses",
@@ -544,10 +717,10 @@ export default {
     // "conscripte.conscriptionDate"(v) {
     //   this.calculateDemobilizationDate();
     // }
-    "conscripte.unitId"(v) {
+    "conscripte.unitID"(v) {
       let zoneId =
-        (v || v === 0) && this.selects.unitId.data
-          ? this.selects.unitId.data.find(u => u.unitId == v).zoneId
+        (v || v === 0) && this.selects.unitID.data
+          ? this.selects.unitID.data.find(u => u.unitID == v).zoneId
           : null;
       this.$set(this.conscripte, "zoneId", zoneId);
     }
@@ -556,7 +729,7 @@ export default {
     emptyFields(exeptId = false) {
       this.$set(this, "conscripte", {
         conscriptionDate: null,
-        unitId: null,
+        unitID: null,
         militaryId: exeptId ? this.conscripte.militaryId : null
       });
     },
@@ -610,7 +783,7 @@ export default {
     async calculateDemobilizationDate(isExists = false) {
       let {
         conscriptionDate,
-        qualificationId,
+        knowLedgeLevel,
         additionalYearStateId,
         forceId,
         militaryId
@@ -624,7 +797,7 @@ export default {
 
       if (
         !conscriptionDate ||
-        (!qualificationId && qualificationId !== 0) ||
+        (!knowLedgeLevel && knowLedgeLevel !== 0) ||
         (!additionalYearStateId && additionalYearStateId !== 0) ||
         (!forceId && forceId !== 0)
       ) {
@@ -643,7 +816,7 @@ export default {
           1: 23
         },
         hasAdditionalYear = additionalYearStateId == 4,
-        period = requiredMonths[qualificationId],
+        period = requiredMonths[knowLedgeLevel],
         demobilizationDate = new Date(
           cdate.setMonth(new Date(conscriptionDate).getMonth() + period)
         );
@@ -702,34 +875,34 @@ export default {
       return this.fixDate(finalDate);
     },
     async findConscripte() {
-      this.emptyFields(true);
-      let { militaryId } = this.conscripte,
-        forceCode = militaryId.substr(6, 2),
-        areaCode = militaryId.substr(4, 1),
-        qualificationCode = militaryId.substr(5, 1),
+      // this.emptyFields(true);
+      let { ID } = this.conscripte,
+        forceCode = ID.substr(6, 2),
+        areaCode = ID.substr(4, 1),
+        qualificationCode = ID.substr(5, 1),
         groupItems = this.groups.map(g => g.items),
         models = [];
       groupItems.forEach(gitems => {
         let item_models = gitems.map(g => g.model);
         models = [...models, ...item_models];
       });
-      if (!militaryId || militaryId.length == 0) {
+      if (!ID || ID.length == 0) {
         return;
       }
       this.$set(this, "findingConscripte", true);
       let conscripte = await this.api("global/get_one", {
-        table: "conscriptes",
+        table: "Soldier",
         where: {
-          militaryId
+          ID
         },
-        attrs: models
+        // attrs: models
       });
       // 2020178800544
       if (
         conscripte &&
         conscripte.ok &&
         conscripte.data &&
-        conscripte.data.militaryId
+        conscripte.data.ID
       ) {
         let data = this.fixDates(
           [conscripte.data],
@@ -752,22 +925,22 @@ export default {
         periodId,
         areaId,
         groupId,
-        qualificationId,
+        knowLedgeLevel,
         forceId,
         stateIdCurrent,
         additionalYearStateId,
         reductionStateId,
-        degreeId,
+        soldierLevel,
         martialStateId,
         stateId
       } = this.conscripte;
-      if (militaryId.length >= 13) {
+      if (ID.length >= 13) {
         // substr(index(included), length)
         // substring(index(included), index(not included))
         // Example: 2020 5 2 52 0011 5
         // 2020 [Year of Conscription]
         // 5 [ Mobilization Area ]
-        // 2 [ QualificationId ]
+        // 2 [ knowLedgeLevel ]
         // 52 [ ForceId ]
         // 0011 [ Series in Mobilization Area ]
         // 5 Random Integer
@@ -781,8 +954,12 @@ export default {
         if (!martialStateId) {
           this.$set(this.conscripte, "martialStateId", 1);
         }
-        if (!degreeId) {
-          this.$set(this.conscripte, "degreeId", forceCode == "88" ? 13 : 2);
+        if (!soldierLevel) {
+          this.$set(
+            this.conscripte,
+            "soldierLevel",
+            forceCode == "88" ? 13 : 2
+          );
         }
         if (!additionalYearStateId) {
           this.$set(this.conscripte, "additionalYearStateId", 1);
@@ -793,10 +970,10 @@ export default {
         // if (!areaId) {
         this.$set(this.conscripte, "areaId", Number(areaCode));
         // }
-        // if (!qualificationId) {
+        // if (!knowLedgeLevel) {
         this.$set(
           this.conscripte,
-          "qualificationId",
+          "knowLedgeLevel",
           forceCode == "88" ? 7 : Number(qualificationCode)
         );
         // }
@@ -850,20 +1027,21 @@ export default {
         this.showError(
           "عفواً, ليس لديك صلاحية التعديل. هذه خاصة بقسم التسجيل."
         );
+
         this.$set(this, "loading", false);
         return;
       }
-      if (!conscripte.militaryId) {
+      if (!conscripte.ID) {
         this.showError("من فضلك قم بتسجيل الرقم العسكري");
         this.$set(this, "loading", false);
         return;
       }
-      if (!conscripte.fullName || conscripte.fullName.trim().length == 0) {
+      if (!conscripte.Name || conscripte.Name.trim().length == 0) {
         this.showError("من فضلك قم بتسجيل اسم الفرد");
         this.$set(this, "loading", false);
         return;
       }
-      if (!conscripte.conscriptionDate) {
+      if (!conscripte.RecuStartDate) {
         this.showError("من فضلك قم بتسجيل تاريخ التجنيد");
         this.$set(this, "loading", false);
         return;
@@ -871,7 +1049,7 @@ export default {
       //////
       // نوع الخدمة
       /////
-      if (conscripte.degreeId == 2) {
+      if (conscripte.soldierLevel == 2) {
         // جندي
         conscripte.typeId = 1;
       } else {
@@ -879,103 +1057,104 @@ export default {
         conscripte.typeId = 2;
       }
 
-      let isEnhaa = this.isEnhaa;
-      if (isEnhaa && conscripte.stateIdCurrent != 2) {
-        this.showError("غير مسموح لك بإضافة فرد حالته غير منتهي خدمته");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.stateId) {
-        this.showError("من فضلك ادخل سبب الانهاء");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.degreeId) {
-        this.showError("من فضلك أدخل الدرجة");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.endingDutyDate) {
-        this.showError("من فضلك ادخل تاريخ الانهاء");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.nationalId) {
-        this.showError("من فضلك أدخل الرقم القومي");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.phone) {
-        this.showError("من فضلك ادخل رقم التليفون");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.address) {
-        this.showError("من فضلك ادخل العنوان المدني");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.governorateId) {
-        this.showError("من فضلك ادخل المحافظة");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.religionId) {
-        this.showError("من فضلك ادخل الديانة");
-        this.$set(this, "loading", false);
-        return;
-      }
-      if (isEnhaa && !conscripte.martialStateId) {
-        this.showError("من فضلك ادخل الحالة الاجتماعية");
-        this.$set(this, "loading", false);
-        return;
-      }
+      // let isEnhaa = this.isEnhaa;
+      // if (isEnhaa && conscripte.stateIdCurrent != 2) {
+      //   this.showError("غير مسموح لك بإضافة فرد حالته غير منتهي خدمته");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.stateId) {
+      //   this.showError("من فضلك ادخل سبب الانهاء");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.soldierLevel) {
+      //   this.showError("من فضلك أدخل الدرجة");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.endingDutyDate) {
+      //   this.showError("من فضلك ادخل تاريخ الانهاء");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.nationalId) {
+      //   this.showError("من فضلك أدخل الرقم القومي");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.phone) {
+      //   this.showError("من فضلك ادخل رقم التليفون");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.address) {
+      //   this.showError("من فضلك ادخل العنوان المدني");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.governorateId) {
+      //   this.showError("من فضلك ادخل المحافظة");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.religionId) {
+      //   this.showError("من فضلك ادخل الديانة");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      // if (isEnhaa && !conscripte.martialStateId) {
+      //   this.showError("من فضلك ادخل الحالة الاجتماعية");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
 
       let isExists = false,
         exists = await this.api("global/get_one", {
-          table: "conscriptes",
+          table: "Soldier",
           where: {
-            militaryId: conscripte.militaryId
+            ID: conscripte.ID
           },
-          attrs: ["militaryId"]
+          attrs: ["ID"]
         });
       if (exists && exists.ok && exists.data && exists.data.militaryId) {
         isExists = true;
       }
-      let addedDemobilizationDate = this.calculateDemobilizationDate(isExists);
-      if (addedDemobilizationDate) {
-        if (isExists) {
-          let addCon = await this.api("global/update_one", {
-            table: "conscriptes",
-            where: {
-              militaryId: conscripte.militaryId
-            },
-            update: conscripte
-          });
-          if (addCon && addCon.ok) {
-            this.showSuccess("تم تحديث الفرد بنجاح");
-            // this.emptyFields();
-          } else {
-            this.showError("تعذر تحديث الفرد في قاعدة البيانات");
-          }
-          // this.showError("هذا الفرد موجود بالفعل بنفس الرقم العسكري");
-          this.$set(this, "loading", false);
-          return;
-        }
-        let addCon = await this.api("global/create_one", {
-          table: "conscriptes",
-          where: conscripte
-        });
-        if (addCon && addCon.ok) {
-          this.showSuccess("تم إضافة الفرد بنجاح");
-          // this.emptyFields();
-        } else {
-          this.showError("تعذر إضافة الفرد في قاعدة البيانات");
-        }
-        this.$set(this, "loading", false);
+      // let addedDemobilizationDate = this.calculateDemobilizationDate(isExists);
+      // if (addedDemobilizationDate) {
+      // if (isExists) {
+      //   let addCon = await this.api("global/update_one", {
+      //     table: "conscriptes",
+      //     where: {
+      //       militaryId: conscripte.militaryId
+      //     },
+      //     update: conscripte
+      //   });
+      //   if (addCon && addCon.ok) {
+      //     this.showSuccess("تم تحديث الفرد بنجاح");
+      //     // this.emptyFields();
+      //   } else {
+      //     this.showError("تعذر تحديث الفرد في قاعدة البيانات");
+      //   }
+      //   // this.showError("هذا الفرد موجود بالفعل بنفس الرقم العسكري");
+      //   this.$set(this, "loading", false);
+      //   return;
+      // }
+      console.log(conscripte);
+      let addCon = await this.api("global/create_one", {
+        table: "Soldier",
+        where: conscripte
+      });
+      if (addCon && addCon.ok) {
+        this.showSuccess("تم إضافة الفرد بنجاح");
+        // this.emptyFields();
       } else {
-        this.$set(this, "loading", false);
+        this.showError("تعذر إضافة الفرد في قاعدة البيانات");
       }
+      this.$set(this, "loading", false);
+      // } else {
+      //   this.$set(this, "loading", false);
+      // }
     }
   }
 };
