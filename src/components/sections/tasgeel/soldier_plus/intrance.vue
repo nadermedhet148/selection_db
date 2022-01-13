@@ -428,32 +428,32 @@ export default {
             to: "conscriptes",
             icon: ""
           },
-          {
-            title: "الحالات الإصابية / المرضية",
-            desc: "",
-            to: "injuries",
-            icon: ""
-          },
-          {
-            title: "التحقيقات / المحاكم",
-            desc: "",
-            to: "courts",
-            icon: ""
-          },
-          {
-            title: "العقوبات",
-            desc: "",
-            to: "penalties",
-            href: "/penalties",
-            icon: ""
-          },
-          {
-            title: "محو الأمية",
-            desc: "",
-            to: "ignorants",
-            href: "/ignorants",
-            icon: ""
-          }
+          // {
+          //   title: "الحالات الإصابية / المرضية",
+          //   desc: "",
+          //   to: "injuries",
+          //   icon: ""
+          // },
+          // {
+          //   title: "التحقيقات / المحاكم",
+          //   desc: "",
+          //   to: "courts",
+          //   icon: ""
+          // },
+          // {
+          //   title: "العقوبات",
+          //   desc: "",
+          //   to: "penalties",
+          //   href: "/penalties",
+          //   icon: ""
+          // },
+          // {
+          //   title: "محو الأمية",
+          //   desc: "",
+          //   to: "ignorants",
+          //   href: "/ignorants",
+          //   icon: ""
+          // }
         ]
       },
       {

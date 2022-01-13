@@ -1,16 +1,8 @@
 module.exports = async (db, params) => {
   let search = params.search,
-    like = ["fullName", "militaryId"],
-    date = [
-      "conscriptionDate",
-      "demobilizationDate",
-      "endingDutyDate",
-      "birthDate",
-      "highSalaryPayingOutDate",
-      "currentPromotionDate",
-      "currentUnitJoiningDate"
-    ],
-    ignore = ["failureSessions"],
+    like = ["ID", "Name"],
+    date = ["ArrivalDate", "BirthDate", "RecuStartDate", "RecuEndDate"],
+    ignore = [],
     where = {};
   Object.keys(search).forEach(key => {
     if (!ignore.includes(key)) {
@@ -54,55 +46,23 @@ module.exports = async (db, params) => {
     }
   });
   try {
-    let conscriptes = await db.conscriptes.findAll({
+    let conscriptes = await db.Soldier.findAll({
         where,
-        attributes: [
-          "militaryId",
-          "fullName",
-          "conscriptionDate",
-          "demobilizationDate",
-          "degreeId",
-          "unitId",
-          "stateIdCurrent",
-          "groupId",
-          "isPartInMilitaryOperation",
-          "forceId"
-        ],
         include: [
           {
-            model: db.degrees,
-            attributes: ["degreeType"],
-            required: false
+            model: db.Weapon
           },
           {
-            model: db.units,
-            attributes: ["unitText"],
-            required: false
+            model: db.Unit
           },
           {
-            model: db.units,
-            attributes: ["unitText"],
-            required: false
+            model: db.Duty
           },
           {
-            model: db.militaryOperationParticipants,
-            required: false,
-            include: [
-              {
-                model: db.militaryOperations,
-                required: false
-              }
-            ]
+            model: db.City
           },
           {
-            model: db.dutyCurrentStates,
-            attributes: ["text"],
-            required: false
-          },
-          {
-            model: db.groups,
-            attributes: ["groupName"],
-            required: false
+            model: db.Centre
           }
         ]
       }),

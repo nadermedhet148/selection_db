@@ -167,22 +167,22 @@
             :table="table"
           ></table-footer-filters>
         </template>
-        <template v-slot:item.militaryId="{ item }">
+        <template v-slot:item.ID="{ item }">
           <v-chip
             color="transparent"
-            :to="`/soldiers_plus/${item.militaryId}`"
-            @click.right="copyText(item.militaryId)"
+            :to="`/soldiers_plus/${item.ID}`"
+            @click.right="copyText(item.ID)"
           >
-            {{ item.militaryId }}
+            {{ item.ID }}
           </v-chip>
         </template>
-        <template v-slot:item.fullName="{ item }">
+        <template v-slot:item.Name="{ item }">
           <v-chip
             color="transparent"
-            :to="`/soldiers_plus/${item.militaryId}`"
-            @click.right="copyText(item.fullName)"
+            :to="`/soldiers_plus/${item.ID}`"
+            @click.right="copyText(item.Name)"
           >
-            {{ item.fullName }}
+            {{ item.Name }}
           </v-chip>
         </template>
         <template v-slot:item.dutyCurrentState="{ item }">
@@ -196,27 +196,14 @@
             {{ item.dutyCurrentState.text }}
           </v-chip>
         </template>
-        <template v-slot:item.isPartInMilitaryOperation="{ item }">
-          <v-icon
-            v-if="!item.isPartInMilitaryOperation"
-            :color="item.isPartInMilitaryOperation ? 'blue' : 'error'"
-          >
-            {{
-              item.isPartInMilitaryOperation ? "mdi-check" : "mdi-close"
-            }}</v-icon
-          >
-          <template v-for="(ele, i) in item.militaryOperationParticipants">
-            <v-chip v-bind:key="i" color="green">
-              {{ ele.militaryOperation.name }}
-            </v-chip>
-          </template>
-        </template>
       </v-data-table>
     </v-card>
   </div>
 </template>
 
 <script>
+const constants = require("../../../../../Constant").default;
+
 export default {
   name: "conscriptes",
   mounted() {
@@ -286,56 +273,62 @@ export default {
       items: [],
       headers: [
         {
-          value: "militaryId",
+          value: "ID",
           text: "الرقم العسكري",
           sortable: true
         },
 
+        // {
+        //   value: "degree.degreeType",
+        //   dbvalue: "degreeId",
+        //   text: "الدرجة",
+        //   sortable: true
+        // },
         {
-          value: "degree.degreeType",
-          dbvalue: "degreeId",
-          text: "الدرجة",
-          sortable: true
-        },
-        {
-          value: "fullName",
+          value: "Name",
           text: "الإسم",
           sortable: true
         },
         {
-          value: "unit.unitText",
-          dbvalue: "unitId",
+          value: "Unit.Unit",
+          dbvalue: "UnitID",
           text: "الوحدة",
           sortable: true
         },
         {
-          value: "dutyCurrentState",
-          dbvalue: "stateIdCurrent",
+          value: "SoldierStatus",
+          dbvalue: "SoldierStatus",
           text: "حالة الفرد",
           sortable: true
         },
         {
-          value: "group.groupName",
-          dbvalue: "groupId",
+          value: "SoldierCategory",
+          dbvalue: "SoldierCategory",
           text: "الفئة",
           sortable: true
         },
         {
-          value: "conscriptionDate",
+          value: "SoldierLevel",
+          dbvalue: "SoldierLevel",
+          text: "الدرجة",
+          sortable: true
+        },
+        {
+          value: "RecuStartDate",
           text: "تاريخ التجنيد / التطوع",
           sortable: true
         },
         {
-          value: "demobilizationDate",
+          value: "RecuEndDate",
           text: "تاريخ التسريح",
           sortable: true
-        },
-        {
-          value: "isPartInMilitaryOperation",
-          dbvalue: "isPartInMilitaryOperation",
-          text: "عمليات حربيه",
-          sortable: true
         }
+        // {
+        //   value: "isPartInMilitaryOperation",
+        //   dbvalue: "isPartInMilitaryOperation",
+        //   text: "عمليات حربيه",
+        //   sortable: true
+        // }
       ]
     },
     printers: [
@@ -357,146 +350,135 @@ export default {
         title: "بيانات تجنيدية",
         options: [
           {
+            model: "ID",
             label: "الرقم العسكري",
-            model: "militaryId",
             type: "text",
-            hint: ""
+            counter: 13,
+            forEnhaa: true
           },
           {
-            label: "الإسم",
-            model: "fullName",
+            model: "Name",
+            label: "الإسم الكامل",
             type: "text",
-            hint: ""
+            forEnhaa: true
           },
           {
+            model: "TripleNo",
             label: "الرقم الثلاثي",
-            model: "tripartiteNumber",
-            type: "text",
-            hint: ""
+            type: "text"
           },
           {
-            label: "المؤهل",
-            model: "qualificationId",
-            type: "select",
-            hint: ""
+            model: "IndexNo",
+            label: "رقم السجل ",
+            type: "text"
           },
           {
-            label: "منطقة التجنيد",
-            model: "areaId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "الرقم القومي",
-            model: "nationalId",
-            type: "text",
-            hint: ""
-          },
-          {
+            model: "SoldierLevel",
             label: "الدرجة",
-            model: "degreeId",
-            type: "select",
-            hint: ""
+            type: "select"
           },
           {
-            label: "السنة الزيادة",
-            model: "additionalYearStateId",
+            model: "SoldierStatus",
+            label: "حالة الفرد",
             type: "select",
-            hint: ""
+            forEnhaa: true
           },
           {
-            label: "الجيش / المنطقة",
-            model: "zoneId",
-            type: "select",
-            hint: ""
+            model: "EndingCause",
+            label: "سبب الإنهاء",
+            type: "text"
           },
           {
+            model: "KnowledgeLevel",
+            label: "المؤهل",
+            type: "select"
+          },
+
+          {
+            model: "SoldierCategory",
             label: "الفئة",
-            model: "groupId",
-            type: "select",
-            hint: ""
+            type: "select"
           },
           {
-            label: "السلاح",
-            model: "forceId",
-            type: "select",
-            hint: ""
+            model: "RecuTreat",
+            label: "المعاملة التجنيدية",
+            type: "select"
           },
           {
-            label: "الوحدة",
-            model: "unitId",
-            type: "select",
-            hint: ""
+            model: "MissingTime",
+            label: "مدة الفاقدة",
+            type: "text"
           },
+          // {
+          //   model: "reductionStateId",
+          //   label: "قرار التخفيض",
+          //   type: "select"
+          // },
           {
-            label: "التخفيض",
-            model: "reductionStateId",
-            type: "select",
-            hint: ""
-          },
-          {
+            model: "RecuStage",
             label: "المرحلة التجنيدية",
-            model: "periodId",
-            type: "select",
-            hint: ""
+            type: "select"
           },
+          // {
+          //   model: "periodId",
+          //   label: "الحاق",
+          //   type: "select"
+          // },
+
           {
-            label: "شارك في العمليات الحربيه",
-            model: "isPartInMilitaryOperation",
-            type: "checkbox",
-            hint: ""
-          },
-          {
-            label: "ادراج من هم خارج السلاح",
-            model: "getWhoNotRelatedWithSelah",
-            type: "checkbox",
-            hint: ""
+            model: "Direction",
+            label: " الاتجاه",
+            type: "select"
           }
         ]
       },
       {
-        title: "بيان وموقف الخدمة",
+        title: "مكان الخدمة",
         options: [
           {
-            label: "نوع الخدمة",
-            model: "typeId",
-            type: "select",
-            hint: ""
+            model: "WeaponID",
+            label: "السلاح",
+            type: "select"
           },
           {
-            label: "حالة الفرد",
-            model: "stateIdCurrent",
-            type: "select",
-            hint: ""
+            model: "UnitID",
+            label: "الوحدة",
+            type: "select"
           },
           {
-            label: "سبب الإنهاء",
-            model: "stateId",
-            type: "select",
-            hint: ""
+            model: "",
+            label: " التشكيل",
+            type: "text",
+            readonly: true
           },
           {
-            label: "تاريخ إنهاء الخدمة",
-            model: "endingDutyDate",
-            type: "date",
-            range: true,
-            hint: ""
+            model: "Markez_Tadreb",
+            label: " مركز التدريب",
+            type: "text",
+            readonly: true
           },
           {
-            label: "تاريخ التجنيد",
-            model: "conscriptionDate",
-            models: ["conscriptionDate", "webConscriptionDate"],
-            type: "date",
-            range: true,
-            hint: ""
+            model: "DutyID",
+            label: " الواجب المدرب عليه",
+            type: "select"
           },
           {
-            label: "تاريخ التسريح",
-            model: "demobilizationDate",
-            models: ["demobilizationDate", "webDemobilizationDate"],
-            type: "date",
-            range: true,
-            hint: ""
+            model: "",
+            label: "التسكين",
+            type: "text",
+            readonly: true
+          },
+
+          {
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
+            model: "SourceId",
+            label: "جهة الإمداد",
+            type: "text",
+            readonly: true
           }
         ]
       },
@@ -504,237 +486,242 @@ export default {
         title: "بيانات شخصية",
         options: [
           {
-            label: "مجموعات المؤهلات المدنية",
-            model: "webCivilQualificationGroupId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "المؤهل المدني",
-            model: "webCivilQualificationId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "المحافطة",
-            model: "governorateId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "رقم التليفون",
-            model: "phone",
-            type: "text",
-            hint: ""
-          },
-          {
+            model: "BirthDate",
             label: "تاريخ الميلاد",
-            model: "birthDate",
-            type: "date",
-            range: true,
-            hint: ""
+            type: "date"
+          },
+          {
+            model: "IdentityNo",
+            label: "الرقم القومي",
+            type: "text",
+            counter: 14
+          },
+          {
+            model: "SoldierTELE",
+            label: "رقم التليفون",
+            type: "text",
+            counter: 11,
+            forEnhaa: true
+          },
+          {
+            model: "RelevantTELE",
+            label: "رقم تلفون الاقارب",
+            type: "text",
+            counter: 11
+          },
+          {
+            model: "Address",
+            label: "العنوان المدني",
+            type: "text"
+          },
+          {
+            model: "Job",
+            label: "المهنة ",
+            type: "text"
+          },
+          {
+            model: "CityID",
+            label: "المحافظة",
+            type: "select"
+          },
+          {
+            model: "CentreID",
+            label: "المركز",
+            type: "select"
+          },
+          {
+            model: "Religion",
+            label: "الديانة",
+            type: "select"
+          },
+          {
+            model: "BloodType",
+            label: "فصيلة الدم",
+            type: "select"
+          },
+          {
+            model: "College",
+            label: "الكلية ",
+            type: "select"
+          },
+          {
+            model: "Specialization",
+            label: "التخصص ",
+            type: "text"
           }
         ]
       },
       {
-        title: "بيانات خاصة بالأميين",
+        title: "بيانات الخدمة",
         options: [
           {
-            label: "محو الأمية",
-            model: "ignorantId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "جهة الإمداد",
-            model: "sourceId",
-            type: "select",
-            hint: ""
-          },
-          {
-            label: "المؤيد",
-            model: "ignorantSupporterId",
-            type: "select",
-            hint: ""
-          }
-        ]
-      },
-      {
-        title: "بيانات خاصة بضباط الصف",
-        options: [
-          {
-            label: "تاريخ صرف الراتب العالي",
-            model: "highSalaryPayingOutDate",
+            model: "RecuStartDate",
+            label: "تاريخ التجنيد",
             type: "date",
-            range: true,
-            hint: ""
+            forEnhaa: true
           },
           {
-            label: "تاريخ الترقي للدرجة الحالية",
-            model: "currentPromotionDate",
-            type: "date",
-            range: true,
-            hint: ""
+            model: "RecuEndDate",
+            label: "تاريخ التسريح",
+            type: "date"
           },
           {
-            label: "تاريخ الضم على الوحدة",
-            model: "currentUnitJoiningDate",
-            type: "date",
-            range: true,
-            hint: ""
+            model: "RecuRegion",
+            label: "منطقة التجنيد",
+            type: "select"
           },
           {
-            label: "رقم الأقدمية",
-            model: "oldNumber",
-            type: "number",
-            hint: ""
-          },
-          {
-            label: "التخصص / الوظيفة",
-            model: "specialization",
-            type: "select",
-            hint: ""
+            model: "Notes",
+            label: "ملاحظات عامة",
+            type: "textarea",
+            forEnhaa: true
           }
         ]
       }
     ],
     selects: {
-      // Web Selects
-      webCivilQualificationGroupId: {
-        table: "webCivilQualificationGroups",
-        value: "id",
-        text: "displayedText"
+      SoldierLevel: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierLevel.data
       },
-      webCivilQualificationId: {
-        table: "webCivilQualifications",
-        value: "id",
-        text: "displayedText"
+      KnowledgeLevel: {
+        text: "text",
+        value: "text",
+        data: constants.KnowledgeLevel.data
       },
-      // Normal Selects
-      governorateId: {
-        table: "governorates",
-        value: "id",
-        text: "displayedText"
+      Religion: {
+        text: "text",
+        value: "text",
+        data: constants.Religion.data
       },
-      areaId: {
-        table: "mobilizationAreas",
-        value: "areaId",
-        text: "name"
+      RecuTreat: {
+        text: "text",
+        value: "text",
+        data: constants.RecuTreat.data
       },
-      unitId: {
-        table: "units",
-        value: "unitId",
-        text: "unitText"
+      SoldierCategory: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierCategory.data
       },
-      zoneId: {
-        table: "zones",
-        value: "zoneId",
-        text: "zoneText"
+      BloodType: {
+        text: "text",
+        value: "text",
+        data: constants.BloodType.data
       },
-      additionalYearStateId: {
-        table: "additionalYears",
-        value: "additionalYearStateId",
-        text: "state"
+      RecuRegion: {
+        text: "text",
+        value: "text",
+        data: constants.RecuRegion.data
       },
-      reductionStateId: {
-        table: "reductionStates",
-        value: "reductionStateId",
-        text: "state"
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: constants.RecuStage.data
+      },
+      SoldierStatus: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierStatus.data
+      },
+      College: {
+        text: "text",
+        value: "text",
+        data: constants.College.data
+      },
+      Direction: {
+        text: "text",
+        value: "text",
+        data: constants.Direction.data
+      },
+      CityID: {
+        table: "City",
+        text: "City",
+        value: "CityID"
+      },
+      CentreID: {
+        table: "Centre",
+        text: "Centre",
+        value: "CentreID"
+      },
+      DutyID: {
+        table: "Duty",
+        text: "Duty",
+        value: "DutyID"
       },
       periodId: {
         table: "periods",
-        value: "id",
-        text: "periodText"
+        text: "periodText",
+        value: "id"
       },
-      degreeId: {
-        table: "degrees",
-        value: "degreeId",
-        text: "degreeType"
-      },
-      sourceId: {
-        table: "suplySources",
-        value: "sourceId",
-        text: "sourceName"
+      microfilmId: {
+        table: "microfilms",
+        text: "microfilmId",
+        value: "microfilmId"
       },
       ignorantId: {
         table: "ignorants",
-        value: "id",
-        text: "displayedText"
-      },
-      forceId: {
-        table: "forces",
-        value: "forceId",
-        text: "name"
-      },
-      groupId: {
-        table: "groups",
-        value: "groupId",
-        text: "groupName"
-      },
-      qualificationId: {
-        table: "qualifications",
-        text: "name",
-        value: "qualificationId"
-      },
-      stateIdCurrent: {
-        table: "dutyCurrentStates",
-        text: "text",
-        value: "stateId"
-      },
-      stateId: {
-        table: "dutyStates",
-        text: "text",
-        value: "stateId"
-      },
-      typeId: {
-        text: "dutyTypeText",
-        value: "dutyTypeId",
-        data: [
-          {
-            dutyTypeText: "جندي",
-            dutyTypeId: "1"
-          },
-          {
-            dutyTypeText: "راتب عالي",
-            dutyTypeId: "2"
-          }
-        ]
-      },
-      specialization: {
-        localTable: "specializations",
-        value: "id",
-        text: "displayedText"
+        text: "displayedText",
+        value: "id"
       },
       ignorantSupporterId: {
         value: "id",
         text: "displayedText",
         table: "ignorantSupporters"
       },
-      failureSessions: {
-        data: [
-          {
-            val: 0,
-            text: "عرض من ليس له دورات"
-          },
-          {
-            val: 1,
-            text: "له دورة واحدة"
-          },
-          {
-            val: 2,
-            text: "له دورتان"
-          },
-          {
-            val: 3,
-            text: "له ثلاث دورات"
-          },
-          {
-            val: 4,
-            text: "عرض كل من له دورات"
-          }
-        ],
-        value: "val",
-        text: "text"
+
+      groupId: {
+        table: "groups",
+        text: "groupName",
+        value: "groupId"
+      },
+      stateIdCurrent: {
+        table: "dutyCurrentStates",
+        text: "text",
+        value: "stateId"
+      },
+      sourceId: {
+        table: "suplySources",
+        text: "sourceName",
+        value: "sourceId"
+      },
+      martialStateId: {
+        table: "martialStates",
+        text: "state",
+        value: "martialStateId"
+      },
+      WeaponID: {
+        table: "Weapon",
+        text: "Weapon",
+        value: "WeaponID"
+      },
+      reductionStateId: {
+        table: "reductionStates",
+        text: "state",
+        value: "reductionStateId"
+      },
+      zoneId: {
+        table: "zones",
+        text: "zoneText",
+        value: "zoneId"
+      },
+      additionalYearStateId: {
+        table: "additionalYears",
+        text: "state",
+        value: "additionalYearStateId"
+      },
+
+      UnitID: {
+        table: "Unit",
+        value: "UnitID",
+        text: "Unit"
+        // attrs: ["zoneId"]
+      },
+      licenseId: {
+        table: "licenses",
+        value: "licenseId",
+        text: "licenseType"
       }
     }
   }),
@@ -772,14 +759,15 @@ export default {
         search: { ...search, getWhoNotRelatedWithSelah: null }
       })
         .then(x => {
-          let cons = this.search["getWhoNotRelatedWithSelah"]
-            ? x.data
-            : x.data.filter(f => this.isHodod(f));
-          let fixedData = this.fixDates(cons, [
-              "demobilizationDate",
-              "conscriptionDate",
-              "webConscriptionDate",
-              "webDemobilizationDate"
+          console.log("x", x);
+          // let cons = this.search["getWhoNotRelatedWithSelah"]
+          //   ? x.data
+          //   : x.data.filter(f => this.isHodod(f));
+          let fixedData = this.fixDates(x.data, [
+              "ArrivalDate",
+              "BirthDate",
+              "RecuStartDate",
+              "RecuEndDate"
             ]),
             printer = {
               cons: [...fixedData],
