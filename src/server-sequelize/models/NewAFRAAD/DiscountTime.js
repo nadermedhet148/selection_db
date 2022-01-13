@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "DiscountTime",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

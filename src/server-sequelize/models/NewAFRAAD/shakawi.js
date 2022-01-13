@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "shakawi",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

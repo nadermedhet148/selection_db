@@ -69,7 +69,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "SpareSoldiers",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

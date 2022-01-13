@@ -384,19 +384,19 @@ export default {
           //   to: 16,
           //   icon: ""
           // },
-          {
-            title: "طلب حذف فرد",
-            desc: "إرسال طلب حذف مجند أو راتب عالي الى مدير النظام",
-            to: 6,
-            icon: ""
-          },
-          {
-            title: "طلب تعديل رقم عسكري",
-            desc:
-              "إرسال طلب تعديل رقم عسكري لمجند أو راتب عالي الى مدير النظام",
-            to: 7,
-            icon: ""
-          }
+          // {
+          //   title: "طلب حذف فرد",
+          //   desc: "إرسال طلب حذف مجند أو راتب عالي الى مدير النظام",
+          //   to: 6,
+          //   icon: ""
+          // },
+          // {
+          //   title: "طلب تعديل رقم عسكري",
+          //   desc:
+          //     "إرسال طلب تعديل رقم عسكري لمجند أو راتب عالي الى مدير النظام",
+          //   to: 7,
+          //   icon: ""
+          // }
         ]
       },
       {
@@ -460,20 +460,20 @@ export default {
         title: "إضافة جديد",
         backTo: 0
       },
-      {
-        title: "حذف مجند أو راتب عالي",
-        btnText: "إرسال الطلب",
-        hasFooter: true,
-        fun: "requestDeleteCon",
-        backTo: 0
-      },
-      {
-        title: "تعديل رقم عسكري",
-        btnText: "إرسال الطلب",
-        hasFooter: true,
-        fun: "requestEditCon",
-        backTo: 0
-      }
+      // {
+      //   title: "حذف مجند أو راتب عالي",
+      //   btnText: "إرسال الطلب",
+      //   hasFooter: true,
+      //   fun: "requestDeleteCon",
+      //   backTo: 0
+      // },
+      // {
+      //   title: "تعديل رقم عسكري",
+      //   btnText: "إرسال الطلب",
+      //   hasFooter: true,
+      //   fun: "requestEditCon",
+      //   backTo: 0
+      // }
     ],
     msg: "Light"
   }),

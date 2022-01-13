@@ -90,7 +90,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "SelectionSoldier",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
       // indexes: [
       //   {
       //     name: "PK_SoldierSelections",

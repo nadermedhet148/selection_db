@@ -130,7 +130,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "punshments",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
       // indexes: [
       //   {
       //     name: "IX_punshments",

@@ -256,12 +256,6 @@ export default {
             type: "select"
           },
           {
-            model: "SourceId",
-            label: "جهة الإمداد",
-            type: "text",
-            readonly: true
-          },
-          {
             model: "RecuTreat",
             label: "المعاملة التجنيدية",
             type: "select"
@@ -286,29 +280,7 @@ export default {
           //   label: "الحاق",
           //   type: "select"
           // },
-          {
-            model: "DutyID",
-            label: " الواجب المدرب عليه",
-            type: "select"
-          },
-          {
-            model: "",
-            label: "التسكين",
-            type: "text",
-            readonly: true
-          },
 
-          {
-            model: "",
-            label: " مركز التدريب",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
-            type: "date"
-          },
           {
             model: "Direction",
             label: " الاتجاه",
@@ -333,6 +305,35 @@ export default {
           {
             model: "",
             label: " التشكيل",
+            type: "text",
+            readonly: true
+          },
+          {
+            model: "Markez_Tadreb",
+            label: " مركز التدريب",
+            type: "text",
+            readonly: true
+          },
+          {
+            model: "DutyID",
+            label: " الواجب المدرب عليه",
+            type: "select"
+          },
+          {
+            model: "",
+            label: "التسكين",
+            type: "text",
+            readonly: true
+          },
+
+          {
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
+            model: "SourceId",
+            label: "جهة الإمداد",
             type: "text",
             readonly: true
           }
@@ -717,12 +718,13 @@ export default {
     // "conscripte.conscriptionDate"(v) {
     //   this.calculateDemobilizationDate();
     // }
-    "conscripte.unitID"(v) {
-      let zoneId =
-        (v || v === 0) && this.selects.unitID.data
-          ? this.selects.unitID.data.find(u => u.unitID == v).zoneId
-          : null;
-      this.$set(this.conscripte, "zoneId", zoneId);
+    "conscripte.WeaponID"(v) {
+      console.log(v);
+      this.$set(
+        this.conscripte,
+        "Markez_Tadreb",
+        this.selects.WeaponID.data.find(ele => ele.WeaponID == v).Markez_Tadreb
+      );
     }
   },
   methods: {
@@ -752,9 +754,9 @@ export default {
           let obj = {
             table
           };
-          if (text && value) {
-            obj.attrs = [text, value, ...attrs];
-          }
+          // if (text && value) {
+          //   obj.attrs = [text, value, ...attrs];
+          // }
           this.$set(this.selects[key], "loading", true);
           this.api("global/get_all", obj)
             .then(x => {
@@ -894,7 +896,7 @@ export default {
         table: "Soldier",
         where: {
           ID
-        },
+        }
         // attrs: models
       });
       // 2020178800544
@@ -921,95 +923,95 @@ export default {
         // this.$set(this, "findingConscripte", false);
         // return;
       }
-      let {
-        periodId,
-        areaId,
-        groupId,
-        knowLedgeLevel,
-        forceId,
-        stateIdCurrent,
-        additionalYearStateId,
-        reductionStateId,
-        soldierLevel,
-        martialStateId,
-        stateId
-      } = this.conscripte;
-      if (ID.length >= 13) {
-        // substr(index(included), length)
-        // substring(index(included), index(not included))
-        // Example: 2020 5 2 52 0011 5
-        // 2020 [Year of Conscription]
-        // 5 [ Mobilization Area ]
-        // 2 [ knowLedgeLevel ]
-        // 52 [ ForceId ]
-        // 0011 [ Series in Mobilization Area ]
-        // 5 Random Integer
-        // Fill other fields depending on militaryId
-        if (!stateIdCurrent) {
-          this.$set(this.conscripte, "stateIdCurrent", 1);
-        }
-        if (!stateId) {
-          this.$set(this.conscripte, "stateId", 101);
-        }
-        if (!martialStateId) {
-          this.$set(this.conscripte, "martialStateId", 1);
-        }
-        if (!soldierLevel) {
-          this.$set(
-            this.conscripte,
-            "soldierLevel",
-            forceCode == "88" ? 13 : 2
-          );
-        }
-        if (!additionalYearStateId) {
-          this.$set(this.conscripte, "additionalYearStateId", 1);
-        }
-        if (!reductionStateId) {
-          this.$set(this.conscripte, "reductionStateId", 1);
-        }
-        // if (!areaId) {
-        this.$set(this.conscripte, "areaId", Number(areaCode));
-        // }
-        // if (!knowLedgeLevel) {
-        this.$set(
-          this.conscripte,
-          "knowLedgeLevel",
-          forceCode == "88" ? 7 : Number(qualificationCode)
-        );
-        // }
-        if (!forceId) {
-          if (["04", "18", "10", "52", "66", "77", "88"].includes(forceCode)) {
-            this.$set(this.conscripte, "forceId", Number(forceCode));
-          }
-        }
-        if (!periodId) {
-          let year = militaryId.substr(0, 4),
-            month = new Date().getMonth() + 1,
-            isOfficer = forceCode == "88",
-            periodText = `${year}/${
-              isOfficer ? (month > 6 ? 2 : 1) : Math.ceil(month / 3.9)
-            }`,
-            period = this.selects.periodId.data
-              ? this.selects.periodId.data.find(f => f.periodText == periodText)
-              : {};
-          if (this.selects.periodId.data && period && period.id) {
-            this.$set(this.conscripte, "periodId", period.id);
-          }
-        }
-        // if (!groupId) {
-        let groups = {
-          "66": 2,
-          "77": 3,
-          "88": 4
-        };
-        this.$set(
-          this.conscripte,
-          "groupId",
-          groups[forceCode] ? groups[forceCode] : 1
-        );
-        // }
-      }
-      this.$set(this, "findingConscripte", false);
+      // let {
+      //   periodId,
+      //   areaId,
+      //   groupId,
+      //   knowLedgeLevel,
+      //   forceId,
+      //   stateIdCurrent,
+      //   additionalYearStateId,
+      //   reductionStateId,
+      //   soldierLevel,
+      //   martialStateId,
+      //   stateId
+      // } = this.conscripte;
+      // if (ID.length >= 13) {
+      //   // substr(index(included), length)
+      //   // substring(index(included), index(not included))
+      //   // Example: 2020 5 2 52 0011 5
+      //   // 2020 [Year of Conscription]
+      //   // 5 [ Mobilization Area ]
+      //   // 2 [ knowLedgeLevel ]
+      //   // 52 [ ForceId ]
+      //   // 0011 [ Series in Mobilization Area ]
+      //   // 5 Random Integer
+      //   // Fill other fields depending on militaryId
+      //   if (!stateIdCurrent) {
+      //     this.$set(this.conscripte, "stateIdCurrent", 1);
+      //   }
+      //   if (!stateId) {
+      //     this.$set(this.conscripte, "stateId", 101);
+      //   }
+      //   if (!martialStateId) {
+      //     this.$set(this.conscripte, "martialStateId", 1);
+      //   }
+      //   if (!soldierLevel) {
+      //     this.$set(
+      //       this.conscripte,
+      //       "soldierLevel",
+      //       forceCode == "88" ? 13 : 2
+      //     );
+      //   }
+      //   if (!additionalYearStateId) {
+      //     this.$set(this.conscripte, "additionalYearStateId", 1);
+      //   }
+      //   if (!reductionStateId) {
+      //     this.$set(this.conscripte, "reductionStateId", 1);
+      //   }
+      //   // if (!areaId) {
+      //   this.$set(this.conscripte, "areaId", Number(areaCode));
+      //   // }
+      //   // if (!knowLedgeLevel) {
+      //   this.$set(
+      //     this.conscripte,
+      //     "knowLedgeLevel",
+      //     forceCode == "88" ? 7 : Number(qualificationCode)
+      //   );
+      //   // }
+      //   if (!forceId) {
+      //     if (["04", "18", "10", "52", "66", "77", "88"].includes(forceCode)) {
+      //       this.$set(this.conscripte, "forceId", Number(forceCode));
+      //     }
+      //   }
+      //   if (!periodId) {
+      //     let year = militaryId.substr(0, 4),
+      //       month = new Date().getMonth() + 1,
+      //       isOfficer = forceCode == "88",
+      //       periodText = `${year}/${
+      //         isOfficer ? (month > 6 ? 2 : 1) : Math.ceil(month / 3.9)
+      //       }`,
+      //       period = this.selects.periodId.data
+      //         ? this.selects.periodId.data.find(f => f.periodText == periodText)
+      //         : {};
+      //     if (this.selects.periodId.data && period && period.id) {
+      //       this.$set(this.conscripte, "periodId", period.id);
+      //     }
+      //   }
+      //   // if (!groupId) {
+      //   let groups = {
+      //     "66": 2,
+      //     "77": 3,
+      //     "88": 4
+      //   };
+      //   this.$set(
+      //     this.conscripte,
+      //     "groupId",
+      //     groups[forceCode] ? groups[forceCode] : 1
+      //   );
+      //   // }
+      // }
+      // this.$set(this, "findingConscripte", false);
     },
     async addConscripte() {
       this.$set(this, "loading", true);
@@ -1117,29 +1119,29 @@ export default {
           },
           attrs: ["ID"]
         });
-      if (exists && exists.ok && exists.data && exists.data.militaryId) {
+      if (exists && exists.ok && exists.data && exists.data.ID) {
         isExists = true;
       }
       // let addedDemobilizationDate = this.calculateDemobilizationDate(isExists);
       // if (addedDemobilizationDate) {
-      // if (isExists) {
-      //   let addCon = await this.api("global/update_one", {
-      //     table: "conscriptes",
-      //     where: {
-      //       militaryId: conscripte.militaryId
-      //     },
-      //     update: conscripte
-      //   });
-      //   if (addCon && addCon.ok) {
-      //     this.showSuccess("تم تحديث الفرد بنجاح");
-      //     // this.emptyFields();
-      //   } else {
-      //     this.showError("تعذر تحديث الفرد في قاعدة البيانات");
-      //   }
-      //   // this.showError("هذا الفرد موجود بالفعل بنفس الرقم العسكري");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
+      if (isExists) {
+        let addCon = await this.api("global/update_one", {
+          table: "Soldier",
+          where: {
+            ID: conscripte.ID
+          },
+          update: conscripte
+        });
+        if (addCon && addCon.ok) {
+          this.showSuccess("تم تحديث الفرد بنجاح");
+          // this.emptyFields();
+        } else {
+          this.showError("تعذر تحديث الفرد في قاعدة البيانات");
+        }
+        // this.showError("هذا الفرد موجود بالفعل بنفس الرقم العسكري");
+        this.$set(this, "loading", false);
+        return;
+      }
       console.log(conscripte);
       let addCon = await this.api("global/create_one", {
         table: "Soldier",

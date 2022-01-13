@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "prevlevelup",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

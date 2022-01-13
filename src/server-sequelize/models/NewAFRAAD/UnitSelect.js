@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "UnitSelect",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

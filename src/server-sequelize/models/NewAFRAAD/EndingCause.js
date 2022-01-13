@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "EndingCause",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

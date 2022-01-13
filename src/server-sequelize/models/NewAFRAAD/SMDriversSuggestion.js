@@ -106,7 +106,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "SMDriversSuggestion",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

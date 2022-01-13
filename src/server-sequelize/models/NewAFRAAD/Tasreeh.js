@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "Tasreeh",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };

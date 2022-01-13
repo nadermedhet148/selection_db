@@ -52,7 +52,7 @@ module.exports = function(sequelize, DataTypes) {
       sequelize,
       tableName: "RatebX",
       schema: "dbo",
-      timestamps: true
+      timestamps: false
     }
   );
 };
