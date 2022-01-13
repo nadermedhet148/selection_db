@@ -434,7 +434,7 @@ const routes = [
     }
   },
   {
-    path: "/add_conscripte",
+    path: "/add_conscripte/:id?",
     name: "add_conscripte",
     component: mix.fun.loadView("Tasgeel/AddConscripte"),
     meta: {

@@ -74,6 +74,7 @@ Vue.mixin({
       returnBoolean = false,
       returnNotes = false
     ) {
+      return;
       let errors = [],
         procs = [],
         points = {};

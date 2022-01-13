@@ -98,7 +98,7 @@
               </v-list>
             </v-window-item>
             <v-window-item>
-              <!-- Search by MilitaryId -->
+              <!-- Search by ID -->
               <v-card-text>
                 <v-text-field
                   prepend-inner-icon="mdi-magnify"
@@ -107,7 +107,7 @@
                   hint="من فضلك أدخل الرقم العسكري"
                   counter="13"
                   @keypress.enter="findById()"
-                  v-model="search.militaryId"
+                  v-model="search.ID"
                   persistent-hint
                 ></v-text-field>
               </v-card-text>
@@ -156,13 +156,13 @@
                     :table="table"
                   ></table-footer-filters>
                 </template>
-                <template v-slot:item.militaryId="{ item }">
+                <template v-slot:item.ID="{ item }">
                   <v-chip
-                    :to="`/soldiers_plus/${item.militaryId}`"
-                    @click.right="copyText(item.militaryId)"
+                    :to="`/soldiers_plus/${item.ID}`"
+                    @click.right="copyText(item.ID)"
                     class="transparent"
                   >
-                    {{ item.militaryId }}
+                    {{ item.ID }}
                   </v-chip>
                 </template>
                 <template v-slot:item.fullName="{ item }">
@@ -224,7 +224,7 @@
               <!-- Request delete conscripte -->
               <v-card-text>
                 <v-text-field
-                  v-model="deleteCon.militaryId"
+                  v-model="deleteCon.ID"
                   filled
                   label="الرقم العسكري"
                   hint="من فضلك أدخل الرقم العسكري المراد حذفه"
@@ -244,10 +244,10 @@
               </v-card-text>
             </v-window-item>
             <v-window-item>
-              <!-- Request update militaryId of a conscripte -->
+              <!-- Request update ID of a conscripte -->
               <v-card-text>
                 <v-text-field
-                  v-model="editCon.militaryId"
+                  v-model="editCon.ID"
                   filled
                   label="الرقم العسكري الحالي"
                   hint="من فضلك أدخل الرقم العسكري المراد تعديله"
@@ -256,7 +256,7 @@
                   class="mb-4"
                 ></v-text-field>
                 <v-text-field
-                  v-model="editCon.newMilitaryId"
+                  v-model="editCon.newID"
                   filled
                   label="الرقم العسكري الجديد"
                   hint="من فضلك أدخل الرقم العسكري الجديد"
@@ -292,7 +292,7 @@
             v-text="windows[window].btnText"
             @click="runFun(windows[window].fun)"
             :disabled="
-              (window == 1 && !search.militaryId) ||
+              (window == 1 && !search.ID) ||
                 (window == 2 && !search.fullName)
             "
             large
@@ -313,16 +313,16 @@ export default {
     tableFilters: {},
     model: true,
     search: {
-      militaryId: "",
+      ID: "",
       fullName: ""
     },
     deleteCon: {
-      militaryId: "",
+      ID: "",
       notes: ""
     },
     editCon: {
-      militaryId: "",
-      newMilitaryId: "",
+      ID: "",
+      newID: "",
       notes: ""
     },
     results: {
@@ -330,7 +330,7 @@ export default {
       headers: [
         {
           text: "الرقم العسكري",
-          value: "militaryId"
+          value: "ID"
         },
         {
           text: "الدرجة",
@@ -482,24 +482,24 @@ export default {
       this.$set(this.results, "loading", true);
       let that = this,
         emptyFields = function() {
-          that.$set(that.deleteCon, "militaryId", "");
+          that.$set(that.deleteCon, "ID", "");
           that.$set(that.deleteCon, "notes", "");
         },
-        { militaryId, notes } = this.deleteCon,
+        { ID, notes } = this.deleteCon,
         exists = await this.api("global/get_one", {
           table: "conscriptes",
           where: {
-            militaryId
+            ID
           },
-          attrs: ["militaryId"]
+          attrs: ["ID"]
         });
-      if (exists && exists.ok && exists.data && exists.data.militaryId) {
+      if (exists && exists.ok && exists.data && exists.data.ID) {
         let date = await this.api("server/get-time"),
           request = await this.api("global/create_one", {
             table: "adminRequests",
             where: {
               type: "حذف",
-              militaryId,
+              ID,
               userNotes: notes,
               date: date.data
             }
@@ -521,26 +521,26 @@ export default {
       this.$set(this.results, "loading", true);
       let that = this,
         emptyFields = function() {
-          that.$set(that.editCon, "militaryId", "");
-          that.$set(that.editCon, "newMilitaryId", "");
+          that.$set(that.editCon, "ID", "");
+          that.$set(that.editCon, "newID", "");
           that.$set(that.editCon, "notes", "");
         },
-        { militaryId, newMilitaryId, notes } = this.editCon,
+        { ID, newID, notes } = this.editCon,
         exists = await this.api("global/get_one", {
           table: "conscriptes",
           where: {
-            militaryId
+            ID
           },
-          attrs: ["militaryId"]
+          attrs: ["ID"]
         });
-      if (exists && exists.ok && exists.data && exists.data.militaryId) {
+      if (exists && exists.ok && exists.data && exists.data.ID) {
         let date = await this.api("server/get-time"),
           request = await this.api("global/create_one", {
             table: "adminRequests",
             where: {
               type: "تعديل",
-              militaryId,
-              newMilitaryId,
+              ID,
+              newID,
               userNotes: notes,
               date: date.data
             }
@@ -576,7 +576,7 @@ export default {
             $like: `${fullName}%`
           }
         },
-        attrs: ["militaryId", "stateIdCurrent", "fullName"],
+        attrs: ["ID", "stateIdCurrent", "fullName"],
         include: [
           {
             model: "units",
@@ -606,20 +606,20 @@ export default {
         });
     },
     findById() {
-      let militaryId = this.search.militaryId;
+      let ID = this.search.ID;
       this.$set(this.results, "loading", true);
       this.api("global/get_one", {
-        table: "conscriptes",
+        table: "Soldier",
         where: {
-          militaryId
+          ID
         },
-        attrs: ["militaryId"]
+        attrs: ["ID"]
       })
         .then(x => {
           console.log(x);
           if (x.data) {
-            // this.goThere(`/social_profile/${x.data.militaryId}`);
-            this.goThere(`/soldiers_plus/${x.data.militaryId}`);
+            // this.goThere(`/social_profile/${x.data.ID}`);
+            this.goThere(`/soldiers_plus/${x.data.ID}`);
           } else {
             this.showError("الرقم العسكري غير صحيح.");
           }

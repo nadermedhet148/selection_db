@@ -187,10 +187,28 @@
 </template>
 
 <script>
+const constants = require("../../Constant").default;
 export default {
-  name: "add-conscripte",
+  name: "add_conscripte",
+   computed: {
+    params() {
+      console.log(this.$store.state.routes);
+      let index = this.$store.state.routes.findIndex(
+          v => v.name == "add_conscripte"
+        ),
+        params = {};
+      if (index !== -1) {
+        params = this.$store.state.routes[index].params;
+      }
+      return params;
+    }
+  },
   mounted() {
     this.init();
+    if (this.params.id) {
+      this.conscripte.ID = this.params.id;
+      this.findConscripte();
+    }
   },
   data: () => ({
     findingConscripte: false,
@@ -349,7 +367,7 @@ export default {
             type: "date"
           },
           {
-            model: "NationalId",
+            model: "IdentityNo",
             label: "الرقم القومي",
             type: "text",
             counter: 14
@@ -443,185 +461,57 @@ export default {
       SoldierLevel: {
         text: "text",
         value: "text",
-        data: [...["جندي", "عريف", "رقيب", "رقيب اول ", "مساعد ", "مساعد اول"]]
+        data: constants.SoldierLevel.data
       },
       KnowledgeLevel: {
         text: "text",
         value: "text",
-        data: [
-          ...["عليا", "فوق متوسطة", "متوسطة", "عادة"].map(text => ({ text }))
-        ]
+        data: constants.KnowledgeLevel.data
       },
       Religion: {
         text: "text",
         value: "text",
-        data: [...["اخري", "مسيحي", "مسلم"].map(text => ({ text }))]
+        data: constants.Religion.data
       },
       RecuTreat: {
         text: "text",
         value: "text",
-        data: [
-          ...["بدون", "سنة قابلة للرفع", "سنة غير قابلة للرفعس"].map(text => ({
-            text
-          }))
-        ]
+        data: constants.RecuTreat.data
       },
       SoldierCategory: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "صف",
-            "كاتب عسكري",
-            "كاتب مالي",
-            "سائق عجل",
-            "مهني ",
-            "حرفي"
-          ].map(text => ({ text }))
-        ]
+        data: constants.SoldierCategory.data
       },
       BloodType: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "A",
-            "A+",
-            "A-",
-            "B",
-            "B+",
-            "B-",
-            "O",
-            "O+",
-            "O-",
-            "AB",
-            "AB+",
-            "AB-"
-          ].map(text => ({ text }))
-        ]
+        data: constants.BloodType.data
       },
       RecuRegion: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "القاهرة",
-            "الجيزة",
-            "الأسكندرية",
-            "الزقازيق",
-            "أسيوط",
-            "طنطا",
-            "قنا",
-            "المنصورة",
-            "المنيا"
-          ].map(text => ({ text }))
-        ]
+        data: constants.RecuRegion.data
       },
       RecuStage: {
         text: "text",
         value: "text",
-        data: [
-          ...["الاولي", "الثانية", "الثالثة", "الرابعة"].map(text => ({ text }))
-        ]
+        data: constants.RecuStage.data
       },
       SoldierStatus: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "",
-            "محول الى متطوع",
-            "ترقى ملازم شرف",
-            "نقل على الإحتياط",
-            "اعفاء نهائى",
-            "اعفاء مؤقت",
-            "القبول بالكليات العسكريه",
-            "رفت جوازى",
-            "رفت وجوبى",
-            "عدم الصلاحيه الفنيه",
-            "الاستقاله",
-            "عدم رغبه فى التجنيد",
-            "الوفاه اثناء الخدمه",
-            "الوفاه اثناء الغياب",
-            "بلوغ السن القانونى",
-            "مستجد بالمركز",
-            "بالخدمة",
-            "رفت طبي",
-            "منتهى خدمته",
-            "نقل خارج السلاح",
-            "امني",
-            "هارب",
-            "إجراءات إنهاء خدمة"
-          ].map(text => ({ text }))
-        ]
+        data: constants.SoldierStatus.data
       },
       College: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "فوق متوسطة",
-            "متوسطة",
-            "عادة",
-            "اداب",
-            "هندسة",
-            "حاسبات ومعلومات",
-            "تربية",
-            "طب بشري",
-            "طب بيطري",
-            "طب اسنان",
-            "صيدلة",
-            "الالسن",
-            "خدمة اجتماعيه",
-            "جامعة عمالية",
-            "حقوق",
-            "تجارة",
-            "زراعة",
-            "شريعة وقانون",
-            "دراسات اسلامية",
-            "اصول دين",
-            "فنون جميلة",
-            "فنون تطبيقية",
-            "اقتصاد وعلوم سياسية",
-            "اعلام",
-            "تربية رياضية",
-            "علوم",
-            "سياحة وفنادق",
-            "تربية نوعية",
-            "تمريض",
-            "تربية موسيقية",
-            "تربية فنية",
-            "اثار",
-            "دار العلوم"
-          ].map(text => ({ text }))
-        ]
+        data: constants.College.data
       },
       Direction: {
         text: "text",
         value: "text",
-        data: [
-          ...[
-            "",
-            "ج2",
-            "ج3",
-            "جنوبى",
-            "شمالى",
-            "غربى",
-            "مركزى",
-            "مج المخابرات",
-            "رئاسة مج مخ والأمن",
-            "رئاسة ومكاتب مج مخ البحر الأحمر",
-            "رئاسة ومكاتب مج مخ الجنوبى",
-            "رئاسة ومكاتب مج مخ الشمالى",
-            "رئاسة ومكاتب مج مخ الغربى",
-            "رئاسة ومكاتب مج مخ ج2 ",
-            "رئاسة ومكاتب مج مخ ج3",
-            "قيادات القطاعات",
-            "كتائب م م م د",
-            "قيادة الفوج 103",
-            "قيادة الكتيبة 104"
-          ].map(text => ({ text }))
-        ]
+        data: constants.Direction.data
       },
       CityID: {
         table: "City",

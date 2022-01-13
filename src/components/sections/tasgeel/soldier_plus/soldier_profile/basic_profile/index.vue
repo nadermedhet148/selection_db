@@ -85,44 +85,12 @@
             class="me-3"
             :militaryId="conscripte.militaryId"
           ></print-conscripte-profile>
-          <!-- <v-menu v-if="conscripte.typeId == 1">
-            <template v-slot:activator="{ on }">
-              <v-btn class="px-4 me-3" color="primary" large outlined v-on="on">
-                <v-icon class="me-3">mdi-printer</v-icon>
-                طباعة
-              </v-btn>
-            </template>
-            <v-list min-width="200">
-              <template v-for="(option, i) in print_options">
-                <v-list-item :key="i" @click="runFun(option.printFunction)">
-                  <v-list-item-content>
-                    <v-list-item-title
-                      v-text="option.title"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-            </v-list>
-          </v-menu> -->
-          <!-- <v-btn v-else class="px-4" color="primary" large outlined>
-            <v-icon class="me-3">mdi-printer</v-icon>
-            طباعة
-          </v-btn> -->
-          <!-- <v-btn
-            v-if="$store.state.allowConscripteEdit"
-            class="px-6"
-            color="primary"
-            large
-            @click="saveEverything()"
-          >
-            حفظ التعديلات
-          </v-btn> -->
           <v-btn
             v-if="!$store.state.allowConscripteEdit"
             class="px-6"
             color="primary"
             large
-            @click="$store.state.allowConscripteEdit = true"
+            @click="Edit()"
           >
             تعديل
             {{ conscripte.typeId == 1 ? "المجند" : "المتطوع" }}
@@ -133,170 +101,7 @@
       <v-card-text>
         <v-tabs-items class="transparent" v-model="window">
           <v-tab-item>
-            <new-profile
-              :demobilizationObj="demobilizationObj"
-              :soldier_id="soldier_id"
-            ></new-profile>
-            <!-- <template v-for="(s, i) in sections">
-              <v-card :key="i" v-if="!s.removed" class="mb-5">
-                <v-card-title class="break-word">
-                  {{ s.title }}
-                </v-card-title>
-                <v-divider></v-divider>
-                <v-card-text>
-                  <v-row>
-                    <template v-for="(m, ii) in s.childs">
-                      <v-scroll-x-transition :key="ii">
-                        <v-col
-                          v-if="!m.removed"
-                          cols="12"
-                          :sm="m.halfSize ? '3' : '6'"
-                          :md="m.halfSize ? '3' : '6'"
-                          :lg="m.halfSize ? '4' : '4'"
-                          :xl="m.halfSize ? '2' : '3'"
-                        >
-                          <v-text-field
-                            v-if="['text', 'number'].includes(m.type)"
-                            v-model="conscripte[m.model]"
-                            :type="m.type"
-                            filled
-                            :hint="m.hint"
-                            :persistent-hint="m.hint ? true : false"
-                            :hide-details="m.hint ? false : true"
-                            :label="m.label"
-                            :prepend-inner-icon="m.icon"
-                            :clearable="!m.readonly && !m.disabled"
-                            :readonly="m.readonly"
-                            :disabled="m.disabled"
-                            :error-messages="m.error"
-                          ></v-text-field>
-                          <v-textarea
-                            v-else-if="m.type == 'textarea'"
-                            v-model="conscripte[m.model]"
-                            filled
-                            :hint="m.hint"
-                            :persistent-hint="m.hint ? true : false"
-                            :hide-details="m.hint ? false : true"
-                            :label="m.label"
-                            :prepend-inner-icon="m.icon"
-                            :clearable="!m.readonly && !m.disabled"
-                            :readonly="m.readonly"
-                            :disabled="m.disabled"
-                            :error-messages="m.error"
-                            :rows="m.rows"
-                          ></v-textarea>
-                          <v-autocomplete
-                            v-else-if="m.type == 'select'"
-                            v-model="conscripte[m.model]"
-                            filled
-                            :hint="m.hint"
-                            :persistent-hint="m.hint ? true : false"
-                            :hide-details="m.hint ? false : true"
-                            :label="m.label"
-                            :prepend-inner-icon="m.icon"
-                            :readonly="m.readonly"
-                            :items="
-                              computed_selects[m.model]
-                                ? computed_selects[m.model].data
-                                : []
-                            "
-                            :error-messages="
-                              computed_selects[m.model]
-                                ? computed_selects[m.model].error
-                                : ''
-                            "
-                            :loading="
-                              computed_selects[m.model]
-                                ? computed_selects[m.model].loading
-                                : false
-                            "
-                            :clearable="!m.readonly && !m.disabled"
-                            :disabled="
-                              computed_selects[m.model]
-                                ? m.disabled ||
-                                  computed_selects[m.model].loading
-                                : m.disabled || false
-                            "
-                            :item-text="
-                              computed_selects[m.model]
-                                ? computed_selects[m.model].text
-                                : 'text'
-                            "
-                            :item-value="
-                              computed_selects[m.model]
-                                ? computed_selects[m.model].value
-                                : 'value'
-                            "
-                            :multiple="m.multiple"
-                          ></v-autocomplete>
-                          <v-dialog
-                            v-else-if="m.type == 'date'"
-                            :ref="`${m.model}_${conscripte.militaryId}_${s.id}`"
-                            v-model="
-                              date_dialogs[
-                                `${m.model}_${conscripte.militaryId}_${s.id}`
-                              ]
-                            "
-                            :return-value.sync="conscripte[m.model]"
-                            width="300px"
-                            :disabled="m.readonly"
-                            persistent
-                          >
-                            <template v-slot:activator="{ on }">
-                              <v-text-field
-                                v-model="conscripte[m.model]"
-                                :prepend-inner-icon="m.icon"
-                                :hint="m.hint"
-                                :persistent-hint="m.hint ? true : false"
-                                :hide-details="m.hint ? false : true"
-                                :label="m.label"
-                                :clearable="!m.readonly && !m.disabled"
-                                readonly
-                                :error-messages="m.error"
-                                filled
-                                v-on="on"
-                              >
-                              </v-text-field>
-                            </template>
-                            <v-date-picker
-                              :ref="
-                                `${m.model}_${conscripte.militaryId}_${s.id}_picker`
-                              "
-                              v-model="conscripte[m.model]"
-                              scrollable
-                              color="primary"
-                            >
-                              <v-spacer></v-spacer>
-                              <v-btn
-                                color="primary"
-                                outlined
-                                class="px-6 text-capitalize"
-                                @click="
-                                  date_dialogs[
-                                    `${m.model}_${conscripte.militaryId}_${s.id}`
-                                  ] = false
-                                "
-                                >إلغاء</v-btn
-                              >
-                              <v-btn
-                                color="primary"
-                                class="px-6 text-capitalize"
-                                @click="
-                                  $refs[
-                                    `${m.model}_${conscripte.militaryId}_${s.id}`
-                                  ][0].save(conscripte[m.model])
-                                "
-                                >حفظ</v-btn
-                              >
-                            </v-date-picker>
-                          </v-dialog>
-                        </v-col>
-                      </v-scroll-x-transition>
-                    </template>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </template> -->
+            <new-profile :conscripteObJ="conscripte"></new-profile>
           </v-tab-item>
           <!-- Notes -->
           <!-- <v-tab-item>
@@ -414,6 +219,8 @@ let loadView = function(name) {
     ], resolve);
   };
 };
+const constants = require("@/Constant").default;
+
 export default {
   name: "basic-profile",
   components: {
@@ -456,7 +263,7 @@ export default {
     this.updateBasedOnTypeId();
   },
   watch: {
-    "conscripte.militaryId"(a, b) {
+    "conscripte.ID"(a, b) {
       // It's not required to have a before value
       // Because this function will run once.
       console.log("working ________");
@@ -530,36 +337,36 @@ export default {
       {
         title: "الأساسية",
         id: "main"
-      },
+      }
       // {
       //   title: "الملاحظات",
       //   id: "notes"
       // },
-      {
-        title: "الهروب",
-        id: "fugitives"
-      },
-      {
-        title: "إصابات / أمراض",
-        id: "injuries"
-      },
-      {
-        title: "المجلس الطبي",
-        id: "medicalCommittees"
-      },
-      {
-        title: "تحقيقات / محاكم",
-        id: "courts"
-      },
-      {
-        title: "العقوبات",
-        id: "penalties"
-      },
-      {
-        title: "محو الأمية",
-        id: "ignorants",
-        typeId: [1]
-      }
+      // {
+      //   title: "الهروب",
+      //   id: "fugitives"
+      // },
+      // {
+      //   title: "إصابات / أمراض",
+      //   id: "injuries"
+      // },
+      // {
+      //   title: "المجلس الطبي",
+      //   id: "medicalCommittees"
+      // },
+      // {
+      //   title: "تحقيقات / محاكم",
+      //   id: "courts"
+      // },
+      // {
+      //   title: "العقوبات",
+      //   id: "penalties"
+      // },
+      // {
+      //   title: "محو الأمية",
+      //   id: "ignorants",
+      //   typeId: [1]
+      // }
       // {
       //   title: "توصيات الترقي",
       //   id: "promotions"
@@ -614,7 +421,7 @@ export default {
           {
             type: "text",
             label: "الإسم",
-            model: "fullName"
+            model: "Name"
           },
           {
             type: "date",
@@ -629,7 +436,7 @@ export default {
           {
             type: "text",
             label: "الرقم القومي",
-            model: "nationalId"
+            model: "IdentityNo"
           },
           {
             type: "text",
@@ -867,132 +674,148 @@ export default {
       }
     ],
     selects: {
-      degreeId: {
-        table: "degrees",
-        text: "degreeType",
-        value: "degreeId"
+      SoldierLevel: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierLevel.data
+      },
+      KnowledgeLevel: {
+        text: "text",
+        value: "text",
+        data: constants.KnowledgeLevel.data
+      },
+      Religion: {
+        text: "text",
+        value: "text",
+        data: constants.Religion.data
+      },
+      RecuTreat: {
+        text: "text",
+        value: "text",
+        data: constants.RecuTreat.data
+      },
+      SoldierCategory: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierCategory.data
+      },
+      BloodType: {
+        text: "text",
+        value: "text",
+        data: constants.BloodType.data
+      },
+      RecuRegion: {
+        text: "text",
+        value: "text",
+        data: constants.RecuRegion.data
+      },
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: constants.RecuStage.data
+      },
+      SoldierStatus: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierStatus.data
+      },
+      College: {
+        text: "text",
+        value: "text",
+        data: constants.College.data
+      },
+      Direction: {
+        text: "text",
+        value: "text",
+        data: constants.Direction.data
+      },
+      CityID: {
+        table: "City",
+        text: "City",
+        value: "CityID"
+      },
+      CentreID: {
+        table: "Centre",
+        text: "Centre",
+        value: "CentreID"
+      },
+      DutyID: {
+        table: "Duty",
+        text: "Duty",
+        value: "DutyID"
       },
       periodId: {
         table: "periods",
         text: "periodText",
         value: "id"
       },
-      unitId: {
-        table: "units",
-        text: "unitText",
-        value: "unitId"
-      },
-      zoneId: {
-        table: "zones",
-        text: "zoneText",
-        value: "zoneId"
-      },
-      licenseId: {
-        table: "licenses",
-        text: "licenseType",
-        value: "licenseId"
-      },
-      stateIdCurrent: {
-        table: "dutyCurrentStates",
-        text: "text",
-        value: "stateId"
-      },
-      stateId: {
-        table: "dutyStates",
-        text: "text",
-        value: "stateId"
-      },
-      martialStateId: {
-        table: "martialStates",
-        text: "state",
-        value: "martialStateId"
-      },
-      qualificationId: {
-        table: "qualifications",
-        text: "name",
-        value: "qualificationId"
-      },
-      areaId: {
-        table: "mobilizationAreas",
-        text: "name",
-        value: "areaId"
-      },
-      forceId: {
-        table: "forces",
-        text: "name",
-        value: "forceId"
-      },
-      groupId: {
-        table: "groups",
-        text: "groupName",
-        value: "groupId"
-      },
-      additionalYearStateId: {
-        table: "additionalYears",
-        text: "state",
-        value: "additionalYearStateId"
-      },
-      sourceId: {
-        table: "suplySources",
-        text: "sourceName",
-        value: "sourceId"
-      },
-      reductionStateId: {
-        table: "reductionStates",
-        text: "state",
-        value: "reductionStateId"
+      microfilmId: {
+        table: "microfilms",
+        text: "microfilmId",
+        value: "microfilmId"
       },
       ignorantId: {
         table: "ignorants",
         text: "displayedText",
         value: "id"
       },
-      medicalLevel: {
-        table: "committees",
-        text: "displayedText",
-        value: "id"
-      },
-      // * Local Tables
-      // TODO:: Migrate local tables to live database
       ignorantSupporterId: {
-        table: "ignorantSupporters",
+        value: "id",
         text: "displayedText",
-        value: "id"
+        table: "ignorantSupporters"
       },
-      governorateId: {
-        table: "governorates",
-        text: "displayedText",
-        value: "id"
+
+      groupId: {
+        table: "groups",
+        text: "groupName",
+        value: "groupId"
       },
-      specialization: {
-        localTable: "specializations",
-        text: "displayedText",
-        value: "id"
+      stateIdCurrent: {
+        table: "dutyCurrentStates",
+        text: "text",
+        value: "stateId"
       },
-      checkup40: {
-        localTable: "checkup40",
-        text: "displayedText",
-        value: "id"
+      sourceId: {
+        table: "suplySources",
+        text: "sourceName",
+        value: "sourceId"
       },
-      religionId: {
-        table: "religions",
-        text: "displayedText",
-        value: "id"
+      martialStateId: {
+        table: "martialStates",
+        text: "state",
+        value: "martialStateId"
       },
-      bloodTypeId: {
-        table: "bloodTypes",
-        text: "displayedText",
-        value: "id"
+      WeaponID: {
+        table: "Weapon",
+        text: "Weapon",
+        value: "WeaponID"
       },
-      parents: {
-        localTable: "parents",
-        text: "displayedText",
-        value: "id"
+      reductionStateId: {
+        table: "reductionStates",
+        text: "state",
+        value: "reductionStateId"
       },
-      qualifications_nonCom: {
-        localTable: "qualifications_nonCom",
-        text: "displayedText",
-        value: "id"
+      zoneId: {
+        table: "zones",
+        text: "zoneText",
+        value: "zoneId"
+      },
+      additionalYearStateId: {
+        table: "additionalYears",
+        text: "state",
+        value: "additionalYearStateId"
+      },
+
+      UnitID: {
+        table: "Unit",
+        value: "UnitID",
+        text: "Unit"
+        // attrs: ["zoneId"]
+      },
+      licenseId: {
+        table: "licenses",
+        value: "licenseId",
+        text: "licenseType"
       }
     }
   }),
@@ -1012,6 +835,9 @@ export default {
         );
         console.log(error);
       }
+    },
+    Edit() {
+      this.goThere(`/add_conscripte/${this.conscripte.ID}`);
     },
     // TODO :
     async createMedCommittees(injury_id, caseType) {
@@ -1059,7 +885,7 @@ export default {
       console.log(`Function ${fun} doesn't exist.`);
     },
     conLoaded() {
-      return this.conscripte && this.conscripte.militaryId;
+      return this.conscripte && this.conscripte.ID;
     },
     updateBasedOnMilitaryId() {
       let sections = this.sections,
@@ -1280,7 +1106,6 @@ export default {
               );
             })
             .catch(error => {
-              console.log(error);
               this.$set(
                 this.selects[key],
                 "error",

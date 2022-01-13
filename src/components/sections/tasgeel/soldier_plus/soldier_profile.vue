@@ -189,25 +189,45 @@ export default {
     },
     async getConscripte() {
       // let militaryId = this.params.id;
-      let militaryId = this.soldier_id;
+      let ID = this.soldier_id;
+
+      console.log(ID);
       this.$set(this, "externals", {});
       this.$set(this, "conscripte", {});
       this.$set(this, "removeOrRedTab_requests", []);
       this.$set(this, "loading", true);
       this.$set(this.progress, "text", "تاريخ التسريح");
       this.$set(this.progress, "value", 12);
-      let demobilizationObj = await this.fixDemobilizationDate(militaryId);
-      this.demobilizationObj = demobilizationObj;
+      // let demobilizationObj = await this.fixDemobilizationDate(ID);
+      // this.demobilizationObj = demobilizationObj;
 
       this.$set(this.progress, "text", "البيانات الأساسية");
       this.$set(this.progress, "value", 22);
       this.api("global/get_one", {
-        table: "conscriptes",
+        table: "Soldier",
         where: {
-          militaryId
-        }
+          ID
+        },
+        include: [
+          {
+            model: "Weapon"
+          },
+          {
+            model: "Unit"
+          },
+          {
+            model: "Duty"
+          },
+          {
+            model: "City"
+          },
+          {
+            model: "Centre"
+          }
+        ]
       })
         .then(async x => {
+          console.log(x, "x");
           let date_keys = Object.keys(x.data)
               .map(k => (k.includes("Date") ? k : "NOT_A_DATE"))
               .filter(k => k !== "NOT_A_DATE"),
@@ -218,71 +238,71 @@ export default {
             this.fixDates([x.data], [...date_keys, ...other_date_keys])[0]
           );
           // ** Load external arrays
-          await this.loadExternalArray("fugitives", "الهروب");
-          await this.loadExternalArray(
-            "injuries",
-            "الإصابات / الأمراض",
-            ["healingReports"],
-            [
-              {
-                model: "medicalCommittees",
-                include: [
-                  {
-                    model: "committees"
-                  }
-                ]
-              }
-            ]
-          );
-          await this.loadExternalArray("medicalCommittees", "المجلس الطبي", [
-            "committees",
-            "injuries",
-            "medicalCommitteeTypes"
-          ]);
-          await this.loadExternalArray(
-            "courts",
-            "التحقيقات والمحاكم",
-            [],
-            [],
-            "",
-            [
-              "imprisonFrom",
-              "imprisonTo",
-              "prosecutionFrom",
-              "prosecutionTo",
-              "lastUnitReply",
-              "lastBranchReply",
-              "lastShbka"
-            ]
-          );
-          await this.loadExternalArray("penalties", "العقوبات", [
-            "penaltyTypes"
-          ]);
+          // await this.loadExternalArray("fugitives", "الهروب");
+          // await this.loadExternalArray(
+          //   "injuries",
+          //   "الإصابات / الأمراض",
+          //   ["healingReports"],
+          //   [
+          //     {
+          //       model: "medicalCommittees",
+          //       include: [
+          //         {
+          //           model: "committees"
+          //         }
+          //       ]
+          //     }
+          //   ]
+          // );
+          // await this.loadExternalArray("medicalCommittees", "المجلس الطبي", [
+          //   "committees",
+          //   "injuries",
+          //   "medicalCommitteeTypes"
+          // ]);
+          // await this.loadExternalArray(
+          //   "courts",
+          //   "التحقيقات والمحاكم",
+          //   [],
+          //   [],
+          //   "",
+          //   [
+          //     "imprisonFrom",
+          //     "imprisonTo",
+          //     "prosecutionFrom",
+          //     "prosecutionTo",
+          //     "lastUnitReply",
+          //     "lastBranchReply",
+          //     "lastShbka"
+          //   ]
+          // );
+          // await this.loadExternalArray("penalties", "العقوبات", [
+          //   "penaltyTypes"
+          // ]);
           // Start: Handle ignorant manually
-          this.addProgress("محو الأمية");
-          let failureSessions = await this.api("global/get_all", {
-            table: "failureSessions",
-            where: {
-              milId: militaryId
-            }
-          });
-          this.addRemoveOrRedTab_request([
-            "red",
-            "ignorants",
-            failureSessions.ok && x.data.ignorantId == 1,
-            failureSessions.data.length
-          ]);
-          this.addExternal("failureSessions", failureSessions, "array", [
-            "from",
-            "to"
-          ]);
+          // this.addProgress("محو الأمية");
+          // let failureSessions = await this.api("global/get_all", {
+          //   table: "failureSessions",
+          //   where: {
+          //     milId: militaryId
+          //   }
+          // });
+          // this.addRemoveOrRedTab_request([
+          //   "red",
+          //   "ignorants",
+          //   failureSessions.ok && x.data.ignorantId == 1,
+          //   failureSessions.data.length
+          // ]);
+          // this.addExternal("failureSessions", failureSessions, "array", [
+          //   "from",
+          //   "to"
+          // ]);
           // ../End: Handle ignorant manually
-          await this.loadExternalArray("promotions", "الترقي والعزل");
-          await this.loadExternalArray("exemptions", "الإعفاء المؤقت");
-          await this.loadExternalArray("serveUnits", "جهات الخدمة");
-          await this.loadExternalArray("efficiencyReports", "تقرير الكفاءة");
-          await this.loadExternalArray("medicalStates", "المستوى الطبي");
-          await this.loadExternalArray("travilingAbroads", "السفر للخارج");
+          // await this.loadExternalArray("promotions", "الترقي والعزل");
+          // await this.loadExternalArray("exemptions", "الإعفاء المؤقت");
+          // await this.loadExternalArray("serveUnits", "جهات الخدمة");
+          // await this.loadExternalArray("efficiencyReports", "تقرير الكفاءة");
+          // await this.loadExternalArray("medicalStates", "المستوى الطبي");
+          // await this.loadExternalArray("travilingAbroads", "السفر للخارج");
           // Finishing page load
           this.addProgress("الصفحة");
         })

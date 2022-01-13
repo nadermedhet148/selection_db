@@ -182,18 +182,18 @@ function initModels(sequelize) {
     foreignKey: "ID",
     otherKey: "SituationID"
   });
-  SMSoldier.belongsTo(Centre, { as: "Centre", foreignKey: "CentreID" });
-  Centre.hasMany(SMSoldier, { as: "SMSoldiers", foreignKey: "CentreID" });
-  Soldier.belongsTo(Centre, { as: "Centre", foreignKey: "CentreID" });
-  Centre.hasMany(Soldier, { as: "Soldiers", foreignKey: "CentreID" });
-  Centre.belongsTo(City, { as: "City", foreignKey: "CityID" });
-  City.hasMany(Centre, { as: "Centres", foreignKey: "CityID" });
-  SMSoldier.belongsTo(City, { as: "City", foreignKey: "CityID" });
-  City.hasMany(SMSoldier, { as: "SMSoldiers", foreignKey: "CityID" });
-  Soldier.belongsTo(City, { as: "City", foreignKey: "CityID" });
-  City.hasMany(Soldier, { as: "Soldiers", foreignKey: "CityID" });
-  Soldier.belongsTo(Duty, { as: "Duty", foreignKey: "DutyID" });
-  Duty.hasMany(Soldier, { as: "Soldiers", foreignKey: "DutyID" });
+  SMSoldier.belongsTo(Centre, { foreignKey: "CentreID" });
+  Centre.hasMany(SMSoldier, { foreignKey: "CentreID" });
+  Soldier.belongsTo(Centre, { foreignKey: "CentreID" });
+  Centre.hasMany(Soldier, { foreignKey: "CentreID" });
+  Centre.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(Centre, { foreignKey: "CityID" });
+  SMSoldier.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(SMSoldier, { foreignKey: "CityID" });
+  Soldier.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(Soldier, { foreignKey: "CityID" });
+  Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
+  Duty.hasMany(Soldier, { foreignKey: "DutyID" });
   Followers.belongsTo(FollowingRigion, {
     as: "FollowRigion",
     foreignKey: "FollowRigionID"
@@ -253,31 +253,31 @@ function initModels(sequelize) {
     as: "SituationDecisions",
     foreignKey: "ID"
   });
-  Situations.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
-  Soldier.hasMany(Situations, { as: "Situations", foreignKey: "ID" });
-  Soldier.belongsTo(Soldier, { as: "ID_Soldier_Soldier", foreignKey: "ID" });
-  Soldier.hasOne(Soldier, { as: "Soldier", foreignKey: "ID" });
-  Twsiat.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
-  Soldier.hasMany(Twsiat, { as: "Twsiats", foreignKey: "ID" });
+  Situations.belongsTo(Soldier, { foreignKey: "ID" });
+  Soldier.hasMany(Situations, { foreignKey: "ID" });
+  Soldier.belongsTo(Soldier, { foreignKey: "ID" });
+  Soldier.hasOne(Soldier, { foreignKey: "ID" });
+  Twsiat.belongsTo(Soldier, { foreignKey: "ID" });
+  Soldier.hasMany(Twsiat, { foreignKey: "ID" });
   DistributionSuggestion.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
   Unit.hasMany(DistributionSuggestion, {
     as: "DistributionSuggestions",
     foreignKey: "UnitID"
   });
-  Moving.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
-  Unit.hasMany(Moving, { as: "Movings", foreignKey: "UnitID" });
-  OldFollowersNo.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
-  Unit.hasMany(OldFollowersNo, { as: "OldFollowersNos", foreignKey: "UnitID" });
-  SMSoldier.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
-  Unit.hasMany(SMSoldier, { as: "SMSoldiers", foreignKey: "UnitID" });
-  Soldier.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
-  Unit.hasMany(Soldier, { as: "Soldiers", foreignKey: "UnitID" });
-  suggest.belongsTo(Unit, { as: "Unit", foreignKey: "UnitID" });
-  Unit.hasMany(suggest, { as: "suggests", foreignKey: "UnitID" });
-  SMSoldier.belongsTo(Weapon, { as: "Weapon", foreignKey: "WeaponID" });
-  Weapon.hasMany(SMSoldier, { as: "SMSoldiers", foreignKey: "WeaponID" });
-  Soldier.belongsTo(Weapon, { as: "Weapon", foreignKey: "WeaponID" });
-  Weapon.hasMany(Soldier, { as: "Soldiers", foreignKey: "WeaponID" });
+  Moving.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(Moving, { foreignKey: "UnitID" });
+  OldFollowersNo.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(OldFollowersNo, { foreignKey: "UnitID" });
+  SMSoldier.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(SMSoldier, { foreignKey: "UnitID" });
+  Soldier.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(Soldier, { foreignKey: "UnitID" });
+  suggest.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(suggest, { foreignKey: "UnitID" });
+  SMSoldier.belongsTo(Weapon, { foreignKey: "WeaponID" });
+  Weapon.hasMany(SMSoldier, { foreignKey: "WeaponID" });
+  Soldier.belongsTo(Weapon, { foreignKey: "WeaponID" });
+  Weapon.hasMany(Soldier, { foreignKey: "WeaponID" });
 
   return {
     Brothers,
