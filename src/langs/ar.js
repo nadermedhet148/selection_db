@@ -147,8 +147,8 @@ var _default = {
         penalties: "العقوبات"
       },
       "2": {
-        _self: "قسم الإحتياط",
-        e7tyat_files: "دفاتر الإحتياط",
+        _self: "قسم المستجدين",
+        tmam_elwosol: "تمام الوصول",
         late_radeef: "كشف المتأخرين عن التسريح",
         dof3aStatistics: "كشف احصائيات دفعة",
         radeef: "كشف دفعة رديف",

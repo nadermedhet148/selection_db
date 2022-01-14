@@ -338,6 +338,8 @@
 </template>
 
 <script>
+const constants = require("../../Constant").default;
+
 export default {
   name: "edit-users",
   mounted() {
@@ -415,71 +417,8 @@ export default {
         text: "text",
         value: "value"
       },
-      // role: {
-      //   data: [
-      //     {
-      //       text: "مدير النظام",
-      //       value: 0
-      //     },
-      //     {
-      //       text: "مصدق",
-      //       value: 1
-      //     },
-      //     {
-      //       text: "مراجع",
-      //       value: 2
-      //     },
-      //     {
-      //       text: "مسجل",
-      //       value: 3
-      //     },
-      //     {
-      //       text: "مندوب",
-      //       value: 4
-      //     },
-      //     {
-      //       text: "زائر",
-      //       value: 5
-      //     }
-      //   ],
-      //   text: "text",
-      //   value: "value"
-      // },
       section: {
-        data: [
-          {
-            text: "مدير النظام",
-            value: 0
-          },
-          {
-            text: "نظم",
-            value: 12
-          },
-          {
-            text: "تسجيل",
-            value: 1
-          }
-          // {
-          //   text: "احتياط",
-          //   value: 2
-          // },
-          // {
-          //   text: "إنهاء خدمة",
-          //   value: 3
-          // },
-          // {
-          //   text: "هروب وخدمة المواطنين",
-          //   value: 4
-          // },
-          // {
-          //   text: "حاسب",
-          //   value: 5
-          // },
-          // {
-          //   text: "بوابة",
-          //   value: 6
-          // }
-        ],
+        data: constants.sections,
         text: "text",
         value: "value"
       }

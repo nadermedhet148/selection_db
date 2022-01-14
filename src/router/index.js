@@ -52,6 +52,15 @@ const routes = [
     }
   },
   {
+    path: "/tmam_elwosol",
+    name: "tmam_elwosol",
+    component: mix.fun.loadView("new_comers/new_comers"),
+    meta: {
+      title: "تمام الوصول",
+      ok: true
+    }
+  },
+  {
     path: "/followup",
     name: "followup",
     component: mix.fun.loadView("Global/Footer/Followup"),

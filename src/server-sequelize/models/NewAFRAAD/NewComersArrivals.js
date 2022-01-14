@@ -13,7 +13,9 @@ module.exports = function(sequelize, DataTypes) {
       },
       Date: {
         type: DataTypes.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
+
       },
       NumberofArrivals: {
         type: DataTypes.INTEGER,

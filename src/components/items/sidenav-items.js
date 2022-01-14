@@ -10,7 +10,7 @@ let nozom = function(t) {
     return "sections.1." + t;
   },
   // الإحتياط
-  e7 = function(t) {
+  new_comers = function(t) {
     return "sections.2." + t;
   },
   // الإنهاء
@@ -107,8 +107,8 @@ let nozom = function(t) {
       // // {
       // //   type: "single",
       // //   icon: "mdi-file-document-multiple",
-      // //   text: "e7tyat_docs",
-      // //   href: "/e7tyat_docs"
+      // //   text: "new_comerstyat_docs",
+      // //   href: "/new_comerstyat_docs"
       // // },
       // {
       //   type: "single",
@@ -301,8 +301,8 @@ let nozom = function(t) {
       // {
       //   type: "single",
       //   icon: "mdi-file-document",
-      //   text: e7("e7tyat_files"),
-      //   href: "/e7tyat_files"
+      //   text: new_comers("new_comerstyat_files"),
+      //   href: "/new_comerstyat_files"
       // }
       // {
       //   type: "single",
@@ -407,9 +407,17 @@ let nozom = function(t) {
       // }
     ],
     // ../Tasgeel
-    // E7tyat
-    e7: [],
-    // ../E7tyat
+    // new_comerstyat
+    new_comers: [
+      {
+        type: "single",
+        icon: "mdi-update",
+        text: new_comers("tmam_elwosol"),
+        href: "/tmam_elwosol",
+        onlySegelat: true
+      }
+    ],
+    // ../new_comerstyat
     // ..Enhaa
     en: [],
     // ../Enhaa
@@ -595,7 +603,7 @@ let nozom = function(t) {
   ],
   _2 = [
     // احتياط
-    ...items.e7
+    ...items.new_comers
   ],
   _3 = [
     // انهاء
