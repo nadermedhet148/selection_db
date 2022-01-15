@@ -149,7 +149,7 @@ var _default = {
       "2": {
         _self: "قسم المستجدين",
         tmam_elwosol: "تمام الوصول",
-        late_radeef: "كشف المتأخرين عن التسريح",
+        distributed_suggest: "مقترح التوزيع",
         dof3aStatistics: "كشف احصائيات دفعة",
         radeef: "كشف دفعة رديف",
         radeef_report: "تقرير دفعة رديف",

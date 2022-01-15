@@ -13,7 +13,8 @@ module.exports = function(sequelize, DataTypes) {
       },
       RecuStage: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
       PayWar: {
         type: DataTypes.STRING(50),

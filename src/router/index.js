@@ -52,6 +52,15 @@ const routes = [
     }
   },
   {
+    path: "/distributed_suggest",
+    name: "distributed_suggest",
+    component: mix.fun.loadView("new_comers/distributed_suggest"),
+    meta: {
+      title: "مقترح التوزيع",
+      ok: true
+    }
+  },
+  {
     path: "/tmam_elwosol",
     name: "tmam_elwosol",
     component: mix.fun.loadView("new_comers/new_comers"),

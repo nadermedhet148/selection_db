@@ -415,6 +415,13 @@ let nozom = function(t) {
         text: new_comers("tmam_elwosol"),
         href: "/tmam_elwosol",
         onlySegelat: true
+      },
+      {
+        type: "single",
+        icon: "mdi-update",
+        text: new_comers("distributed_suggest"),
+        href: "/distributed_suggest",
+        onlySegelat: true
       }
     ],
     // ../new_comerstyat
