@@ -419,6 +419,13 @@ let nozom = function(t) {
       {
         type: "single",
         icon: "mdi-update",
+        text: new_comers("tmam_eltasgel"),
+        href: "/tmam_eltasgel",
+        onlySegelat: true
+      },
+      {
+        type: "single",
+        icon: "mdi-update",
         text: new_comers("distributed_suggest"),
         href: "/distributed_suggest",
         onlySegelat: true

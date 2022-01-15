@@ -150,7 +150,7 @@ var _default = {
         _self: "قسم المستجدين",
         tmam_elwosol: "تمام الوصول",
         distributed_suggest: "مقترح التوزيع",
-        dof3aStatistics: "كشف احصائيات دفعة",
+        tmam_eltasgel: "تمام التسجيل",
         radeef: "كشف دفعة رديف",
         radeef_report: "تقرير دفعة رديف",
         other_edarat_radeef: "رديف الإدارات الأخرى",

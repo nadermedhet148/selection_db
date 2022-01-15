@@ -7,7 +7,7 @@ export default {
   KnowledgeLevel: {
     text: "text",
     value: "text",
-    data: [...["عليا", "فوق متوسطة", "متوسطة", "عادة"].map(text => ({ text }))]
+    data: [...["عليا", "فوق متوسطة", "متوسطه", "عادة"].map(text => ({ text }))]
   },
   Religion: {
     text: "text",
@@ -18,7 +18,7 @@ export default {
     text: "text",
     value: "text",
     data: [
-      ...["بدون", "سنة قابلة للرفع", "سنة غير قابلة للرفعس"].map(text => ({
+      ...["بدون", "سنة قابلة للرفع", "سنة غير قابلة للرفع"].map(text => ({
         text
       }))
     ]

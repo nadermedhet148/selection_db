@@ -375,7 +375,8 @@ ipcMain.on("db-send-api", (event, args) => {
       .catch(error => {
         event.reply(`db-reply-api-${req_id}`, {
           ok: false,
-          data: error
+          data: error,
+          args
         });
       });
   }
