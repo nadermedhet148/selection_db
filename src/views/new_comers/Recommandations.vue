@@ -184,22 +184,19 @@
  
 
  
-        <template v-slot:item.CountRecommendations="{ item }">
+        <template v-slot:item.Certification="{ item }">
           <v-chip
+           @click="actionCertificatie(item)"
             :color="
-              item.CountRecommendations == true
+              item.Certification == true
                 ? 'success'
-                : item.notApprovedReason == null
-                ? 'gray'
-                : 'error'
+                : 'gray'
             "
           >
             {{
-              item.CountRecommendations == true
+              item.Certification == true
                 ? "تمت الموافقة"
-                : item.notApprovedReason == null
-                ? "في انتظار الموافقة"
-                : item.notApprovedReason
+                : "في انتظار الموافقة"
             }}
           </v-chip>
         </template>
@@ -415,7 +412,7 @@ export default {
         sortable: false,
         inSearch: false,
         inTable: true,
-        inModel: true,
+        inModel: false,
         sort: 0
       },
       {
@@ -431,7 +428,7 @@ export default {
       },
       {
         text: "الوحدة",
-        value: "UnitID",
+        value: "Unit.Unit",
         searchValue: "UnitID",
         sortable: true,
         type: "select",
@@ -504,6 +501,7 @@ export default {
         sortable: true,
         type: "text",
         inSearch: false,
+        inTable: true,
         inModel: true,
         readonly:true,
         sort: 5
@@ -517,17 +515,6 @@ export default {
         inSearch: false,
         inModel: true,
         readonly:true,
-        sort: 5
-      },
-      {
-        text: "عدد التوصيات",
-        value: "CountRecommendations",
-        searchValue: "CountRecommendations",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: false,
         sort: 5
       },
       {
@@ -614,11 +601,24 @@ export default {
     },
     async saveItem(edirableFromTableItem) {
       this.$set(this.createdObject, "loading", true);
+      let saveItem;
+      if(this.Recommandation.isEdit){
+    saveItem = await this.api(`global/update_one`, {
+        table: "Recommendations",
+        where: {
+          ID : this.Recommandation.ID
+        },
+        update:this.Recommandation
+      });
 
-      let saveItem = await this.api(`global/create_one`, {
+   
+      }else{
+      saveItem = await this.api(`global/create_one`, {
         table: "Recommendations",
         where: this.Recommandation
       });
+      }
+    
 
       if (saveItem && saveItem.data && saveItem.ok) {
         this.showSuccess("تم حفظ ");
@@ -654,6 +654,11 @@ export default {
       });
       this.api("global/get_all", {
         table: "Recommendations",
+        include: [
+          {
+            model:'Unit'
+          }
+        ],
         where
       })
         .then(x => {
@@ -683,14 +688,13 @@ export default {
         search: { ID: this.search.ID }
       })
         .then(x => {
-          console.log("x", x);
           this.$set(this.Recommandation,'Name' , x.data.Name)
           
           this.$set(this.Recommandation,'soldierDirection' , x.data.Directionforunit)
 
         })
         .catch(error => {
-          console.log(error);
+          this.findItems();
         })
         .finally(() => {
         });
@@ -742,7 +746,36 @@ export default {
     },
     actionEdit(item){
       this.$set(this.createdObject, "model", true);
-      this.$set(this, "Recommandation", item);
+      this.$set(this, "Recommandation", {...item,isEdit : true});
+    },
+    actionCertificatie(item){
+      this.$confirm(`هل انت متاكد من تغير الحالة` , {
+        title : ``
+      }).then(async res => {
+        if(res){
+        await this.api(`global/update_one`, {
+          table: "Recommendations",
+          where: {
+            ID : item.ID
+          },
+          update:{
+            Certification : false
+          }
+      });
+     await this.api(`global/update_one`, {
+          table: "Recommendations",
+          where: {
+            ID :    item.ID,
+            UnitID: item.UnitID
+          },
+          update:{
+            Certification : true
+          }
+      });
+          this.findItems();
+
+        }
+    })
     }
   }
 };

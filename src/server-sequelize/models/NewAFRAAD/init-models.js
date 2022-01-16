@@ -269,6 +269,7 @@ function initModels(sequelize) {
   OldFollowersNo.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(OldFollowersNo, { foreignKey: "UnitID" });
   SMSoldier.belongsTo(Unit, { foreignKey: "UnitID" });
+  Recommendations.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(SMSoldier, { foreignKey: "UnitID" });
   Soldier.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(Soldier, { foreignKey: "UnitID" });
