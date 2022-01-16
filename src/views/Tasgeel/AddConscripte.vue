@@ -216,6 +216,7 @@ export default {
       conscriptionDate: null,
       unitID: null
     },
+    
     isEnhaa: false,
     groups: [
       {

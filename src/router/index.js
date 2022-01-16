@@ -79,6 +79,15 @@ const routes = [
     }
   },
   {
+    path: "/Recommandations",
+    name: "Recommandations",
+    component: mix.fun.loadView("new_comers/Recommandations"),
+    meta: {
+      title: "التوصيات",
+      ok: true
+    }
+  },
+  {
     path: "/followup",
     name: "followup",
     component: mix.fun.loadView("Global/Footer/Followup"),

@@ -414,7 +414,7 @@
       scrollable
       max-width="750"
     >
-      <v-card :loading="rowEditModel.model" :disabled="rowEditModel.model">
+      <v-card >
         <v-card-title>
           <v-spacer></v-spacer>
           <v-btn @click="rowEditModel.model = false" icon>
@@ -959,7 +959,7 @@ export default {
             printer = {
               cons: [...data],
               excelKey: "cons",
-              excelHeaders: this.headers.filter(f => f.inSearch)
+              excelHeaders: this.headers.filter(f => f.inTable)
             };
 
           if (data.length == 0) {
