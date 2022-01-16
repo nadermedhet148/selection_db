@@ -14,6 +14,9 @@ export default {
     value: "text",
     data: [...["اخري", "مسيحي", "مسلم"].map(text => ({ text }))]
   },
+  RecommendTypes: {
+    data: [...["مقترح فعلي", "مقترح اثناء التوزيع"].map(text => ({ text }))]
+  },
   RecuTreat: {
     text: "text",
     value: "text",
