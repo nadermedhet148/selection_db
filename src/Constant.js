@@ -97,6 +97,7 @@ export default {
       return { text };
     })
   },
+  
   SoldierStatus: {
     text: "text",
     value: "text",

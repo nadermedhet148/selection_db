@@ -88,6 +88,15 @@ const routes = [
     }
   },
   {
+    path: "/effects",
+    name: "effects",
+    component: mix.fun.loadView("new_comers/effects"),
+    meta: {
+      title: "مؤثرات المرحلة",
+      ok: true
+    }
+  },
+  {
     path: "/followup",
     name: "followup",
     component: mix.fun.loadView("Global/Footer/Followup"),

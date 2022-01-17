@@ -155,7 +155,7 @@ var _default = {
         Recommandations: "التوصيات",
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
-        following_reserved_injuries: "مصابي النقل على الإحتياط",
+        effects: "مؤثرات المرحلة",
         trained_duty: "حصر الواجب المدرب عليه"
       },
       "3": {
