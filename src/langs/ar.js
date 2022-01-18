@@ -153,7 +153,7 @@ var _default = {
         distributed_suggest: "مقترح التوزيع",
         tmam_eltasgel: "تمام التسجيل",
         effects: "مؤثرات المرحلة",
-        Recommandations: "التوصيات",
+        recommandations: "التوصيات",
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
         following_reserved_injuries: "مصابي النقل على الإحتياط",

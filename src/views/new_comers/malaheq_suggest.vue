@@ -61,7 +61,7 @@
                   :disabled="h.readonly"
                 >
                  <v-checkbox
-                  v-model="malaheq_suggest[h.searchValue]"
+                  v-model="search[h.searchValue]"
                   :label="h.text"
                  ></v-checkbox>
 
@@ -256,7 +256,7 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="malaheq_suggest[h.searchValue]"
+                  v-model="malaheqSuggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
@@ -269,7 +269,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="malaheq_suggest[h.searchValue]"
+                  v-model="malaheqSuggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -290,7 +290,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="malaheq_suggest[h.searchValue]"
+                  v-model="malaheqSuggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -306,7 +306,7 @@
                   :disabled="h.readonly"
                 >
                  <v-checkbox
-                  v-model="malaheq_suggest[h.searchValue]"
+                   v-model="malaheqSuggest[h.searchValue]"
                   :label="h.text"
                  ></v-checkbox>
 
@@ -344,7 +344,7 @@ const constants = require("../../Constant").default;
 const lodash = require("lodash");
 
 export default {
-  name: "malaheq_suggest",
+  name: "malaheqSuggest",
   mounted() {
     // this.initDates();
     this.init();
@@ -355,7 +355,7 @@ export default {
     }
   },
   data: () => ({
-     malaheq_suggest:{
+     malaheqSuggest:{
 
     },
     groupedValue: [],
@@ -384,7 +384,7 @@ export default {
         sortable: false,
         inSearch: false,
         inTable: true,
-        inModel: true,
+        inModel: false,
         sort: 0
       },
       {
@@ -400,12 +400,13 @@ export default {
       }, {
         text: "الاسم",
         value: "Soldier.Name",
-        searchValue: "Soldier.Name",
+        searchValue: "Name",
         sortable: true,
         type: "text",
         inSearch: true,
         inTable: true,
         inModel: true,
+        readonly:true,
         sort: 1
       },
       {
@@ -413,10 +414,10 @@ export default {
         value: "Soldier.KnowledgeLevel",
         searchValue: "Soldier.KnowledgeLevel",
         sortable: true,
-        type: "text",
+        type: "select",
         inSearch: false,
         inTable: true,
-        inModel: true,
+        inModel: false,
         sort: 2
       },
       {
@@ -427,7 +428,7 @@ export default {
         type: "select",
         inSearch: true,
         inTable: true,
-        inModel: true,
+        inModel: false,
         sort: 2
       },
       {
@@ -475,16 +476,28 @@ export default {
         sort: 3
       },
       {
-        text: "المواققة",
+        text: "المرحلة",
+        value: "RecuStage",
+        searchValue: "RecuStage",
+        sortable: true,
+        type: "select",
+        inSearch: true,
+        inTable: false,
+        inModel: true,
+        sort: 5
+      },
+      {
+        text: "تمت الموافقة",
         value: "Acceptance",
         searchValue: "Acceptance",
         sortable: true,
         type: "checkbox",
         inSearch: true,
         inTable: true,
-        inModel: true,
+        inModel: false,
         sort: 5
       },
+
 
     ],
     items: [],
@@ -511,31 +524,26 @@ export default {
         text: "text",
         value: "text",
         data: constants.FollowingOrder.data
-      }
-      // RecuStage: {
-      //   text: "text",
-      //   value: "text",
-      //   data: lodash.flattenDeep(
-      //     constants.years.map(year =>
-      //       constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
-      //     )
-      //   )
-      // }
+      },
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      },
+      KnowledgeLevel: {
+        text: "text",
+        value: "text",
+        data: constants.KnowledgeLevel.data
+      },
     },
     printer: {}
   }),
    watch: {
-    "malaheq_suggest.UnitID"(v) {
-        this.$set(
-          this.malaheq_suggest,
-          "UnitDirection",
-          this.selects.UnitID.data.find(ele => ele.UnitID == v).Directionforunit
-        );
-      
-
-      },
-     
-    },
+   },
   methods: {
     log(item) {
       console.log("====================================");
@@ -550,14 +558,9 @@ export default {
       this.$set(this.createdObject, "loading", true);
 
       let saveItem = await this.api(`global/create_one`, {
-        table: "Recommendations",
-        where: this.malaheq_suggest,
-        include:[
-            {
-
-            }
-        ]
-      });
+        table: "Followers",
+        where: this.malaheqSuggest
+        });
 
       if (saveItem && saveItem.data && saveItem.ok) {
         this.showSuccess("تم حفظ ");
@@ -572,7 +575,7 @@ export default {
     findItems() {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
-      let where = { ...this.search },
+      let where = { ...this.search , RecuStage: null, UnitID:null },
         likes = ["ID", "Name"],
         multi = [];
       Object.keys(where).forEach(key => {
@@ -597,6 +600,10 @@ export default {
         include:[
             {model : "FollowingRigion"},
             {model : "Soldier",
+                 where: this.cleanObject(  {
+                  UnitID:this.search.UnitID,
+                  RecuStage: this.search.RecuStage
+              }),
             include:[
             {model:'Unit'}
 
@@ -612,7 +619,6 @@ export default {
               excelKey: "cons",
               excelHeaders: this.headers.filter(f => f.inSearch)
             };
-
           this.$set(this, "items", data);
           this.$set(this, "printer", printer);
         })
@@ -630,13 +636,8 @@ export default {
       this.api("global/get_one", {
         table:"Soldier",
         search: { ID: this.search.ID }
-      })
-        .then(x => {
-          console.log("x", x);
-          this.$set(this.malaheq_suggest,'Name' , x.data.Name)
-          
-          this.$set(this.malaheq_suggest,'soldierDirection' , x.data.Directionforunit)
-
+      }).then((x)=>{
+          this.$set(this.malaheqSuggest,'Name' , x.data.Name)
         })
         .catch(error => {
           console.log(error);
@@ -656,6 +657,7 @@ export default {
           this.$set(this.selects[key], "loading", true);
           this.api("global/get_all", obj)
             .then(x => {
+              console.log(x)
               this.$set(this.selects[key], "data", x.data);
             })
             .catch(error => {
@@ -691,7 +693,7 @@ export default {
     },
     actionEdit(item){
       this.$set(this.createdObject, "model", true);
-      this.$set(this, "malaheq_suggest", item);
+      this.$set(this, "malaheqSuggest", item);
     }
     },
 

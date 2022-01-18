@@ -97,9 +97,9 @@ const routes = [
     }
   }, 
   {
-    path: "/Recommandations",
-    name: "Recommandations",
-    component: mix.fun.loadView("new_comers/Recommandations"),
+    path: "/recommandations",
+    name: "recommandations",
+    component: mix.fun.loadView("new_comers/recommandations"),
     meta: {
       title: "التوصيات",
       ok: true

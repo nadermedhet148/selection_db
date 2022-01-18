@@ -433,37 +433,8 @@ let nozom = function(t) {
       {
         type: "single",
         icon: "mdi-update",
-        text: new_comers("Recommandations"),
-        href: "/Recommandations",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("tmam_eltarhel"),
-        href: "/tmam_eltarhel",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("malaheq_suggest"),
-        href: "/malaheq_suggest",
-        onlySegelat: true
-      },
-      
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("effects"),
-        href: "/effects",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("tmam_eltarhel"),
-        href: "/tmam_eltarhel",
+        text: new_comers("recommandations"),
+        href: "/recommandations",
         onlySegelat: true
       },
       {

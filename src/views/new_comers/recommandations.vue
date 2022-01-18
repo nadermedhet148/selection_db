@@ -2,8 +2,11 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في تمام التسجيل
+        بحث متقدم في التوصيات
         <v-spacer></v-spacer>
+        <v-btn @click="actionAdd()" large outlined color="primary">
+          إضافة توصية جديدة
+        </v-btn>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -120,6 +123,7 @@
 
     <v-card class="mt-8">
       <v-card-title>
+        التوصيات
         <v-spacer></v-spacer>
         <printer-menu
           :disabled="items.length == 0"
@@ -133,8 +137,7 @@
         :items="items"
         hide-default-header
         fixed-header
-        @current-items="tableUpdated"
-        ref="mainTable"
+        multi-sort
       >
         <template v-slot:header="table">
           <table-header-filters
@@ -149,15 +152,52 @@
             :table="table"
           ></table-footer-filters>
         </template>
+        <template v-slot:item.ID="{ item }">
+          <v-chip
+            color="transparent"
+            :to="`/soldiers_plus/${item.ID}`"
+            @click.right="copyText(item.ID)"
+          >
+            {{ item.ID }}
+          </v-chip>
+        </template>
+      <template v-slot:item.ID="{ item }">
+          <v-chip
+            color="transparent"
+            :to="`/soldiers_plus/${item.ID}`"
+            @click.right="copyText(item.ID)"
+          >
+            {{ item.ID }}
+          </v-chip>
+        </template>
 
-        <template v-slot:item.actionsStart="{ item }">
+          <template v-slot:item.actions="{ item }">
           <v-chip class="transparent">
             <v-btn icon @click="actionEdit(item)" color="primary">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <!-- <v-btn icon @click="actionDelete(item)" color="error">
-              <v-icon>mdi-trash-can</v-icon>
-            </v-btn> -->
+
+          </v-chip>
+        </template>
+
+   
+ 
+
+ 
+        <template v-slot:item.Certification="{ item }">
+          <v-chip
+           @click="actionCertificatie(item)"
+            :color="
+              item.Certification == true
+                ? 'success'
+                : 'gray'
+            "
+          >
+            {{
+              item.Certification == true
+                ? "تمت الموافقة"
+                : "في انتظار الموافقة"
+            }}
           </v-chip>
         </template>
       </v-data-table>
@@ -222,10 +262,12 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="createdObject.item[h.searchValue]"
+                  v-model="Recommandation[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
+                   @keypress.enter="findSolider()"
+
                 ></v-text-field>
                 <v-autocomplete
                   v-else-if="h.type == 'select'"
@@ -233,7 +275,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="createdObject.item[h.searchValue]"
+                  v-model="Recommandation[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -254,7 +296,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="createdObject.item[h.searchValue]"
+                  v-model="Recommandation[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -270,7 +312,7 @@
                   :disabled="h.readonly"
                 >
                   <v-btn-toggle
-                    v-model="createdObject.item[h.searchValue]"
+                    v-model="Recommandation[h.searchValue]"
                     class="d-block"
                     mandatory
                   >
@@ -278,7 +320,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        createdObject.item[h.searchValue] === true
+                        Recommandation[h.searchValue] === true
                           ? 'error white--text'
                           : ''
                       "
@@ -289,7 +331,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        createdObject.item[h.searchValue] === false
+                        Recommandation[h.searchValue] === false
                           ? 'success white--text'
                           : ''
                       "
@@ -330,9 +372,9 @@ const constants = require("../../Constant").default;
 const lodash = require("lodash");
 
 export default {
-  name: "new_commers",
+  name: "recommandations",
   mounted() {
-    this.initDates();
+    // this.initDates();
     this.init();
   },
   filters: {
@@ -341,6 +383,9 @@ export default {
     }
   },
   data: () => ({
+     Recommandation:{
+
+    },
     groupedValue: [],
     subjectLimit: 10,
     createdObject: {
@@ -360,153 +405,259 @@ export default {
     search: {},
     searchLoading: false,
     headers: [
+       {
+        text: "",
+        value: "actions",
+        searchValue: "actions",
+        sortable: false,
+        inSearch: false,
+        inTable: true,
+        inModel: false,
+        sort: 0
+      },
       {
-        text: "المرحلة",
-        value: "Stage",
-        searchValue: "Stage",
+        text: "الرقم العسكري",
+        value: "ID",
+        searchValue: "ID",
+        sortable: true,
+        type: "text",
+        inSearch: true,
+        inTable: true,
+        inModel: true,
+        sort: 1
+      },
+      {
+        text: "الوحدة",
+        value: "Unit.Unit",
+        searchValue: "UnitID",
         sortable: true,
         type: "select",
         inSearch: true,
-        inTable: false,
+        inTable: true,
+        inModel: true,
+        sort: 2
+      },
+      {
+        text: "الموصي",
+        value: "Recommender",
+        searchValue: "Recommender",
+        sortable: true,
+        type: "text",
+        inSearch: true,
+        inTable: true,
+        inModel: true,
+        sort: 4
+      },
+      {
+        text: "المصدق",
+        value: "Certificator",
+        searchValue: "Certificator",
+        sortable: true,
+        type: "select",
+        inSearch: true,
+        inTable: true,
+        inModel: true,
+        sort: 3
+      },
+      {
+        text: "اتجاه الوحدة",
+        value: "UnitDirection",
+        searchValue: "UnitDirection",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly:true,
         sort: 5
       },
       {
-        text: "التوزيع",
-        value: "Dist",
-        searchValue: "Dist",
+        text: "اتجاه الجندي",
+        value: "soldierDirection",
+        searchValue: "soldierDirection",
         sortable: true,
+        type: "text",
         inSearch: false,
-        inModel: true,
         inTable: true,
+        inModel: true,
+        readonly:true,
         sort: 5
       },
       {
-        text: "عليا",
-        value: "High",
-        searchValue: "High",
+        text: "تم التصديق",
+        value: "Certification",
+        searchValue: "Certification",
         sortable: true,
+        type: "checkbox",
         inSearch: false,
-        inModel: true,
         inTable: true,
+        inModel: false,
         sort: 5
       },
       {
-        text: "فوق متوسطة",
-        value: "AboveAvg",
-        searchValue: "AboveAvg",
+        text: "التطابق",
+        value: "Matching",
+        searchValue: "Matching",
         sortable: true,
+        type: "text",
         inSearch: false,
-        inModel: true,
         inTable: true,
+        inModel: true,
+        readonly:true,
         sort: 5
       },
       {
-        text: "متوسطة",
-        value: "Avg",
-        searchValue: "Avg",
+        text: "الاسم",
+        value: "Name",
+        searchValue: "Name",
         sortable: true,
+        type: "text",
         inSearch: false,
         inModel: true,
-        inTable: true,
+        readonly:true,
         sort: 5
       },
       {
-        text: "عادة",
-        value: "Normal",
-        searchValue: "Normal",
+        text: "الملاحظات",
+        value: "Notes",
+        searchValue: "Notes",
         sortable: true,
+        type: "textarea",
         inSearch: false,
-        inModel: true,
         inTable: true,
-        sort: 5
-      },
-      {
-        text: "الاجمالي",
-        value: "sum",
-        searchValue: "sum",
-        sortable: true,
-        inSearch: false,
         inModel: true,
-        inTable: true,
         sort: 5
       },
       {
         text: "",
         value: "actionsStart",
-        searchValue: "sum",
-        sortable: true,
-        inSearch: false,
-        inModel: true,
+        searchValue: "actionsStart",
+        sortable: false,
         inTable: true,
-        sort: 5
-      }
+        sort: 0
+      },
     ],
     items: [],
     tableFilters: {},
+   
     componentName: "createdObject",
     selects: {
-      Stage: {
+      UnitID: {
+        table: "Unit",
+        value: "UnitID",
+        text: "Unit"
+      },
+      Certificator: {
         text: "text",
         value: "text",
-        data: lodash.flattenDeep(
-          constants.years.map(year =>
-            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
-          )
-        )
-      }
+        data: constants.Certificator.data
+      },
+      KnowledgeLevel: {
+        text: "text",
+        value: "text",
+        data: constants.KnowledgeLevel.data
+      },
     },
     printer: {}
   }),
+   watch: {
+    "Recommandation.UnitID"(v) {
+        this.$set(
+          this.Recommandation,
+          "UnitDirection",
+          this.selects.UnitID.data.find(ele => ele.UnitID == v).Directionforunit
+        );
+       this.changeMatching();
+
+      },
+      "Recommandation.soldierDirection"(v) {
+
+        this.changeMatching();
+    
+      }
+    },
   methods: {
     log(item) {
       console.log("====================================");
       console.log("item", item);
       console.log("====================================");
     },
-    tableUpdated(v) {
-      let tables = this.$refs.mainTable;
-      if (tables) {
-        tables = Array.isArray(tables) ? tables : [tables];
-        for (let i = 0; i < tables.length; i++) {
-          let table = tables[i],
-            childTable = table?.$children[0].$children[0].$children[0]?.table,
-            filteredItems,
-            sorted;
-
-          // when first table exists
-          if ("filteredItems" in table?.$children[0]) {
-            filteredItems = table.$children[0].filteredItems;
-            sorted = filteredItems;
-            // when the second table exists
-            if (childTable) {
-              let sortBy = childTable.props.options.sortBy, // -_-
-                sortDesc = childTable.props.options.sortDesc; // -_-
-              sorted = table.customSort(filteredItems, sortBy, sortDesc);
-            }
-            this.result.printer.cons = sorted;
-          }
-        }
-      }
-    },
     runFun(f) {
       return this[f]();
     },
+    changeMatching(){
+         if(this.Recommandation.soldierDirection && this.Recommandation.UnitDirection){
+        
+          this.$set(
+          this.Recommandation,
+          "Matching",
+          this.Recommandation.soldierDirection == this.Recommandation.UnitDirection ?  'مطابق' : 'مخالف'
+        );
+    }
+    },
+    async saveItem(edirableFromTableItem) {
+      this.$set(this.createdObject, "loading", true);
+      let saveItem;
+      if(this.Recommandation.isEdit){
+    saveItem = await this.api(`global/update_one`, {
+        table: "Recommendations",
+        where: {
+          ID : this.Recommandation.ID
+        },
+        update:this.Recommandation
+      });
 
-    findItems() {
-      if (!this.search.Stage) {
-        this.showError("يجب اختيار المرحلة اولا");
-        return;
+   
+      }else{
+      saveItem = await this.api(`global/create_one`, {
+        table: "Recommendations",
+        where: this.Recommandation
+      });
       }
+    
 
+      if (saveItem && saveItem.data && saveItem.ok) {
+        this.showSuccess("تم حفظ ");
+        this.findItems();
+        this.createdObject, "model", false;
+      } else {
+        this.showError("تعذر حفظ  في قاعدة البيانات");
+      }
+      this.$set(this.createdObject, "loading", false);
+      this.$set(this.createdObject, "model", false);
+    },
+    findItems() {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
-
-      let where = { ...this.search };
+      let where = { ...this.search },
+        likes = ["ID", "Recommender"],
+        multi = [];
+      Object.keys(where).forEach(key => {
+        let val = where[key];
+        if (!val && val !== false && val !== 0) {
+          delete where[key];
+          return;
+        }
+        if (likes.includes(key)) {
+          where[key] = {
+            $like: `%${val}%`
+          };
+        } else if (multi.includes(key)) {
+          where[key] = {
+            $in: val
+          };
+        }
+      });
       this.api("global/get_all", {
-        table: "RegisterationEssurance",
+        table: "Recommendations",
+        include: [
+          {
+            model:'Unit'
+          }
+        ],
         where
       })
-        .then(async x => {
+        .then(x => {
           let data = x.data,
             printer = {
               cons: [...data],
@@ -514,109 +665,34 @@ export default {
               excelHeaders: this.headers.filter(f => f.inSearch)
             };
 
-          if (data.length === 0) {
-            [
-              "المخطط",
-              "ما تم وصوله للمركز",
-              "ما تم تسجيله بفرع الافراد",
-              "ما تم تسجيله بالشبكة العسكرية",
-              "الموزعين حتي الان"
-            ]
-              .map(Dist => {
-                return {
-                  Dist,
-                  High: 0,
-                  AboveAvg: 0,
-                  Avg: 0,
-                  Normal: 0,
-                  Sum: 0,
-                  Notes: "",
-                  Stage: this.search.Stage
-                };
-              })
-              .forEach(ele => {
-                this.api("global/create_one", {
-                  where: ele,
-                  table: "RegisterationEssurance"
-                }).then(x => {});
-              });
-          }
-
-          const levelMapping = {
-            عليا: "High",
-            "فوق متوسطة": "AboveAvg",
-            متوسطه: "Avg",
-            عادة: "Normal"
-          };
-
-          constants.KnowledgeLevel.data.map(({ text }, index) => {
-            this.api("global/queryRunners", {
-              query: `SELECT  SUM (NumberofArrivals) as sum FROM NewComersArrivals where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' `
-            }).then(data => {
-              this.api("global/update_one", {
-                where: {
-                  Dist: "ما تم وصوله للمركز",
-                  Stage: this.search.Stage
-                },
-                update: {
-                  [levelMapping[text]]: data.data[0].sum
-                },
-                table: "RegisterationEssurance"
-              }).then(x => {});
-            });
-
-            this.api("global/queryRunners", {
-              query: `SELECT  COUNT(ID) as total FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}'`
-            }).then(data => {
-              this.api("global/update_one", {
-                where: {
-                  Dist: "ما تم تسجيله بفرع الافراد",
-                  Stage: this.search.Stage
-                },
-                update: {
-                  [levelMapping[text]]: data.data[0].total
-                },
-                table: "RegisterationEssurance"
-              }).then(x => {});
-            });
-
-            this.api("global/queryRunners", {
-              query: `SELECT Count(KnowledgeLevel) As 'Count' FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' AND UnitID != 0`
-            }).then(data => {
-              this.api("global/update_one", {
-                where: {
-                  Dist: "الموزعين حتي الان",
-                  Stage: this.search.Stage
-                },
-                update: {
-                  [levelMapping[text]]: data.data[0].Count
-                },
-                table: "RegisterationEssurance"
-              }).then(x => {});
-            });
-          });
-          // this should be refactord to use async and awiat for all creates
-          setTimeout(() => {
-            this.api("global/get_all", {
-              table: "RegisterationEssurance",
-              where
-            }).then(data => {
-              this.$set(this, "searchLoading", false);
-              this.$set(
-                this,
-                "items",
-                data.data.map(ele => ({
-                  ...ele,
-                  sum: ele.High + ele.AboveAvg + ele.Avg + ele.Normal
-                }))
-              );
-              this.$set(this, "printer", printer);
-            });
-          }, 4000);
+          this.$set(this, "items", data);
+          this.$set(this, "printer", printer);
         })
         .catch(error => {
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
           console.log(error);
+        })
+        .finally(() => {
+          this.$set(this, "searchLoading", false);
+        });
+    },
+    findSolider() {
+
+      let search = this.search;
+      this.api("global/get_one", {
+        table:"Soldier",
+        search: { ID: this.search.ID }
+      })
+        .then(x => {
+          this.$set(this.Recommandation,'Name' , x.data.Name)
+          
+          this.$set(this.Recommandation,'soldierDirection' , x.data.Directionforunit)
+
+        })
+        .catch(error => {
+          this.findItems();
+        })
+        .finally(() => {
         });
     },
     init(specificTable = "") {
@@ -627,7 +703,7 @@ export default {
           let obj = {
             table
           };
-          obj.attrs = [text, value];
+          // obj.attrs = [text, value];
           this.$set(this.selects[key], "loading", true);
           this.api("global/get_all", obj)
             .then(x => {
@@ -660,36 +736,42 @@ export default {
         this.$set(this.search, d, []);
       });
     },
-    actionEdit(item) {
-      if (
-        ["المخطط", "ما تم تسجيله بالشبكة العسكرية"].indexOf(item.Dist) == -1
-      ) {
-        this.showError("لا يمكنك تعديل ذلك الصف");
-        return null;
-      }
-      // console.log(item);
-      this.$set(this.createdObject, "item", { ...item });
-      this.$set(this.createdObject, "model", true);
-    },
     actionAdd() {
       this.$set(this.createdObject, "item", {});
       this.$set(this.createdObject, "model", true);
     },
-    saveItem() {
-      this.api("global/update_one", {
-        where: {
-          Dist: this.createdObject.item.Dist,
-          Stage: this.search.Stage
-        },
-        update: this.createdObject.item,
-        table: "RegisterationEssurance"
-      }).then(x => {
-        this.items[
-          this.items.findIndex(ele => ele.Dist == this.createdObject.item.Dist)
-        ] = this.createdObject.item;
-        this.$set(this.createdObject, "model", false);
-        this.showSuccess("تم الحفظ");
+    actionEdit(item){
+      this.$set(this.createdObject, "model", true);
+      this.$set(this, "Recommandation", {...item,isEdit : true});
+    },
+    actionCertificatie(item){
+      this.$confirm(`هل انت متاكد من تغير الحالة` , {
+        title : ``
+      }).then(async res => {
+        if(res){
+        await this.api(`global/update_one`, {
+          table: "Recommendations",
+          where: {
+            ID : item.ID
+          },
+          update:{
+            Certification : false
+          }
       });
+     await this.api(`global/update_one`, {
+          table: "Recommendations",
+          where: {
+            ID :    item.ID,
+            UnitID: item.UnitID
+          },
+          update:{
+            Certification : true
+          }
+      });
+          this.findItems();
+
+        }
+    })
     }
   }
 };
