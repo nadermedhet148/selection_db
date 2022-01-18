@@ -518,7 +518,7 @@ Vue.mixin({
                     delete obj[prop];
                 }
             }
-            return obj;
+            return Object.keys(obj).length > 0 ? obj : null;
       },
     copyText(text) {
       navigator.permissions

@@ -112,6 +112,7 @@
       </v-card-actions>
     </v-card>
 
+
     <v-card class="mt-8">
       <v-card-title>
         التوصيات
@@ -143,15 +144,7 @@
             :table="table"
           ></table-footer-filters>
         </template>
-        <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
+
       <template v-slot:item.ID="{ item }">
           <v-chip
             color="transparent"
@@ -161,36 +154,23 @@
             {{ item.ID }}
           </v-chip>
         </template>
-
-          <template v-slot:item.actions="{ item }">
-          <v-chip class="transparent">
-            <v-btn icon @click="actionEdit(item)" color="primary">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-
-          </v-chip>
-        </template>
-
-   
+  
  
 
  
-        <template v-slot:item.CountRecommendations="{ item }">
+        <template v-slot:item.Acceptance="{ item }">
           <v-chip
+            @click="changeStatus(item)"
             :color="
-              item.CountRecommendations == true
+              item.Acceptance == true
                 ? 'success'
-                : item.notApprovedReason == null
-                ? 'gray'
-                : 'error'
+                : 'gray'
             "
           >
             {{
-              item.CountRecommendations == true
+              item.Acceptance == true
                 ? "تمت الموافقة"
-                : item.notApprovedReason == null
-                ? "في انتظار الموافقة"
-                : item.notApprovedReason
+                : "في انتظار الموافقة"
             }}
           </v-chip>
         </template>
@@ -345,6 +325,10 @@ const lodash = require("lodash");
 
 export default {
   name: "malaheqSuggest",
+  components : {
+    AppSearch: () => import("@/components/global/app-search.vue"),
+
+  },
   mounted() {
     // this.initDates();
     this.init();
@@ -602,7 +586,7 @@ export default {
             {model : "Soldier",
                  where: this.cleanObject(  {
                   UnitID:this.search.UnitID,
-                  RecuStage: this.search.RecuStage
+                  RecuStage: this.search.RecuStage,
               }),
             include:[
             {model:'Unit'}
@@ -691,9 +675,38 @@ export default {
       this.$set(this.createdObject, "item", {});
       this.$set(this.createdObject, "model", true);
     },
-    actionEdit(item){
-      this.$set(this.createdObject, "model", true);
-      this.$set(this, "malaheqSuggest", item);
+    changeStatus(item){
+       this.$confirm(`هل انت متاكد من تغير الحالة`, {
+        title: ``
+      }).then(async res => {
+        if (res) {
+  
+
+          if(!item.Acceptance){
+            await this.api(`global/update_one`, {
+            table: "Followers",
+
+            where: {
+              ID: item.ID,
+            },
+            update: {
+              Acceptance: false
+            }
+          });
+                  await this.api(`global/update_one`, {
+            table: "Followers",
+            where: {
+              ID: item.ID,
+              FollowRigionID: item.FollowRigionID
+            },
+            update: {
+              Acceptance: !item.Acceptance
+            }
+          });
+          }
+          this.findItems();
+        }
+      });
     }
     },
 
