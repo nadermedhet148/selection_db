@@ -43,6 +43,30 @@
     },
     "logging": false
   },
+  "Mandour": {
+    "title": "local",
+    "host": "localhost",
+    "username": "admin",
+    "password": "5650072",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        
+        "trustedConnection": true,
+        "--instanceName": "SQLEXPRESS",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
+    "logging": false
+  },
   "nozom": {
     "title": "النظم",
     "username": "SA",

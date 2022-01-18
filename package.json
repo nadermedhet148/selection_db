@@ -102,6 +102,7 @@
     "vue-window-size": "^0.6.1",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.0",
+    "vuetify-confirm": "^2.0.6",
     "vuex": "^3.4.0",
     "webrtc-adapter": "^7.7.0",
     "whatwg-fetch": "^3.4.1",

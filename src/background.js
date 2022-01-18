@@ -195,7 +195,7 @@ async function createWindow() {
             });
 
             ipcMain.on("download-exit", (event, x = false) => {
-              if (x.exit == true) {
+              if (xs.exit == true) {
                 console.log("canceeld");
                 item.cancel();
               }

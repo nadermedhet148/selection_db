@@ -147,6 +147,7 @@ var _default = {
         penalties: "العقوبات"
       },
       "2": {
+        
         _self: "قسم المستجدين",
         tmam_elwosol: "تمام الوصول",
         distributed_suggest: "مقترح التوزيع",
@@ -156,7 +157,11 @@ var _default = {
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
         following_reserved_injuries: "مصابي النقل على الإحتياط",
-        trained_duty: "حصر الواجب المدرب عليه"
+        trained_duty: "حصر الواجب المدرب عليه",
+        tmam_eltarhel: "تمام الترحيل",
+        malaheq_suggest:"مقترح ملاحق المرحلة",
+        trained_duty: "حصر الواجب المدرب عليه",
+        tmam_elthr7el: "تمام الترحيل"
       },
       "3": {
         _self: "قسم الإنهاء",

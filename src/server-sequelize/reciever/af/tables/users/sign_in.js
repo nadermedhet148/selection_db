@@ -4,7 +4,7 @@ module.exports = async (db, params) => {
       username: params.username,
       password: params.password
     },
-    raw: true,
-    nest: true
+    // raw: true,
+    // nest: true
   });
 };

@@ -2,10 +2,10 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في التوصيات
+        مقترح ملاحق المرحلة
         <v-spacer></v-spacer>
         <v-btn @click="actionAdd()" large outlined color="primary">
-          إضافة توصية جديدة
+          إضافة التحاق
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
@@ -52,30 +52,21 @@
                 auto-grow
                 rows="1"
               ></v-textarea>
-              <v-btn-toggle
-                v-else-if="h.type == 'checkbox'"
-                v-model="search[h.searchValue]"
-                class="d-block"
-              >
-                <v-btn
-                  height="58"
-                  width="50%"
-                  :color="
-                    search[h.searchValue] === true ? 'error white--text' : ''
-                  "
-                  :value="true"
-                  v-text="h.trueValue"
-                ></v-btn>
-                <v-btn
-                  height="58"
-                  width="50%"
-                  :color="
-                    search[h.searchValue] === false ? 'success white--text' : ''
-                  "
-                  :value="false"
-                  v-text="h.falseValue"
-                ></v-btn>
-              </v-btn-toggle>
+              <v-card
+                  v-else-if="h.type == 'checkbox'"
+                  flat
+                  tile
+                  color="transparent"
+                  class="pa-0 ma-0"
+                  :disabled="h.readonly"
+                >
+                 <v-checkbox
+                  v-model="malaheq_suggest[h.searchValue]"
+                  :label="h.text"
+                 ></v-checkbox>
+
+            
+                </v-card>
             </v-col>
             <v-col
               class="py-0"
@@ -184,19 +175,22 @@
  
 
  
-        <template v-slot:item.Certification="{ item }">
+        <template v-slot:item.CountRecommendations="{ item }">
           <v-chip
-           @click="actionCertificatie(item)"
             :color="
-              item.Certification == true
+              item.CountRecommendations == true
                 ? 'success'
-                : 'gray'
+                : item.notApprovedReason == null
+                ? 'gray'
+                : 'error'
             "
           >
             {{
-              item.Certification == true
+              item.CountRecommendations == true
                 ? "تمت الموافقة"
-                : "في انتظار الموافقة"
+                : item.notApprovedReason == null
+                ? "في انتظار الموافقة"
+                : item.notApprovedReason
             }}
           </v-chip>
         </template>
@@ -262,7 +256,7 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="malaheq_suggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
@@ -275,7 +269,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="malaheq_suggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -296,7 +290,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="malaheq_suggest[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -311,34 +305,12 @@
                   class="pa-0 ma-0"
                   :disabled="h.readonly"
                 >
-                  <v-btn-toggle
-                    v-model="Recommandation[h.searchValue]"
-                    class="d-block"
-                    mandatory
-                  >
-                    <v-btn
-                      height="58"
-                      width="50%"
-                      :color="
-                        Recommandation[h.searchValue] === true
-                          ? 'error white--text'
-                          : ''
-                      "
-                      :value="true"
-                      v-text="h.trueValue"
-                    ></v-btn>
-                    <v-btn
-                      height="58"
-                      width="50%"
-                      :color="
-                        Recommandation[h.searchValue] === false
-                          ? 'success white--text'
-                          : ''
-                      "
-                      :value="false"
-                      v-text="h.falseValue"
-                    ></v-btn>
-                  </v-btn-toggle>
+                 <v-checkbox
+                  v-model="malaheq_suggest[h.searchValue]"
+                  :label="h.text"
+                 ></v-checkbox>
+
+            
                 </v-card>
               </v-col>
             </template>
@@ -372,7 +344,7 @@ const constants = require("../../Constant").default;
 const lodash = require("lodash");
 
 export default {
-  name: "Recommandations",
+  name: "malaheq_suggest",
   mounted() {
     // this.initDates();
     this.init();
@@ -383,7 +355,7 @@ export default {
     }
   },
   data: () => ({
-     Recommandation:{
+     malaheq_suggest:{
 
     },
     groupedValue: [],
@@ -412,7 +384,7 @@ export default {
         sortable: false,
         inSearch: false,
         inTable: true,
-        inModel: false,
+        inModel: true,
         sort: 0
       },
       {
@@ -425,10 +397,31 @@ export default {
         inTable: true,
         inModel: true,
         sort: 1
+      }, {
+        text: "الاسم",
+        value: "Soldier.Name",
+        searchValue: "Soldier.Name",
+        sortable: true,
+        type: "text",
+        inSearch: true,
+        inTable: true,
+        inModel: true,
+        sort: 1
+      },
+      {
+        text: "المستوى الثقافي",
+        value: "Soldier.KnowledgeLevel",
+        searchValue: "Soldier.KnowledgeLevel",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        sort: 2
       },
       {
         text: "الوحدة",
-        value: "Unit.Unit",
+        value: "Soldier.Unit.Unit",
         searchValue: "UnitID",
         sortable: true,
         type: "select",
@@ -438,20 +431,42 @@ export default {
         sort: 2
       },
       {
-        text: "الموصي",
-        value: "Recommender",
-        searchValue: "Recommender",
+        text: "الإتجاه",
+        value: "Soldier.Unit.Directionforunit",
+        searchValue: "UnitID",
         sortable: true,
-        type: "text",
+        type: "select",
+        inSearch: false,
+        inTable: true,
+        inModel: false,
+        sort: 2
+      },
+      {
+        text: "الجهة لملحق ليها",
+        value: "FollowingRigion.FollowRigionName",
+        searchValue: "FollowRigionID",
+        sortable: true,
+        type: "select",
+        inSearch: true,
+        inTable: true,
+        inModel: true,
+        sort: 2
+      },
+      {
+        text: "الموصي",
+        value: "FollowingRecommender",
+        searchValue: "FollowingRecommender",
+        sortable: true,
+        type: "select",
         inSearch: true,
         inTable: true,
         inModel: true,
         sort: 4
       },
       {
-        text: "المصدق",
-        value: "Certificator",
-        searchValue: "Certificator",
+        text: "الأمر بالإلحاق",
+        value: "FollowingOrder",
+        searchValue: "FollowingOrder",
         sortable: true,
         type: "select",
         inSearch: true,
@@ -460,82 +475,17 @@ export default {
         sort: 3
       },
       {
-        text: "اتجاه الوحدة",
-        value: "UnitDirection",
-        searchValue: "UnitDirection",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "اتجاه الجندي",
-        value: "soldierDirection",
-        searchValue: "soldierDirection",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "تم التصديق",
-        value: "Certification",
-        searchValue: "Certification",
+        text: "المواققة",
+        value: "Acceptance",
+        searchValue: "Acceptance",
         sortable: true,
         type: "checkbox",
-        inSearch: false,
-        inTable: true,
-        inModel: false,
-        sort: 5
-      },
-      {
-        text: "التطابق",
-        value: "Matching",
-        searchValue: "Matching",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "الاسم",
-        value: "Name",
-        searchValue: "Name",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "الملاحظات",
-        value: "Notes",
-        searchValue: "Notes",
-        sortable: true,
-        type: "textarea",
-        inSearch: false,
+        inSearch: true,
         inTable: true,
         inModel: true,
         sort: 5
       },
-      {
-        text: "",
-        value: "actionsStart",
-        searchValue: "actionsStart",
-        sortable: false,
-        inTable: true,
-        sort: 0
-      },
+
     ],
     items: [],
     tableFilters: {},
@@ -547,10 +497,20 @@ export default {
         value: "UnitID",
         text: "Unit"
       },
-      Certificator: {
+      FollowRigionID: {
+        table: "FollowingRigion",
+        value: "FollowRigionID",
+        text: "FollowRigionName"
+      },
+      FollowingRecommender: {
         text: "text",
         value: "text",
-        data: constants.Certificator.data
+        data: constants.FollowingRecommender.data
+      },
+      FollowingOrder: {
+        text: "text",
+        value: "text",
+        data: constants.FollowingOrder.data
       }
       // RecuStage: {
       //   text: "text",
@@ -565,20 +525,16 @@ export default {
     printer: {}
   }),
    watch: {
-    "Recommandation.UnitID"(v) {
+    "malaheq_suggest.UnitID"(v) {
         this.$set(
-          this.Recommandation,
+          this.malaheq_suggest,
           "UnitDirection",
           this.selects.UnitID.data.find(ele => ele.UnitID == v).Directionforunit
         );
-       this.changeMatching();
+      
 
       },
-      "Recommandation.soldierDirection"(v) {
-
-        this.changeMatching();
-    
-      }
+     
     },
   methods: {
     log(item) {
@@ -589,36 +545,19 @@ export default {
     runFun(f) {
       return this[f]();
     },
-    changeMatching(){
-         if(this.Recommandation.soldierDirection && this.Recommandation.UnitDirection){
-        
-          this.$set(
-          this.Recommandation,
-          "Matching",
-          this.Recommandation.soldierDirection == this.Recommandation.UnitDirection ?  'مطابق' : 'مخالف'
-        );
-    }
-    },
+
     async saveItem(edirableFromTableItem) {
       this.$set(this.createdObject, "loading", true);
-      let saveItem;
-      if(this.Recommandation.isEdit){
-    saveItem = await this.api(`global/update_one`, {
-        table: "Recommendations",
-        where: {
-          ID : this.Recommandation.ID
-        },
-        update:this.Recommandation
-      });
 
-   
-      }else{
-      saveItem = await this.api(`global/create_one`, {
+      let saveItem = await this.api(`global/create_one`, {
         table: "Recommendations",
-        where: this.Recommandation
+        where: this.malaheq_suggest,
+        include:[
+            {
+
+            }
+        ]
       });
-      }
-    
 
       if (saveItem && saveItem.data && saveItem.ok) {
         this.showSuccess("تم حفظ ");
@@ -634,7 +573,7 @@ export default {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
       let where = { ...this.search },
-        likes = ["ID", "Recommender"],
+        likes = ["ID", "Name"],
         multi = [];
       Object.keys(where).forEach(key => {
         let val = where[key];
@@ -653,13 +592,18 @@ export default {
         }
       });
       this.api("global/get_all", {
-        table: "Recommendations",
-        include: [
-          {
-            model:'Unit'
-          }
-        ],
-        where
+        table: "Followers",
+        where,
+        include:[
+            {model : "FollowingRigion"},
+            {model : "Soldier",
+            include:[
+            {model:'Unit'}
+
+            ]
+            },
+
+        ]
       })
         .then(x => {
           let data = x.data,
@@ -688,13 +632,14 @@ export default {
         search: { ID: this.search.ID }
       })
         .then(x => {
-          this.$set(this.Recommandation,'Name' , x.data.Name)
+          console.log("x", x);
+          this.$set(this.malaheq_suggest,'Name' , x.data.Name)
           
-          this.$set(this.Recommandation,'soldierDirection' , x.data.Directionforunit)
+          this.$set(this.malaheq_suggest,'soldierDirection' , x.data.Directionforunit)
 
         })
         .catch(error => {
-          this.findItems();
+          console.log(error);
         })
         .finally(() => {
         });
@@ -746,37 +691,10 @@ export default {
     },
     actionEdit(item){
       this.$set(this.createdObject, "model", true);
-      this.$set(this, "Recommandation", {...item,isEdit : true});
-    },
-    actionCertificatie(item){
-      this.$confirm(`هل انت متاكد من تغير الحالة` , {
-        title : ``
-      }).then(async res => {
-        if(res){
-        await this.api(`global/update_one`, {
-          table: "Recommendations",
-          where: {
-            ID : item.ID
-          },
-          update:{
-            Certification : false
-          }
-      });
-     await this.api(`global/update_one`, {
-          table: "Recommendations",
-          where: {
-            ID :    item.ID,
-            UnitID: item.UnitID
-          },
-          update:{
-            Certification : true
-          }
-      });
-          this.findItems();
-
-        }
-    })
+      this.$set(this, "malaheq_suggest", item);
     }
-  }
-};
+    },
+
+  
+}
 </script>

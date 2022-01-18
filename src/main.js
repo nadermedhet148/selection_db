@@ -148,7 +148,7 @@ if (!app) {
            * Turn on Firewall and add some rules
            * -----------------------------------
            */
-          let x = await this.api("server/firewall");
+          // let x = await this.api("server/firewall");
           console.log(x);
         });
     },

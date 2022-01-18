@@ -147,37 +147,31 @@ function initModels(sequelize) {
   var Moving = _Moving(sequelize, DataTypes);
 
   FollowingRigion.belongsToMany(Soldier, {
-    as: "ID_Soldiers",
     through: Followers,
     foreignKey: "FollowRigionID",
     otherKey: "ID"
   });
   SituationStates.belongsToMany(Soldier, {
-    as: "ID_Soldier_SituationDecisions",
     through: SituationDecision,
     foreignKey: "SituationID",
     otherKey: "ID"
   });
   SituationStates.belongsToMany(Soldier, {
-    as: "ID_Soldier_Situations",
     through: Situations,
     foreignKey: "SituationID",
     otherKey: "ID"
   });
   Soldier.belongsToMany(FollowingRigion, {
-    as: "FollowRigionID_FollowingRigions",
     through: Followers,
     foreignKey: "ID",
     otherKey: "FollowRigionID"
   });
   Soldier.belongsToMany(SituationStates, {
-    as: "SituationID_SituationStates",
     through: SituationDecision,
     foreignKey: "ID",
     otherKey: "SituationID"
   });
   Soldier.belongsToMany(SituationStates, {
-    as: "SituationID_SituationStates_Situations",
     through: Situations,
     foreignKey: "ID",
     otherKey: "SituationID"
@@ -195,7 +189,6 @@ function initModels(sequelize) {
   Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
   Duty.hasMany(Soldier, { foreignKey: "DutyID" });
   Followers.belongsTo(FollowingRigion, {
-    as: "FollowRigion",
     foreignKey: "FollowRigionID"
   });
   // FollowingRigion.hasMany(Followers, {
@@ -203,41 +196,32 @@ function initModels(sequelize) {
   //   foreignKey: "FollowRigionID"
   // });
   FollowingNos.belongsTo(FollowingRigion, {
-    as: "FollowRigion",
     foreignKey: "FollowRigionID"
   });
   FollowingRigion.hasMany(FollowingNos, {
-    as: "FollowingNos",
     foreignKey: "FollowRigionID"
   });
-  UserPermissions.belongsTo(MyUsers, { as: "User", foreignKey: "UserId" });
+  UserPermissions.belongsTo(MyUsers, {  foreignKey: "UserId" });
   MyUsers.hasMany(UserPermissions, {
-    as: "UserPermissions",
     foreignKey: "UserId"
   });
-  UserPermissions.belongsTo(Permissions, { as: "Perm", foreignKey: "PermId" });
+  UserPermissions.belongsTo(Permissions, { foreignKey: "PermId" });
   Permissions.hasMany(UserPermissions, {
-    as: "UserPermissions",
     foreignKey: "PermId"
   });
   Selections.belongsTo(SelectionType, {
-    as: "Selection",
     foreignKey: "SelectionID"
   });
   SelectionType.hasMany(Selections, {
-    as: "Selections",
     foreignKey: "SelectionID"
   });
   SituationDecision.belongsTo(SituationStates, {
-    as: "Situation",
     foreignKey: "SituationID"
   });
   SituationStates.hasMany(SituationDecision, {
-    as: "SituationDecisions",
     foreignKey: "SituationID"
   });
   Situations.belongsTo(SituationStates, {
-    as: "Situation",
     foreignKey: "SituationID"
   });
   // SituationStates.hasMany(Situations, {
@@ -246,11 +230,10 @@ function initModels(sequelize) {
   // });
   Brothers.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
   Soldier.hasOne(Brothers, { as: "Brother", foreignKey: "ID" });
-  Followers.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
+  Followers.belongsTo(Soldier, {  foreignKey: "ID" });
   // Soldier.hasMany(Followers, { as: "Followers", foreignKey: "ID" });
   SituationDecision.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
   Soldier.hasMany(SituationDecision, {
-    as: "SituationDecisions",
     foreignKey: "ID"
   });
   Situations.belongsTo(Soldier, { foreignKey: "ID" });
@@ -261,7 +244,6 @@ function initModels(sequelize) {
   Soldier.hasMany(Twsiat, { foreignKey: "ID" });
   DistributionSuggestion.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(DistributionSuggestion, {
-    as: "DistributionSuggestions",
     foreignKey: "UnitID"
   });
   Moving.belongsTo(Unit, { foreignKey: "UnitID" });
@@ -269,6 +251,7 @@ function initModels(sequelize) {
   OldFollowersNo.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(OldFollowersNo, { foreignKey: "UnitID" });
   SMSoldier.belongsTo(Unit, { foreignKey: "UnitID" });
+  Recommendations.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(SMSoldier, { foreignKey: "UnitID" });
   Soldier.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(Soldier, { foreignKey: "UnitID" });

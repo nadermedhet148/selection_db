@@ -3,10 +3,12 @@ import Vuetify from "vuetify/lib";
 import colors from "vuetify/lib/util/colors";
 import ar from "@/langs/ar";
 import en from "@/langs/en";
+import VuetifyConfirm from 'vuetify-confirm'
 
 Vue.use(Vuetify);
 
-export default new Vuetify({
+
+const vuetify = new Vuetify({
   theme: {
     options: {
       customProperties: true
@@ -53,3 +55,16 @@ export default new Vuetify({
     iconfont: "mdi"
   }
 });
+
+Vue.use(VuetifyConfirm , {
+  vuetify,
+  buttonTrueText: 'موافق',
+  buttonFalseText: 'رجوع',
+  color: 'success',
+  icon: 'warning',
+  title: 'Warning',
+  width: 350,
+  property: '$confirm'
+});
+
+export default vuetify;

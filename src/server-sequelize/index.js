@@ -9,7 +9,7 @@ Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
 };
 
 // This is a string prop holding the current server
-const config = require("./config/__config.json")["local"];
+const config = require("./config/__config.json")["Mandour"];
 // This prop has your current server configs username,password,server etc ...
 const databases = require("./dbs.js")();
 // This prop holds an object containing several databases
@@ -125,7 +125,7 @@ Object.keys(databases).forEach(dbKey => {
 });
 const newAffradDbInitlizer = require("./models/NewAFRAAD/init-models");
 
-let sequelize = new Sequelize("NewAFRAAD", config.username, config.password, {
+let sequelize = new Sequelize("AFRAAD", config.username, config.password, {
   ...config,
   logging: config.logging ? console.log : false, // [false] or [console.log]
   operatorsAliases: {

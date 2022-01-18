@@ -2,11 +2,7 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في التوصيات
-        <v-spacer></v-spacer>
-        <v-btn @click="actionAdd()" large outlined color="primary">
-          إضافة توصية جديدة
-        </v-btn>
+        بحث متقدم في تمام الترحيلات 
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -121,128 +117,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card class="mt-8">
-      <v-card-title>
-        التوصيات
-        <v-spacer></v-spacer>
-        <printer-menu
-          :disabled="items.length == 0"
-          :data="printer"
-          :fab="false"
-        ></printer-menu>
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-data-table
-        :headers="headers.filter(h => h.inTable)"
-        :items="items"
-        hide-default-header
-        fixed-header
-        multi-sort
-      >
-        <template v-slot:header="table">
-          <table-header-filters
-            :items="items"
-            :table="table"
-            :filters.sync="tableFilters"
-          ></table-header-filters>
-        </template>
-        <template v-slot:footer="table">
-          <table-footer-filters
-            :filters.sync="tableFilters"
-            :table="table"
-          ></table-footer-filters>
-        </template>
-        <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
-      <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
-
-          <template v-slot:item.actions="{ item }">
-          <v-chip class="transparent">
-            <v-btn icon @click="actionEdit(item)" color="primary">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-
-          </v-chip>
-        </template>
-
-   
- 
-
- 
-        <template v-slot:item.Certification="{ item }">
-          <v-chip
-           @click="actionCertificatie(item)"
-            :color="
-              item.Certification == true
-                ? 'success'
-                : 'gray'
-            "
-          >
-            {{
-              item.Certification == true
-                ? "تمت الموافقة"
-                : "في انتظار الموافقة"
-            }}
-          </v-chip>
-        </template>
-      </v-data-table>
-    </v-card>
-    <v-dialog
-      v-if="isCurrentRoute(componentName)"
-      scrollable
-      :fullscreen="textDialog.fullscreen"
-      v-model="textDialog.model"
-      max-width="650"
-    >
-      <v-card>
-        <v-card-title>
-          {{ textDialog.title }}
-          <v-spacer></v-spacer>
-          <v-btn icon @click="textDialog.fullscreen = !textDialog.fullscreen">
-            <v-icon
-              >mdi-window-{{
-                textDialog.fullscreen ? "restore" : "maximize"
-              }}</v-icon
-            >
-          </v-btn>
-          <v-btn icon @click="textDialog.model = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pt-4">
-          <dynamic-link
-            :prefix="['@', '#']"
-            :text="textDialog.text.replace(/(?:\r\n|\r|\n)/g, '<br />')"
-          ></dynamic-link>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-dialog
-      persistent
-      v-model="createdObject.model"
-      scrollable
-      max-width="750"
-    >
-      <v-card
-        :loading="createdObject.loading"
-        :disabled="createdObject.loading"
-      >
+    <v-card v-if="Trahel.UnitID" >
         <v-card-title>
           <v-spacer></v-spacer>
           <v-btn @click="createdObject.model = false" icon>
@@ -262,12 +137,10 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
-                   @keypress.enter="findSolider()"
-
                 ></v-text-field>
                 <v-autocomplete
                   v-else-if="h.type == 'select'"
@@ -275,7 +148,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -296,7 +169,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="Recommandation[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -312,7 +185,7 @@
                   :disabled="h.readonly"
                 >
                   <v-btn-toggle
-                    v-model="Recommandation[h.searchValue]"
+                    v-model="createdObject.item[h.searchValue]"
                     class="d-block"
                     mandatory
                   >
@@ -320,7 +193,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Recommandation[h.searchValue] === true
+                        createdObject.item[h.searchValue] === true
                           ? 'error white--text'
                           : ''
                       "
@@ -331,7 +204,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Recommandation[h.searchValue] === false
+                        createdObject.item[h.searchValue] === false
                           ? 'success white--text'
                           : ''
                       "
@@ -363,16 +236,22 @@
           ></v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+
+    <Effects ref="effects" :parentFilters="true"></Effects>
+   
   </div>
 </template>
 
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const Effects = require("./effects");
 
 export default {
-  name: "Recommandations",
+  components: {
+    Effects: () => import("@/views/new_comers/effects.vue"),
+    },
+  name: "tmam_elthr7el",
   mounted() {
     // this.initDates();
     this.init();
@@ -383,9 +262,7 @@ export default {
     }
   },
   data: () => ({
-     Recommandation:{
-
-    },
+    Trahel: {},
     groupedValue: [],
     subjectLimit: 10,
     createdObject: {
@@ -405,181 +282,101 @@ export default {
     search: {},
     searchLoading: false,
     headers: [
-       {
-        text: "",
-        value: "actions",
-        searchValue: "actions",
-        sortable: false,
-        inSearch: false,
-        inTable: true,
-        inModel: false,
-        sort: 0
-      },
-      {
-        text: "الرقم العسكري",
-        value: "ID",
-        searchValue: "ID",
+  {
+        text: "المرحل",
+        value: "Moved",
+        searchValue: "",
         sortable: true,
         type: "text",
-        inSearch: true,
+        inSearch: false,
         inTable: true,
         inModel: true,
+        readonly: false,
+        sort: 1
+      },
+      {
+        text: "اجمالي المواقف",
+        value: "totalSituations",
+        searchValue: "",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: true,
+        sort: 1
+      },
+        {
+        text: "اجمالي الملاحق",
+        value: "totalFollowings",
+        searchValue: "",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: true,
+        sort: 1
+      },
+     
+      {
+        text: "المرحل",
+        value: "Moved",
+        searchValue: "",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: true,
+        sort: 1
+      },
+      {
+        text: "المرحلة",
+        value: "RecuStage",
+        searchValue: "RecuStage",
+        sortable: true,
+        type: "select",
+        inSearch: true,
+        inTable: false,
+        inModel: false,
         sort: 1
       },
       {
         text: "الوحدة",
-        value: "Unit.Unit",
+        value: "Unit",
         searchValue: "UnitID",
         sortable: true,
         type: "select",
         inSearch: true,
-        inTable: true,
-        inModel: true,
-        sort: 2
-      },
-      {
-        text: "الموصي",
-        value: "Recommender",
-        searchValue: "Recommender",
-        sortable: true,
-        type: "text",
-        inSearch: true,
-        inTable: true,
-        inModel: true,
-        sort: 4
-      },
-      {
-        text: "المصدق",
-        value: "Certificator",
-        searchValue: "Certificator",
-        sortable: true,
-        type: "select",
-        inSearch: true,
-        inTable: true,
-        inModel: true,
-        sort: 3
-      },
-      {
-        text: "اتجاه الوحدة",
-        value: "UnitDirection",
-        searchValue: "UnitDirection",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "اتجاه الجندي",
-        value: "soldierDirection",
-        searchValue: "soldierDirection",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "تم التصديق",
-        value: "Certification",
-        searchValue: "Certification",
-        sortable: true,
-        type: "checkbox",
-        inSearch: false,
-        inTable: true,
+        inTable: false,
         inModel: false,
-        sort: 5
-      },
-      {
-        text: "التطابق",
-        value: "Matching",
-        searchValue: "Matching",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "الاسم",
-        value: "Name",
-        searchValue: "Name",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inModel: true,
-        readonly:true,
-        sort: 5
-      },
-      {
-        text: "الملاحظات",
-        value: "Notes",
-        searchValue: "Notes",
-        sortable: true,
-        type: "textarea",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        sort: 5
-      },
-      {
-        text: "",
-        value: "actionsStart",
-        searchValue: "actionsStart",
-        sortable: false,
-        inTable: true,
-        sort: 0
+        sort: 1
       },
     ],
     items: [],
     tableFilters: {},
-   
     componentName: "createdObject",
     selects: {
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      },
       UnitID: {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
       },
-      Certificator: {
-        text: "text",
-        value: "text",
-        data: constants.Certificator.data
-      }
-      // RecuStage: {
-      //   text: "text",
-      //   value: "text",
-      //   data: lodash.flattenDeep(
-      //     constants.years.map(year =>
-      //       constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
-      //     )
-      //   )
-      // }
     },
     printer: {}
   }),
-   watch: {
-    "Recommandation.UnitID"(v) {
-        this.$set(
-          this.Recommandation,
-          "UnitDirection",
-          this.selects.UnitID.data.find(ele => ele.UnitID == v).Directionforunit
-        );
-       this.changeMatching();
-
-      },
-      "Recommandation.soldierDirection"(v) {
-
-        this.changeMatching();
-    
-      }
-    },
+  watch: {
+  },
   methods: {
     log(item) {
       console.log("====================================");
@@ -589,36 +386,15 @@ export default {
     runFun(f) {
       return this[f]();
     },
-    changeMatching(){
-         if(this.Recommandation.soldierDirection && this.Recommandation.UnitDirection){
-        
-          this.$set(
-          this.Recommandation,
-          "Matching",
-          this.Recommandation.soldierDirection == this.Recommandation.UnitDirection ?  'مطابق' : 'مخالف'
-        );
-    }
-    },
+
     async saveItem(edirableFromTableItem) {
       this.$set(this.createdObject, "loading", true);
       let saveItem;
-      if(this.Recommandation.isEdit){
-    saveItem = await this.api(`global/update_one`, {
-        table: "Recommendations",
-        where: {
-          ID : this.Recommandation.ID
-        },
-        update:this.Recommandation
-      });
 
-   
-      }else{
-      saveItem = await this.api(`global/create_one`, {
-        table: "Recommendations",
-        where: this.Recommandation
-      });
-      }
-    
+        saveItem = await this.api(`global/create_one`, {
+          table: "Situations",
+          where: this.Effect
+        });
 
       if (saveItem && saveItem.data && saveItem.ok) {
         this.showSuccess("تم حفظ ");
@@ -630,74 +406,33 @@ export default {
       this.$set(this.createdObject, "loading", false);
       this.$set(this.createdObject, "model", false);
     },
-    findItems() {
-      this.$set(this, "searchLoading", true);
-      this.$set(this, "items", []);
-      let where = { ...this.search },
-        likes = ["ID", "Recommender"],
-        multi = [];
-      Object.keys(where).forEach(key => {
-        let val = where[key];
-        if (!val && val !== false && val !== 0) {
-          delete where[key];
-          return;
-        }
-        if (likes.includes(key)) {
-          where[key] = {
-            $like: `%${val}%`
-          };
-        } else if (multi.includes(key)) {
-          where[key] = {
-            $in: val
-          };
-        }
-      });
-      this.api("global/get_all", {
-        table: "Recommendations",
-        include: [
-          {
-            model:'Unit'
-          }
-        ],
-        where
-      })
-        .then(x => {
-          let data = x.data,
-            printer = {
-              cons: [...data],
-              excelKey: "cons",
-              excelHeaders: this.headers.filter(f => f.inSearch)
-            };
+    async findItems() {
+        try{
+     if (!this.search.RecuStage || !this.search.UnitID) {
+        this.showError("يجب اختيار المرحلة اولا");
+        return;
+      }
+     this.$refs.effects.search = {
+         RecuStage:this.search.RecuStage,
+         UnitID:this.search.UnitID
+     }
+     await this.$refs.effects.findItems();
 
-          this.$set(this, "items", data);
-          this.$set(this, "printer", printer);
-        })
-        .catch(error => {
+     const res = await this.api("global/get_or_create", {
+          table: "Moving",
+          where: {
+             RecuStage:this.search.RecuStage,
+             UnitID:this.search.UnitID
+          }});
+          this.$set(this,'Trahel' , {
+              ...res.data[0],
+              totalSituations : this.$refs.effects.items.length
+              
+          })
+        }catch(e){
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
-          console.log(error);
-        })
-        .finally(() => {
-          this.$set(this, "searchLoading", false);
-        });
-    },
-    findSolider() {
+        }
 
-      let search = this.search;
-      this.api("global/get_one", {
-        table:"Soldier",
-        search: { ID: this.search.ID }
-      })
-        .then(x => {
-          this.$set(this.Recommandation,'Name' , x.data.Name)
-          
-          this.$set(this.Recommandation,'soldierDirection' , x.data.Directionforunit)
-
-        })
-        .catch(error => {
-          this.findItems();
-        })
-        .finally(() => {
-        });
     },
     init(specificTable = "") {
       // Get selects
@@ -724,11 +459,6 @@ export default {
             .finally(() => {
               this.$set(this.selects[key], "loading", false);
             });
-        } else if (localTable) {
-          this.$set(this.selects[key], "loading", true);
-          let data = this.localTable(localTable);
-          this.$set(this.selects[key], "data", data);
-          this.$set(this.selects[key], "loading", false);
         }
       });
     },
@@ -744,38 +474,28 @@ export default {
       this.$set(this.createdObject, "item", {});
       this.$set(this.createdObject, "model", true);
     },
-    actionEdit(item){
+    actionEdit(item) {
       this.$set(this.createdObject, "model", true);
-      this.$set(this, "Recommandation", {...item,isEdit : true});
+      this.$set(this, "Effect", { ...item, isEdit: true });
     },
-    actionCertificatie(item){
-      this.$confirm(`هل انت متاكد من تغير الحالة` , {
-        title : ``
+    actionCertificatie(item) {
+      this.$confirm(`هل انت متاكد من تغير الحالة`, {
+        title: ``
       }).then(async res => {
-        if(res){
-        await this.api(`global/update_one`, {
-          table: "Recommendations",
-          where: {
-            ID : item.ID
-          },
-          update:{
-            Certification : false
-          }
-      });
-     await this.api(`global/update_one`, {
-          table: "Recommendations",
-          where: {
-            ID :    item.ID,
-            UnitID: item.UnitID
-          },
-          update:{
-            Certification : true
-          }
-      });
+        if (res) {
+          await this.api(`global/update_one`, {
+            table: "Situations",
+            where: {
+              ID: item.ID,
+              SituationID: item.SituationID
+            },
+            update: {
+              Contnuity: item.Contnuity == 'متابع' ? 'غير متابع' : 'متابع'
+            }
+          });
           this.findItems();
-
         }
-    })
+      });
     }
   }
 };

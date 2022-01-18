@@ -79,11 +79,47 @@ const routes = [
     }
   },
   {
+    path: "/tmam_eltarhel",
+    name: "tmam_eltarhel",
+    component: mix.fun.loadView("new_comers/tmam_eltarhel"),
+    meta: {
+      title: "تمام التسجيل",
+      ok: true
+    }
+  },
+  {
+    path: "/malaheq_suggest",
+    name: "malaheq_suggest",
+    component: mix.fun.loadView("new_comers/malaheq_suggest"),
+    meta: {
+      title: "مقترح الملاحق المرحلة",
+      ok: true
+    }
+  }, 
+  {
     path: "/Recommandations",
     name: "Recommandations",
     component: mix.fun.loadView("new_comers/Recommandations"),
     meta: {
       title: "التوصيات",
+      ok: true
+    }
+  },
+  {
+    path: "/effects",
+    name: "effects",
+    component: mix.fun.loadView("new_comers/effects"),
+    meta: {
+      title: "مؤثرات المرحلة",
+      ok: true
+    }
+  },
+  {
+    path: "/tmam_elthr7el",
+    name: "tmam_elthr7el",
+    component: mix.fun.loadView("new_comers/tmam_elthr7el"),
+    meta: {
+      title: "تمام الترحيل",
       ok: true
     }
   },
