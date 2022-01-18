@@ -13,6 +13,14 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true
       },
+      tripleNo:{
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
+      Name:{
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
       Recommender: {
         type: DataTypes.STRING(100),
         allowNull: false,

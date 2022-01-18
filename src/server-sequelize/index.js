@@ -70,10 +70,8 @@ Object.keys(databases).forEach(dbKey => {
     /*if (customIncludes(model.name, "dafater", "Services")) {
       model.sync({ alter: true });
     }*/
-    console.log(model.name);
     db[model.name] = model;
     // if (model.name == "cardsCertificants" || model.name == "cardsTracking") {
-    //   console.log(model.name);
     //   model.sync({ alter: true }).catch(err => {
     //     console.log(err);
     //   });
