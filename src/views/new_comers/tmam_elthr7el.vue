@@ -1,12 +1,8 @@
 <template>
   <div>
-    <v-card v-if="!parentFilters" :loading="searchLoading" :disabled="searchLoading">
+    <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في مؤثرات
-        <v-spacer></v-spacer>
-        <v-btn @click="actionAdd()" large outlined color="primary">
-          إضافة مؤثر
-        </v-btn>
+        بحث متقدم في تمام الترحيلات 
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -121,79 +117,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card class="mt-8">
-      <v-card-title>
-        المؤثرات
-        <v-spacer></v-spacer>
-        <printer-menu
-          :disabled="items.length == 0"
-          :data="printer"
-          :fab="false"
-        ></printer-menu>
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-data-table
-        :headers="headers.filter(h => h.inTable)"
-        :items="items"
-        hide-default-header
-        fixed-header
-        multi-sort
-      >
-        <template v-slot:header="table">
-          <table-header-filters
-            :items="items"
-            :table="table"
-            :filters.sync="tableFilters"
-          ></table-header-filters>
-        </template>
-        <template v-slot:footer="table">
-          <table-footer-filters
-            :filters.sync="tableFilters"
-            :table="table"
-          ></table-footer-filters>
-        </template>
-        <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
-        <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
-
-        <template v-slot:item.Contnuity="{ item }">
-          <v-chip
-            @click="actionCertificatie(item)"
-            :color="item.Contnuity == 'متابع' ? 'success' : 'gray'"
-          >
-            {{
-              item.Contnuity
-            }}
-          </v-chip>
-        </template>
-      </v-data-table>
-    </v-card>
-   
-    <v-dialog
-      persistent
-      v-model="createdObject.model"
-      scrollable
-      max-width="750"
-    >
-      <v-card
-        :loading="createdObject.loading"
-        :disabled="createdObject.loading"
-      >
+    <v-card v-if="Trahel.UnitID" >
         <v-card-title>
           <v-spacer></v-spacer>
           <v-btn @click="createdObject.model = false" icon>
@@ -213,11 +137,10 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="Effect[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
-                  @keypress.enter="findSolider()"
                 ></v-text-field>
                 <v-autocomplete
                   v-else-if="h.type == 'select'"
@@ -225,7 +148,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="Effect[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -246,7 +169,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="Effect[h.searchValue]"
+                  v-model="createdObject.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -262,7 +185,7 @@
                   :disabled="h.readonly"
                 >
                   <v-btn-toggle
-                    v-model="Effect[h.searchValue]"
+                    v-model="createdObject.item[h.searchValue]"
                     class="d-block"
                     mandatory
                   >
@@ -270,7 +193,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Effect[h.searchValue] === true
+                        createdObject.item[h.searchValue] === true
                           ? 'error white--text'
                           : ''
                       "
@@ -281,7 +204,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Effect[h.searchValue] === false
+                        createdObject.item[h.searchValue] === false
                           ? 'success white--text'
                           : ''
                       "
@@ -313,22 +236,22 @@
           ></v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+
+    <Effects ref="effects" :parentFilters="true"></Effects>
+   
   </div>
 </template>
 
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const Effects = require("./effects");
 
 export default {
-  name: "Effects",
-  props: {
-    parentFilters: {
-      type: Object,
-      default: () => {}
-    }
-  },
+  components: {
+    Effects: () => import("@/views/new_comers/effects.vue"),
+    },
+  name: "tmam_elthr7el",
   mounted() {
     // this.initDates();
     this.init();
@@ -339,7 +262,7 @@ export default {
     }
   },
   data: () => ({
-    Effect: {},
+    Trahel: {},
     groupedValue: [],
     subjectLimit: 10,
     createdObject: {
@@ -359,21 +282,47 @@ export default {
     search: {},
     searchLoading: false,
     headers: [
-      {
-        text: "الرقم العسكري",
-        value: "ID",
-        searchValue: "ID",
+  {
+        text: "المرحل",
+        value: "Moved",
+        searchValue: "",
         sortable: true,
         type: "text",
-        inSearch: true,
+        inSearch: false,
         inTable: true,
         inModel: true,
+        readonly: false,
         sort: 1
       },
       {
-        text: "الاسم",
-        value: "Soldier.Name",
-        searchValue: "Name",
+        text: "اجمالي المواقف",
+        value: "totalSituations",
+        searchValue: "",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: true,
+        sort: 1
+      },
+        {
+        text: "اجمالي الملاحق",
+        value: "totalFollowings",
+        searchValue: "",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: true,
+        sort: 1
+      },
+     
+      {
+        text: "المرحل",
+        value: "Moved",
+        searchValue: "",
         sortable: true,
         type: "text",
         inSearch: false,
@@ -394,28 +343,6 @@ export default {
         sort: 1
       },
       {
-        text: "الموقف",
-        value: "SituationState.Situation",
-        searchValue: "SituationID",
-        sortable: true,
-        type: "select",
-        inSearch: true,
-        inTable: true,
-        inModel: true,
-        sort: 2
-      },
-      {
-        text: "ملاحظات",
-        value: "SituationNotes",
-        searchValue: "SituationNotes",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        sort: 3
-      },
-          {
         text: "الوحدة",
         value: "Unit",
         searchValue: "UnitID",
@@ -426,28 +353,11 @@ export default {
         inModel: false,
         sort: 1
       },
-      {
-        text: "المتابعة",
-        value: "Contnuity",
-        searchValue: "Contnuity",
-        sortable: true,
-        type: "select",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly: false,
-        sort: 5
-      }
     ],
     items: [],
     tableFilters: {},
     componentName: "createdObject",
     selects: {
-      SituationID: {
-        table: "SituationStates",
-        value: "SituationID",
-        text: "Situation"
-      },
       RecuStage: {
         text: "text",
         value: "text",
@@ -462,16 +372,6 @@ export default {
         value: "UnitID",
         text: "Unit"
       },
-      Contnuity:{
-        text: "text",
-        value: "text",
-        data: [{
-            text : "متابع"
-        }, {
-            text : 'غير متابع'
-        }]
-      },
-      
     },
     printer: {}
   }),
@@ -506,76 +406,33 @@ export default {
       this.$set(this.createdObject, "loading", false);
       this.$set(this.createdObject, "model", false);
     },
-    findItems() {
-      this.$set(this, "searchLoading", true);
-      this.$set(this, "items", []);
-      let where = { ...this.search, RecuStage: null, UnitID:null },
-        likes = ["ID"],
-        multi = [];
-      Object.keys(where).forEach(key => {
-        let val = where[key];
-        if (!val && val !== false && val !== 0) {
-          delete where[key];
-          return;
-        }
-        if (likes.includes(key)) {
-          where[key] = {
-            $like: `%${val}%`
-          };
-        } else if (multi.includes(key)) {
-          where[key] = {
-            $in: val
-          };
-        }
-      });
-      this.api("global/get_all", {
-        table: "Situations",
-        include: [
-          {
-            model: "SituationStates"
-          },
-          {
-            model: "Soldier",
-            where: this.cleanObject(  {
-                  UnitID:this.search.UnitID,
-                  RecuStage: this.search.RecuStage
-              })
-          }
-        ],
-        where
-      })
-        .then(x => {
-          let data = x.data,
-            printer = {
-              cons: [...data],
-              excelKey: "cons",
-              excelHeaders: this.headers.filter(f => f.inSearch)
-            };
+    async findItems() {
+        try{
+     if (!this.search.RecuStage || !this.search.UnitID) {
+        this.showError("يجب اختيار المرحلة اولا");
+        return;
+      }
+     this.$refs.effects.search = {
+         RecuStage:this.search.RecuStage,
+         UnitID:this.search.UnitID
+     }
+     await this.$refs.effects.findItems();
 
-          this.$set(this, "items", data);
-          this.$set(this, "printer", printer);
-        })
-        .catch(error => {
+     const res = await this.api("global/get_or_create", {
+          table: "Moving",
+          where: {
+             RecuStage:this.search.RecuStage,
+             UnitID:this.search.UnitID
+          }});
+          this.$set(this,'Trahel' , {
+              ...res.data[0],
+              totalSituations : this.$refs.effects.items.length
+              
+          })
+        }catch(e){
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
-          console.log(error);
-        })
-        .finally(() => {
-          this.$set(this, "searchLoading", false);
-        });
-    },
-    findSolider() {
-      let search = this.search;
-      this.api("global/get_one", {
-        table: "Soldier",
-        search: { ID: this.search.ID }
-      })
-        .then(x => {
-          this.$set(this.Effect, "Name", x.data.Name);
+        }
 
-        })
-        .catch(error => {
-        })
-        .finally(() => {});
     },
     init(specificTable = "") {
       // Get selects
@@ -627,7 +484,7 @@ export default {
       }).then(async res => {
         if (res) {
           await this.api(`global/update_one`, {
-table: "Situations",
+            table: "Situations",
             where: {
               ID: item.ID,
               SituationID: item.SituationID

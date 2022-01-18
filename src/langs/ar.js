@@ -156,7 +156,8 @@ var _default = {
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
         effects: "مؤثرات المرحلة",
-        trained_duty: "حصر الواجب المدرب عليه"
+        trained_duty: "حصر الواجب المدرب عليه",
+        tmam_elthr7el: "تمام الترحيل"
       },
       "3": {
         _self: "قسم الإنهاء",

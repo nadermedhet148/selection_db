@@ -97,6 +97,15 @@ const routes = [
     }
   },
   {
+    path: "/tmam_elthr7el",
+    name: "tmam_elthr7el",
+    component: mix.fun.loadView("new_comers/tmam_elthr7el"),
+    meta: {
+      title: "تمام الترحيل",
+      ok: true
+    }
+  },
+  {
     path: "/followup",
     name: "followup",
     component: mix.fun.loadView("Global/Footer/Followup"),

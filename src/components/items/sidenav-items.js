@@ -443,6 +443,13 @@ let nozom = function(t) {
         text: new_comers("effects"),
         href: "/effects",
         onlySegelat: true
+      },
+      {
+        type: "single",
+        icon: "mdi-update",
+        text: new_comers("tmam_elthr7el"),
+        href: "/tmam_elthr7el",
+        onlySegelat: true
       }
     ],
     // ../new_comerstyat

@@ -512,6 +512,14 @@ Vue.mixin({
       }
       return;
     },
+      cleanObject(obj) {
+            for (var prop in obj) {
+                if (obj[prop] === null || obj[prop] === undefined) {
+                    delete obj[prop];
+                }
+            }
+            return obj;
+      },
     copyText(text) {
       navigator.permissions
         .query({
