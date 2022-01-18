@@ -325,10 +325,6 @@ const lodash = require("lodash");
 
 export default {
   name: "malaheqSuggest",
-  components : {
-    AppSearch: () => import("@/components/global/app-search.vue"),
-
-  },
   mounted() {
     // this.initDates();
     this.init();
