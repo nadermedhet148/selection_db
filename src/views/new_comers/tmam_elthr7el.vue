@@ -117,7 +117,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card v-if="Trahel.UnitID" >
+    <v-card v-if="createdObject.item.UnitID" >
         <v-card-title>
           <v-spacer></v-spacer>
           <v-btn @click="createdObject.model = false" icon>
@@ -221,14 +221,6 @@
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
-            outlined
-            large
-            class="px-6"
-            @click="createdObject.model = false"
-            v-text="'رجوع'"
-          ></v-btn>
-          <v-btn
-            color="primary"
             large
             class="px-6"
             @click="saveItem()"
@@ -238,6 +230,7 @@
       </v-card>
 
     <Effects ref="effects" :parentFilters="true"></Effects>
+    <Elt7aq  ref="elt7aq" :parentFilters="true"></Elt7aq>
    
   </div>
 </template>
@@ -250,10 +243,10 @@ const Effects = require("./effects");
 export default {
   components: {
     Effects: () => import("@/views/new_comers/effects.vue"),
+    Elt7aq: () => import("@/views/new_comers/malaheq_suggest.vue"),
     },
   name: "tmam_elthr7el",
   mounted() {
-    // this.initDates();
     this.init();
   },
   filters: {
@@ -282,10 +275,22 @@ export default {
     search: {},
     searchLoading: false,
     headers: [
+        {
+        text: "المخصص",
+        value: "TotalSpecified",
+        searchValue: "TotalSpecified",
+        sortable: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        inModel: true,
+        readonly: false,
+        sort: 1
+      },
   {
         text: "المرحل",
         value: "Moved",
-        searchValue: "",
+        searchValue: "Moved",
         sortable: true,
         type: "text",
         inSearch: false,
@@ -297,7 +302,7 @@ export default {
       {
         text: "اجمالي المواقف",
         value: "totalSituations",
-        searchValue: "",
+        searchValue: "totalSituations",
         sortable: true,
         type: "text",
         inSearch: false,
@@ -309,7 +314,7 @@ export default {
         {
         text: "اجمالي الملاحق",
         value: "totalFollowings",
-        searchValue: "",
+        searchValue: "totalFollowings",
         sortable: true,
         type: "text",
         inSearch: false,
@@ -319,18 +324,9 @@ export default {
         sort: 1
       },
      
-      {
-        text: "المرحل",
-        value: "Moved",
-        searchValue: "",
-        sortable: true,
-        type: "text",
-        inSearch: false,
-        inTable: true,
-        inModel: true,
-        readonly: true,
-        sort: 1
-      },
+
+    
+
       {
         text: "المرحلة",
         value: "RecuStage",
@@ -391,9 +387,13 @@ export default {
       this.$set(this.createdObject, "loading", true);
       let saveItem;
 
-        saveItem = await this.api(`global/create_one`, {
-          table: "Situations",
-          where: this.Effect
+        saveItem = await this.api(`global/update_one`, {
+          table: "Moving",
+          where: {
+             RecuStage:this.search.RecuStage,
+             UnitID:this.search.UnitID
+          },
+          update: this.createdObject.item
         });
 
       if (saveItem && saveItem.data && saveItem.ok) {
@@ -418,16 +418,31 @@ export default {
      }
      await this.$refs.effects.findItems();
 
+
+    this.$refs.elt7aq.search = {
+         RecuStage:this.search.RecuStage,
+         UnitID:this.search.UnitID
+     }
+     await this.$refs.elt7aq.findItems();
+
      const res = await this.api("global/get_or_create", {
           table: "Moving",
           where: {
              RecuStage:this.search.RecuStage,
              UnitID:this.search.UnitID
           }});
-          this.$set(this,'Trahel' , {
+          this.$set(this.createdObject,'item' , {
               ...res.data[0],
-              totalSituations : this.$refs.effects.items.length
+              totalSituations : this.$refs.effects.items.length,
+              totalFollowings: this.$refs.elt7aq.items.length
               
+          })
+          console.log({
+              ...res.data[0],
+              totalSituations : this.$refs.effects.items.length,
+              totalFollowings: this.$refs.elt7aq.items.length
+              
+          
           })
         }catch(e){
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");

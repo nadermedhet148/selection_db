@@ -12,6 +12,10 @@ module.exports = function(sequelize, DataTypes) {
           key: "UnitID"
         }
       },
+      TotalSpecified:{
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       RecuStage: {
         type: DataTypes.STRING(50),
         allowNull: false,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card :loading="searchLoading" :disabled="searchLoading">
+    <v-card v-if="!parentFilters" :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
         مقترح ملاحق المرحلة
         <v-spacer></v-spacer>
@@ -115,7 +115,7 @@
 
     <v-card class="mt-8">
       <v-card-title>
-        التوصيات
+        الملاحق
         <v-spacer></v-spacer>
         <printer-menu
           :disabled="items.length == 0"
@@ -325,6 +325,12 @@ const lodash = require("lodash");
 
 export default {
   name: "malaheqSuggest",
+  props: {
+    parentFilters: {
+      type: Boolean,
+      default: () => {}
+    }
+  },
   mounted() {
     // this.initDates();
     this.init();

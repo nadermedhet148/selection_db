@@ -325,7 +325,7 @@ export default {
   name: "Effects",
   props: {
     parentFilters: {
-      type: Object,
+      type: Boolean,
       default: () => {}
     }
   },
