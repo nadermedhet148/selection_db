@@ -479,8 +479,7 @@ let nozom = function(t) {
         icon: "mdi-update",
         text: new_comers("effects"),
         href: "/effects",
-        onlySegelat: true
-        text: new_comers("effects"),
+        onlySegelat: true,
         href: "/effects",
         onlySegelat: true
       },
