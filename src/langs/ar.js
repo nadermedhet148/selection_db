@@ -160,6 +160,7 @@ var _default = {
         trained_duty: "حصر الواجب المدرب عليه",
         tmam_eltarhel: "تمام الترحيل",
         malaheq_suggest:"مقترح ملاحق المرحلة",
+        effects: "مؤثرات المرحلة",
         trained_duty: "حصر الواجب المدرب عليه",
         tmam_elthr7el: "تمام الترحيل"
       },
