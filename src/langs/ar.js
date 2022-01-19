@@ -157,7 +157,7 @@ var _default = {
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
         following_reserved_injuries: "مصابي النقل على الإحتياط",
-        trained_duty: "حصر الواجب المدرب عليه",
+        soliders_brothers: "الاشقاء",
         tmam_eltarhel: "تمام الترحيل",
         malaheq_suggest:"مقترح ملاحق المرحلة",
         effects: "مؤثرات المرحلة",

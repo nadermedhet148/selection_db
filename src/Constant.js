@@ -1,4 +1,6 @@
 export default {
+
+  recommendationPassword : 'qwerty',
   SoldierLevel: {
     text: "text",
     value: "text",

@@ -228,8 +228,8 @@ function initModels(sequelize) {
   //   as: "Situations",
   //   foreignKey: "SituationID"
   // });
-  Brothers.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
-  Soldier.hasOne(Brothers, { as: "Brother", foreignKey: "ID" });
+  Brothers.belongsTo(Soldier, { foreignKey: "ID" });
+  Soldier.hasOne(Brothers, { foreignKey: "ID" });
   Followers.belongsTo(Soldier, {  foreignKey: "ID" });
   // Soldier.hasMany(Followers, { as: "Followers", foreignKey: "ID" });
   SituationDecision.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });

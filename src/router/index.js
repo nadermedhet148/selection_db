@@ -124,6 +124,15 @@ const routes = [
     }
   },
   {
+    path: "/soliders_brothers",
+    name: "v",
+    component: mix.fun.loadView("new_comers/soliders_brothers"),
+    meta: {
+      title: "الاشقاء",
+      ok: true
+    }
+  },
+  {
     path: "/followup",
     name: "followup",
     component: mix.fun.loadView("Global/Footer/Followup"),
