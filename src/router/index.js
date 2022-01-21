@@ -124,6 +124,15 @@ const routes = [
     }
   },
   {
+    path: "/dalies",
+    name: "dalies",
+    component: mix.fun.loadView("new_comers/dalies"),
+    meta: {
+      title: "اليوميات العديدة",
+      ok: true
+    }
+  },
+  {
     path: "/soliders_brothers",
     name: "v",
     component: mix.fun.loadView("new_comers/soliders_brothers"),

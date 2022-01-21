@@ -16,6 +16,12 @@ export default {
     value: "text",
     data: [...["اخري", "مسيحي", "مسلم"].map(text => ({ text }))]
   },
+  levelMapping : {
+    عليا: "High",
+    "فوق متوسطة": "AboveAvg",
+    متوسطه: "Avg",
+    عادة: "Normal"
+  },
   RecommendTypes: {
     data: [...["مقترح فعلي", "مقترح اثناء التوزيع"].map(text => ({ text }))]
   },

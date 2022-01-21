@@ -467,6 +467,13 @@ let nozom = function(t) {
         text: new_comers("soliders_brothers"),
         href: "/soliders_brothers",
         onlySegelat: true
+      },
+      {
+        type: "single",
+        icon: "mdi-update",
+        text: new_comers("dalies"),
+        href: "/dalies",
+        onlySegelat: true
       }
     ],
     // ../new_comerstyat

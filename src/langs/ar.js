@@ -156,6 +156,7 @@ var _default = {
         recommandations: "التوصيات",
         other_edarat_radeef: "رديف الإدارات الأخرى",
         lates: "المتأخرات",
+        dalies: "اليوميات العديدة",
         following_reserved_injuries: "مصابي النقل على الإحتياط",
         soliders_brothers: "الاشقاء",
         tmam_eltarhel: "تمام الترحيل",
