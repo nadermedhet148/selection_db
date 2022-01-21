@@ -186,6 +186,8 @@ function initModels(sequelize) {
   City.hasMany(SMSoldier, { foreignKey: "CityID" });
   Soldier.belongsTo(City, { foreignKey: "CityID" });
   City.hasMany(Soldier, { foreignKey: "CityID" });
+  SelectionSoldier.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(SelectionSoldier, { foreignKey: "CityID" });
   Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
   Duty.hasMany(Soldier, { foreignKey: "DutyID" });
   Followers.belongsTo(FollowingRigion, {
@@ -201,7 +203,7 @@ function initModels(sequelize) {
   FollowingRigion.hasMany(FollowingNos, {
     foreignKey: "FollowRigionID"
   });
-  UserPermissions.belongsTo(MyUsers, {  foreignKey: "UserId" });
+  UserPermissions.belongsTo(MyUsers, { foreignKey: "UserId" });
   MyUsers.hasMany(UserPermissions, {
     foreignKey: "UserId"
   });
@@ -230,7 +232,7 @@ function initModels(sequelize) {
   // });
   Brothers.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
   Soldier.hasOne(Brothers, { as: "Brother", foreignKey: "ID" });
-  Followers.belongsTo(Soldier, {  foreignKey: "ID" });
+  Followers.belongsTo(Soldier, { foreignKey: "ID" });
   // Soldier.hasMany(Followers, { as: "Followers", foreignKey: "ID" });
   SituationDecision.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
   Soldier.hasMany(SituationDecision, {

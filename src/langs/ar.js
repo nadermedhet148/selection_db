@@ -147,7 +147,6 @@ var _default = {
         penalties: "العقوبات"
       },
       "2": {
-        
         _self: "قسم المستجدين",
         tmam_elwosol: "تمام الوصول",
         distributed_suggest: "مقترح التوزيع",
@@ -159,7 +158,7 @@ var _default = {
         following_reserved_injuries: "مصابي النقل على الإحتياط",
         trained_duty: "حصر الواجب المدرب عليه",
         tmam_eltarhel: "تمام الترحيل",
-        malaheq_suggest:"مقترح ملاحق المرحلة",
+        malaheq_suggest: "مقترح ملاحق المرحلة",
         effects: "مؤثرات المرحلة",
         trained_duty: "حصر الواجب المدرب عليه",
         tmam_elthr7el: "تمام الترحيل"
@@ -248,8 +247,14 @@ var _default = {
         tsgel: "أسئلة التسجيل",
         anhaa: "أسئلة الانهاء",
         hasb: "أسئلة الحاسب"
-      }
+      },
       // ! You can't use '12' because it's for nozom
+      "13": {
+        // cards in_service and out_service
+        _self: "الإنتقاء",
+        soldiers: "الجنود",
+        rateb3ali: "الراتب العالي"
+      }
     },
     language: "اللغة",
     theme: "السمات",
