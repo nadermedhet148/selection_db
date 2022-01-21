@@ -539,6 +539,39 @@ Vue.mixin({
       });
       return where;
     },
+    init(specificTable = "") {
+      // Get selects
+      Object.keys(this.selects).forEach(key => {
+        let {
+          table,
+          localTable,
+          text,
+          value
+        } = this.selects[key];
+        if (table) {
+          let obj = {
+            table
+          };
+          // obj.attrs = [text, value];
+          this.$set(this.selects[key], "loading", true);
+          this.api("global/get_all", obj)
+            .then(x => {
+              this.$set(this.selects[key], "data", x.data);
+            })
+            .catch(error => {
+              console.log(error);
+              this.$set(
+                this.selects[key],
+                "error",
+                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
+              );
+            })
+            .finally(() => {
+              this.$set(this.selects[key], "loading", false);
+            });
+        }
+      });
+    },
     copyText(text) {
       navigator.permissions
         .query({
@@ -722,8 +755,8 @@ Vue.mixin({
           return null;
         } else {
           return `${fixed.getFullYear()}-${Number(fixed.getMonth() + 1).toString().length > 1
-              ? Number(fixed.getMonth() + 1)
-              : "0" + Number(fixed.getMonth() + 1)
+            ? Number(fixed.getMonth() + 1)
+            : "0" + Number(fixed.getMonth() + 1)
             }-${fixed.getDate().toString().length > 1
               ? fixed.getDate()
               : "0" + fixed.getDate()
@@ -749,8 +782,8 @@ Vue.mixin({
         } else {
           // 2020-12-16T10:15
           return `${fixed.getFullYear()}-${Number(fixed.getMonth() + 1).toString().length > 1
-              ? Number(fixed.getMonth() + 1)
-              : "0" + Number(fixed.getMonth() + 1)
+            ? Number(fixed.getMonth() + 1)
+            : "0" + Number(fixed.getMonth() + 1)
             }-${fixed.getDate().toString().length > 1
               ? fixed.getDate()
               : "0" + fixed.getDate()

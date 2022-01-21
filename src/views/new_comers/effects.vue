@@ -49,6 +49,8 @@
         <v-divider></v-divider>
         <v-card-actions class="px-4 py-4">
             <v-btn class="px-6" @click="findItems()" large color="primary" v-text="'بحث'"></v-btn>
+            <v-btn class="px-6" @click="SituationsTable.displayed = true" v-if="SituationsTable.items.length > 0" large color="primary" v-text="'عرض اليومية'"></v-btn>
+
         </v-card-actions>
     </v-card>
 
@@ -70,6 +72,19 @@
         </template>
 
     </table-bulider>
+
+    <v-dialog persistent v-model="SituationsTable.displayed" scrollable max-width="750">
+        <v-card>
+            <v-btn @click="SituationsTable.displayed = false" icon>
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <table-bulider :headers="SituationsTable.headers" 
+                           :printer="SituationsTable.printer"
+                           :items="SituationsTable.items" :title="'يومية عددية بالمؤاثرات'">
+
+            </table-bulider>
+        </v-card>
+    </v-dialog>
 
     <v-dialog persistent v-model="createdObject.model" scrollable max-width="750">
         <v-card :loading="createdObject.loading" :disabled="createdObject.loading">
@@ -141,11 +156,6 @@ export default {
     mounted() {
         // this.initDates();
         this.init();
-    },
-    filters: {
-        filterStrLimit(str, limit) {
-            return `${str.length <= limit ? str : str.substr(0, limit) + ".."}`;
-        }
     },
     data: () => ({
         Effect: {},
@@ -247,6 +257,27 @@ export default {
                     readonly: false,
                     sort: 5
                 }
+            ],
+            items: [],
+            printer: {}
+        },
+        SituationsTable: {
+            displayed: false,
+            headers: [{
+                    text: "الموقف",
+                    value: "Situation",
+                    sortable: true,
+                    inTable: true,
+                    sort: 2
+                },
+                {
+                    text: "العدد",
+                    value: "total",
+                    sortable: true,
+                    inTable: true,
+                    sort: 1
+                },
+
             ],
             items: [],
             printer: {}
@@ -358,14 +389,26 @@ export default {
                 .then(x => {
                     let data = x.data,
                         printer = {
-                            cons: [...data],
-                            excelKey: "cons",
-                            excelHeaders: this.headers.filter(f => f.inSearch)
+                            data: [...data],
+                            excelKey: "data",
+                            excelHeaders: this.mainTable.headers.filter(f => f.inTable)
                         };
 
                     this.$set(this.mainTable, "items", data);
-                    console.log(_.groupBy(data, 'SituationState.Situation'))
                     this.$set(this.mainTable, "printer", printer);
+
+                    const groupdWithSituation = _.groupBy(data, 'SituationState.Situation');
+
+                    this.$set(this.SituationsTable, "items", Object.keys(groupdWithSituation).map(key => ({
+                        Situation: key,
+                        total: groupdWithSituation[key].length
+                    })));
+                    this.$set(this.SituationsTable, "printer", {
+                        data: this.SituationsTable.items,
+                        excelKey: "data",
+                        excelHeaders: this.SituationsTable.headers.filter(f => f.inTable)
+                    });
+
                 })
                 .catch(error => {
                     this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
@@ -390,41 +433,9 @@ export default {
                 .catch(error => {})
                 .finally(() => {});
         },
-        init(specificTable = "") {
-            // Get selects
-            Object.keys(this.selects).forEach(key => {
-                let {
-                    table,
-                    localTable,
-                    text,
-                    value
-                } = this.selects[key];
-                if (table) {
-                    let obj = {
-                        table
-                    };
-                    // obj.attrs = [text, value];
-                    this.$set(this.selects[key], "loading", true);
-                    this.api("global/get_all", obj)
-                        .then(x => {
-                            this.$set(this.selects[key], "data", x.data);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            this.$set(
-                                this.selects[key],
-                                "error",
-                                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-                            );
-                        })
-                        .finally(() => {
-                            this.$set(this.selects[key], "loading", false);
-                        });
-                }
-            });
-        },
+
         initDates() {
-            let dates = this.headers
+            let dates = this.mainTable.headers
                 .filter(h => h.type == "date")
                 .map(h => h.searchValue);
             dates.forEach(d => {
