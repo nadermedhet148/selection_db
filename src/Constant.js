@@ -22,6 +22,19 @@ export default {
     متوسطه: "Avg",
     عادة: "Normal"
   },
+  levelMapping : {
+    عليا: "High",
+    "فوق متوسطة": "AboveAvg",
+    متوسطه: "Avg",
+    عادة: "Normal"
+  },
+  levelMappingEn : {
+    "High" : 'عليا',
+    "Avg" : 'متوسطه',
+    "Normal" : 'عادة',
+    "AboveAvg" : "فوق متوسطة",
+
+  },
   RecommendTypes: {
     data: [...["مقترح فعلي", "مقترح اثناء التوزيع"].map(text => ({ text }))]
   },

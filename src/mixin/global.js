@@ -520,7 +520,7 @@ Vue.mixin({
       }
       return Object.keys(obj).length > 0 ? obj : null;
     },
-    mapToQuery(where, likes, multi) {
+    mapToQuery(where, likes, multi, dates = []) {
       Object.keys(where).forEach(key => {
         let val = where[key];
         if (!val && val !== false && val !== 0) {
@@ -535,9 +535,36 @@ Vue.mixin({
           where[key] = {
             $in: val
           };
+        } else if (dates.includes(key)) {
+          let f1 = val[0],
+            f2 = val[1];
+          if (f1 || f2) {
+            where[key] =
+              f1 && f2
+                ? {
+                  $between: [new Date(f1), new Date(f2)]
+                }
+                : f1 && !f2
+                  ? {
+                    $gte: new Date(f1)
+                  }
+                  : {
+                    $lte: new Date(f2)
+                  };
+          } else {
+            delete where[key];
+          }
         }
       });
       return where;
+    },
+    log(item) {
+      console.log("====================================");
+      console.log("item", item);
+      console.log("====================================");
+    },
+    runFun(f) {
+      return this[f]();
     },
     init(specificTable = "") {
       // Get selects
