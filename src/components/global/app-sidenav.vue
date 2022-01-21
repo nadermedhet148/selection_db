@@ -354,7 +354,7 @@ export default {
     sections_icons: [
       "mdi-shield-star-outline",
       "mdi-file-document-edit-outline",
-      "mdi-account-off-outline",
+      "mdi-account",
       "mdi-account-box-multiple-outline",
       "mdi-account-question-outline",
       "mdi-movie"

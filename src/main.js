@@ -76,6 +76,9 @@ Vue.component("table-header-groups", () =>
 Vue.component("table-header-filters", () =>
   import("@/components/global/table/header-filters.vue")
 );
+Vue.component("table-bulider", () =>
+  import("@/components/global/table/table-bulider.vue")
+);
 // Vue.component("table-header-filters-old", () =>
 //   import("@/components/global/table/header-filters-old.vue")
 // );

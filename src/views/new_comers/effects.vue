@@ -121,46 +121,11 @@
       </v-card-actions>
     </v-card>
 
-    <v-card class="mt-8">
-      <v-card-title>
-        المؤثرات
-        <v-spacer></v-spacer>
-        <printer-menu
-          :disabled="items.length == 0"
-          :data="printer"
-          :fab="false"
-        ></printer-menu>
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-data-table
-        :headers="headers.filter(h => h.inTable)"
-        :items="items"
-        hide-default-header
-        fixed-header
-        multi-sort
-      >
-        <template v-slot:header="table">
-          <table-header-filters
-            :items="items"
-            :table="table"
-            :filters.sync="tableFilters"
-          ></table-header-filters>
-        </template>
-        <template v-slot:footer="table">
-          <table-footer-filters
-            :filters.sync="tableFilters"
-            :table="table"
-          ></table-footer-filters>
-        </template>
-        <template v-slot:item.ID="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.ID)"
-          >
-            {{ item.ID }}
-          </v-chip>
-        </template>
+
+
+    <table-bulider :headers="headers" :printer="printer" :items="items">
+    
+
         <template v-slot:item.ID="{ item }">
           <v-chip
             color="transparent"
@@ -180,9 +145,10 @@
               item.Contnuity
             }}
           </v-chip>
-        </template>
-      </v-data-table>
-    </v-card>
+
+          </template>
+
+    </table-bulider>
    
     <v-dialog
       persistent
@@ -553,6 +519,7 @@ export default {
             };
 
           this.$set(this, "items", data);
+          console.log(_.groupBy(data, 'SituationState.Situation'))
           this.$set(this, "printer", printer);
         })
         .catch(error => {

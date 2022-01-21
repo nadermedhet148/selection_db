@@ -411,7 +411,7 @@ let nozom = function(t) {
     new_comers: [
       {
         type: "single",
-        icon: "mdi-update",
+        icon: "mdi-new-box",
         text: new_comers("tmam_elwosol"),
         href: "/tmam_elwosol",
         onlySegelat: true
