@@ -43,41 +43,16 @@
             <v-btn class="px-6" @click="calculateReqRegionWithDirction()" large color="primary" v-text="'يومية عددية بمناطق التجنيد والإتجاهات'"></v-btn>
             <v-btn class="px-6" @click="calculateReqRegionWithKnowloadage()" large color="primary" v-text="'يومية عددية بمناطق التجنيد والمؤهلات'"></v-btn>
             <v-btn class="px-6" @click="calculateCityWithKnowloadage()" large color="primary" v-text="'يومية عددية بالمحافظات والمؤهلات'"></v-btn>
+            <v-btn class="px-6" @click="calculateUnitWithKnowloadage()" large color="primary" v-text="'يومية عددية بالواحدات والمؤهلات'"></v-btn>
+
         </v-card-actions>
     </v-card>
 
     <v-card class="mt-8" v-if="items.length > 0">
-        <v-card-title>
-            <v-spacer></v-spacer>
-            <printer-menu :disabled="items.length == 0" :data="printer" :fab="false"></printer-menu>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-data-table :headers="headers.filter(h => h.inTable)" :items="items" hide-default-header fixed-header multi-sort>
-            <template v-slot:header="table">
-                <table-header-filters :items="items" :table="table" :filters.sync="tableFilters"></table-header-filters>
-            </template>
-            <template v-slot:footer="table">
-                <table-footer-filters :filters.sync="tableFilters" :table="table"></table-footer-filters>
-            </template>
-            <template v-slot:item.ID="{ item }">
-                <v-chip color="transparent" :to="`/soldiers_plus/${item.ID}`" @click.right="copyText(item.ID)">
-                    {{ item.ID }}
-                </v-chip>
-            </template>
-            <template v-slot:item.ID="{ item }">
-                <v-chip color="transparent" :to="`/soldiers_plus/${item.ID}`" @click.right="copyText(item.ID)">
-                    {{ item.ID }}
-                </v-chip>
-            </template>
 
-            <template v-slot:item.Contnuity="{ item }">
-                <v-chip @click="actionCertificatie(item)" :color="item.Contnuity == 'متابع' ? 'success' : 'gray'">
-                    {{
-              item.Contnuity
-            }}
-                </v-chip>
-            </template>
-        </v-data-table>
+        <table-bulider :headers="headers.filter(h => h.inTable)" :items="items" :printer="printer">
+
+        </table-bulider>
     </v-card>
 
 </div>
@@ -169,13 +144,18 @@ export default {
                 },
                 likes = ["ID"],
                 multi = [];
-         
+
             return this.api("global/get_all", {
                 table: "Soldier",
-                where : this.mapToQuery(where, likes , multi),
+                where: this.mapToQuery(where, likes, multi),
                 include: [{
-                    model: 'City'
-                }]
+                        model: 'City'
+                    },
+                    {
+                        model: 'Unit'
+                    }
+
+                ]
             })
         },
         calculateReqRegionWithDirction() {
@@ -323,37 +303,49 @@ export default {
                     this.$set(this, "searchLoading", false);
                 });
         },
-        init(specificTable = "") {
-            // Get selects
-            Object.keys(this.selects).forEach(key => {
-                let {
-                    table,
-                    localTable,
-                    text,
-                    value
-                } = this.selects[key];
-                if (table) {
-                    let obj = {
-                        table
-                    };
-                    // obj.attrs = [text, value];
-                    this.$set(this.selects[key], "loading", true);
-                    this.api("global/get_all", obj)
-                        .then(x => {
-                            this.$set(this.selects[key], "data", x.data);
-                        })
-                        .catch(error => {
-                            this.$set(
-                                this.selects[key],
-                                "error",
-                                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-                            );
-                        })
-                        .finally(() => {
-                            this.$set(this.selects[key], "loading", false);
-                        });
-                }
-            });
+        calculateUnitWithKnowloadage() {
+            this.findItems().then(x => {
+                    let data = x.data,
+                        printer = {
+                            cons: [...data],
+                            excelKey: "cons",
+                            excelHeaders: this.headers.filter(f => f.inSearch)
+                        };
+
+                    const groupdData = {}
+
+                    data.forEach(ele => {
+                        groupdData[`${ele.Unit.Unit}`] = groupdData[`${ele.Unit.Unit}`] || {
+                            Unit: ele.Unit.Unit,
+                            High: 0,
+                            AboveAvg: 0,
+                            Avg: 0,
+                            Normal: 0,
+                        }
+                        groupdData[`${ele.Unit.Unit}`][constants.levelMapping[ele.KnowledgeLevel]] =
+                            groupdData[`${ele.Unit.Unit}`][constants.levelMapping[ele.KnowledgeLevel]] + 1
+                    })
+                    this.$set(this, "headers", [
+                        ...searchHeaders,
+                        {
+                            text: "الوحدة",
+                            value: "Unit",
+                            sortable: true,
+                            inTable: true,
+                            sort: 1
+                        },
+                        ...levelsHeaders
+
+                    ]);
+                    this.$set(this, "items", Object.values(groupdData));
+                    this.$set(this, "printer", printer);
+                })
+                .catch(error => {
+                    this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
+                })
+                .finally(() => {
+                    this.$set(this, "searchLoading", false);
+                });
         }
     }
 };
