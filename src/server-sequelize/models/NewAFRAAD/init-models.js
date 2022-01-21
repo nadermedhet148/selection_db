@@ -197,6 +197,10 @@ function initModels(sequelize) {
   //   as: "Followers",
   //   foreignKey: "FollowRigionID"
   // });
+
+  Selections.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(Selections, { foreignKey: "CityID" });
+
   FollowingNos.belongsTo(FollowingRigion, {
     foreignKey: "FollowRigionID"
   });
