@@ -45,10 +45,9 @@
         <v-divider></v-divider>
         <v-card-actions class="px-4 py-4">
             <v-btn class="px-6" @click="findItems()" large color="primary" v-text="'بحث'"></v-btn>
-            <v-btn class="px-6" @click="followingSuggestStatsTabel.isDisplayed = true" 
-                                v-if="followingSuggestStatsTabel.items.length > 0"
-                                large color="primary" v-text="'عرض اليومية بالملاحق'"></v-btn>
+            <v-btn class="px-6" @click="calculateStatsWithFollowRigion()" v-if="followingSuggestTabel.items.length > 0" large color="primary" v-text="'عرض اليومية بالملاحق'"></v-btn>
 
+            <v-btn class="px-6" @click="calculateStatsWithUnit()" v-if="followingSuggestTabel.items.length > 0" large color="primary" v-text="'يومية بالأعداد الملحقة من كل وحدة'"></v-btn>
         </v-card-actions>
     </v-card>
 
@@ -76,14 +75,23 @@
 
     </table-bulider>
 
-      <v-dialog persistent v-model="followingSuggestStatsTabel.isDisplayed" scrollable max-width="750">
+    <v-dialog persistent v-model="followingSuggestStatsTabel.isDisplayed" scrollable max-width="750">
         <v-card>
             <v-btn @click="followingSuggestStatsTabel.isDisplayed = false" icon>
                 <v-icon>mdi-close</v-icon>
             </v-btn>
-            <table-bulider :headers="followingSuggestStatsTabel.headers" 
-                           :printer="followingSuggestStatsTabel.printer"
-                           :items="followingSuggestStatsTabel.items" :title="'يومية عددية بالملاحق'">
+            <table-bulider :headers="followingSuggestStatsTabel.headers" :printer="followingSuggestStatsTabel.printer" :items="followingSuggestStatsTabel.items" :title="'يومية عددية بالملاحق'">
+
+            </table-bulider>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog persistent v-model="unitFollowingSuggestStatsTabel.isDisplayed" scrollable max-width="750">
+        <v-card>
+            <v-btn @click="unitFollowingSuggestStatsTabel.isDisplayed = false" icon>
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <table-bulider :headers="unitFollowingSuggestStatsTabel.headers" :printer="unitFollowingSuggestStatsTabel.printer" :items="unitFollowingSuggestStatsTabel.items" :title="'يومية عددية بالملاحق من كل وحدة'">
 
             </table-bulider>
         </v-card>
@@ -335,7 +343,7 @@ export default {
                     inTable: true,
                     sort: 1
                 },
-                    {
+                {
                     text: "المصدق عليه",
                     value: "totalPending",
                     sortable: true,
@@ -348,6 +356,34 @@ export default {
             printer: {}
         },
 
+        unitFollowingSuggestStatsTabel: {
+            isDisplayed: false,
+            headers: [{
+                    text: "الوحدة",
+                    value: "Unit",
+                    sortable: true,
+                    inTable: true,
+                    sort: 2
+                },
+                {
+                    text: "جهة الالتحاق",
+                    value: "FollowRigion",
+                    sortable: true,
+                    inTable: true,
+                    sort: 2
+                },
+                {
+                    text: "العدد الملحق",
+                    value: "TotalFollowers",
+                    sortable: true,
+                    inTable: true,
+                    sort: 2
+                },
+
+            ],
+            items: [],
+            printer: {}
+        },
 
         componentName: "createdObject",
         selects: {
@@ -459,19 +495,6 @@ export default {
                     this.$set(this.followingSuggestTabel, "items", data);
                     this.$set(this.followingSuggestTabel, "printer", printer);
 
-                    const groupdWithFollowRigionName = _.groupBy(data, 'FollowingRigion.FollowRigionName');
-
-                    this.$set(this.followingSuggestStatsTabel, "items", Object.keys(groupdWithFollowRigionName).map(key => ({
-                        FollowRigionName: key,
-                        totalAccpted: groupdWithFollowRigionName[key].filter(ele=>ele.Acceptance).length,
-                        totalPending: groupdWithFollowRigionName[key].filter(ele=>!ele.Acceptance).length,
-
-                    })));
-                    this.$set(this.followingSuggestStatsTabel, "printer", {
-                        data: this.followingSuggestStatsTabel.items,
-                        excelKey: "data",
-                        excelHeaders: this.followingSuggestStatsTabel.headers.filter(f => f.inTable)
-                    });
                 })
                 .catch(error => {
                     this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
@@ -480,6 +503,43 @@ export default {
                 .finally(() => {
                     this.$set(this, "searchLoading", false);
                 });
+        },
+
+        calculateStatsWithFollowRigion() {
+            this.$set(this.followingSuggestStatsTabel, 'isDisplayed', true)
+            const groupdWithFollowRigionName = _.groupBy(this.followingSuggestTabel.items, 'FollowingRigion.FollowRigionName');
+
+            this.$set(this.followingSuggestStatsTabel, "items", Object.keys(groupdWithFollowRigionName).map(key => ({
+                FollowRigionName: key,
+                totalAccpted: groupdWithFollowRigionName[key].filter(ele => ele.Acceptance).length,
+                totalPending: groupdWithFollowRigionName[key].filter(ele => !ele.Acceptance).length,
+
+            })));
+            this.$set(this.followingSuggestStatsTabel, "printer", {
+                data: this.followingSuggestStatsTabel.items,
+                excelKey: "data",
+                excelHeaders: this.followingSuggestStatsTabel.headers.filter(f => f.inTable)
+            });
+        },
+        calculateStatsWithUnit() {
+            this.$set(this.unitFollowingSuggestStatsTabel, 'isDisplayed', true)
+            const groupdWithUnit = _.groupBy(this.followingSuggestTabel.items, 'Soldier.Unit.Unit');
+            this.$set(this.unitFollowingSuggestStatsTabel, "items", _.flatten(Object.keys(groupdWithUnit).map(key => {
+
+                const groupdWithFollowRigion = _.groupBy(groupdWithUnit[key], 'FollowingRigion.FollowRigionName')
+
+                return Object.keys(groupdWithFollowRigion).map(FollowRigion => ({
+                    Unit: key,
+                    FollowRigion,
+                    TotalFollowers: groupdWithFollowRigion[FollowRigion].length
+                }))
+
+            })));
+            this.$set(this.unitFollowingSuggestStatsTabel, "printer", {
+                data: this.unitFollowingSuggestStatsTabel.items,
+                excelKey: "data",
+                excelHeaders: this.unitFollowingSuggestStatsTabel.headers.filter(f => f.inTable)
+            });
         },
         findSolider() {
             let search = this.search;
