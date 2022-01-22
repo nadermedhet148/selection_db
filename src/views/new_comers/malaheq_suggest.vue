@@ -175,7 +175,6 @@ export default {
         }
     },
     mounted() {
-        // this.initDates();
         this.init();
     },
     data: () => ({
@@ -426,15 +425,6 @@ export default {
     }),
     watch: {},
     methods: {
-        log(item) {
-            console.log("====================================");
-            console.log("item", item);
-            console.log("====================================");
-        },
-        runFun(f) {
-            return this[f]();
-        },
-
         async saveItem(edirableFromTableItem) {
             this.$set(this.createdObject, "loading", true);
 
@@ -498,7 +488,6 @@ export default {
                 })
                 .catch(error => {
                     this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
-                    console.log(error);
                 })
                 .finally(() => {
                     this.$set(this, "searchLoading", false);
@@ -544,25 +533,13 @@ export default {
         findSolider() {
             let search = this.search;
             this.api("global/get_one", {
-                    table: "Soldier",
-                    search: {
-                        ID: this.search.ID
-                    }
-                }).then((x) => {
-                    this.$set(this.followingSuggest, 'Name', x.data.Name)
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-                .finally(() => {});
-        },
-        initDates() {
-            let dates = this.headers
-                .filter(h => h.type == "date")
-                .map(h => h.searchValue);
-            dates.forEach(d => {
-                this.$set(this.search, d, []);
-            });
+                table: "Soldier",
+                search: {
+                    ID: this.search.ID
+                }
+            }).then((x) => {
+                this.$set(this.followingSuggest, 'Name', x.data.Name)
+            })
         },
         actionAdd() {
             this.$set(this.createdObject, "item", {});
