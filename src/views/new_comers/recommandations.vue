@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="dialog">
+    <div v-if="!passwordDialog.model">
       <v-card :loading="searchLoading" :disabled="searchLoading">
         <v-card-title>
           بحث متقدم في التوصيات
@@ -358,26 +358,50 @@
         </v-card>
       </v-dialog>
     </div>
-    <!--
-    <v-dialog v-model="dialog" persistent width="500" style="background: rgba(0,0,0,0.5)">
-        <v-card>
-            <v-card-title class="red text-algin-center">رسالة تحذيرية</v-card-title>
+    <v-dialog
+      v-model="passwordDialog.model"
+      persistent
+      width="500"
+      style="background: rgba(0,0,0,0.5)"
+    >
+      <v-card>
+        <v-card-title class="red text-algin-center">رسالة تحذيرية</v-card-title>
 
-            <v-card-text style="padding:20px">تلك الصفحة بها بيانات سرية ان كنت لا تعرف كلمة السر لا تحاول</v-card-text>
+        <v-card-text style="padding:20px"
+          >تلك الصفحة بها بيانات سرية ان كنت لا تعرف كلمة السر لا
+          تحاول</v-card-text
+        >
 
-            <v-text-field label="كلمة السر" v-model="password" type="password" :rules="passwordRules" style="padding:8px; margin-bottom:5px;" color="red"></v-text-field>
-            <p id="uncorrectPassword" style="color: #F44336; margin-right: 10px; padding-bottom:5px;"></p>
+        <v-text-field
+          label="كلمة السر"
+          v-model="passwordDialog.password"
+          type="password"
+          :rules="passwordDialog.passwordRules"
+          style="padding:8px; margin-bottom:5px;"
+          color="red"
+        ></v-text-field>
+        <p
+          id="uncorrectPassword"
+          style="color: #F44336; margin-right: 10px; padding-bottom:5px;"
+        ></p>
 
-            <v-divider></v-divider>
+        <v-divider></v-divider>
 
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="gray" text @click="checkPasswordValidation()"> دخول </v-btn>
-                <v-btn style="margin-left:auto;" color="red" text @click="goThere('/'), deleteRouteByName(componentName)">عودة للصفحة الرئيسية</v-btn>
-            </v-card-actions>
-        </v-card>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="gray" text @click="checkPasswordValidation()">
+            دخول
+          </v-btn>
+          <v-btn
+            style="margin-left:auto;"
+            color="red"
+            text
+            @click="goThere('/'), deleteRouteByName(componentName)"
+            >عودة للصفحة الرئيسية</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </v-dialog>
-    -->
   </div>
 </template>
 
@@ -392,10 +416,13 @@ export default {
     this.init();
   },
   data: () => ({
+    passwordDialog: {
+      password: "",
+      model: true,
+      passwordRules: [v => !!v || "يجب إدخال كلمة السر"]
+    },
     valid: true,
-    password: "",
-    dialog: true,
-    passwordRules: [v => !!v || "يجب إدخال كلمة السر"],
+
     Recommandation: {},
     subjectLimit: 10,
     createdObject: {
@@ -904,8 +931,8 @@ export default {
       });
     },
     checkPasswordValidation: function() {
-      if (this.password === constants.recommendationPassword) {
-        this.dialog = false;
+      if (this.passwordDialog.password === constants.recommendationPassword) {
+        this.passwordDialog.model = false;
       } else {
         document.getElementById("uncorrectPassword").innerText =
           "كلمة السر غير صحيحة";
