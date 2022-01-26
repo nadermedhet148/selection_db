@@ -45,6 +45,16 @@ export default {
       }))
     ]
   },
+  Treatment: {
+    text: "text",
+    value: "text",
+    data: ["ثلاث شهور", "ست شهور", "سنتين"].map(text => ({ text }))
+  },
+  DriverLevel: {
+    text: "text",
+    value: "text",
+    data: ["اولي", "ثانية"].map(text => ({ text }))
+  },
   SoldierCategory: {
     text: "text",
     value: "text",

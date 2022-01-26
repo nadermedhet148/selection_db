@@ -43,8 +43,7 @@
         String[] Stage = { "الاولي", "الثانية", "الثالثة", "الرابعة" };
         String[] Relevants = {"اب","ام","اخ","اخت","عم","عمة","خال","خالة"};
         String[] Knowledges = { "عليا", "فوق متوسطة", "متوسطه", "عادة" };
-{"conscriptionDate":null,"unitID":null,"ID":"1020120292019","Name":"202-12-12-10","TripleNo":"29102-1=2012","IndexNo":"20202","SoldierLevel":"مساعد اول","SoldierStatus":"رفت وجوبى","KnowledgeLevel":"عادة","SoldierCategory":"مهني ","RecuTreat":"سنة قابلة للرفع","RecuStage":"الرابعة","DutyID":1,"ArrivalDate":"2022-01-21","Direction":"جنوبى","WeaponID":1,"UnitID":1,"BirthDate":"2022-01-13","NationalID":"202001-201-201","Specialization":"x","SoldierTELE":"220202-1020","RelevantTELE":"10000291200","Address":"KSPWO","Job":"WJLDS","CityID":1,"CentreID":1,"Religion":"مسيحي","BloodType":"B+","College":"اداب","RecuStartDate":"2022-01-21","RecuEndDate":"2022-01-15","RecuRegion":"الزقازيق","EndingCause":"xxdlds","MissingTime":"23","Notes":"xx"}
-
+{"conscriptionDate":null,"unitID":null,"ID":"1020212029201","Name":"202-12-12-10","TripleNo":"29102-1=2012","IndexNo":"20202","SoldierLevel":"مساعد اول","SoldierStatus":"رفت وجوبى","KnowledgeLevel":"عادة","SoldierCategory":"مهني ","RecuTreat":"سنة قابلة للرفع","RecuStage":"الثانية-2020","DutyID":1,"ArrivalDate":"2022-01-21","Direction":"جنوبى","WeaponID":13,"UnitID":1,"BirthDate":"2022-01-13","NationalID":"202001-201-201","Specialization":"x","SoldierTELE":"220202-1020","RelevantTELE":"10000291200","Address":"KSPWO","Job":"WJLDS","CityID":1,"CentreID":1,"Religion":"مسيحي","BloodType":"B+","College":"اداب","RecuStartDate":"2022-01-21","RecuEndDate":"2022-01-15","RecuRegion":"الزقازيق","EndingCause":"xxdlds","MissingTime":"23","Notes":"xx","Markez_Tadreb":"مركز تدريب اداراة المخابرات","IdentityNo":"2020123","Treatment":"ست شهور","DriverLevel":"ثانية","ServiceType":"x"}
 in new commers
 يوميات المهندسين 
 تراخيص النقل 
