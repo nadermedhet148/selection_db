@@ -242,7 +242,10 @@
         scrollable
       >
         <v-card>
-          <v-btn @click="direcationsWithRecommandationsTable.isDisplayed = false" icon>
+          <v-btn
+            @click="direcationsWithRecommandationsTable.isDisplayed = false"
+            icon
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <table-bulider
@@ -424,7 +427,7 @@
             style="margin-left:auto;"
             color="red"
             text
-            @click="goThere('/'), deleteRouteByName(componentName)"
+            @click="closeThePage()"
             >عودة للصفحة الرئيسية</v-btn
           >
         </v-card-actions>
@@ -440,7 +443,6 @@ const lodash = require("lodash");
 export default {
   name: "recommandations",
   mounted() {
-    // this.initDates();
     this.init();
   },
   data: () => ({
@@ -720,7 +722,7 @@ export default {
       printer: {}
     },
 
-    componentName: "createdObject",
+    componentName: "recommandations",
     selects: {
       UnitID: {
         table: "Unit",
@@ -1093,6 +1095,11 @@ export default {
           this.findItems();
         }
       });
+    },
+    closeThePage() {
+      console.log("xx");
+      this.goThere("/");
+      this.deleteRouteByName(this.componentName);
     }
   }
 };
