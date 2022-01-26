@@ -652,7 +652,7 @@ export default {
           },
           {
             type: "date",
-            label: "تاريخ صرف الراتب العالي",
+            label: "تاريخ صرف  ",
             model: "highSalaryPayingOutDate"
           },
           {

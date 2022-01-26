@@ -686,7 +686,7 @@ export default {
         sort: 2
       },
       {
-        text: "الموجود بدون الراتب العالي",
+        text: "الموجود بدون  ",
         value: "ExistWithoutHighPay",
         sortable: true,
         inEdit: true,

@@ -137,7 +137,7 @@ var _default = {
         _self: "قسم التسجيل",
         new_profile: "البروفايل الجديد",
         injuries: "الحالات الإصابية / المرضية",
-        soldier_plus: "الراتب العالي والمجندين",
+        soldier_plus: " المجندين",
         monthly_rev: "المراجعة الشهرية",
         promotion: "مشروع الترقي",
         reports: "التقارير",

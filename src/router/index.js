@@ -508,7 +508,7 @@ const routes = [
     name: "soldiers_plus",
     component: mix.fun.loadView("Tasgeel/SoldiersPlus"),
     meta: {
-      title: "الراتب العالي والمجندين",
+      title: " المجندين",
       sections: [0, 12, 1, 2, 3, 4, 5, 6],
       ok: true
     }

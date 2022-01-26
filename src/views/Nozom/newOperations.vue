@@ -572,7 +572,7 @@ export default {
       dbname: "",
       dbs: [
         {
-          name: "المجندين والراتب العالي والمتابعة",
+          name: "المجندين و المتابعة",
           id: "MilitaryRecordsDB"
         },
         {

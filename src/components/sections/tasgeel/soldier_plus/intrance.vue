@@ -355,7 +355,7 @@ export default {
     window: 0,
     windows: [
       {
-        title: "الراتب العالي والمجندين",
+        title: " المجندين",
         desc: "[ بحث - تعديل - حذف ]",
         childs: [
           {
@@ -423,8 +423,8 @@ export default {
         backTo: 0,
         childs: [
           {
-            title: "المجندين / الراتب العالي",
-            // desc: "بحث متقدم عن المجندين والراتب العالي",
+            title: "المجندين /  ",
+            // desc: "بحث متقدم عن المجندين و ",
             to: "conscriptes",
             icon: ""
           },

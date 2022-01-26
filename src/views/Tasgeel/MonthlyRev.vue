@@ -666,7 +666,7 @@ export default {
         date_keys: ["conscriptionDate"],
         id: "non_commession",
         sections: ["1"],
-        title: "الراتب العالي",
+        title: " ",
         desc: "عرض ضباط الصف فقط داخل الوحدة",
         icon: "mdi-account-star-outline",
         model: true,

@@ -214,7 +214,7 @@ export default {
         filters: {}
       },
       {
-        title: "الراتب العالي",
+        title: " ",
         name: "راتب عالي",
         id: "1",
         model: "",

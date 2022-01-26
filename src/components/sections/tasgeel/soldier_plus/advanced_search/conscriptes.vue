@@ -2,7 +2,7 @@
   <div>
     <v-card class="mb-6">
       <v-card-title>
-        البحث المتقدم عن الراتب العالي والمجندين
+        البحث المتقدم عن المجندين
       </v-card-title>
       <v-card-text>
         من فضلك قم بتحديد الخيارات التي تريدها من الأسفل, ثم اضغط على زر البحث
@@ -122,8 +122,6 @@
       <v-icon class="me-3">mdi-magnify</v-icon>
       بحث
     </v-btn>
-    <!-- </v-card-actions>
-    </v-card> -->
     <v-card class="mb-6">
       <v-card-title class="sidenav white--text">
         النتائج
@@ -203,6 +201,7 @@
 
 <script>
 const constants = require("../../../../../Constant").default;
+const lodash = require("lodash");
 
 export default {
   name: "conscriptes",
@@ -277,16 +276,14 @@ export default {
           text: "الرقم العسكري",
           sortable: true
         },
-
-        // {
-        //   value: "degree.degreeType",
-        //   dbvalue: "degreeId",
-        //   text: "الدرجة",
-        //   sortable: true
-        // },
         {
           value: "Name",
           text: "الإسم",
+          sortable: true
+        },
+        {
+          value: "Weapon.Weapon",
+          text: "السلاح",
           sortable: true
         },
         {
@@ -323,12 +320,6 @@ export default {
           text: "تاريخ التسريح",
           sortable: true
         }
-        // {
-        //   value: "isPartInMilitaryOperation",
-        //   dbvalue: "isPartInMilitaryOperation",
-        //   text: "عمليات حربيه",
-        //   sortable: true
-        // }
       ]
     },
     printers: [
@@ -409,22 +400,12 @@ export default {
             label: "مدة الفاقدة",
             type: "text"
           },
-          // {
-          //   model: "reductionStateId",
-          //   label: "قرار التخفيض",
-          //   type: "select"
-          // },
+
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",
             type: "select"
           },
-          // {
-          //   model: "periodId",
-          //   label: "الحاق",
-          //   type: "select"
-          // },
-
           {
             model: "Direction",
             label: " الاتجاه",
@@ -446,12 +427,6 @@ export default {
             type: "select"
           },
           {
-            model: "",
-            label: " التشكيل",
-            type: "text",
-            readonly: true
-          },
-          {
             model: "Markez_Tadreb",
             label: " مركز التدريب",
             type: "text",
@@ -461,24 +436,6 @@ export default {
             model: "DutyID",
             label: " الواجب المدرب عليه",
             type: "select"
-          },
-          {
-            model: "",
-            label: "التسكين",
-            type: "text",
-            readonly: true
-          },
-
-          {
-            model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
-            type: "date"
-          },
-          {
-            model: "SourceId",
-            label: "جهة الإمداد",
-            type: "text",
-            readonly: true
           }
         ]
       },
@@ -566,6 +523,11 @@ export default {
             type: "date"
           },
           {
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
             model: "RecuRegion",
             label: "منطقة التجنيد",
             type: "select"
@@ -575,6 +537,26 @@ export default {
             label: "ملاحظات عامة",
             type: "textarea",
             forEnhaa: true
+          }
+        ]
+      },
+      {
+        title: "الإدارات التخصصية",
+        options: [
+          {
+            model: "Treatment",
+            label: "المعاملة",
+            type: "select"
+          },
+          {
+            model: "DriverLevel",
+            label: "درجة الرخصة",
+            type: "select"
+          },
+          {
+            model: "ServiceType",
+            label: "نوع الخدمة",
+            type: "text"
           }
         ]
       }
@@ -594,6 +576,11 @@ export default {
         text: "text",
         value: "text",
         data: constants.Religion.data
+      },
+      DriverLevel: {
+        text: "text",
+        value: "text",
+        data: constants.DriverLevel.data
       },
       RecuTreat: {
         text: "text",
@@ -615,10 +602,19 @@ export default {
         value: "text",
         data: constants.RecuRegion.data
       },
-      RecuStage: {
+     RecuStage: {
         text: "text",
         value: "text",
-        data: constants.RecuStage.data
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      },
+      Treatment: {
+        text: "text",
+        value: "text",
+        data: constants.Treatment.data
       },
       SoldierStatus: {
         text: "text",
@@ -650,78 +646,16 @@ export default {
         text: "Duty",
         value: "DutyID"
       },
-      periodId: {
-        table: "periods",
-        text: "periodText",
-        value: "id"
-      },
-      microfilmId: {
-        table: "microfilms",
-        text: "microfilmId",
-        value: "microfilmId"
-      },
-      ignorantId: {
-        table: "ignorants",
-        text: "displayedText",
-        value: "id"
-      },
-      ignorantSupporterId: {
-        value: "id",
-        text: "displayedText",
-        table: "ignorantSupporters"
-      },
-
-      groupId: {
-        table: "groups",
-        text: "groupName",
-        value: "groupId"
-      },
-      stateIdCurrent: {
-        table: "dutyCurrentStates",
-        text: "text",
-        value: "stateId"
-      },
-      sourceId: {
-        table: "suplySources",
-        text: "sourceName",
-        value: "sourceId"
-      },
-      martialStateId: {
-        table: "martialStates",
-        text: "state",
-        value: "martialStateId"
-      },
       WeaponID: {
         table: "Weapon",
         text: "Weapon",
         value: "WeaponID"
-      },
-      reductionStateId: {
-        table: "reductionStates",
-        text: "state",
-        value: "reductionStateId"
-      },
-      zoneId: {
-        table: "zones",
-        text: "zoneText",
-        value: "zoneId"
-      },
-      additionalYearStateId: {
-        table: "additionalYears",
-        text: "state",
-        value: "additionalYearStateId"
       },
 
       UnitID: {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
-        // attrs: ["zoneId"]
-      },
-      licenseId: {
-        table: "licenses",
-        value: "licenseId",
-        text: "licenseType"
       }
     }
   }),
@@ -759,10 +693,6 @@ export default {
         search: { ...search, getWhoNotRelatedWithSelah: null }
       })
         .then(x => {
-          console.log("x", x);
-          // let cons = this.search["getWhoNotRelatedWithSelah"]
-          //   ? x.data
-          //   : x.data.filter(f => this.isHodod(f));
           let fixedData = this.fixDates(x.data, [
               "ArrivalDate",
               "BirthDate",
@@ -775,9 +705,7 @@ export default {
               excelHeaders: this.result.headers
             };
           this.$set(this.result, "items", fixedData);
-          console.log("data", this.result.items);
           this.$set(this.result, "printer", printer);
-          // this.goSearch(where);
         })
         .catch(error => {
           console.log(error);
@@ -797,54 +725,6 @@ export default {
           this.$set(this.search, option.model, {});
         } else {
           this.$set(this.search, option.model, "");
-        }
-      });
-    },
-    init(specificTable = "") {
-      // Get selects
-      Object.keys(this.selects).forEach(key => {
-        let { table, localTable, attrs } = this.selects[key];
-        if (table) {
-          let obj = {
-            table
-          };
-          if (attrs && attrs.length > 0) {
-            obj.attrs = attrs;
-          }
-          this.$set(this.selects[key], "loading", true);
-          this.api("global/get_all", obj)
-            .then(x => {
-              this.$set(
-                this.selects[key],
-                "data",
-                x.data.sort(
-                  (a, b) =>
-                    a[this.selects[key].value] - b[this.selects[key].value]
-                )
-              );
-            })
-            .catch(error => {
-              console.log(error);
-              this.$set(
-                this.selects[key],
-                "error",
-                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-              );
-            })
-            .finally(() => {
-              this.$set(this.selects[key], "loading", false);
-            });
-        } else if (localTable) {
-          this.$set(this.selects[key], "loading", true);
-          let data = this.localTable(localTable);
-          this.$set(
-            this.selects[key],
-            "data",
-            data.sort(
-              (a, b) => a[this.selects[key].value] - b[this.selects[key].value]
-            )
-          );
-          this.$set(this.selects[key], "loading", false);
         }
       });
     },
