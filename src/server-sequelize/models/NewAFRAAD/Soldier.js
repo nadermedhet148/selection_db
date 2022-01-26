@@ -185,6 +185,22 @@ module.exports = function(sequelize, DataTypes) {
       BrotherID: {
         type: DataTypes.STRING(20),
         allowNull: true
+      },
+      ServiceType: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
+      GHA: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
+      DriverLevel: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
+      Treatment: {
+        type: DataTypes.STRING(100),
+        allowNull: true
       }
     },
     {
