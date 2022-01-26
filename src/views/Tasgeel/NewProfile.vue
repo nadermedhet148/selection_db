@@ -26,9 +26,23 @@
                   v-model="conscripte[item.model]"
                   :label="item.label"
                   filled
+                  v-if="item.type == 'text'"
                   disabled
                   outlined
                 ></v-text-field>
+
+                <v-card v-if="item.type == 'image'">
+                  <v-card-title class="text-h6">
+                    {{ item.label }}
+                  </v-card-title>
+                  <v-img
+                    :lazy-src="conscripte[item.model]"
+                    max-height="300"
+                    contain
+                    max-width="250"
+                    :src="conscripte[item.model]"
+                  ></v-img>
+                </v-card>
               </v-col>
             </template>
           </v-row>
@@ -75,6 +89,10 @@
 .theme--light.v-input input,
 .theme--light.v-input textarea {
   color: rgba(0, 0, 0, 0.87) !important ;
+}
+
+.profile .v-sheet.v-card:not(.v-sheet--outlined) {
+  box-shadow: none;
 }
 </style>
 <script>
@@ -302,6 +320,7 @@ export default {
             counter: 11,
             readonly: true
           },
+
           {
             model: "Religion",
             label: "الديانة",
@@ -328,6 +347,11 @@ export default {
             label: "التخصص ",
             type: "text",
             readonly: true
+          },
+          {
+            model: "image",
+            label: "الصورة الشخصية",
+            type: "image"
           }
         ]
       },
@@ -357,7 +381,7 @@ export default {
           {
             model: "Notes",
             label: "ملاحظات عامة",
-            type: "textarea",
+            type: "text",
             forEnhaa: true
           }
         ]
@@ -370,12 +394,12 @@ export default {
           {
             model: "Treatment",
             label: "المعاملة",
-            type: "select"
+            type: "text"
           },
           {
             model: "DriverLevel",
             label: "درجة الرخصة",
-            type: "select"
+            type: "text"
           },
           {
             model: "ServiceType",

@@ -54,6 +54,16 @@
                   "
                   :readonly="item.readonly"
                 ></v-text-field>
+
+                <v-file-input
+                  v-model="conscripte[item.model]"
+                  v-if="item.type == 'file'"
+                  :label="item.label"
+                  accept="image/png, image/jpeg, image/bmp, image/jpg"
+                  prepend-icon="mdi-camera"
+                  show-size
+                  truncate-length="14"
+                ></v-file-input>
                 <v-textarea
                   v-model="conscripte[item.model]"
                   v-else-if="item.type == 'textarea'"
@@ -282,22 +292,12 @@ export default {
             label: "مدة الفاقدة",
             type: "text"
           },
-          // {
-          //   model: "reductionStateId",
-          //   label: "قرار التخفيض",
-          //   type: "select"
-          // },
+
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",
             type: "select"
           },
-          // {
-          //   model: "periodId",
-          //   label: "الحاق",
-          //   type: "select"
-          // },
-
           {
             model: "Direction",
             label: " الاتجاه",
@@ -418,6 +418,11 @@ export default {
             model: "Specialization",
             label: "التخصص ",
             type: "text"
+          },
+          {
+            model: "image",
+            label: "الصورة الشخصية ",
+            type: "file"
           }
         ]
       },
@@ -636,6 +641,14 @@ export default {
         });
       }
     },
+
+    toBase64: file =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      }),
     async addConscripte() {
       this.$set(this, "loading", true);
       let conscripte = { ...this.conscripte };
@@ -645,6 +658,10 @@ export default {
           conscripte[key] = null;
         }
       });
+
+      if (conscripte.image) {
+        conscripte.image = await this.toBase64(conscripte.image);
+      }
 
       if (![0, 12, 1, 3].includes(this.$store.state.currentUser.section)) {
         this.showError(
