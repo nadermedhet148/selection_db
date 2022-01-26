@@ -87,10 +87,10 @@ Vue.mixin({
       title = "",
       body = "",
       icon = require("@/assets/logo.png"),
-      onclick = () => { },
-      onerror = () => { },
-      onclose = () => { },
-      onshow = () => { }
+      onclick = () => {},
+      onerror = () => {},
+      onclose = () => {},
+      onshow = () => {}
     }) {
       let notification = new Notification(title, {
         dir: "rtl",
@@ -262,8 +262,8 @@ Vue.mixin({
         newHours = newDate.getHours();
       return hours >= 12 || (hours == 0 && `${day}`.length == 1)
         ? new Date(new Date(newDate).setDate(new Date(newDate).getDate() + 1))
-          .toISOString()
-          .substring(0, 10)
+            .toISOString()
+            .substring(0, 10)
         : new Date(newDate).toISOString().substring(0, 10);
     },
     checkFileExists(url) {
@@ -294,8 +294,8 @@ Vue.mixin({
     },
     getSockets() {
       let currentUser = this.$store.state.currentUser
-        ? { ...this.$store.state.currentUser }
-        : null,
+          ? { ...this.$store.state.currentUser }
+          : null,
         userId = currentUser && currentUser.userId ? currentUser.userId : null;
       this.$socket.client.emit("getSockets", userId);
       if (currentUser) {
@@ -305,7 +305,7 @@ Vue.mixin({
     },
     isAdmin() {
       let section = this.$store.state.currentUser.section;
-      return [0, 12].includes(section);
+      return section.indexOf("0") > -1;
     },
     // TODO: speerate them.
     isTasgilOrEnhaa() {
@@ -542,13 +542,13 @@ Vue.mixin({
             where[key] =
               f1 && f2
                 ? {
-                  $between: [new Date(f1), new Date(f2)]
-                }
+                    $between: [new Date(f1), new Date(f2)]
+                  }
                 : f1 && !f2
-                  ? {
+                ? {
                     $gte: new Date(f1)
                   }
-                  : {
+                : {
                     $lte: new Date(f2)
                   };
           } else {
@@ -569,12 +569,7 @@ Vue.mixin({
     init(specificTable = "") {
       // Get selects
       Object.keys(this.selects).forEach(key => {
-        let {
-          table,
-          localTable,
-          text,
-          value
-        } = this.selects[key];
+        let { table, localTable, text, value } = this.selects[key];
         if (table) {
           let obj = {
             table
@@ -646,7 +641,7 @@ Vue.mixin({
         preloader.parentNode.removeChild(preloader);
       }
     },
-    getLang: function (...expression) {
+    getLang: function(...expression) {
       let returner = "";
       for (let t of expression) {
         returner += `${this.$vuetify.lang.t("$vuetify." + t)} `;
@@ -696,7 +691,7 @@ Vue.mixin({
       return this.$store.state.isOnline;
     },
     loadView(name) {
-      return function (resolve) {
+      return function(resolve) {
         require([`@/views/${name}.vue`], resolve);
       };
     },
@@ -739,17 +734,17 @@ Vue.mixin({
     },
     fixNumbers(str) {
       let p_numbers = [
-        /٠/g,
-        /١/g,
-        /٢/g,
-        /٣/g,
-        /٤/g,
-        /٥/g,
-        /٦/g,
-        /٧/g,
-        /٨/g,
-        /٩/g
-      ],
+          /٠/g,
+          /١/g,
+          /٢/g,
+          /٣/g,
+          /٤/g,
+          /٥/g,
+          /٦/g,
+          /٧/g,
+          /٨/g,
+          /٩/g
+        ],
         a_numbers = [
           /٠/g,
           /١/g,
@@ -781,13 +776,15 @@ Vue.mixin({
         if (fixed == "Invalid Date") {
           return null;
         } else {
-          return `${fixed.getFullYear()}-${Number(fixed.getMonth() + 1).toString().length > 1
-            ? Number(fixed.getMonth() + 1)
-            : "0" + Number(fixed.getMonth() + 1)
-            }-${fixed.getDate().toString().length > 1
+          return `${fixed.getFullYear()}-${
+            Number(fixed.getMonth() + 1).toString().length > 1
+              ? Number(fixed.getMonth() + 1)
+              : "0" + Number(fixed.getMonth() + 1)
+          }-${
+            fixed.getDate().toString().length > 1
               ? fixed.getDate()
               : "0" + fixed.getDate()
-            }`;
+          }`;
         }
       } else {
         return date;
@@ -808,19 +805,23 @@ Vue.mixin({
           return null;
         } else {
           // 2020-12-16T10:15
-          return `${fixed.getFullYear()}-${Number(fixed.getMonth() + 1).toString().length > 1
-            ? Number(fixed.getMonth() + 1)
-            : "0" + Number(fixed.getMonth() + 1)
-            }-${fixed.getDate().toString().length > 1
+          return `${fixed.getFullYear()}-${
+            Number(fixed.getMonth() + 1).toString().length > 1
+              ? Number(fixed.getMonth() + 1)
+              : "0" + Number(fixed.getMonth() + 1)
+          }-${
+            fixed.getDate().toString().length > 1
               ? fixed.getDate()
               : "0" + fixed.getDate()
-            }T${fixed.getHours().toString().length > 1
+          }T${
+            fixed.getHours().toString().length > 1
               ? fixed.getHours()
               : "0" + fixed.getHours()
-            }:${fixed.getMinutes().toString().length > 1
+          }:${
+            fixed.getMinutes().toString().length > 1
               ? fixed.getMinutes()
               : "0" + fixed.getMinutes()
-            }`;
+          }`;
         }
       } else {
         return date;
@@ -972,10 +973,10 @@ Vue.mixin({
               el[key] =
                 el[key] && el[key].length > 0
                   ? el[key]
-                    .split(" ")
-                    .join("")
-                    .trim()
-                    .split(",")
+                      .split(" ")
+                      .join("")
+                      .trim()
+                      .split(",")
                   : [];
             }
           }
@@ -1036,7 +1037,7 @@ Vue.mixin({
         document.location.href = href;
       }
     },
-    changeLang: function (lang) {
+    changeLang: function(lang) {
       let langs = ["ar", "en"];
       lang = langs.includes(lang) ? lang : "ar";
       this.$vuetify.lang.current = lang;
@@ -1050,8 +1051,8 @@ Vue.mixin({
         this.$store.state.currentUserPublic[data].trim() !== ""
         ? this.$store.state.currentUserPublic[data]
         : alt
-          ? alt
-          : "--";
+        ? alt
+        : "--";
     },
     // getLang: function(...expression) {
     //   let returner = "";
@@ -1060,7 +1061,7 @@ Vue.mixin({
     //   }
     //   return returner.substring(0, returner.length - 1);
     // },
-    defaultUserAvatar: function () {
+    defaultUserAvatar: function() {
       // return require("@/assets/media/imgs/user-placeholder.jpg");
     },
     currentUser() {

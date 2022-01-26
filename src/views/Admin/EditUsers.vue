@@ -262,6 +262,7 @@
                   v-else-if="item.type == 'select'"
                   :label="item.label"
                   hide-details
+                  :multiple="item.isMultiple"
                   filled
                   v-model="edit.user[item.model]"
                   :items="
@@ -367,25 +368,12 @@ export default {
         label: "الدرجة",
         model: "degree"
       },
-      // {
-      //   label: "الصلاحية",
-      //   model: "role",
-      //   type: "select"
-      // },
+
       {
         label: "القسم المختص",
         model: "section",
-        type: "select"
-      },
-      {
-        label: "صلاحية إضافة متابعة",
-        model: "canAddFollowup",
-        type: "select"
-      },
-      {
-        label: "صلاحية رفع المتابع",
-        model: "canUnfollow",
-        type: "select"
+        type: "select",
+        isMultiple: true
       }
     ],
     selects: {
@@ -481,11 +469,6 @@ export default {
           sortable: true
         },
         {
-          text: "القسم",
-          value: "section",
-          sortable: true
-        },
-        {
           text: "إضافة متابعات؟",
           value: "canAddFollowup",
           sortable: true
@@ -500,11 +483,7 @@ export default {
           value: "dateAdded",
           sortable: true
         },
-        // {
-        //   text: "",
-        //   value: "isVisible",
-        //   sortable: true
-        // },
+
         {
           text: "",
           value: "edit_me",
@@ -523,13 +502,14 @@ export default {
         where.canUnfollow = where.canUnfollow ? true : false;
         where.canAddFollowup = where.canAddFollowup ? true : false;
         where.role = where.role ? where.role : 2; //مراجع
+        where.section = where.section.join(",");
+
         delete where.userId;
         if (!user.username) {
           this.showError("لا يمكن الحفظ بدون ادخال اسم المستخدم");
           this.$set(this.edit, "loading", false);
           return;
         }
-        console.log(where);
         let edited = await this.api(`global/${actionType}_one`, {
           table: "users",
           where:
@@ -561,6 +541,7 @@ export default {
           Object.keys(this.edit.user).forEach(key => {
             this.edit.user[key] = null;
           });
+          item.section = item.section.split(",").map(ele => parseInt(ele));
           Object.keys(item).forEach(key => {
             let val = item[key];
             this.$set(this.edit.user, key, val);
