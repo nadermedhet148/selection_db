@@ -215,7 +215,6 @@ export default {
   data: () => ({
     findingConscripte: false,
     conscripte: {},
-
     isEnhaa: false,
     groups: [
       {

@@ -143,6 +143,15 @@
             color="primary"
             v-text="'يومية عددية بالتوصيات طبقا للمحافظات'"
           ></v-btn>
+
+          <v-btn
+            class="px-6"
+            v-if="recommandationsTable.items.length > 0"
+            @click="calculateRecommandtionsWithDirecation()"
+            large
+            color="primary"
+            v-text="'يومية عددية بالتوصيات طبقا للاتجاهات'"
+          ></v-btn>
         </v-card-actions>
       </v-card>
 
@@ -222,6 +231,28 @@
             :printer="cityWithRecommandationsTable.printer"
             :items="cityWithRecommandationsTable.items"
             :title="'يومية عددية بالتوصيات طبقا للمحافظات'"
+          >
+          </table-bulider>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
+        persistent
+        v-model="direcationsWithRecommandationsTable.isDisplayed"
+        scrollable
+      >
+        <v-card>
+          <v-btn
+            @click="direcationsWithRecommandationsTable.isDisplayed = false"
+            icon
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <table-bulider
+            :headers="direcationsWithRecommandationsTable.headers"
+            :printer="direcationsWithRecommandationsTable.printer"
+            :items="direcationsWithRecommandationsTable.items"
+            :title="'يومية عددية بالتوصيات طبقا للاتجهات'"
           >
           </table-bulider>
         </v-card>
@@ -396,7 +427,7 @@
             style="margin-left:auto;"
             color="red"
             text
-            @click="goThere('/'), deleteRouteByName(componentName)"
+            @click="closeThePage()"
             >عودة للصفحة الرئيسية</v-btn
           >
         </v-card-actions>
@@ -412,7 +443,6 @@ const lodash = require("lodash");
 export default {
   name: "recommandations",
   mounted() {
-    // this.initDates();
     this.init();
   },
   data: () => ({
@@ -633,6 +663,50 @@ export default {
       printer: {}
     },
 
+    direcationsWithRecommandationsTable: {
+      isDisplayed: false,
+      headers: [
+        {
+          text: "الاتجاه",
+          value: "Direction",
+          sortable: true,
+          inTable: true,
+          sort: 2
+        },
+
+        {
+          text: "المستوي الثقافي",
+          value: "KnowledgeLevel",
+          sortable: true,
+          inTable: true,
+          sort: 2
+        },
+        {
+          text: "ماتم وصوله",
+          value: "total",
+          sortable: true,
+          inTable: true,
+          sort: 2
+        },
+        {
+          text: "المطابق",
+          value: "matched",
+          sortable: true,
+          inTable: true,
+          sort: 2
+        },
+        {
+          text: "المخالف",
+          value: "dismatched",
+          sortable: true,
+          inTable: true,
+          sort: 2
+        }
+      ],
+      items: [],
+      printer: {}
+    },
+
     unitWithCertificatorsStatsTabel: {
       isDisplayed: false,
       headers: [
@@ -648,7 +722,7 @@ export default {
       printer: {}
     },
 
-    componentName: "createdObject",
+    componentName: "recommandations",
     selects: {
       UnitID: {
         table: "Unit",
@@ -734,7 +808,7 @@ export default {
           }
         ]
       });
-      const cityWithRecommandationsItems = solidersCount.data.map(ele => ({
+      const directionWithRecommandationsItems = solidersCount.data.map(ele => ({
         ...ele,
         matched: recommandations.data.filter(
           recommandation =>
@@ -753,12 +827,68 @@ export default {
       this.$set(
         this.cityWithRecommandationsTable,
         "items",
-        cityWithRecommandationsItems
+        directionWithRecommandationsItems
       );
       this.$set(this.cityWithRecommandationsTable, "printer", {
         data: this.cityWithRecommandationsTable.items,
         excelKey: "data",
         excelHeaders: this.cityWithRecommandationsTable.headers.filter(
+          f => f.inTable
+        )
+      });
+    },
+
+    async calculateRecommandtionsWithDirecation() {
+      if (!this.search.RecuStage) {
+        this.showError("يجب اختيار المرحلة اولا");
+        return;
+      }
+      const solidersCount = await this.api(`global/queryRunners`, {
+        query: `
+                select count(Soldier.ID) as total ,Soldier.Direction ,  Soldier.KnowledgeLevel, Soldier.RecuStage from Soldier
+                WHERE RecuStage = N'${this.search.RecuStage}'
+                GROUP by Soldier.Direction  ,  Soldier.KnowledgeLevel , Soldier.RecuStage
+              `
+      });
+      const recommandations = await this.api("global/get_all", {
+        table: "Recommendations",
+        include: [
+          {
+            model: "Soldier",
+            include: [],
+            where: this.cleanObject({
+              RecuStage: this.search.RecuStage
+            })
+          }
+        ]
+      });
+      const direcationWithRecommandationsItems = solidersCount.data.map(
+        ele => ({
+          ...ele,
+          matched: recommandations.data.filter(
+            recommandation =>
+              recommandation.Matching === "مطابق" &&
+              recommandation.Soldier?.Direction === ele.Direction &&
+              recommandation.Soldier?.KnowledgeLevel === ele.KnowledgeLevel
+          ).length,
+          dismatched: recommandations.data.filter(
+            recommandation =>
+              recommandation.Matching !== "مطابق" &&
+              recommandation.Soldier?.Direction === ele.Direction &&
+              recommandation.Soldier?.KnowledgeLevel === ele.KnowledgeLevel
+          ).length
+        })
+      );
+      this.$set(this.direcationsWithRecommandationsTable, "isDisplayed", true);
+      this.$set(
+        this.direcationsWithRecommandationsTable,
+        "items",
+        direcationWithRecommandationsItems
+      );
+      this.$set(this.direcationsWithRecommandationsTable, "printer", {
+        data: this.direcationsWithRecommandationsTable.items,
+        excelKey: "data",
+        excelHeaders: this.direcationsWithRecommandationsTable.headers.filter(
           f => f.inTable
         )
       });
@@ -965,6 +1095,11 @@ export default {
           this.findItems();
         }
       });
+    },
+    closeThePage() {
+      console.log("xx");
+      this.goThere("/");
+      this.deleteRouteByName(this.componentName);
     }
   }
 };
