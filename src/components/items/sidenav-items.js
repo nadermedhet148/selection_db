@@ -352,13 +352,13 @@ let nozom = function(t) {
       //   text: mic("ignorants"),
       //   href: "/ignorants"
       // },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: tas("monthly_rev"),
-        href: "/monthly_rev/1",
-        onlySegelat: true
-      }
+      // {
+      //   type: "single",
+      //   icon: "mdi-update",
+      //   text: tas("monthly_rev"),
+      //   href: "/monthly_rev/1",
+      //   onlySegelat: true
+      // }
       // {
       //   type: "single",
       //   icon: "mdi-hospital-box-outline",
@@ -444,7 +444,6 @@ let nozom = function(t) {
         href: "/malaheq_suggest",
         onlySegelat: true
       },
-      
       {
         type: "single",
         icon: "mdi-update",
