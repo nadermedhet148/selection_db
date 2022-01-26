@@ -1,5 +1,5 @@
 <template>
-  <div tabindex="0" class="no-focus">
+  <div tabindex="0" class="no-focus profile">
     <template v-for="(group, i) in groups">
       <v-card
         v-if="(isEnhaa && group.forEnhaa) || !isEnhaa"
@@ -56,6 +56,27 @@
   </div>
 </template>
 
+<style>
+.profile .v-input__slot {
+  background: none !important;
+}
+.profile .v-label {
+  color: #000 !important;
+  font-size: 16px !important;
+}
+.profile
+  .theme--light.v-text-field--outlined:not(.v-input--is-focused).v-input--is-disabled
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: var(--v-primary-base) !important;
+}
+
+.theme--light.v-input input,
+.theme--light.v-input textarea {
+  color: rgba(0, 0, 0, 0.87) !important ;
+}
+</style>
 <script>
 const constants = require("../../Constant").default;
 const _ = require("lodash");
@@ -338,6 +359,28 @@ export default {
             label: "ملاحظات عامة",
             type: "textarea",
             forEnhaa: true
+          }
+        ]
+      },
+      {
+        title: "الإدارات التخصصية",
+        desc: "",
+        forEnhaa: true,
+        items: [
+          {
+            model: "Treatment",
+            label: "المعاملة",
+            type: "select"
+          },
+          {
+            model: "DriverLevel",
+            label: "درجة الرخصة",
+            type: "select"
+          },
+          {
+            model: "ServiceType",
+            label: "نوع الخدمة",
+            type: "text"
           }
         ]
       }

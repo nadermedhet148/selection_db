@@ -7,3 +7,6 @@ ALTER TABLE NewAFRAAD.dbo.Soldier ADD ServiceType varchar(100) NULL;
 ALTER TABLE NewAFRAAD.dbo.Soldier ADD GHA varchar(100) NULL;
 ALTER TABLE NewAFRAAD.dbo.Soldier ADD DriverLevel varchar(100) NULL;
 ALTER TABLE NewAFRAAD.dbo.Soldier ADD Treatment varchar(100) NULL;
+ALTER TABLE NewAFRAAD.dbo.Soldier ALTER COLUMN ServiceType varchar(100) COLLATE Arabic_CI_AI NULL;
+ALTER TABLE NewAFRAAD.dbo.Soldier ALTER COLUMN DriverLevel varchar(100) COLLATE Arabic_CI_AI NULL;
+ALTER TABLE NewAFRAAD.dbo.Soldier ALTER COLUMN Treatment varchar(100) COLLATE Arabic_CI_AI NULL;
