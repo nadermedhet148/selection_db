@@ -187,6 +187,9 @@ function initModels(sequelize) {
   Soldier.belongsTo(City, { foreignKey: "CityID" });
   City.hasMany(Soldier, { foreignKey: "CityID" });
   Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
+
+  Soldier.hasMany(Recommendations, { foreignKey: "ID" });
+  Recommendations.belongsTo(Soldier, { foreignKey: "ID" });
   Duty.hasMany(Soldier, { foreignKey: "DutyID" });
   Followers.belongsTo(FollowingRigion, {
     foreignKey: "FollowRigionID"
