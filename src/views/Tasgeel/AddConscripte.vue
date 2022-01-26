@@ -190,7 +190,7 @@
 const constants = require("../../Constant").default;
 export default {
   name: "add_conscripte",
-   computed: {
+  computed: {
     params() {
       console.log(this.$store.state.routes);
       let index = this.$store.state.routes.findIndex(
@@ -216,7 +216,7 @@ export default {
       conscriptionDate: null,
       unitID: null
     },
-    
+
     isEnhaa: false,
     groups: [
       {

@@ -414,7 +414,7 @@
       scrollable
       max-width="750"
     >
-      <v-card >
+      <v-card>
         <v-card-title>
           <v-spacer></v-spacer>
           <v-btn @click="rowEditModel.model = false" icon>
@@ -874,7 +874,7 @@ export default {
         inSearch: true,
         inTable: false,
         sort: 5
-      },
+      }
       // {
       //   text: "تجميع",
       //   value: "groupBy",
