@@ -401,14 +401,26 @@ export default {
         },
         {
           text: "الاسم",
-          value: "Soldier.Name",
+          value: "Name",
           searchValue: "Name",
           sortable: true,
           type: "text",
           inSearch: true,
           inTable: true,
           inModel: true,
-          readonly: true,
+          readonly: false,
+          sort: 1
+        },
+        {
+          text: "الرقم الثلاثي",
+          value: "tripleNo",
+          searchValue: "tripleNo",
+          sortable: true,
+          type: "text",
+          inSearch: true,
+          inTable: true,
+          inModel: true,
+          readonly: false,
           sort: 1
         },
         {
@@ -654,7 +666,11 @@ export default {
         ]
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.map(ele => ({
+              ...ele,
+              Name: ele.Name || ele.Soldier?.Name,
+              tripleNo: ele.tripleNo || ele.Soldier?.tripleNo
+            })),
             printer = {
               cons: [...data],
               excelKey: "cons",
