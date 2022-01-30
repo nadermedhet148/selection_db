@@ -183,74 +183,13 @@ let nozom = function(t) {
     // ../admin
     // Tasgeel
     tas: [
-      // {
-      //   type: "single",
-      //   icon: "mdi-account-outline",
-      //   text: tas("new_profile"),
-      //   href: "/new_profile"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-account-group",
-      //   text: mic("ignorants"),
-      //   href: "/ignorants"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-update",
-      //   text: tas("monthly_rev"),
-      //   href: "/monthly_rev/1",
-      //   onlySegelat: true
-      // }
-      // {
-      //   type: "single",
-      //   icon: "mdi-hospital-box-outline",
-      //   text: tas("injuries"),
-      //   href: "/soldiers_plus/advanced_search/injuries"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-apple-keyboard-caps",
-      //   text: tas("promotion"),
-      //   href: "/bulk_promotion",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-file-table-box-multiple-outline",
-      //   text: tas("reports"),
-      //   href: "/tasgeel_reports"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-newspaper-variant-multiple-outline",
-      //   text: tas("too_late"),
-      //   href: "/too_late/1",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-newspaper-variant-multiple-outline",
-      //   text: tas("injuries_isFollowed"),
-      //   href: "/injuries_isFollowed",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-account-group",
-      //   text: tas("penalties"),
-      //   href: "/penalties"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-doctor",
-      //   text: tas("kashf_magles_tebby"),
-      //   href: "/kashf_magles_tebby",
-      //   onlySegelat: true
-      // }
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: tas("categories_dailes"),
+        href: "/categories_dailes"
+      }
     ],
-    // ../Tasgeel
-    // new_comerstyat
     new_comers: [
       {
         type: "single",

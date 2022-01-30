@@ -124,6 +124,15 @@ const routes = [
     }
   },
   {
+    path: "/categories_dailes",
+    name: "categories_dailes",
+    component: mix.fun.loadView("tasgeel/categories_dailes"),
+    meta: {
+      title: "اليومية العديدة للفئات",
+      ok: true
+    }
+  },
+  {
     path: "/dalies",
     name: "dalies",
     component: mix.fun.loadView("new_comers/dalies"),

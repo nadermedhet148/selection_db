@@ -135,7 +135,7 @@ var _default = {
       },
       "1": {
         _self: "قسم التسجيل",
-        new_profile: "البروفايل الجديد",
+        categories_dailes: "اليومية العددية للفئات",
         injuries: "الحالات الإصابية / المرضية",
         soldier_plus: "الراتب العالي والمجندين",
         monthly_rev: "المراجعة الشهرية",
@@ -153,7 +153,7 @@ var _default = {
         tmam_eltasgel: "تمام التسجيل",
         effects: "المؤثرات",
         recommandations: "التوصيات",
-        dalies: " اليوميات العديدة للمجندين ",
+        dalies: " اليوميات العددية للمجندين ",
         soliders_brothers: " تسجيل الاشقاء",
         tmam_eltarhel: "تمام الترحيل",
         malaheq_suggest: "الملاحق",

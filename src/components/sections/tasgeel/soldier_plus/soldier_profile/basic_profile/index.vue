@@ -231,7 +231,7 @@ export default {
     IgnorantCard: loadView("ignorants"),
     ExemptionCard: loadView("exemption"),
     PenaltiesCard: loadView("penalties"),
-    NewProfile: () => import("@/views/Tasgeel/NewProfile"),
+    NewProfile: () => import("@/views/tasgeel/NewProfile"),
     PrintConscripteProfile: () =>
       import("@/components/items/military_printer/conscripte-profile.vue")
   },
