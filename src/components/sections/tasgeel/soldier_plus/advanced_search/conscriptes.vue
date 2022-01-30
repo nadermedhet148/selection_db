@@ -277,13 +277,6 @@ export default {
           text: "الرقم العسكري",
           sortable: true
         },
-
-        // {
-        //   value: "degree.degreeType",
-        //   dbvalue: "degreeId",
-        //   text: "الدرجة",
-        //   sortable: true
-        // },
         {
           value: "Name",
           text: "الإسم",
@@ -323,12 +316,6 @@ export default {
           text: "تاريخ التسريح",
           sortable: true
         }
-        // {
-        //   value: "isPartInMilitaryOperation",
-        //   dbvalue: "isPartInMilitaryOperation",
-        //   text: "عمليات حربيه",
-        //   sortable: true
-        // }
       ]
     },
     printers: [

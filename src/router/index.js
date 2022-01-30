@@ -95,7 +95,7 @@ const routes = [
       title: "مقترح الملاحق المرحلة",
       ok: true
     }
-  }, 
+  },
   {
     path: "/recommandations",
     name: "recommandations",
@@ -183,7 +183,6 @@ const routes = [
     component: mix.fun.loadView("Dafater/DafaterManage"),
     meta: {
       title: "ادارة الدفاتر",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -219,7 +218,6 @@ const routes = [
     name: "dafater_import",
     component: mix.fun.loadView("Dafater/Import"),
     meta: {
-      sections: [0, 12],
       title: "تصدير الدفاتر",
       ok: true
     }
@@ -229,7 +227,6 @@ const routes = [
     name: "dafater_statistics",
     component: mix.fun.loadView("Dafater/DafaterStatistics"),
     meta: {
-      sections: [0, 12],
       title: "احصاءات الدفاتر",
       ok: true
     }
@@ -295,7 +292,6 @@ const routes = [
     component: mix.fun.loadView("Nozom/Operations"),
     meta: {
       title: "العمليات الخاصة بالنظم",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -305,7 +301,6 @@ const routes = [
     component: mix.fun.loadView("Nozom/ControlStorage"),
     meta: {
       title: "التحكم في وحدة التخزين",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -315,7 +310,6 @@ const routes = [
     component: mix.fun.loadView("Nozom/add_periods"),
     meta: {
       title: "اضافة مرحلة تجنيدية",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -327,7 +321,6 @@ const routes = [
     component: mix.fun.loadView("Nozom/newOperations"),
     meta: {
       title: "عمليات مدير النظام",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -337,7 +330,6 @@ const routes = [
     component: mix.fun.loadView("Admin/Verifications"),
     meta: {
       title: "المراجعة والتصديق",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -347,7 +339,6 @@ const routes = [
     component: mix.fun.loadView("Admin/WebsiteBlacklists"),
     meta: {
       title: "الروابط المحظورة",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -357,7 +348,6 @@ const routes = [
     component: mix.fun.loadView("Admin/DafaterReport"),
     meta: {
       title: "تقرير الدفاتر",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -367,7 +357,6 @@ const routes = [
     component: mix.fun.loadView("Admin/S2FolllowUp"),
     meta: {
       title: "متابعة 2 س",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -377,7 +366,6 @@ const routes = [
     component: mix.fun.loadView("Admin/EditUnits"),
     meta: {
       title: "الوحدات",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -387,7 +375,6 @@ const routes = [
     component: mix.fun.loadView("Admin/EditUnitsPasswords"),
     meta: {
       title: "باسوردات الوحدات",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -397,7 +384,6 @@ const routes = [
     component: mix.fun.loadView("Admin/EditUsers"),
     meta: {
       title: "المستخدمين",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -407,7 +393,6 @@ const routes = [
     component: mix.fun.loadView("Admin/Stats"),
     meta: {
       title: "احصائات مدير النظام",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -417,7 +402,6 @@ const routes = [
     component: mix.fun.loadView("Admin/Holder"),
     meta: {
       title: "هولدر رئيس الفرع",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -427,7 +411,6 @@ const routes = [
     component: mix.fun.loadView("Admin/MissedData"),
     meta: {
       title: "أفراد لهم بيانات ناقصة",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -437,7 +420,6 @@ const routes = [
     component: mix.fun.loadView("Admin/LinkedDatabases"),
     meta: {
       title: "الربط بقواعد بيانات أخرى",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -447,7 +429,6 @@ const routes = [
     component: mix.fun.loadView("Admin/DescribeDemobDate"),
     meta: {
       title: "تجربة حساب تاريخ التسريح",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -457,7 +438,6 @@ const routes = [
     component: mix.fun.loadView("Admin/FixDemobDate"),
     meta: {
       title: "تصحيح تاريخ التسريح",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -467,7 +447,6 @@ const routes = [
     component: mix.fun.loadView("Admin/ExtractImages"),
     meta: {
       title: "استخراج صور الأفراد",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -477,7 +456,6 @@ const routes = [
     component: mix.fun.loadView("Admin/TooLate"),
     meta: {
       title: "المتأخرات المجمعة",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -487,7 +465,6 @@ const routes = [
     component: mix.fun.loadView("Admin/ConnectedDevices"),
     meta: {
       title: "الأجهزة المتصلة",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -499,7 +476,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/SocialProfile"),
     meta: {
       title: "الملف الشخصي",
-      sections: [0, 12, 1, 2, 3, 4],
       ok: true
     }
   },
@@ -509,7 +485,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/SoldiersPlus"),
     meta: {
       title: "الراتب العالي والمجندين",
-      sections: [0, 12, 1, 2, 3, 4, 5, 6],
       ok: true
     }
   },
@@ -519,7 +494,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/Penalties"),
     meta: {
       title: "العقوبات",
-      sections: [0, 12, 1, 2, 3, 4],
       ok: true
     }
   },
@@ -529,7 +503,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/AddConscripte"),
     meta: {
       title: "إضافة / تعديل فرد",
-      sections: [0, 12, 1, 2, 3, 4],
       ok: true
     }
   },
@@ -539,7 +512,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/MonthlyRev"),
     meta: {
       title: "المراجعة الشهرية",
-      section: [0, 12, 1, 2, 3],
       ok: true
     }
   },
@@ -549,7 +521,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/BulkPromotion"),
     meta: {
       title: "إعداد مشروع الترقي",
-      section: [0, 12, 1],
       ok: true
     }
   },
@@ -559,7 +530,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/Reports"),
     meta: {
       title: "تقارير قسم التسجيل",
-      section: [0, 12, 1],
       ok: true
     }
   },
@@ -569,7 +539,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/TooLate"),
     meta: {
       title: "المتأخرات",
-      section: [0, 12, 1, 2],
       ok: true
     }
   },
@@ -579,7 +548,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/injuries_isFollowed"),
     meta: {
       title: "متابعة المصابين",
-      section: [0, 12, 1],
       ok: true
     }
   },
@@ -589,7 +557,6 @@ const routes = [
     component: mix.fun.loadView("Tasgeel/Ignorants"),
     meta: {
       title: "محو الأمية",
-      section: [0, 12, 1, 2, 3, 4],
       ok: true
     }
   },
@@ -601,7 +568,6 @@ const routes = [
     component: mix.fun.loadView("Admin/E7tyat_Files"),
     meta: {
       title: "دفاتر الإحتياط",
-      sections: [0, 12],
       ok: true
     }
   },
@@ -611,7 +577,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/Radeef"),
     meta: {
       title: "كشف دفعة رديف",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -621,7 +586,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/Dof3aStatistics"),
     meta: {
       title: "كشف احصائية دفعة",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -631,7 +595,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/RadeefReport"),
     meta: {
       title: "تقرير دفعة رديف",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -641,7 +604,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/RadeefReportOthers"),
     meta: {
       title: "رديف الإدارات الآخرى",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -651,7 +613,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/LateRadeef"),
     meta: {
       title: "كشف المتأخرين عن التسريح",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -661,7 +622,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/Lates"),
     meta: {
       title: "المتأخرات",
-      sections: [0, 12, 1, 2],
       ok: true
     }
   },
@@ -671,7 +631,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/FollowingReservedInjuries"),
     meta: {
       title: "مصابي النقل على الإحتياط",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -681,7 +640,6 @@ const routes = [
     component: mix.fun.loadView("E7tyat/TrainedDuty"),
     meta: {
       title: "حصر الواجب المدرب عليه",
-      sections: [0, 12, 2],
       ok: true
     }
   },
@@ -693,7 +651,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/KashfMaglesTebby"),
     meta: {
       title: "كشف بالعرض على المجلس الطبي",
-      section: [0, 12, 1, 3],
       ok: true
     }
   },
@@ -703,7 +660,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/EndedDutyMainData"),
     meta: {
       title: "البيانات الأساسية للمنتهي خدمتهم",
-      section: [0, 12, 3],
       ok: true
     }
   },
@@ -713,7 +669,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/AdvancedSearchEnhaa"),
     meta: {
       title: "المنتهي خدمتهم",
-      section: [0, 12, 3],
       ok: true
     }
   },
@@ -723,7 +678,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/Kashf_40"),
     meta: {
       title: "كشف الأربعين",
-      section: [0, 12, 3],
       ok: true
     }
   },
@@ -733,7 +687,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/Kashf_BologSen"),
     meta: {
       title: "كشف بلوغ السن",
-      section: [0, 12, 3],
       ok: true
     }
   },
@@ -743,7 +696,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/Missed161s"),
     meta: {
       title: "منتظر الـ 161 س",
-      sections: [0, 12, 3],
       ok: true
     }
   },
@@ -753,7 +705,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/MilitaryOrders"),
     meta: {
       title: "نشرة الأوامر العسكرية",
-      sections: [0, 12, 3],
       ok: true
     }
   },
@@ -763,7 +714,6 @@ const routes = [
     component: mix.fun.loadView("Enhaa/Stats"),
     meta: {
       title: "احصائات بيانية - الإنهاء",
-      sections: [0, 12, 3],
       ok: true
     }
   },
@@ -773,7 +723,6 @@ const routes = [
     component: mix.fun.loadView("Websites/index"),
     meta: {
       title: "الشبكة العسكرية",
-      section: [0, 12, 1, 2, 3, 4, 5, 6],
       ok: true
     }
   },
@@ -786,7 +735,6 @@ const routes = [
     component: mix.fun.loadView("dbs/so/index"),
     meta: {
       title: "استقبال المواطنين",
-      sections: [0, 12, 1, 2, 3, 4],
       ok: true
     }
   }

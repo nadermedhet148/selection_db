@@ -106,9 +106,6 @@
               class="boldOnLang"
               v-html="$store.state.currentUser.realName"
             ></v-list-item-title>
-            <v-list-item-subtitle
-              v-html="getLang(`sidebar.sections.${userSection}._self`)"
-            ></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -331,6 +328,8 @@
 
 <script>
 let sidenav_items = require("@/components/items/sidenav-items.js");
+const lodash = require("lodash");
+
 export default {
   name: "app-sidenav",
   created() {
@@ -381,7 +380,7 @@ export default {
       let user = this.$store.state.currentUser,
         section = user ? user.section : null,
         // role = user ? user.role : null,
-        searcher = "_" + section,
+        searcher = section,
         item_group = function(children = [], sec = 0, icon = "") {
           if (children.length)
             return {
@@ -419,77 +418,53 @@ export default {
           });
         }
       } else if (section != null) {
-        if (this.isAdmin()) {
-          for (let i = 0; i < 5; i++) {
-            if (i == 0 && searcher !== "_0") {
-              continue;
-            }
-            let new_list_group = [],
-              items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
-              groups_found = [];
-            if (i == 1 && sidenav_items._12) {
-              this.sidenav_items.push(...sidenav_items._12);
-            }
-            items.forEach(item => {
-              if (item.type == "group") {
-                groups_found.push(item);
-              } else {
-                new_list_group.push(item);
-              }
-            });
-            this.sidenav_items.push(
-              item_group(
-                new_list_group,
-                i,
-                this.sections_icons[i] ? this.sections_icons[i] : ""
-              )
-            );
-            groups_found.forEach(group => {
-              this.sidenav_items.push(
-                item_group(
-                  group.value,
-                  group.key,
-                  this.sections_icons[group.key]
-                    ? this.sections_icons[group.key]
-                    : ""
-                )
-              );
-            });
+        for (let i = 0; i < 5; i++) {
+          let new_list_group = [],
+            items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
+            groups_found = [];
+          if (i == 1 && sidenav_items._12) {
+            this.sidenav_items.push(...sidenav_items._12);
           }
-        } else {
-          let items = sidenav_items[searcher] ? sidenav_items[searcher] : [];
           items.forEach(item => {
             if (item.type == "group") {
-              this.sidenav_items.push(
-                item_group(
-                  item.value,
-                  item.key,
-                  this.sections_icons[item.key]
-                    ? this.sections_icons[item.key]
-                    : ""
-                )
-              );
+              groups_found.push(item);
             } else {
-              this.sidenav_items.push(item);
+              new_list_group.push(item);
             }
           });
-          // this.sidenav_items.push(...sidenav_items[searcher]);
-          // switch (searcher) {
-          //   case "_4":
-          //     this.sidenav_items.push(
-          //       item_group(
-          //         sidenav_items[`_5`],
-          //         5,
-          //         this.sections_icons[5] ? this.sections_icons[5] : ""
-          //       )
-          //     );
-          //     break;
-          //   default:
-          //     break;
-          // }
+          this.sidenav_items.push(
+            item_group(
+              new_list_group,
+              i,
+              this.sections_icons[i] ? this.sections_icons[i] : ""
+            )
+          );
+          groups_found.forEach(group => {
+            this.sidenav_items.push(
+              item_group(
+                group.value,
+                group.key,
+                this.sections_icons[group.key]
+                  ? this.sections_icons[group.key]
+                  : ""
+              )
+            );
+          });
         }
       }
-      // this.sidenav_items.push(sidenav_items.seperator(2));
+      let permissions = section.split(",");
+      this.sidenav_items = this.sidenav_items
+        .map(ele => {
+          if (ele.children) {
+            ele.children = ele.children.filter(
+              child => permissions.indexOf(child.text) > -1
+            );
+            return ele.children.length ? ele : null;
+          }
+
+          return ele;
+        })
+        .filter(ele => ele);
       this.sidenav_items.push(...sidenav_items.footer);
     },
     preventDefaultInstall() {
