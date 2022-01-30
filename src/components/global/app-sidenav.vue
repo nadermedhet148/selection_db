@@ -106,14 +106,6 @@
               class="boldOnLang"
               v-html="$store.state.currentUser.realName"
             ></v-list-item-title>
-            <v-list-item-subtitle
-              v-html="
-                userSection
-                  .split(',')
-                  .map(ele => getLang(`sidebar.sections.${ele}._self`))
-                  .join(',')
-              "
-            ></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -426,73 +418,53 @@ export default {
           });
         }
       } else if (section != null) {
-        if (this.isAdmin()) {
-          for (let i = 0; i < 5; i++) {
-            let new_list_group = [],
-              items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
-              groups_found = [];
-            if (i == 1 && sidenav_items._12) {
-              this.sidenav_items.push(...sidenav_items._12);
+        for (let i = 0; i < 5; i++) {
+          let new_list_group = [],
+            items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
+            groups_found = [];
+          if (i == 1 && sidenav_items._12) {
+            this.sidenav_items.push(...sidenav_items._12);
+          }
+          items.forEach(item => {
+            if (item.type == "group") {
+              groups_found.push(item);
+            } else {
+              new_list_group.push(item);
             }
-            items.forEach(item => {
-              if (item.type == "group") {
-                groups_found.push(item);
-              } else {
-                new_list_group.push(item);
-              }
-            });
+          });
+          this.sidenav_items.push(
+            item_group(
+              new_list_group,
+              i,
+              this.sections_icons[i] ? this.sections_icons[i] : ""
+            )
+          );
+          groups_found.forEach(group => {
             this.sidenav_items.push(
               item_group(
-                new_list_group,
-                i,
-                this.sections_icons[i] ? this.sections_icons[i] : ""
+                group.value,
+                group.key,
+                this.sections_icons[group.key]
+                  ? this.sections_icons[group.key]
+                  : ""
               )
             );
-            groups_found.forEach(group => {
-              this.sidenav_items.push(
-                item_group(
-                  group.value,
-                  group.key,
-                  this.sections_icons[group.key]
-                    ? this.sections_icons[group.key]
-                    : ""
-                )
-              );
-            });
-          }
-        } else {
-          for (let i of searcher.split(",")) {
-            let new_list_group = [],
-              items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
-              groups_found = [];
-            items.forEach(item => {
-              if (item.type == "group") {
-                groups_found.push(item);
-              } else {
-                new_list_group.push(item);
-              }
-            });
-            this.sidenav_items.push(
-              item_group(
-                new_list_group,
-                i,
-                this.sections_icons[i] ? this.sections_icons[i] : ""
-              )
-            );
-            groups_found.forEach(group => {
-              this.sidenav_items.push(
-                item_group(
-                  group.value,
-                  group.key,
-                  this.sections_icons[group.key]
-                    ? this.sections_icons[group.key]
-                    : ""
-                )
-              );
-            });
-          }
+          });
         }
       }
+      let permissions = section.split(",");
+      this.sidenav_items = this.sidenav_items
+        .map(ele => {
+          if (ele.children) {
+            ele.children = ele.children.filter(
+              child => permissions.indexOf(child.text) > -1
+            );
+            return ele.children.length ? ele : null;
+          }
+
+          return ele;
+        })
+        .filter(ele => ele);
       this.sidenav_items.push(...sidenav_items.footer);
     },
     preventDefaultInstall() {

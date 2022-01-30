@@ -155,91 +155,12 @@ let nozom = function(t) {
         model: false,
         onlySegelat: true,
         children: [
-          // {
-          //   type: "single",
-          //   icon: "mdi-block-helper",
-          //   text: admin("website_blacklists"),
-          //   href: "/website_blacklists"
-          // },
           {
             type: "single",
             icon: "mdi-view-dashboard-outline",
             text: admin("operations"),
             href: "/admin_operations"
           }
-          // {
-          //   type: "single",
-          //   icon: "mdi-view-dashboard-variant",
-          //   text: admin("edit_units"),
-          //   href: "/edit_units"
-          // },
-          // {
-          //   type: "single",
-          //   icon: "mdi-lock-alert",
-          //   text: admin("edit_units_passwords"),
-          //   href: "/units_passwords"
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: nozom("describe_demob_date"),
-          //   href: "/describe_demob_date"
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: nozom("fix_demob_date"),
-          //   href: "/fix_demob_date"
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: nozom("extract_images"),
-          //   href: "/extract_images",
-          //   onlySegelat: true
-          // },
-          // {
-          //   type: "single",
-          //   icon: "mdi-view-dashboard-outline",
-          //   text: nozom("operations"),
-          //   href: "/nozom_operations"
-          // },
-          // // {
-          // //   type: "single",
-          // //   icon: "mdi-view-dashboard-outline",
-          // //   text: nozom("control_storage"),
-          // //   href: "/control_storage"
-          // // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: dafater("manage"),
-          //   href: "/dafater_management",
-          //   onlySegelat: true
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: dafater("import"),
-          //   sections: [0, 12],
-          //   href: "/dafater_import",
-          //   onlySegelat: true
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   sections: [0],
-          //   text: dafater("stats"),
-          //   href: "/dafater_statistics",
-          //   onlySegelat: true
-          // },
-          // {
-          //   type: "single",
-          //   icon: " ",
-          //   text: nozom("add_periods"),
-          //   href: "/add_periods",
-          //   onlySegelat: true
-          // }
         ]
       }
     ],
@@ -252,90 +173,12 @@ let nozom = function(t) {
         href: "/connected_devices",
         onlySegelat: true
       },
-      // {
-      //   type: "single",
-      //   icon: " ",
-      //   text: admin("followup_admin"),
-      //   href: "/followup_admin",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-check-bold",
-      //   text: admin("verifications"),
-      //   href: "/admin_verifications"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-check-bold",
-      //   text: admin("dafaterReport"),
-      //   href: "/dafater_report",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-eye",
-      //   text: admin("s2followup"),
-      //   href: "/s2followup",
-      //   onlySegelat: true
-      // },
       {
         type: "single",
         icon: "mdi-account-group-outline",
         text: admin("edit_users"),
         href: "/edit_users"
       }
-      // {
-      //   type: "single",
-      //   icon: "mdi-chart-line",
-      //   text: admin("admin_stats"),
-      //   href: "/admin_stats"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-book-open-variant",
-      //   text: admin("admin_holder"),
-      //   href: "/admin_holder/",
-      //   onlySegelat: true
-      // }
-      // {
-      //   type: "single",
-      //   icon: "mdi-file-document",
-      //   text: new_comers("new_comerstyat_files"),
-      //   href: "/new_comerstyat_files"
-      // }
-      // {
-      //   type: "single",
-      //   icon: "mdi-file-document",
-      //   text: admin("missed_data"),
-      //   href: "/missed_data_admin"
-      // }
-      // {
-      //   type: "single",
-      //   icon: "mdi-tournament",
-      //   text: admin("linked_databases"),
-      //   href: "/linked_databases"
-      // },
-      // {
-      //   type: "single",
-      //   icon: " ",
-      //   text: admin("admin_too_late"),
-      //   href: "/admin_too_late",
-      //   text: admin("describe_demob_date"),
-      //   href: "/describe_demob_date"
-      // },
-      // {
-      //   type: "single",
-      //   icon: " ",
-      //   text: admin("fix_demob_date"),
-      //   href: "/fix_demob_date"
-      // },
-      // {
-      //   type: "single",
-      //   icon: " ",
-      //   text: admin("extract_images"),
-      //   href: "/extract_images"
-      // },
     ],
     // ../admin
     // Tasgeel

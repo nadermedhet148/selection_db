@@ -305,6 +305,35 @@
               </v-col>
             </template>
           </v-row>
+          <v-divider></v-divider>
+          <h1
+            style="
+                border-bottom: 1px solid #000;
+                margin: 20px 0;
+                padding: 15px 0px 15px 10%;
+                display: inline-block;"
+          >
+            صلاحيات المستخدمين
+          </h1>
+          <template v-for="(item, i) in sidenav_items">
+            <div :key="i">
+              <h2 class="text-h6 mb-2">
+                {{ getLang("sidebar." + item.text) }}
+              </h2>
+              <v-chip-group
+                :ref="'group' + i"
+                column
+                multiple
+                v-model="edit.user.section"
+              >
+                <template v-for="(child, y) in item.children">
+                  <v-chip filter outlined :key="y" :value="child.text">
+                    {{ getLang("sidebar." + child.text) }}
+                  </v-chip>
+                </template>
+              </v-chip-group>
+            </div>
+          </template>
         </v-card-text>
         <v-card-actions class="px-6">
           <v-spacer></v-spacer>
@@ -340,15 +369,27 @@
 
 <script>
 const constants = require("../../Constant").default;
+let sidenav_items = require("@/components/items/sidenav-items.js");
 
 export default {
   name: "edit-users",
   mounted() {
     this.getUsers();
+    this.fetchSidenavItems();
   },
+
   data: () => ({
     componentName: "edit_users",
     tableFilters: {},
+    sidenav_items: [],
+    sections_icons: [
+      "mdi-shield-star-outline",
+      "mdi-file-document-edit-outline",
+      "mdi-account",
+      "mdi-account-box-multiple-outline",
+      "mdi-account-question-outline",
+      "mdi-movie"
+    ],
     inputs: [
       {
         label: "الإسم",
@@ -367,44 +408,15 @@ export default {
       {
         label: "الدرجة",
         model: "degree"
-      },
-
-      {
-        label: "القسم المختص",
-        model: "section",
-        type: "select",
-        isMultiple: true
       }
+      // {
+      //   label: "القسم المختص",
+      //   model: "section",
+      //   type: "select",
+      //   isMultiple: true
+      // }
     ],
     selects: {
-      canAddFollowup: {
-        data: [
-          {
-            text: "نعم",
-            value: true
-          },
-          {
-            text: "لا",
-            value: false
-          }
-        ],
-        text: "text",
-        value: "value"
-      },
-      canUnfollow: {
-        data: [
-          {
-            text: "نعم",
-            value: true
-          },
-          {
-            text: "لا",
-            value: false
-          }
-        ],
-        text: "text",
-        value: "value"
-      },
       section: {
         data: constants.sections,
         text: "text",
@@ -429,11 +441,11 @@ export default {
         userId: null,
         realName: null,
         degree: null,
-        section: "",
         dateAdded: null,
         isVisible: null,
         canAddFollowup: false,
-        canUnfollow: false
+        canUnfollow: false,
+        section: []
       }
     },
     result: {
@@ -461,21 +473,6 @@ export default {
         {
           text: "كلمة السر",
           value: "password",
-          sortable: true
-        },
-        {
-          text: "الصلاحية",
-          value: "role",
-          sortable: true
-        },
-        {
-          text: "إضافة متابعات؟",
-          value: "canAddFollowup",
-          sortable: true
-        },
-        {
-          text: "رفع المتابع؟",
-          value: "canUnfollow",
           sortable: true
         },
         {
@@ -541,7 +538,7 @@ export default {
           Object.keys(this.edit.user).forEach(key => {
             this.edit.user[key] = null;
           });
-          item.section = item.section.split(",").map(ele => parseInt(ele));
+          if (item.section) item.section = item.section.split(",");
           Object.keys(item).forEach(key => {
             let val = item[key];
             this.$set(this.edit.user, key, val);
@@ -588,6 +585,55 @@ export default {
         this.showError("حدث خطأ أثناء استدعاء المستخدمين من قاعدة البيانات.");
       }
       this.$set(this.result, "loading", false);
+    },
+    fetchSidenavItems() {
+      this.$set(this, "sidenav_items", []);
+      let item_group = function(children = [], sec = 0, icon = "") {
+        if (children.length)
+          return {
+            type: "group",
+            children,
+            icon,
+            text: `sections.${sec}._self`,
+            model: false
+          };
+        return {};
+      };
+      this.sidenav_items.push(...sidenav_items.header);
+      for (let i = 0; i < 5; i++) {
+        let new_list_group = [],
+          items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
+          groups_found = [];
+        items.forEach(item => {
+          if (item.type == "group") {
+            groups_found.push(item);
+          } else {
+            new_list_group.push(item);
+          }
+        });
+        this.sidenav_items.push(
+          item_group(
+            new_list_group,
+            i,
+            this.sections_icons[i] ? this.sections_icons[i] : ""
+          )
+        );
+        groups_found.forEach(group => {
+          this.sidenav_items.push(
+            item_group(
+              group.value,
+              group.key,
+              this.sections_icons[group.key]
+                ? this.sections_icons[group.key]
+                : ""
+            )
+          );
+        });
+      }
+
+      this.sidenav_items = this.sidenav_items.filter(
+        ele => ele && ele.children && ele.children.length
+      );
     }
   }
 };
