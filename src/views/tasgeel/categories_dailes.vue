@@ -328,30 +328,50 @@ export default {
           ...headers,
           ...[
             {
-              text: ` المرتب / ${category.text} `,
+              text: ` ${category.text} / المرتب`,
               value: `${category.mappedValue}.mortab`
             },
             {
-              text: ` السياسة / ${category.text} `,
+              text: ` ${category.text} /السياسة `,
               value: `${category.mappedValue}.siasa`
             },
+            category.mappedValue == "driver"
+              ? {
+                  text: `${category.text} /  سياسة الامداد`,
+                  value: `${category.mappedValue}.totalSupport`
+                }
+              : null,
+            category.mappedValue == "officer"
+              ? {
+                  text: `${category.text} /  اجمالي صف حدود`,
+                  value: `${category.mappedValue}.totalHododCount`
+                }
+              : null,
+            category.mappedValue == "officer"
+              ? {
+                  text: `${category.text} /  اجمالي صف ادارات`,
+                  value: `${category.mappedValue}.totalSMSoliderCount`
+                }
+              : null,
             {
-              text: ` مجند / ${category.text} `,
+              text: `${category.text} / مجند`,
               value: `${category.mappedValue}.totalSoliderCount`
             },
             {
-              text: ` راتب عالي / ${category.text} `,
+              text: ` ${category.text} / راتب عالي`,
               value: `${category.mappedValue}.rateb`
             }
           ]
-        ].map(ele => ({
-          text: ele.text,
-          value: ele.value,
-          sortable: true,
-          type: "select",
-          inTable: true,
-          sort: 1
-        }));
+        ]
+          .filter(ele => ele)
+          .map(ele => ({
+            text: ele.text,
+            value: ele.value,
+            sortable: true,
+            type: "select",
+            inTable: true,
+            sort: 1
+          }));
       });
       this.$set(this.mainTable, "headers", [
         ...basicHeaders,
@@ -381,6 +401,7 @@ export default {
             text: "اجمالي الجملة",
             value: "totals.totalSum"
           },
+
           {
             text: "نسبة / المرتب",
             value: "percentages.totalOverMortab"

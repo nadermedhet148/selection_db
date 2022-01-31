@@ -73,6 +73,7 @@ module.exports = async (db, params) => {
         );
         if (!ele[category.mappedValue]) ele[category.mappedValue] = {};
 
+        // TODO: refactor it to check if wepon is not hars hodo from soldier table after refactor
         const totalSMCount = await db.sequelize.query(
           `
           select  Coalesce ( count(ID),0) totalSoliderCount  from SMSoldier
@@ -104,7 +105,7 @@ module.exports = async (db, params) => {
           rateb: value[0].count
         };
       }
-
+      // TODO: refactor it to check if wepon is hars hodo table after refactor
       const totalHododCount = await db.sequelize.query(
         `
         select  Coalesce ( count(ID),0) totalHododCount  from Soldier
@@ -129,10 +130,11 @@ module.exports = async (db, params) => {
         }
       );
 
-      // /..., ...totalSupport[0]
       if (ele.officer) {
-        ele.officer.totalSoliderCount =
-          ele.officer.totalSoliderCount + totalHododCount[0].totalHododCount;
+        ele.officer.totalSMSoliderCount = ele.officer.totalSoliderCount;
+        ele.officer.totalHododCount = totalHododCount[0].totalHododCount;
+
+        ele.officer.totalSoliderCount += totalHododCount[0].totalHododCount;
       }
 
       if (ele.driver) {
