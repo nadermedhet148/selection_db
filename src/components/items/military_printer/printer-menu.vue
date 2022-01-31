@@ -275,6 +275,7 @@ export default {
               let distroy = header.value.split("."),
                 val = row;
               distroy.forEach(v => {
+                if (val[v] === 0) val[v] = "0";
                 val = val[v] ? val[v] : val;
               });
               if (val) {
