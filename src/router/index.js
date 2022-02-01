@@ -133,6 +133,15 @@ const routes = [
     }
   },
   {
+    path: "/360_normal_dailes",
+    name: "360_normal_dailes",
+    component: mix.fun.loadView("tasgeel/360_normal_dailes"),
+    meta: {
+      title: "يومية 360 عادة",
+      ok: true
+    }
+  },
+  {
     path: "/dalies",
     name: "dalies",
     component: mix.fun.loadView("new_comers/dalies"),
@@ -482,7 +491,7 @@ const routes = [
   {
     path: "/social_profile/:id?/:section?",
     name: "social_profile",
-    component: mix.fun.loadView("Tasgeel/SocialProfile"),
+    component: mix.fun.loadView("tasgeel/SocialProfile"),
     meta: {
       title: "الملف الشخصي",
       ok: true
@@ -491,7 +500,7 @@ const routes = [
   {
     path: "/soldiers_plus/:id?/:section?",
     name: "soldiers_plus",
-    component: mix.fun.loadView("Tasgeel/SoldiersPlus"),
+    component: mix.fun.loadView("tasgeel/SoldiersPlus"),
     meta: {
       title: "الراتب العالي والمجندين",
       ok: true
@@ -500,7 +509,7 @@ const routes = [
   {
     path: "/penalties",
     name: "penalties",
-    component: mix.fun.loadView("Tasgeel/Penalties"),
+    component: mix.fun.loadView("tasgeel/Penalties"),
     meta: {
       title: "العقوبات",
       ok: true
@@ -509,7 +518,7 @@ const routes = [
   {
     path: "/add_conscripte/:id?",
     name: "add_conscripte",
-    component: mix.fun.loadView("Tasgeel/AddConscripte"),
+    component: mix.fun.loadView("tasgeel/AddConscripte"),
     meta: {
       title: "إضافة / تعديل فرد",
       ok: true
@@ -518,7 +527,7 @@ const routes = [
   {
     path: "/monthly_rev/:section/:unit?",
     name: "monthly_rev",
-    component: mix.fun.loadView("Tasgeel/MonthlyRev"),
+    component: mix.fun.loadView("tasgeel/MonthlyRev"),
     meta: {
       title: "المراجعة الشهرية",
       ok: true
@@ -527,7 +536,7 @@ const routes = [
   {
     path: "/bulk_promotion",
     name: "bulk_promotion",
-    component: mix.fun.loadView("Tasgeel/BulkPromotion"),
+    component: mix.fun.loadView("tasgeel/BulkPromotion"),
     meta: {
       title: "إعداد مشروع الترقي",
       ok: true
