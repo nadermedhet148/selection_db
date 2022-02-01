@@ -4,8 +4,8 @@ const getUnits = require("./getUnits");
 const SoldierCategoryMap = [
   { text: "صف", mappedValue: "officer" },
   { text: "كاتب", mappedValue: "writer" },
-  { text: "مهني ", mappedValue: "professional" },
-  { text: "حرفي", mappedValue: "literal" },
+  { text: "مهنى", mappedValue: "professional" },
+  { text: "حرفى", mappedValue: "literal" },
   { text: "سائق عجل", mappedValue: "driver" }
 ];
 

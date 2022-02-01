@@ -4,18 +4,19 @@ const getUnits = require("./getUnits");
 const SoldierCategoryMap = [
   { text: "صف", mappedValue: "officer" },
   { text: "كاتب", mappedValue: "writer" },
-  { text: "مهني ", mappedValue: "professional" },
-  { text: "حرفي", mappedValue: "literal" },
+  { text: "مهنى", mappedValue: "professional" },
+  { text: "حرفى", mappedValue: "literal" },
   { text: "سائق عجل", mappedValue: "driver" }
 ];
 
 module.exports = async (db, params) => {
   // get units
   const units = await getUnits(db, params);
+
   const categories = SoldierCategoryMap.filter(
     ele => params.SoldierCategories.indexOf(ele.text) > -1
   );
-
+  console.log(params.SoldierCategories);
   const result = await Promise.all(
     units.map(async ele => {
       for (const category of categories) {
