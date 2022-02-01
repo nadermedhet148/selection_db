@@ -382,6 +382,23 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
+require(`./server-sequelize/reciever/af/sections/tasgeel/reports/360_normal_dailes.js`)(
+  dbs["af"],
+  {
+    Type: 0,
+    SoldierCategories: ["صف"]
+  },
+  win,
+  dbs,
+  webwin
+)
+  .then(result => {
+    console.log("result", result);
+  })
+  .catch(error => {
+    console.log("error", error);
+  });
+
 let fs = require("fs"),
   mkdirp = require("mkdirp"),
   getDirName = require("path").dirname;

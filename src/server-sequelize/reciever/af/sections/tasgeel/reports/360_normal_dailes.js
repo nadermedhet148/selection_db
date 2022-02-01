@@ -22,7 +22,7 @@ module.exports = async (db, params) => {
         const moratbValue = await db.sequelize.query(
           `
           select Coalesce ( SUM(El_Moratab),0) mortab , Coalesce ( SUM(Siasa) ,0) siasa from SMGeneral
-           where UNIT_NAME like N'%${ele.Unit}%' and Feaa_Code like  N'%${category.text}%' 
+           where UNIT_NAME like '%${ele.Unit}%' and Feaa_Code like  '%${category.text}%' 
           `,
           {
             type: QueryTypes.SELECT
@@ -116,14 +116,11 @@ module.exports = async (db, params) => {
       };
       ele.percentages = {
         totalOverMortab:
-          (Math.ceil((ele.totals.totalSum / ele.totals.totalMortab) * 100) ||
-            0) + "%",
+          Math.ceil((ele.totals.totalSum / ele.totals.totalMortab) * 100) || 0,
         totalOverSiasa:
-          (Math.ceil((ele.totals.totalSum / ele.totals.totalSiasa) * 100) ||
-            0) + "%",
+          Math.ceil((ele.totals.totalSum / ele.totals.totalSiasa) * 100) || 0,
         totalOverImdad:
-          (Math.ceil((ele.totals.totalSum / ele.totals.totalImdada) * 100) ||
-            0) + "%"
+          Math.ceil((ele.totals.totalSum / ele.totals.totalImdada) * 100) || 0
       };
 
       return ele;

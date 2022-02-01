@@ -188,6 +188,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: tas("categories_dailes"),
         href: "/categories_dailes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: tas("_360_normal_dailes"),
+        href: "/360_normal_dailes"
       }
     ],
     new_comers: [
