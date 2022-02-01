@@ -401,7 +401,6 @@ export default {
             text: "اجمالي الجملة",
             value: "totals.totalSum"
           },
-
           {
             text: "نسبة / المرتب",
             value: "percentages.totalOverMortab"

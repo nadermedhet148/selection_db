@@ -105,6 +105,12 @@ module.exports = async (db, params) => {
           rateb: value[0].count
         };
       }
+
+      categories.forEach(category => {
+        ele[category.mappedValue]["total"] =
+          ele[category.mappedValue].totalSoliderCount +
+          ele[category.mappedValue].rateb;
+      });
       // TODO: refactor it to check if wepon is hars hodo table after refactor
       const totalHododCount = await db.sequelize.query(
         `
@@ -137,17 +143,19 @@ module.exports = async (db, params) => {
         ele.officer.totalSoliderCount += totalHododCount[0].totalHododCount;
       }
 
+      let totalImdad = calculateTotal("siasa");
       if (ele.driver) {
         ele.driver.totalSupport = totalSupport[0].totalSupport;
+        totalImdad = totalImdad - ele.driver.siasa + ele.driver.totalSupport;
       }
 
       ele.totals = {
         totalMortab: calculateTotal("mortab"),
         totalSiasa: calculateTotal("siasa"),
-        totalImdad: 0,
+        totalImdad: totalImdad,
         totalRatab: calculateTotal("rateb"),
         totalSolider: calculateTotal("totalSoliderCount"),
-        totalSum: 0
+        totalSum: calculateTotal("total")
       };
       ele.percentages = {
         totalOverMortab:
