@@ -134,3 +134,95 @@
                 "SELECT Coalesce (Count(ID),0) Rateb  FROM [AFRAAD].[dbo].[Rateb] inner join Unit on Unit.UnitID =Rateb.UnitID Where RatebState = 'بالخدمة' and Unit.Unit = '" + unittttt + "' and RatebCategory = 'حرفى' and SupplyingRigion = 'اإدارة المهمات'"
                 "SELECT Coalesce (Count(ID),0) Rateb  FROM [AFRAAD].[dbo].[Rateb] inner join Unit on Unit.UnitID =Rateb.UnitID Where RatebState = 'بالخدمة' and Unit.Unit = '" + unittttt + "' and RatebCategory = 'حرفى' and SupplyingRigion = 'إدارة التعيينات'"
 
+////////////////////////////////////////////////////
+
+
+        //******ادارات*******
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory  like '%كاتب%' and ( SoldierLevel like 'جندي' or SoldierLevel like '%عريف%' ) "
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory  like '%كاتب%' and SoldierLevel like '%رقيب%' "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code = 'عريف') and Khedma_Type like '%مجند%'"
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code = 'رقيب') and Khedma_Type like '%مجند%'"
+
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory  = 'صف' and SoldierLevel like 'جندي' "
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory  = 'صف' and SoldierLevel like '%عريف%' "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code = 'عريف') and Khedma_Type like '%مجند%'"
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code like '%جند%') and Khedma_Type like '%مجند%'"
+
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'سائق عجل' and SoldierLevel like 'جندي' "
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'سائق عجل' and SoldierLevel like '%عريف%' "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code = 'عريف') and Khedma_Type like '%مجند%'"
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code like '%جند%') and Khedma_Type like '%مجند%'"
+
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'مهنى' and SoldierLevel like 'جندي' "
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'مهنى' and SoldierLevel like '%عريف%' "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code = 'عريف') and Khedma_Type like '%مجند%'"
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code like '%جند%') and Khedma_Type like '%مجند%'"
+
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'حرفى' and SoldierLevel like 'جندي' "
+                "select  Coalesce ( count(ID),0) mm  from SMSoldier join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة' and SoldierCategory   = 'حرفى' and SoldierLevel like '%عريف%' "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code = 'عريف') and Khedma_Type like '%مجند%'"
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME = '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code like '%جند%') and Khedma_Type like '%مجند%'"
+                //********حدود**********
+                "select  Coalesce ( count(ID),0) mm  from Soldier join Unit on Unit.UnitID = Soldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة'  and SoldierCategory   = 'صف' and SoldierLevel like 'جندي' "
+                "select  Coalesce ( count(ID),0) mm  from Soldier join Unit on Unit.UnitID = Soldier.UnitID where Unit = '" + unittttt + "' and RecuEndDate > getdate() and SoldierStatus = 'بالخدمة'  and SoldierCategory   = 'صف' and SoldierLevel like '%عريف%' "
+
+                //*************راتب عالى*******
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like '%كاتب%' and RatebState like 'بالخدمة' and (RatebLevel like '%مساعد%' or RatebLevel = 'ملاحظ فنى عسكرى' or RatebLevel = 'صانع  ممتاز' ) "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code like '%مساعد%' or Rotba_Code like '%ملاحظ فنى عسكرى%' or Rotba_Code like '%صانع  ممتاز%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like '%كاتب%' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب أ' or RatebLevel = 'صانع دقيق') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code like '%رقيب أ%' or Rotba_Code like '%صانع دقيق%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like '%كاتب%' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب' or RatebLevel like '%صانع ماهر%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code = 'رقيب' or Rotba_Code like '%صانع ماهر%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like '%كاتب%' and RatebState like 'بالخدمة' and (RatebLevel = 'عريف' or RatebLevel like '%صـانع عسكرى%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like '%كاتب%' and (Rotba_Code = 'عريف' or Rotba_Code like '%صـانع عسكرى%' ) and Khedma_Type = 'راتب عالى' "
+
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'صف' and RatebState like 'بالخدمة' and (RatebLevel like '%مساعد%' or RatebLevel = 'ملاحظ فنى عسكرى' or RatebLevel = 'صانع  ممتاز' ) "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code like '%مساعد%' or Rotba_Code like '%ملاحظ فنى عسكرى%' or Rotba_Code like '%صانع  ممتاز%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'صف' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب أ' or RatebLevel = 'صانع دقيق') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code like '%رقيب أ%' or Rotba_Code like '%صانع دقيق%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'صف' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب' or RatebLevel like '%صانع ماهر%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code = 'رقيب' or Rotba_Code like '%صانع ماهر%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'صف' and RatebState like 'بالخدمة' and (RatebLevel = 'عريف' or RatebLevel like '%صـانع عسكرى%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'صف' and (Rotba_Code = 'عريف' or Rotba_Code like '%صـانع عسكرى%' ) and Khedma_Type = 'راتب عالى' "
+
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'سائق عجل' and RatebState like 'بالخدمة' and (RatebLevel like '%مساعد%' or RatebLevel = 'ملاحظ فنى عسكرى' or RatebLevel = 'صانع  ممتاز' ) "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code like '%مساعد%' or Rotba_Code like '%ملاحظ فنى عسكرى%' or Rotba_Code like '%صانع  ممتاز%' ) and Khedma_Type = 'راتب عالى'  "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'سائق عجل' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب أ' or RatebLevel = 'صانع دقيق') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code like '%رقيب أ%' or Rotba_Code like '%صانع دقيق%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'سائق عجل' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب' or RatebLevel like '%صانع ماهر%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code = 'رقيب' or Rotba_Code like '%صانع ماهر%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'سائق عجل' and RatebState like 'بالخدمة' and (RatebLevel = 'عريف' or RatebLevel like '%صـانع عسكرى%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'سائق عجل' and (Rotba_Code = 'عريف' or Rotba_Code like '%صـانع عسكرى%' ) and Khedma_Type = 'راتب عالى' "
+
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'مهنى' and RatebState like 'بالخدمة' and (RatebLevel like '%مساعد%' or RatebLevel = 'ملاحظ فنى عسكرى' or RatebLevel = 'صانع  ممتاز' ) "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code like '%مساعد%' or Rotba_Code like '%ملاحظ فنى عسكرى%' or Rotba_Code like '%صانع  ممتاز%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'مهنى' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب أ' or RatebLevel = 'صانع دقيق') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code like '%رقيب أ%' or Rotba_Code like '%صانع دقيق%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'مهنى' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب' or RatebLevel like '%صانع ماهر%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code = 'رقيب' or Rotba_Code like '%صانع ماهر%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'مهنى' and RatebState like 'بالخدمة' and (RatebLevel = 'عريف' or RatebLevel like '%صـانع عسكرى%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'مهنى' and (Rotba_Code = 'عريف' or Rotba_Code like '%صـانع عسكرى%' ) and Khedma_Type = 'راتب عالى' "
+
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'حرفى' and RatebState like 'بالخدمة' and (RatebLevel like '%مساعد%' or RatebLevel = 'ملاحظ فنى عسكرى' or RatebLevel = 'صانع  ممتاز' ) "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code like '%مساعد%' or Rotba_Code like '%ملاحظ فنى عسكرى%' or Rotba_Code like '%صانع  ممتاز%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'حرفى' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب أ' or RatebLevel = 'صانع دقيق') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code like '%رقيب أ%' or Rotba_Code like '%صانع دقيق%' ) and Khedma_Type = 'راتب عالى' and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'حرفى' and RatebState like 'بالخدمة' and (RatebLevel = 'رقيب' or RatebLevel like '%صانع ماهر%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code = 'رقيب' or Rotba_Code like '%صانع ماهر%' ) and Khedma_Type = 'راتب عالى' "
+                
+                "select  Coalesce ( count(ID),0) mm  from Rateb join Unit on Unit.UnitID = Rateb.UnitID where Unit = '" + unittttt + "' and RatebCategory   like 'حرفى' and RatebState like 'بالخدمة' and (RatebLevel = 'عريف' or RatebLevel like '%صـانع عسكرى%') "
+                "select  Coalesce ( SUM(El_Moratab),0) mm FROM [FINAL_TNZ].[dbo].[MORATAB] join UNITS on UNITS.Unit_ID = MORATAB.Unit_ID where UNITS.UNIT_NAME =  '" + unittttt + "' and Feaa_Code like 'حرفى' and (Rotba_Code = 'عريف' or Rotba_Code like '%صـانع عسكرى%' ) and Khedma_Type = 'راتب عالى' "
