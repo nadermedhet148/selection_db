@@ -9,129 +9,161 @@ const SoldierCategoryMap = [
   { text: "سائق عجل", mappedValue: "driver" }
 ];
 
+const SoliderLevelsMap = [
+  { soldierLevel: "جندي", mappedValue: "Solider", isSolider: true },
+  { soldierLevel: "عريف", mappedValue: "SoliderArraf", isSolider: true },
+  {
+    soldierLevel: "عريف",
+    mappedValue: "Arraf",
+    optionsQuery: `in (N'عريف' ,N'صـانع عسكرى')`
+  },
+  {
+    soldierLevel: "رقيب",
+    mappedValue: "Rkaab",
+    optionsQuery: `in (N'رقيب',N'صانع ماهر')`
+  },
+  {
+    soldierLevel: "رقيب أ",
+    mappedValue: "RkaabA",
+    optionsQuery: `in (N'رقيب أ' , N'صانع دقيق',N'رقيب اول')`
+  },
+  {
+    soldierLevel: "مساعد",
+    mappedValue: "Mosaad",
+    optionsQuery: `in (N'مساعد' , N'ملاحظ فنى عسكرى' , N'صانع  ممتاز')`
+  }
+];
+
+const lodash = require("lodash");
+
 module.exports = async (db, params) => {
+  function runQuery(query) {
+    return db.sequelize.query(query, {
+      type: QueryTypes.SELECT
+    });
+  }
   // get units
   const units = await getUnits(db, params);
   const categories = SoldierCategoryMap.filter(
     ele => params.SoldierCategories.indexOf(ele.text) > -1
   );
 
+  const soliderLevels = SoliderLevelsMap;
+
   const result = await Promise.all(
     units.map(async ele => {
       for (const category of categories) {
-        const moratbValue = await db.sequelize.query(
-          `
-          select Coalesce ( SUM(El_Moratab),0) mortab , Coalesce ( SUM(Siasa) ,0) siasa from SMGeneral
-           where UNIT_NAME like '%${ele.Unit}%' and Feaa_Code like  '%${category.text}%' 
-          `,
-          {
-            type: QueryTypes.SELECT
-          }
-        );
         if (!ele[category.mappedValue]) ele[category.mappedValue] = {};
 
-        // TODO: refactor it to check if wepon is not hars hodo from soldier table after refactor
-        const totalSMCount = await db.sequelize.query(
-          `
-          select  Coalesce ( count(ID),0) totalSoliderCount  from SMSoldier
-          join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = N'${ele.Unit}'
-          and RecuEndDate > getdate()
-          and SoldierStatus = N'بالخدمة'
-          and SoldierCategory  like N'%${category.text}%' 
-          `,
-          {
-            type: QueryTypes.SELECT
-          }
-        );
+        for (const level of soliderLevels.filter(ele => ele.isSolider)) {
+          if (!ele[category.mappedValue][level.mappedValue])
+            ele[category.mappedValue][level.mappedValue] = {};
 
-        const value = await db.sequelize.query(
-          `
-          select  Coalesce ( count(ID),0) count  from Rateb join Unit on Unit.UnitID = Rateb.UnitID
-           where Unit = N'${ele.Unit}'
-          and RatebCategory like N'%${category.text}%'  
-          `,
-          {
-            type: QueryTypes.SELECT
-          }
-        );
+          const count = await runQuery(`
+           select Coalesce ( count(ID),0) count  from SMSoldier
+           join Unit on Unit.UnitID = SMSoldier.UnitID 
+           where Unit.Unit like N'%${ele.Unit}%'
+           and RecuEndDate > getdate() and SoldierStatus = N'بالخدمة'
+           and SoldierCategory  like  N'%${category.text}%'
+           and SoldierLevel like N'%${level.soldierLevel}%' 
+           `);
 
-        ele[category.mappedValue] = {
-          ...ele[category.mappedValue],
-          ...moratbValue[0],
-          ...totalSMCount[0],
-          rateb: value[0].count
-        };
+          const mortab = await runQuery(`
+           select  Coalesce ( SUM(El_Moratab),0) mortab FROM SMGeneral
+            where UNIT_NAME like N'%${ele.Unit}%'
+            and Feaa_Code like N'%${category.text}%'
+            and Rotba_Code  like N'%${level.soldierLevel}%'
+            and Khedma_Type like N'%مجند%'
+            `);
+
+          ele[category.mappedValue][level.mappedValue] = {
+            ...ele[category.mappedValue][level.mappedValue],
+            ...count[0],
+            ...mortab[0]
+          };
+        }
+
+        for (const level of soliderLevels.filter(ele => !ele.isSolider)) {
+          if (!ele[category.mappedValue][level.mappedValue])
+            ele[category.mappedValue][level.mappedValue] = {};
+
+          const count = await runQuery(
+            `
+           select  Coalesce ( count(ID),0) count  from Rateb
+           join Unit on Unit.UnitID = Rateb.UnitID
+           where Unit.Unit like N'%${ele.Unit}%'
+           and RatebCategory like  N'%${category.text}%' 
+           and RatebState like 'بالخدمة' 
+           and RatebLevel ${level.optionsQuery}
+           `
+          );
+
+          const mortab = await runQuery(`
+           select  Coalesce ( SUM(El_Moratab),0) mortab FROM SMGeneral
+            where UNIT_NAME like N'%${ele.Unit}%'
+            and Feaa_Code like N'%${category.text}%'
+            and Rotba_Code   ${level.optionsQuery}
+            and Khedma_Type like N'%راتب عالى%'
+            `);
+
+          ele[category.mappedValue][level.mappedValue] = {
+            ...ele[category.mappedValue][level.mappedValue],
+            ...count[0],
+            ...mortab[0]
+          };
+        }
       }
-
-      categories.forEach(category => {
-        ele[category.mappedValue]["total"] =
-          ele[category.mappedValue].totalSoliderCount +
-          ele[category.mappedValue].rateb;
-      });
-      // TODO: refactor it to check if wepon is hars hodo table after refactor
-      const totalHododCount = await db.sequelize.query(
-        `
-        select  Coalesce ( count(ID),0) totalHododCount  from Soldier
-         join Unit on Unit.UnitID = Soldier.UnitID 
-         where Unit =  N'${ele.Unit}' and 
-         RecuEndDate > getdate() and 
-         SoldierStatus = N'بالخدمة'  and 
-         SoldierCategory   = N'صف'
-        `,
-        {
-          type: QueryTypes.SELECT
-        }
-      );
-
-      const totalSupport = await db.sequelize.query(
-        `
-        select  Coalesce (Sum(convert( int ,  ImdadTotal)) , 0) totalSupport from SMDriversSuggestion
-        join Unit on Unit.UnitID = SMDriversSuggestion.UnitID where Unit = N'${ele.Unit}'
-        `,
-        {
-          type: QueryTypes.SELECT
-        }
-      );
-
       if (ele.officer) {
-        ele.officer.totalSMSoliderCount = ele.officer.totalSoliderCount;
-        ele.officer.totalHododCount = totalHododCount[0].totalHododCount;
+        const hododCount = {};
+        for (const level of soliderLevels.filter(ele => ele.isSolider)) {
+          const count = await runQuery(`
+          select  Coalesce ( count(ID),0) count  from Soldier
+          join Unit on Unit.UnitID = Soldier.UnitID 
+          where  Unit.Unit like N'%${ele.Unit}%'
+          and RecuEndDate > getdate()
+          and SoldierStatus = 'بالخدمة' 
+          and SoldierCategory   = 'صف' 
+          and SoldierLevel  like N'%${level.soldierLevel}%'
+        `);
 
-        ele.officer.totalSoliderCount += totalHododCount[0].totalHododCount;
+          hododCount[level.mappedValue] = count[0].count;
+        }
+        if (ele.officer.Solider)
+          ele.officer.Solider.count =
+            ele.officer.Solider.count + hododCount.Solider || 0;
+
+        if (ele.officer.SoliderArraf)
+          ele.officer.SoliderArraf.count =
+            ele.officer.SoliderArraf.count + hododCount.SoliderArraf || 0;
       }
 
-      let totalImdad = calculateTotal("siasa");
-      if (ele.driver) {
-        ele.driver.totalSupport = totalSupport[0].totalSupport;
-        totalImdad = totalImdad - ele.driver.siasa + ele.driver.totalSupport;
-      }
-
-      ele.totals = {
-        totalMortab: calculateTotal("mortab"),
-        totalSiasa: calculateTotal("siasa"),
-        totalImdad: totalImdad,
-        totalRatab: calculateTotal("rateb"),
-        totalSolider: calculateTotal("totalSoliderCount"),
-        totalSum: calculateTotal("total")
-      };
-      ele.percentages = {
-        totalOverMortab:
-          Math.ceil((ele.totals.totalSum / ele.totals.totalMortab) * 100) || 0,
-        totalOverSiasa:
-          Math.ceil((ele.totals.totalSum / ele.totals.totalSiasa) * 100) || 0,
-        totalOverImdad:
-          Math.ceil((ele.totals.totalSum / ele.totals.totalImdada) * 100) || 0
-      };
-
-      return ele;
-
-      function calculateTotal(value) {
+      function calculateTotal(value, type) {
         return categories
-          .map(category => ele[category.mappedValue][value])
+          .map(category => ele[category.mappedValue][value][type])
           .reduce((perve, cur) => perve + cur, 0);
       }
+      ele.totals = {};
+
+      soliderLevels.forEach(level => {
+        console.log(level.mappedValue);
+        ele.totals[level.mappedValue] = {
+          mortab: calculateTotal(level.mappedValue, "mortab"),
+          count: calculateTotal(level.mappedValue, "count")
+        };
+      });
+
+      return [
+        {
+          ...ele,
+          type: "totals"
+        },
+        {
+          ...ele,
+          type: "mortab"
+        }
+      ];
     })
   );
 
-  return result;
+  return lodash.flatten(result);
 };

@@ -300,7 +300,7 @@ export default {
 
       try {
         const result = await this.api(
-          "sections/tasgeel/reports/categories_dailes",
+          "sections/tasgeel/reports/360_normal_dailes",
           {
             ...this.search
           }

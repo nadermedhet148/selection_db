@@ -393,7 +393,7 @@ require(`./server-sequelize/reciever/af/sections/tasgeel/reports/360_normal_dail
   webwin
 )
   .then(result => {
-    console.log("result", result);
+    console.log("result", result[0]);
   })
   .catch(error => {
     console.log("error", error);
