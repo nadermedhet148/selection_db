@@ -135,7 +135,7 @@ var _default = {
       },
       "1": {
         _self: "قسم التسجيل",
-        categories_dailes: "اليومية العددية للفئات",
+        categories_dailes: "اليومية العددية",
         _360_normal_dailes: "يومية 360 عادة",
         soldier_plus: "الراتب العالي والمجندين",
         monthly_rev: "المراجعة الشهرية",

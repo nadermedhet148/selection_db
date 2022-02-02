@@ -195,6 +195,15 @@ const basicHeaders = [
     sort: 1
   },
   {
+    text: "",
+    value: "type",
+    searchValue: "type",
+    sortable: true,
+    type: "select",
+    inTable: true,
+    sort: 1
+  },
+  {
     text: "الفئات",
     value: "SoldierCategories",
     searchValue: "SoldierCategories",
@@ -328,38 +337,28 @@ export default {
           ...headers,
           ...[
             {
-              text: ` ${category.text} / المرتب`,
-              value: `${category.mappedValue}.mortab`
+              text: ` ${category.text} / مساعد`,
+              value: `${category.mappedValue}.Mosaad.value`
             },
             {
-              text: ` ${category.text} /السياسة `,
-              value: `${category.mappedValue}.siasa`
-            },
-            category.mappedValue == "driver"
-              ? {
-                  text: `${category.text} /  سياسة الامداد`,
-                  value: `${category.mappedValue}.totalSupport`
-                }
-              : null,
-            category.mappedValue == "officer"
-              ? {
-                  text: `${category.text} /  اجمالي صف حدود`,
-                  value: `${category.mappedValue}.totalHododCount`
-                }
-              : null,
-            category.mappedValue == "officer"
-              ? {
-                  text: `${category.text} /  اجمالي صف ادارات`,
-                  value: `${category.mappedValue}.totalSMSoliderCount`
-                }
-              : null,
-            {
-              text: `${category.text} / مجند`,
-              value: `${category.mappedValue}.totalSoliderCount`
+              text: ` ${category.text} /رقيب اول `,
+              value: `${category.mappedValue}.RkaabA.value`
             },
             {
-              text: ` ${category.text} / راتب عالي`,
-              value: `${category.mappedValue}.rateb`
+              text: `${category.text} / رقيب`,
+              value: `${category.mappedValue}.Rkaab.value`
+            },
+            {
+              text: ` ${category.text} / عريف`,
+              value: `${category.mappedValue}.Arraf.value`
+            },
+            {
+              text: ` ${category.text} / عريف مجند`,
+              value: `${category.mappedValue}.SoliderArraf.value`
+            },
+            {
+              text: ` ${category.text} / جندي`,
+              value: `${category.mappedValue}.Solider.value`
             }
           ]
         ]
@@ -378,40 +377,28 @@ export default {
         ...headers,
         ...[
           {
-            text: "اجمالي المرتب",
-            value: "totals.totalMortab"
+            text: "اجمالي مساعد",
+            value: "totals.Mosaad.value"
           },
           {
-            text: "اجمالي السياسة",
-            value: "totals.totalSiasa"
+            text: "اجمالي رقيب اول",
+            value: "totals.RkaabA.value"
           },
           {
-            text: "اجمالي  سياسة الامداد",
-            value: "totals.totalImdad"
+            text: "اجمالي  رقيب",
+            value: "totals.Rkaab.value"
           },
           {
-            text: "اجمالي الراتب العالي",
-            value: "totals.totalRatab"
+            text: "اجمالي عريف ",
+            value: "totals.Arraf.value"
           },
           {
-            text: "اجمالي المجندين",
-            value: "totals.totalSolider"
+            text: "اجمالي عريف مجند",
+            value: "totals.SoliderArraf.value"
           },
           {
-            text: "اجمالي الجملة",
-            value: "totals.totalSum"
-          },
-          {
-            text: "نسبة / المرتب",
-            value: "percentages.totalOverMortab"
-          },
-          {
-            text: "نسبة / السياسة",
-            value: "percentages.totalOverSiasa"
-          },
-          {
-            text: "نسبة / الامداد",
-            value: "percentages.totalOverImdad"
+            text: "اجمالي جندي",
+            value: "totals.Solider.value"
           }
         ].map(ele => ({
           text: ele.text,

@@ -385,7 +385,8 @@ ipcMain.on("db-send-api", (event, args) => {
 require(`./server-sequelize/reciever/af/sections/tasgeel/reports/360_normal_dailes.js`)(
   dbs["af"],
   {
-    Type: 0,
+    Type: 3,
+    unitIds: [56],
     SoldierCategories: ["صف"]
   },
   win,
@@ -393,7 +394,7 @@ require(`./server-sequelize/reciever/af/sections/tasgeel/reports/360_normal_dail
   webwin
 )
   .then(result => {
-    console.log("result", result[0]);
+    console.log("result", result[0], result[1]);
   })
   .catch(error => {
     console.log("error", error);

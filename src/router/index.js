@@ -128,7 +128,7 @@ const routes = [
     name: "categories_dailes",
     component: mix.fun.loadView("tasgeel/categories_dailes"),
     meta: {
-      title: "اليومية العديدة للفئات",
+      title: "اليومية العديدة",
       ok: true
     }
   },
