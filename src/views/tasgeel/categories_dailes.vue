@@ -38,7 +38,21 @@
                 :item-text="
                   selects[h.searchValue] ? selects[h.searchValue].text : 'text'
                 "
-              ></v-autocomplete>
+              >
+                <template
+                  v-if="
+                    search[h.searchValue] && search[h.searchValue].length > 10
+                  "
+                  v-slot:selection="{ item, index }"
+                >
+                  <v-chip v-if="index === 0">
+                    <span>{{ item.text }}</span>
+                  </v-chip>
+                  <span v-if="index === 1" class="grey--text text-caption">
+                    (+{{ search[h.searchValue].length - 1 }} اخري)
+                  </span>
+                </template>
+              </v-autocomplete>
               <v-textarea
                 v-else-if="h.type == 'textarea'"
                 filled
@@ -138,7 +152,8 @@ const displayTypes = {
   intelligence: 1,
   artillery: 2,
   unites: 3,
-  directions: 4
+  directions: 4,
+  headquertsWithUnits: 5
 };
 
 const SoldierCategoryMap = [
@@ -147,6 +162,24 @@ const SoldierCategoryMap = [
   { text: "مهنى", mappedValue: "professional" },
   { text: "حرفى", mappedValue: "literal" },
   { text: "سائق عجل", mappedValue: "driver" }
+];
+
+const displayedCoulmns = [
+  "المرتب",
+  "السياسة",
+  "سياسة الامداد",
+  "اجمالي صف حدود",
+  "اجمالي صف ادارات",
+  "راتب عالي",
+  "اجمالي المرتب",
+  "اجمالي السياسة",
+  "اجمالي  سياسة الامداد",
+  "اجمالي الراتب العالي",
+  "اجمالي المجندين",
+  "اجمالي الجملة",
+  "نسبة / المرتب",
+  "نسبة / السياسة",
+  "نسبة / الامداد"
 ];
 
 const basicHeaders = [
@@ -205,20 +238,45 @@ const basicHeaders = [
     inModel: false,
     multiple: true,
     sort: 1
+  },
+  {
+    text: "النسب المعروضة",
+    value: "displayedCoulmns",
+    searchValue: "displayedCoulmns",
+    sortable: true,
+    type: "select",
+    inSearch: true,
+    inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
+  },
+  {
+    text: "تاريخ التسريح",
+    value: "RecuEndDate",
+    searchValue: "RecuEndDate",
+    sortable: true,
+    type: "select",
+    inSearch: true,
+    inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
   }
 ];
+
 export default {
   name: "CategoriesDailes",
   props: {},
-  mounted() {
-    this.init();
+  async mounted() {
+    await this.init();
+    this.getRecuEndDateOptions();
   },
   data: () => ({
-    Effect: {},
-    subjectLimit: 10,
-
+    allUnites: [],
     search: {
-      SoldierCategories: constants.dailesSoliderCategories
+      SoldierCategories: constants.dailesSoliderCategories,
+      displayedCoulmns
     },
     searchLoading: false,
     mainTable: {
@@ -226,7 +284,6 @@ export default {
       items: [],
       printer: {}
     },
-
     componentName: "CategoriesDailes",
     selects: {
       directions: {
@@ -255,6 +312,10 @@ export default {
             value: displayTypes.headquerts
           },
           {
+            text: "  لقيادات القطاعات و الواحدات",
+            value: displayTypes.headquertsWithUnits
+          },
+          {
             text: "لمكاتب مج مخ وأمن ح ح",
             value: displayTypes.intelligence
           },
@@ -265,17 +326,37 @@ export default {
           {
             text: "لتمركزات محددة",
             value: displayTypes.directions
+          },
+          {
+            value: displayTypes.directions
           }
         ]
+      },
+      displayedCoulmns: {
+        text: "text",
+        value: "value",
+        data: displayedCoulmns.map(text => ({
+          text
+        }))
+      },
+      RecuEndDate: {
+        text: "text",
+        value: "value",
+        data: []
       }
     }
   }),
   watch: {
     "search.Type"(newValue) {
+      // reset values
       this.search = {
         SoldierCategories: this.search.SoldierCategories,
-        Type: newValue
+        Type: newValue,
+        displayedCoulmns: this.search.displayedCoulmns,
+        RecuEndDate: this.search.RecuEndDate
       };
+      this.selects.unitIds.data = this.allUnites;
+
       const unitFeildIndex = this.mainTable.headers.findIndex(
           ele => ele.value == "Unit"
         ),
@@ -284,12 +365,25 @@ export default {
         );
       this.mainTable.headers[unitFeildIndex].inSearch = false;
       this.mainTable.headers[directionFeildIndex].inSearch = false;
-
+      // display right condations
       if (newValue == displayTypes.unites)
         this.mainTable.headers[unitFeildIndex].inSearch = true;
 
       if (newValue == displayTypes.directions)
         this.mainTable.headers[directionFeildIndex].inSearch = true;
+
+      if (newValue == displayTypes.headquertsWithUnits) {
+        this.mainTable.headers[directionFeildIndex].inSearch = true;
+        this.mainTable.headers[unitFeildIndex].inSearch = true;
+      }
+    },
+    "search.directions"(newValue) {
+      if (this.search.Type == displayTypes.headquertsWithUnits) {
+        this.selects.unitIds.data = this.allUnites.filter(
+          ele => newValue.indexOf(ele.Directionforunit) > -1
+        );
+        this.search.unitIds = this.selects.unitIds.data.map(ele => ele.UnitID);
+      }
     }
   },
   methods: {
@@ -317,7 +411,17 @@ export default {
 
       this.$set(this, "searchLoading", false);
     },
-
+    async getRecuEndDateOptions() {
+      const result = await this.api("global/queryRunners", {
+        query: `   select count (ID) count ,  RecuEndDate  from Soldier where RecuEndDate > getdate() GROUP  By RecuEndDate`
+      });
+      this.selects.RecuEndDate.data = result.data.map(ele => ({
+        value: `${ele.RecuEndDate}`,
+        text: ele.RecuEndDate
+      }));
+      this.search.RecuEndDate = result.data.map(ele => ele.RecuEndDate);
+      this.allUnites = [...this.selects.unitIds.data];
+    },
     buildHeaders() {
       const categories = SoldierCategoryMap.filter(
         ele => this.search.SoldierCategories.indexOf(ele.text) > -1
@@ -327,40 +431,52 @@ export default {
         headers = [
           ...headers,
           ...[
-            {
-              text: ` ${category.text} / المرتب`,
-              value: `${category.mappedValue}.mortab`
-            },
-            {
-              text: ` ${category.text} /السياسة `,
-              value: `${category.mappedValue}.siasa`
-            },
-            category.mappedValue == "driver"
+            this.search.displayedCoulmns.indexOf("المرتب") > -1
+              ? {
+                  text: ` ${category.text} / المرتب`,
+                  value: `${category.mappedValue}.mortab`
+                }
+              : null,
+            this.search.displayedCoulmns.indexOf("السياسة") > -1
+              ? {
+                  text: ` ${category.text} /السياسة `,
+                  value: `${category.mappedValue}.siasa`
+                }
+              : null,
+            category.mappedValue == "driver" &&
+            this.search.displayedCoulmns.indexOf("سياسة الامداد") > -1
               ? {
                   text: `${category.text} /  سياسة الامداد`,
                   value: `${category.mappedValue}.totalSupport`
                 }
               : null,
-            category.mappedValue == "officer"
+            category.mappedValue == "officer" &&
+            this.search.displayedCoulmns.indexOf("اجمالي صف حدود") > -1
               ? {
                   text: `${category.text} /  اجمالي صف حدود`,
                   value: `${category.mappedValue}.totalHododCount`
                 }
               : null,
-            category.mappedValue == "officer"
+            category.mappedValue == "officer" &&
+            this.search.displayedCoulmns.indexOf("اجمالي صف ادارات") > -1
               ? {
                   text: `${category.text} /  اجمالي صف ادارات`,
                   value: `${category.mappedValue}.totalSMSoliderCount`
                 }
               : null,
-            {
-              text: `${category.text} / مجند`,
-              value: `${category.mappedValue}.totalSoliderCount`
-            },
-            {
-              text: ` ${category.text} / راتب عالي`,
-              value: `${category.mappedValue}.rateb`
-            }
+            //
+            this.search.displayedCoulmns.indexOf("مجند") > -1
+              ? {
+                  text: `${category.text} / مجند`,
+                  value: `${category.mappedValue}.totalSoliderCount`
+                }
+              : null,
+            this.search.displayedCoulmns.indexOf("راتب عالي") > -1
+              ? {
+                  text: ` ${category.text} / راتب عالي`,
+                  value: `${category.mappedValue}.rateb`
+                }
+              : null
           ]
         ]
           .filter(ele => ele)
@@ -413,14 +529,16 @@ export default {
             text: "نسبة / الامداد",
             value: "percentages.totalOverImdad"
           }
-        ].map(ele => ({
-          text: ele.text,
-          value: ele.value,
-          sortable: true,
-          type: "select",
-          inTable: true,
-          sort: 1
-        }))
+        ]
+          .filter(ele => this.search.displayedCoulmns.indexOf(ele.text) > -1)
+          .map(ele => ({
+            text: ele.text,
+            value: ele.value,
+            sortable: true,
+            type: "select",
+            inTable: true,
+            sort: 1
+          }))
       ]);
     }
   }

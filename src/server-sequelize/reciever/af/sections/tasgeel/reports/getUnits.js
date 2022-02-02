@@ -4,7 +4,8 @@ const displayTypes = {
   headquerts: 0,
   intelligence: 1,
   unites: 3,
-  directions: 4
+  directions: 4,
+  headquertsWithUnits: 5
 };
 
 module.exports = async (db, params) => {
@@ -28,7 +29,10 @@ module.exports = async (db, params) => {
         type: QueryTypes.SELECT
       }
     );
-  } else if (displayTypes.unites == params.Type) {
+  } else if (
+    displayTypes.unites == params.Type ||
+    displayTypes.headquertsWithUnits == params.Type
+  ) {
     units = await db.sequelize.query(
       genrateUnitQuery(`UnitID in (${params.unitIds.join(",")})`),
       {

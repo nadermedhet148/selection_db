@@ -16,7 +16,14 @@ module.exports = async (db, params) => {
   const categories = SoldierCategoryMap.filter(
     ele => params.SoldierCategories.indexOf(ele.text) > -1
   );
-  console.log(params.SoldierCategories);
+  let recEndDateQuery = "> getdate()";
+
+  if (params.RecuEndDate) {
+    recEndDateQuery = `IN (${params.RecuEndDate.map(ele => `'${ele}'`).join(
+      ","
+    )})`;
+  }
+
   const result = await Promise.all(
     units.map(async ele => {
       for (const category of categories) {
@@ -36,7 +43,7 @@ module.exports = async (db, params) => {
           `
           select  Coalesce ( count(ID),0) totalSoliderCount  from SMSoldier
           join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = N'${ele.Unit}'
-          and RecuEndDate > getdate()
+          and RecuEndDate ${recEndDateQuery}
           and SoldierStatus = N'بالخدمة'
           and SoldierCategory  like N'%${category.text}%' 
           `,
@@ -75,7 +82,7 @@ module.exports = async (db, params) => {
         select  Coalesce ( count(ID),0) totalHododCount  from Soldier
          join Unit on Unit.UnitID = Soldier.UnitID 
          where Unit =  N'${ele.Unit}' and 
-         RecuEndDate > getdate() and 
+         RecuEndDate ${recEndDateQuery} and 
          SoldierStatus = N'بالخدمة'  and 
          SoldierCategory   = N'صف'
         `,
