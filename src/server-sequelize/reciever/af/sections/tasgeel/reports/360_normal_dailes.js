@@ -84,7 +84,7 @@ module.exports = async (db, params) => {
            select  Coalesce ( SUM(El_Moratab),0) value FROM SMGeneral
             where UNIT_NAME like N'%${ele.Unit}%'
             and Feaa_Code like N'%${category.text}%'
-            and Rotba_Code  like N'%${level.soldierLevel}%'
+            and Rotaba_Code  like N'%${level.soldierLevel}%'
             and Khedma_Type like N'%مجند%'
             `);
           countEle[category.mappedValue][level.mappedValue] = {
@@ -118,7 +118,7 @@ module.exports = async (db, params) => {
            select  Coalesce ( SUM(El_Moratab),0) value FROM SMGeneral
             where UNIT_NAME like N'%${ele.Unit}%'
             and Feaa_Code like N'%${category.text}%'
-            and Rotba_Code   ${level.optionsQuery}
+            and Rotaba_Code   ${level.optionsQuery}
             and Khedma_Type like N'%راتب عالى%'
             `);
 
