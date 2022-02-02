@@ -161,8 +161,8 @@ var _default = {
         tmam_elthr7el: "تمام الترحيل"
       },
       "3": {
-        _self: "قسم الإنهاء",
-        ended_duty: "البيانات الأساسية",
+        _self: "قسم المرتبات",
+        unit_managment: "اداراة الوحدات",
         advanced_search: "البحث المتقدم",
         late_stuff: "المتأخرات",
         kashf_40: "كشف الأربعين",

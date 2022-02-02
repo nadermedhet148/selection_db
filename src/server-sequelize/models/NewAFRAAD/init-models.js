@@ -334,7 +334,8 @@ function initModels(sequelize) {
     tagdidMohab,
     tagdidrevsioin,
     tahel,
-    tasgiltag
+    tasgiltag,
+    SMGeneral
   };
 }
 module.exports = initModels;

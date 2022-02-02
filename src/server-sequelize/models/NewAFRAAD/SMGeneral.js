@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(100),
         allowNull: true
       },
-      Expr1: {
+      Weapon: {
         type: DataTypes.STRING(100),
         allowNull: true
       },

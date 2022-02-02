@@ -142,6 +142,15 @@ const routes = [
     }
   },
   {
+    path: "/unit_managment",
+    name: "unit_managment",
+    component: mix.fun.loadView("salaries/unit_managment"),
+    meta: {
+      title: "ادارة الواحدات",
+      ok: true
+    }
+  },
+  {
     path: "/dalies",
     name: "dalies",
     component: mix.fun.loadView("new_comers/dalies"),

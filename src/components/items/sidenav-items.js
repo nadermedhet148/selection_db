@@ -14,7 +14,7 @@ let nozom = function(t) {
     return "sections.2." + t;
   },
   // الإنهاء
-  en = function(t) {
+  salaries = function(t) {
     return "sections.3." + t;
   },
   // الهروب
@@ -263,8 +263,14 @@ let nozom = function(t) {
         onlySegelat: true
       }
     ],
-    // ../new_comerstyat
-    // ..Enhaa
+    salaries: [
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: salaries("unit_managment"),
+        href: "/unit_managment"
+      }
+    ],
     en: [],
     // ../Enhaa
     // ..Horob
@@ -272,29 +278,6 @@ let nozom = function(t) {
     // ../Horob
     // Gate
     gate: [],
-    // calendar: [
-    //   {
-    //     type: "group",
-    //     icon: "mdi-calendar",
-    //     text: "calendar",
-    //     model: false,
-    //     children: [
-    //       {
-    //         type: "single",
-    //         icon: " ",
-    //         text: "calendar_holiday",
-    //         href: "/calendar_holiday"
-    //       },
-    //       {
-    //         type: "single",
-    //         icon: " ",
-    //         text: "calendar_notifier",
-    //         href: "/calendar_notifier"
-    //       }
-    //     ]
-    //   }
-    // ],
-    // ../Gate
 
     // cards in_service and out_service
     cards: [],
@@ -453,7 +436,7 @@ let nozom = function(t) {
   ],
   _3 = [
     // انهاء
-    ...items.en
+    ...items.salaries
   ],
   _4 = [
     // هروب
