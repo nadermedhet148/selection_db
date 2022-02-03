@@ -195,18 +195,6 @@ const basicHeaders = [
     sort: 1
   },
   {
-    text: "الوحدة",
-    value: "Unit",
-    searchValue: "unitIds",
-    sortable: true,
-    type: "select",
-    inSearch: false,
-    inTable: true,
-    inModel: false,
-    multiple: true,
-    sort: 1
-  },
-  {
     text: "الاتجاه",
     value: "DirectionforFeaat",
     sortable: true,
@@ -223,6 +211,18 @@ const basicHeaders = [
     type: "select",
     inSearch: false,
     inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
+  },
+  {
+    text: "الوحدة",
+    value: "Unit",
+    searchValue: "unitIds",
+    sortable: true,
+    type: "select",
+    inSearch: false,
+    inTable: true,
     inModel: false,
     multiple: true,
     sort: 1
