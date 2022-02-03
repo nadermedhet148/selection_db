@@ -2,10 +2,10 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في مؤثرات
+        بحث متقدم في المرتبات
         <v-spacer></v-spacer>
         <v-btn @click="actionAdd()" large outlined color="primary">
-          إضافة مؤثر
+          إضافة مرتب
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
@@ -125,7 +125,7 @@
       :headers="mainTable.headers"
       :printer="mainTable.printer"
       :items="mainTable.items"
-      :title="'المؤثرات'"
+      :title="'المرتبات'"
     >
       <template v-slot:item.ID="{ item }">
         <v-chip
@@ -137,12 +137,11 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.Contnuity="{ item }">
-        <v-chip
-          @click="actionCertificatie(item)"
-          :color="item.Contnuity == 'متابع' ? 'success' : 'gray'"
-        >
-          {{ item.Contnuity }}
+      <template v-slot:item.actions="{ item }">
+        <v-chip class="transparent">
+          <v-btn icon @click="actionEdit(item)" color="primary">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </v-chip>
       </template>
     </table-bulider>
@@ -176,7 +175,7 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
-                  v-model="Effect[h.searchValue]"
+                  v-model="salary[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
@@ -186,9 +185,8 @@
                   v-else-if="h.type == 'select'"
                   filled
                   :label="h.text"
-                  :multiple="h.multiple"
                   :readonly="h.readonly"
-                  v-model="Effect[h.searchValue]"
+                  v-model="salary[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :items="
@@ -209,7 +207,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
-                  v-model="Effect[h.searchValue]"
+                  v-model="salary[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   auto-grow
@@ -225,7 +223,7 @@
                   :disabled="h.readonly"
                 >
                   <v-btn-toggle
-                    v-model="Effect[h.searchValue]"
+                    v-model="salary[h.searchValue]"
                     class="d-block"
                     mandatory
                   >
@@ -233,7 +231,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Effect[h.searchValue] === true
+                        salary[h.searchValue] === true
                           ? 'error white--text'
                           : ''
                       "
@@ -244,7 +242,7 @@
                       height="58"
                       width="50%"
                       :color="
-                        Effect[h.searchValue] === false
+                        salary[h.searchValue] === false
                           ? 'success white--text'
                           : ''
                       "
@@ -289,8 +287,16 @@ export default {
   mounted() {
     this.init();
   },
+  watch: {
+    "salary.UNIT_NAME"(newValue) {
+      let unit = this.selects.UNIT_NAME.data.find(ele => ele.Unit === newValue);
+      this.salary.GEHA_NAME = unit.General_Direction;
+      this.salary.NAMAT_NAME = unit.DirectionforFeaat;
+      this.salary.TAMARKZ_NAME = unit.DirectionforFeaat;
+    }
+  },
   data: () => ({
-    Effect: {},
+    salary: {},
     subjectLimit: 10,
     createdObject: {
       model: false,
@@ -317,9 +323,68 @@ export default {
           sortable: true,
           type: "select",
           inSearch: true,
+          multiple: true,
+          inTable: true,
+          inModel: true
+        },
+        {
+          text: "الوظيفة",
+          value: "Job",
+          searchValue: "Job",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          multiple: true,
           inTable: true,
           inModel: true,
-          sort: 2
+          readonly: false
+        },
+        {
+          text: "الدرجة",
+          value: "Rotaba_Code",
+          searchValue: "Rotaba_Code",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          multiple: true,
+          inTable: true,
+          inModel: true,
+          readonly: false
+        },
+        {
+          text: "نوع الخدمة",
+          value: "Khedma_Type",
+          searchValue: "Khedma_Type",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          multiple: true,
+          inTable: true,
+          inModel: true,
+          readonly: false
+        },
+        {
+          text: "الادارة",
+          value: "Weapon",
+          searchValue: "Weapon",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          multiple: true,
+          inTable: true,
+          inModel: true,
+          readonly: false
+        },
+        {
+          text: "الفئة",
+          value: "Feaa_Code",
+          searchValue: "Feaa_Code",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          multiple: true,
+          inTable: true,
+          inModel: true
         },
         {
           text: "المرتب",
@@ -327,10 +392,9 @@ export default {
           searchValue: "El_Moratab",
           sortable: true,
           type: "text",
-          inSearch: true,
+          inSearch: false,
           inTable: true,
-          inModel: true,
-          sort: 1
+          inModel: true
         },
         {
           text: "السياسة",
@@ -341,19 +405,7 @@ export default {
           inSearch: false,
           inTable: true,
           inModel: true,
-          readonly: true,
-          sort: 1
-        },
-        {
-          text: "الفئة",
-          value: "Feaa_Code",
-          searchValue: "Feaa_Code",
-          sortable: true,
-          type: "select",
-          inSearch: true,
-          inTable: false,
-          inModel: false,
-          sort: 1
+          readonly: false
         },
         {
           text: "الجهة",
@@ -364,132 +416,98 @@ export default {
           inSearch: false,
           inTable: true,
           inModel: true,
-          sort: 3
+          readonly: true
         },
         {
           text: "النمط",
           value: "NAMAT_NAME",
           searchValue: "NAMAT_NAME",
           sortable: true,
-          type: "select",
-          inSearch: true,
-          inTable: false,
+          type: "texts",
+          inSearch: false,
+          inTable: true,
           inModel: false,
-          sort: 1
-        },
-        {
-          text: "الادارة",
-          value: "Weapon",
-          searchValue: "Weapon",
-          sortable: true,
-          type: "select",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: false,
-          sort: 5
-        },
-        {
-          text: "الوظيفة",
-          value: "Job",
-          searchValue: "Job",
-          sortable: true,
-          type: "select",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: false,
-          sort: 5
-        },
-        {
-          text: "الدرجة",
-          value: "Rotaba_Code",
-          searchValue: "Rotaba_Code",
-          sortable: true,
-          type: "select",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: false,
-          sort: 5
-        },
-        {
-          text: "نوع الخدمة",
-          value: "Khedma_Type",
-          searchValue: "Khedma_Type",
-          sortable: true,
-          type: "select",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: false,
-          sort: 5
+          readonly: true
         },
         {
           text: "التمركز",
           value: "TAMARKZ_NAME",
           searchValue: "TAMARKZ_NAME",
           sortable: true,
-          type: "select",
+          type: "text",
           inSearch: false,
           inTable: true,
           inModel: true,
-          readonly: false,
-          sort: 5
+          readonly: true
+        },
+        {
+          text: "",
+          value: "actions",
+          searchValue: "actions",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: false
         }
       ],
       items: [],
       printer: {}
     },
     selects: {
-      SituationID: {
-        table: "SituationStates",
-        value: "SituationID",
-        text: "Situation"
-      },
-      RecuStage: {
-        text: "text",
-        value: "text",
-        data: lodash.flattenDeep(
-          constants.years.map(year =>
-            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
-          )
-        )
-      },
-      UnitID: {
+      UNIT_NAME: {
         table: "Unit",
-        value: "UnitID",
+        value: "Unit",
         text: "Unit"
       },
-      Contnuity: {
+      Weapon: {
+        table: "Weapon",
+        value: "Weapon",
+        text: "Weapon"
+      },
+      Rotaba_Code: {
+        value: "text",
+        text: "text",
+        data: constants.SoldierLevel.data
+      },
+      Feaa_Code: {
+        value: "text",
+        text: "text",
+        data: constants.SoldierCategory.data
+      },
+      Job: {
+        value: "Duty",
+        text: "Duty",
+        table: "Duty"
+      },
+      Khedma_Type: {
         text: "text",
         value: "text",
-        data: [
-          {
-            text: "متابع"
-          },
-          {
-            text: "غير متابع"
-          }
-        ]
+        data: constants.Khedma_Type.data
       }
     }
   }),
-  watch: {},
   methods: {
     async saveItem(edirableFromTableItem) {
       this.$set(this.createdObject, "loading", true);
-      let saveItem;
+      let result;
 
-      saveItem = await this.api(`global/create_one`, {
-        table: "Situations",
-        where: this.Effect
-      });
+      result = await this.api(
+        `global/${this.salary.isEdit ? "update_one" : "create_one"}`,
+        {
+          table: "SMGeneral",
+          where: !this.salary.isEdit
+            ? this.salary
+            : {
+                id: this.salary
+              },
+          update: this.salary
+        }
+      );
 
-      if (saveItem && saveItem.data && saveItem.ok) {
+      if (result && result.data && result.ok) {
         this.showSuccess("تم حفظ ");
         this.findItems();
-        this.createdObject, "model", false;
       } else {
         this.showError("تعذر حفظ  في قاعدة البيانات");
       }
@@ -503,7 +521,14 @@ export default {
           ...this.search
         },
         likes = ["ID"],
-        multi = [];
+        multi = [
+          "UNIT_NAME",
+          "Weapon",
+          "Rotaba_Code",
+          "Feaa_Code",
+          "Job",
+          "Khedma_Type"
+        ];
 
       this.api("global/get_all", {
         table: "SMGeneral",
@@ -534,7 +559,7 @@ export default {
     },
     actionEdit(item) {
       this.$set(this.createdObject, "model", true);
-      this.$set(this, "Effect", {
+      this.$set(this, "salary", {
         ...item,
         isEdit: true
       });

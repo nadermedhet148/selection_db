@@ -59,6 +59,19 @@ export default {
       ].map(text => ({ text }))
     ]
   },
+  Khedma_Type: {
+    data: [
+      {
+        text: "راتب عالى"
+      },
+      {
+        text: "مجند"
+      },
+      {
+        text: "رع/مجند"
+      }
+    ]
+  },
   BloodType: {
     text: "text",
     value: "text",
