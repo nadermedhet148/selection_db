@@ -51,7 +51,8 @@ module.exports = {
     }
   },
   devServer: {
-    host: "localhost"
+    host: "localhost",
+    liveReload: true
   },
   chainWebpack: config => {
     config.module

@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     {
       UnitID: {
         type: DataTypes.STRING(50),
-        allowNull: true
+        allowNull: true,
+        primaryKey: true
       },
       RFardi: {
         type: DataTypes.STRING(50),

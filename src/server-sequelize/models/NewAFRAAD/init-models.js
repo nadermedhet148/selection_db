@@ -249,6 +249,12 @@ function initModels(sequelize) {
   Unit.hasMany(DistributionSuggestion, {
     foreignKey: "UnitID"
   });
+
+  SMDriversSuggestion.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(SMDriversSuggestion, {
+    foreignKey: "UnitID"
+  });
+
   Moving.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(Moving, { foreignKey: "UnitID" });
   OldFollowersNo.belongsTo(Unit, { foreignKey: "UnitID" });
