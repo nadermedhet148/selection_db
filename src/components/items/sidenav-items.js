@@ -269,6 +269,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: salaries("unit_managment"),
         href: "/unit_managment"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: salaries("drivers_support"),
+        href: "/drivers_support"
       }
     ],
     en: [],

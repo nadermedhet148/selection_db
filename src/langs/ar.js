@@ -163,7 +163,7 @@ var _default = {
       "3": {
         _self: "قسم المرتبات",
         unit_managment: "اداراة الوحدات",
-        advanced_search: "البحث المتقدم",
+        drivers_support: "امداد السائقين",
         late_stuff: "المتأخرات",
         kashf_40: "كشف الأربعين",
         kashf_bologSen: "كشف بلوغ السن",
