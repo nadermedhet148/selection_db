@@ -138,6 +138,9 @@ var _default = {
         new_profile: "البروفايل الجديد",
         injuries: "الحالات الإصابية / المرضية",
         soldier_plus: " المجندين",
+        categories_dailes: "اليومية العددية",
+        _360_normal_dailes: "يومية 360 عادة",
+        soldier_plus: "الراتب العالي والمجندين",
         monthly_rev: "المراجعة الشهرية",
         promotion: "مشروع الترقي",
         reports: "التقارير",
@@ -147,22 +150,17 @@ var _default = {
         penalties: "العقوبات"
       },
       "2": {
-        
         _self: "قسم المستجدين",
         tmam_elwosol: "تمام الوصول",
         distributed_suggest: "مقترح التوزيع",
         tmam_eltasgel: "تمام التسجيل",
-        effects: "مؤثرات المرحلة",
+        effects: "المؤثرات",
         recommandations: "التوصيات",
-        other_edarat_radeef: "رديف الإدارات الأخرى",
-        lates: "المتأخرات",
-        dalies: "اليوميات العديدة",
-        following_reserved_injuries: "مصابي النقل على الإحتياط",
-        soliders_brothers: "الاشقاء",
+        dalies: " اليوميات العددية للمجندين ",
+        soliders_brothers: " تسجيل الاشقاء",
         tmam_eltarhel: "تمام الترحيل",
-        malaheq_suggest:"مقترح ملاحق المرحلة",
-        effects: "مؤثرات المرحلة",
-        trained_duty: "حصر الواجب المدرب عليه",
+        malaheq_suggest: "الملاحق",
+        effects: "المؤثرات",
         tmam_elthr7el: "تمام الترحيل"
       },
       "3": {

@@ -360,17 +360,19 @@ export default {
           const groupdData = {};
 
           data.forEach(ele => {
-            groupdData[`${ele.City.City}`] = groupdData[`${ele.City.City}`] || {
-              City: ele.City.City,
+            groupdData[`${ele.City?.City}`] = groupdData[
+              `${ele.City?.City}`
+            ] || {
+              City: ele.City?.City,
               High: 0,
               AboveAvg: 0,
               Avg: 0,
               Normal: 0
             };
-            groupdData[`${ele.City.City}`][
+            groupdData[`${ele.City?.City}`][
               constants.levelMapping[ele.KnowledgeLevel]
             ] =
-              groupdData[`${ele.City.City}`][
+              groupdData[`${ele.City?.City}`][
                 constants.levelMapping[ele.KnowledgeLevel]
               ] + 1;
           });
@@ -389,6 +391,7 @@ export default {
           this.$set(this, "printer", printer);
         })
         .catch(error => {
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {
@@ -408,17 +411,19 @@ export default {
           const groupdData = {};
 
           data.forEach(ele => {
-            groupdData[`${ele.Unit.Unit}`] = groupdData[`${ele.Unit.Unit}`] || {
-              Unit: ele.Unit.Unit,
+            groupdData[`${ele.Unit?.Unit}`] = groupdData[
+              `${ele.Unit?.Unit}`
+            ] || {
+              Unit: ele.Unit?.Unit,
               High: 0,
               AboveAvg: 0,
               Avg: 0,
               Normal: 0
             };
-            groupdData[`${ele.Unit.Unit}`][
+            groupdData[`${ele.Unit?.Unit}`][
               constants.levelMapping[ele.KnowledgeLevel]
             ] =
-              groupdData[`${ele.Unit.Unit}`][
+              groupdData[`${ele.Unit?.Unit}`][
                 constants.levelMapping[ele.KnowledgeLevel]
               ] + 1;
           });
@@ -437,6 +442,7 @@ export default {
           this.$set(this, "printer", printer);
         })
         .catch(error => {
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {

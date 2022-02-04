@@ -37,9 +37,9 @@ module.exports = function(sequelize, DataTypes) {
         field: "Degree"
       },
       section: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "((0))",
+        defaultValue: "1,2",
         field: "section"
       },
       dateAdded: {

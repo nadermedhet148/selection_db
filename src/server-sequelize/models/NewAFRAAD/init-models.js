@@ -68,7 +68,7 @@ var _tagdidMohab = require("./tagdidMohab");
 var _tagdidrevsioin = require("./tagdidrevsioin");
 var _tahel = require("./tahel");
 var _tasgiltag = require("./tasgiltag");
-var _Conscriptes = require("./Conscriptes");
+var _SMGeneral = require("./SMGeneral");
 
 function initModels(sequelize) {
   var security = _security(sequelize, DataTypes);
@@ -135,7 +135,7 @@ function initModels(sequelize) {
   var Selections = _Selections(sequelize, DataTypes);
   var Soldier = _Soldier(sequelize, DataTypes);
   var SMSoldier = _SMSoldier(sequelize, DataTypes);
-  var Conscriptes = _Conscriptes(sequelize, DataTypes);
+  var SMGeneral = _SMGeneral(sequelize, DataTypes);
 
   var Followers = _Followers(sequelize, DataTypes);
 
@@ -204,7 +204,7 @@ function initModels(sequelize) {
   FollowingRigion.hasMany(FollowingNos, {
     foreignKey: "FollowRigionID"
   });
-  UserPermissions.belongsTo(MyUsers, {  foreignKey: "UserId" });
+  UserPermissions.belongsTo(MyUsers, { foreignKey: "UserId" });
   MyUsers.hasMany(UserPermissions, {
     foreignKey: "UserId"
   });
@@ -233,7 +233,7 @@ function initModels(sequelize) {
   // });
   Brothers.belongsTo(Soldier, { foreignKey: "ID" });
   Soldier.hasOne(Brothers, { foreignKey: "ID" });
-  Followers.belongsTo(Soldier, {  foreignKey: "ID" });
+  Followers.belongsTo(Soldier, { foreignKey: "ID" });
   // Soldier.hasMany(Followers, { as: "Followers", foreignKey: "ID" });
   SituationDecision.belongsTo(Soldier, { as: "ID_Soldier", foreignKey: "ID" });
   Soldier.hasMany(SituationDecision, {

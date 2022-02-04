@@ -300,5 +300,6 @@ export default {
       text: "المستجدين",
       value: 2
     }
-  ]
+  ],
+  dailesSoliderCategories: ["صف", "كاتب", "سائق عجل", "مهنى", "حرفى"]
 };

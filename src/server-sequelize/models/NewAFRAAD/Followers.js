@@ -47,6 +47,14 @@ module.exports = function(sequelize, DataTypes) {
       RecuStage: {
         type: DataTypes.TEXT,
         allowNull: true
+      },
+      Name: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+      },
+      tripleNo: {
+        type: DataTypes.STRING(100),
+        allowNull: true
       }
     },
     {

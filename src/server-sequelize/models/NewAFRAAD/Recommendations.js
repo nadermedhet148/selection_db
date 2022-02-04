@@ -13,11 +13,11 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true
       },
-      tripleNo:{
+      tripleNo: {
         type: DataTypes.STRING(100),
         allowNull: true
       },
-      Name:{
+      Name: {
         type: DataTypes.STRING(100),
         allowNull: true
       },

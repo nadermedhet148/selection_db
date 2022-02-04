@@ -453,7 +453,9 @@ export default {
     },
     valid: true,
 
-    Recommandation: {},
+    Recommandation: {
+      Matching: ""
+    },
     subjectLimit: 10,
     createdObject: {
       model: false,
@@ -502,6 +504,30 @@ export default {
           inSearch: true,
           inTable: true,
           inModel: true,
+          sort: 1
+        },
+        {
+          text: "الاسم",
+          value: "Name",
+          searchValue: "Name",
+          sortable: true,
+          type: "text",
+          inSearch: true,
+          inTable: true,
+          inModel: true,
+          readonly: false,
+          sort: 1
+        },
+        {
+          text: "الرقم الثلاثي",
+          value: "tripleNo",
+          searchValue: "tripleNo",
+          sortable: true,
+          type: "text",
+          inSearch: true,
+          inTable: true,
+          inModel: true,
+          readonly: false,
           sort: 1
         },
         {
@@ -558,7 +584,7 @@ export default {
           inSearch: false,
           inTable: true,
           inModel: true,
-          readonly: true,
+          readonly: false,
           sort: 5
         },
         {
@@ -580,17 +606,6 @@ export default {
           type: "text",
           inSearch: false,
           inTable: true,
-          inModel: true,
-          readonly: true,
-          sort: 5
-        },
-        {
-          text: "الاسم",
-          value: "Name",
-          searchValue: "Name",
-          sortable: true,
-          type: "text",
-          inSearch: false,
           inModel: true,
           readonly: true,
           sort: 5
@@ -999,7 +1014,11 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.map(ele => ({
+              ...ele,
+              Name: ele.Soldier?.Name || ele.Name,
+              tripleNo: ele.Soldier?.tripleNo || ele.tripleNo
+            })),
             printer = {
               cons: [...data],
               excelKey: "cons",

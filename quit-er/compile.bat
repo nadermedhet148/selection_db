@@ -1,1 +1,0 @@
-E:\Programs\ahk\Compiler\Ahk2Exe.exe /in "app.ahk" /out "app.exe" /icon "../public/icon.ico"
