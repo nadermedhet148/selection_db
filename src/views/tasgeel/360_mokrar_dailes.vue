@@ -225,7 +225,7 @@ const basicHeaders = [
   }
 ];
 export default {
-  name: "_30MokrarDailes",
+  name: "_360MokrarDailes",
   props: {},
   async mounted() {
     await this.init();
