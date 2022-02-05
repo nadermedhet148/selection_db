@@ -321,6 +321,7 @@ export default {
           excelHeaders: this.mainTable.headers.filter(f => f.inTable)
         });
       } catch (e) {
+        console.log(e);
         this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
       }
 

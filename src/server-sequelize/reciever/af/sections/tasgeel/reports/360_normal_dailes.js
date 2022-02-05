@@ -30,7 +30,7 @@ const SoliderLevelsMap = [
   {
     soldierLevel: "مساعد",
     mappedValue: "Mosaad",
-    optionsQuery: `in (N'مساعد' , N'ملاحظ فنى عسكرى' , N'صانع  ممتاز')`
+    optionsQuery: `like '%مساعد%' or RatebLevel in ( N'ملاحظ فنى عسكرى' , N'صانع  ممتاز')`
   }
 ];
 
@@ -118,7 +118,10 @@ module.exports = async (db, params) => {
            select  Coalesce ( SUM(El_Moratab),0) value FROM SMGeneral
             where UNIT_NAME like N'%${ele.Unit}%'
             and Feaa_Code like N'%${category.text}%'
-            and Rotaba_Code   ${level.optionsQuery}
+            and Rotaba_Code   ${level.optionsQuery.replaceAll(
+              "RatebLevel",
+              "Rotaba_Code"
+            )}
             and Khedma_Type like N'%راتب عالى%'
             `);
 
