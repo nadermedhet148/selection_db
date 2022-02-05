@@ -6,12 +6,12 @@ module.exports = function(sequelize, DataTypes) {
       IDKey: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
       },
       ID: {
         type: DataTypes.STRING(13),
-        allowNull: false,
-        primaryKey: true
+        allowNull: true
       },
       Name: {
         type: DataTypes.TEXT,
@@ -32,7 +32,11 @@ module.exports = function(sequelize, DataTypes) {
       },
       CityID: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
+        references: {
+          model: "City",
+          key: "CityID"
+        }
       },
       KnowldgeLevel: {
         type: DataTypes.STRING(12),

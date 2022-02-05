@@ -56,6 +56,10 @@ let nozom = function(t) {
     // المساعدة
     return "sections.11." + t;
   },
+  selections = function(t) {
+    // الانتقاء
+    return "sections.13." + t;
+  },
   /*
    ! You can't use '12' - because it's for nozom ( see first 2 lines in this file )
   */
@@ -84,6 +88,26 @@ let nozom = function(t) {
         text: tas("soldier_plus"),
         desc: "[ بحث - تعديل - حذف ]",
         href: "/soldiers_plus"
+      },
+      // Selections
+      {
+        type: "group",
+        icon: "mdi-bullseye-arrow",
+        text: selections("_self"),
+        children: [
+          {
+            type: "single",
+            icon: "mdi-view-dashboard-outline",
+            text: selections("soldiers"),
+            href: "/selections_soldiers"
+          },
+          {
+            type: "single",
+            icon: "mdi-view-dashboard-outline",
+            text: selections("rateb3ali"),
+            href: "/selections_rateb3ali"
+          }
+        ]
       }
     ],
     // ../Header
@@ -232,6 +256,7 @@ let nozom = function(t) {
         href: "/malaheq_suggest",
         onlySegelat: true
       },
+
       {
         type: "single",
         icon: "mdi-update",
@@ -248,6 +273,7 @@ let nozom = function(t) {
         href: "/tmam_elthr7el",
         onlySegelat: true
       },
+
       {
         type: "single",
         icon: "mdi-update",

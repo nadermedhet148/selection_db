@@ -507,6 +507,26 @@ const routes = [
     }
   },
   {
+    path: "/selections_soldiers",
+    name: "selections_soldiers",
+    component: mix.fun.loadView("Selections/SelectionsSoldiers"),
+    meta: {
+      title: "إنتقاء الجنود",
+      sections: [0, 12, 1, 2, 3, 4, 5, 6],
+      ok: true
+    }
+  },
+  {
+    path: "/selections_rateb3ali",
+    name: "selections_rateb3ali",
+    component: mix.fun.loadView("Selections/SelectionsRateb3ali"),
+    meta: {
+      title: "إنتقاء الراتب العالي",
+      sections: [0, 12, 1, 2, 3, 4, 5, 6],
+      ok: true
+    }
+  },
+  {
     path: "/penalties",
     name: "penalties",
     component: mix.fun.loadView("tasgeel/Penalties"),
