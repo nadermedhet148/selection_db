@@ -1,38 +1,9 @@
 const { QueryTypes } = require("sequelize");
 const getUnits = require("./getUnits");
+const types = require("./types").default;
 
-const SoldierCategoryMap = [
-  { text: "صف", mappedValue: "officer" },
-  { text: "كاتب", mappedValue: "writer" },
-  { text: "مهنى", mappedValue: "professional" },
-  { text: "حرفى", mappedValue: "literal" },
-  { text: "سائق عجل", mappedValue: "driver" }
-];
-
-const SoliderLevelsMap = [
-  { soldierLevel: "جندي", mappedValue: "Solider", isSolider: true },
-  { soldierLevel: "عريف", mappedValue: "SoliderArraf", isSolider: true },
-  {
-    soldierLevel: "عريف",
-    mappedValue: "Arraf",
-    optionsQuery: `in (N'عريف' ,N'صـانع عسكرى')`
-  },
-  {
-    soldierLevel: "رقيب",
-    mappedValue: "Rkaab",
-    optionsQuery: `in (N'رقيب',N'صانع ماهر')`
-  },
-  {
-    soldierLevel: "رقيب أ",
-    mappedValue: "RkaabA",
-    optionsQuery: `in (N'رقيب أ' , N'صانع دقيق',N'رقيب اول')`
-  },
-  {
-    soldierLevel: "مساعد",
-    mappedValue: "Mosaad",
-    optionsQuery: `like '%مساعد%' or RatebLevel in ( N'ملاحظ فنى عسكرى' , N'صانع  ممتاز')`
-  }
-];
+const SoldierCategoryMap = types.SoldierCategoryMap;
+const SoliderLevelsMap = types.SoliderLevelsMap;
 
 const lodash = require("lodash");
 

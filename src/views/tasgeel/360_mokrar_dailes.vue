@@ -38,7 +38,21 @@
                 :item-text="
                   selects[h.searchValue] ? selects[h.searchValue].text : 'text'
                 "
-              ></v-autocomplete>
+              >
+                <template
+                  v-if="
+                    search[h.searchValue] && search[h.searchValue].length > 10
+                  "
+                  v-slot:selection="{ item, index }"
+                >
+                  <v-chip v-if="index === 0">
+                    <span>{{ item.text }}</span>
+                  </v-chip>
+                  <span v-if="index === 1" class="grey--text text-caption">
+                    (+{{ search[h.searchValue].length - 1 }} اخري)
+                  </span>
+                </template>
+              </v-autocomplete>
               <v-textarea
                 v-else-if="h.type == 'textarea'"
                 filled
@@ -166,15 +180,6 @@ const basicHeaders = [
   },
   {
     text: "الاتجاه",
-    value: "DirectionforFeaat",
-    sortable: true,
-    inTable: true,
-    multiple: true,
-    sort: 1
-  },
-
-  {
-    text: "الاتجاه",
     value: "Direction",
     searchValue: "directions",
     sortable: true,
@@ -205,13 +210,34 @@ const basicHeaders = [
     inModel: false,
     multiple: true,
     sort: 1
+  },
+  {
+    text: "الاسلحة",
+    value: "weapons",
+    searchValue: "weapons",
+    sortable: true,
+    type: "select",
+    inSearch: true,
+    inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
   }
 ];
 export default {
-  name: "_360NormaDailes",
+  name: "_30MokrarDailes",
   props: {},
-  mounted() {
-    this.init();
+  async mounted() {
+    await this.init();
+    // setTimeout(() => {
+    //   this.$set(
+    //     this.search,
+    //     "weapons",
+    //     this.selects.weapons.data.map(ele => ele.Weapon)
+    //   );
+
+    //   console.log("oo");
+    // }, 1000);
   },
   data: () => ({
     Effect: {},
@@ -226,7 +252,8 @@ export default {
       items: [],
       printer: {}
     },
-    componentName: "_360NormaDailes",
+
+    componentName: "_30MokrarDailes",
     selects: {
       directions: {
         text: "text",
@@ -239,6 +266,11 @@ export default {
         data: constants.dailesSoliderCategories.map(text => ({
           text
         }))
+      },
+      weapons: {
+        table: "Weapon",
+        value: "Weapon",
+        text: "Weapon"
       },
       unitIds: {
         table: "Unit",
@@ -273,6 +305,7 @@ export default {
     "search.Type"(newValue) {
       this.search = {
         SoldierCategories: this.search.SoldierCategories,
+        weapons: this.search.weapons,
         Type: newValue
       };
       const unitFeildIndex = this.mainTable.headers.findIndex(
@@ -299,7 +332,7 @@ export default {
 
       try {
         const result = await this.api(
-          "sections/tasgeel/reports/360_normal_dailes",
+          "sections/tasgeel/reports/360_mokrar_dailes",
           {
             ...this.search
           }
@@ -311,6 +344,7 @@ export default {
           excelHeaders: this.mainTable.headers.filter(f => f.inTable)
         });
       } catch (e) {
+        console.log(e);
         this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
       }
 
@@ -321,83 +355,51 @@ export default {
       const categories = SoldierCategoryMap.filter(
         ele => this.search.SoldierCategories.indexOf(ele.text) > -1
       );
+
       let headers = [];
-      categories.forEach(category => {
-        headers = [
-          ...headers,
-          ...[
-            {
-              text: ` ${category.text} / مساعد`,
-              value: `${category.mappedValue}.Mosaad.value`
-            },
-            {
-              text: ` ${category.text} /رقيب اول `,
-              value: `${category.mappedValue}.RkaabA.value`
-            },
-            {
-              text: `${category.text} / رقيب`,
-              value: `${category.mappedValue}.Rkaab.value`
-            },
-            {
-              text: ` ${category.text} / عريف`,
-              value: `${category.mappedValue}.Arraf.value`
-            },
-            {
-              text: ` ${category.text} / عريف مجند`,
-              value: `${category.mappedValue}.SoliderArraf.value`
-            },
-            {
-              text: ` ${category.text} / جندي`,
-              value: `${category.mappedValue}.Solider.value`
-            }
+      this.search.weapons
+        .filter(ele => ele !== "")
+        .forEach(weapon => {
+          headers = [
+            ...headers,
+            ...[
+              ...categories.map(category => ({
+                text: `${weapon}/${category.text}`,
+                value: `${weapon}.${category.mappedValue}`,
+                sortable: true,
+                type: "select",
+                inTable: true,
+                sort: 1
+              }))
+            ]
           ]
-        ]
-          .filter(ele => ele)
-          .map(ele => ({
-            text: ele.text,
-            value: ele.value,
-            sortable: true,
-            type: "select",
-            inTable: true,
-            sort: 1
-          }));
-      });
+            .filter(ele => ele)
+            .map(ele => ({
+              text: ele.text,
+              value: ele.value,
+              sortable: true,
+              type: "select",
+              inTable: true,
+              sort: 1
+            }));
+        });
       this.$set(this.mainTable, "headers", [
         ...basicHeaders,
         ...headers,
-        ...[
-          {
-            text: "اجمالي مساعد",
-            value: "totals.Mosaad.value"
-          },
-          {
-            text: "اجمالي رقيب اول",
-            value: "totals.RkaabA.value"
-          },
-          {
-            text: "اجمالي  رقيب",
-            value: "totals.Rkaab.value"
-          },
-          {
-            text: "اجمالي عريف ",
-            value: "totals.Arraf.value"
-          },
-          {
-            text: "اجمالي عريف مجند",
-            value: "totals.SoliderArraf.value"
-          },
-          {
-            text: "اجمالي جندي",
-            value: "totals.Solider.value"
-          }
-        ].map(ele => ({
-          text: ele.text,
-          value: ele.value,
+        ...categories.map(category => ({
+          text: `اجمالي/${category.text}`,
+          value: `totals.${category.mappedValue}`,
           sortable: true,
-          type: "select",
           inTable: true,
           sort: 1
-        }))
+        })),
+        {
+          text: `الجملة`,
+          value: `totals.total`,
+          sortable: true,
+          inTable: true,
+          sort: 1
+        }
       ]);
     }
   }

@@ -291,5 +291,5 @@ export default {
       value: 2
     }
   ],
-  dailesSoliderCategories: ["صف", "كاتب", "سائق عجل", "مهنى", "حرفى"]
+  dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
 };
