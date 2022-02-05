@@ -142,6 +142,15 @@ const routes = [
     }
   },
   {
+    path: "/360_mokrar_dailes",
+    name: "360_mokrar_dailes",
+    component: mix.fun.loadView("tasgeel/360_mokrar_dailes"),
+    meta: {
+      title: "يومية 360 مكرر",
+      ok: true
+    }
+  },
+  {
     path: "/dalies",
     name: "dalies",
     component: mix.fun.loadView("new_comers/dalies"),

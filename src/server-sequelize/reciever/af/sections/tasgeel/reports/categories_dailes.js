@@ -1,14 +1,8 @@
 const { QueryTypes } = require("sequelize");
 const getUnits = require("./getUnits");
+const types = require("./types").default;
 
-const SoldierCategoryMap = [
-  { text: "صف", mappedValue: "officer" },
-  { text: "كاتب", mappedValue: "writer" },
-  { text: "مهنى", mappedValue: "professional" },
-  { text: "حرفى", mappedValue: "literal" },
-  { text: "سائق عجل", mappedValue: "driver" }
-];
-
+const SoldierCategoryMap = types.SoldierCategoryMap;
 module.exports = async (db, params) => {
   // get units
   const units = await getUnits(db, params);
