@@ -315,6 +315,8 @@
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
 export default {
   name: "Effects",
@@ -346,7 +348,9 @@ export default {
       title: "",
       text: ""
     },
-    search: {},
+    search: {
+      WeaponID: types.harsHododId
+    },
     searchLoading: false,
     mainTable: {
       headers: [
@@ -525,7 +529,8 @@ export default {
       let where = {
           ...this.search,
           RecuStage: null,
-          UnitID: null
+          UnitID: null,
+          WeaponID: null
         },
         likes = ["ID"],
         multi = [];
@@ -555,7 +560,8 @@ export default {
             model: "Soldier",
             where: this.cleanObject({
               UnitID: this.search.UnitID,
-              RecuStage: this.search.RecuStage
+              RecuStage: this.search.RecuStage,
+              WeaponID: this.search.WeaponID
             })
           }
         ],

@@ -229,15 +229,6 @@ export default {
   props: {},
   async mounted() {
     await this.init();
-    // setTimeout(() => {
-    //   this.$set(
-    //     this.search,
-    //     "weapons",
-    //     this.selects.weapons.data.map(ele => ele.Weapon)
-    //   );
-
-    //   console.log("oo");
-    // }, 1000);
   },
   data: () => ({
     Effect: {},

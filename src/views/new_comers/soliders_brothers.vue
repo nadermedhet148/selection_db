@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-card v-if="!parentFilters" :loading="searchLoading" :disabled="searchLoading">
+    <v-card
+      v-if="!parentFilters"
+      :loading="searchLoading"
+      :disabled="searchLoading"
+    >
       <v-card-title>
         بحث متقدم في الاشقاء
         <v-spacer></v-spacer>
@@ -176,14 +180,12 @@
             @click="actionCertificatie(item)"
             :color="item.Contnuity == 'متابع' ? 'success' : 'gray'"
           >
-            {{
-              item.Contnuity
-            }}
+            {{ item.Contnuity }}
           </v-chip>
         </template>
       </v-data-table>
     </v-card>
-   
+
     <v-dialog
       persistent
       v-model="createdObject.model"
@@ -320,6 +322,8 @@
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
 export default {
   name: "solider_brothers",
@@ -355,7 +359,9 @@ export default {
       title: "",
       text: ""
     },
-    search: {},
+    search: {
+      WeaponID: types.harsHododId
+    },
     searchLoading: false,
     headers: [
       {
@@ -381,7 +387,7 @@ export default {
         readonly: true,
         sort: 1
       },
-               {
+      {
         text: "الوحدة",
         value: "Soldier.Unit.Unit",
         searchValue: "UnitID",
@@ -425,7 +431,6 @@ export default {
         inModel: true,
         sort: 3
       }
- 
     ],
     items: [],
     tableFilters: {},
@@ -450,30 +455,19 @@ export default {
         value: "UnitID",
         text: "Unit"
       }
-      
     },
     printer: {}
   }),
-  watch: {
-  },
+  watch: {},
   methods: {
-    log(item) {
-      console.log("====================================");
-      console.log("item", item);
-      console.log("====================================");
-    },
-    runFun(f) {
-      return this[f]();
-    },
-
     async saveItem(edirableFromTableItem) {
       this.$set(this.createdObject, "loading", true);
       let saveItem;
 
-        saveItem = await this.api(`global/create_one`, {
-          table: "Brothers",
-          where: this.createdObject.item
-        });
+      saveItem = await this.api(`global/create_one`, {
+        table: "Brothers",
+        where: this.createdObject.item
+      });
 
       if (saveItem && saveItem.data && saveItem.ok) {
         this.showSuccess("تم حفظ ");
@@ -488,7 +482,12 @@ export default {
     findItems() {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
-      let where = { ...this.search, RecuStage: null, UnitID:null },
+      let where = {
+          ...this.search,
+          RecuStage: null,
+          UnitID: null,
+          WeaponID: null
+        },
         likes = ["ID"],
         multi = [];
       Object.keys(where).forEach(key => {
@@ -512,15 +511,16 @@ export default {
         include: [
           {
             model: "Soldier",
-            where: this.cleanObject(  {
-                  UnitID:this.search.UnitID,
-                  RecuStage: this.search.RecuStage
-              }),
-              include: [
-                  {
-                      model : 'Unit'
-                  }
-              ]
+            where: this.cleanObject({
+              UnitID: this.search.UnitID,
+              RecuStage: this.search.RecuStage,
+              WeaponID: this.search.WeaponID
+            }),
+            include: [
+              {
+                model: "Unit"
+              }
+            ]
           }
         ],
         where
@@ -537,6 +537,7 @@ export default {
           this.$set(this, "printer", printer);
         })
         .catch(error => {
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {
@@ -551,10 +552,8 @@ export default {
       })
         .then(x => {
           this.$set(this.createdObject.item, "Name", x.data.Name);
-
         })
-        .catch(error => {
-        })
+        .catch(error => {})
         .finally(() => {});
     },
     init(specificTable = "") {

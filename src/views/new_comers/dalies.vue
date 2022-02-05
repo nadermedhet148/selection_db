@@ -147,6 +147,8 @@
 
 <script>
 const constants = require("../../Constant").default;
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 const levelsHeaders = [
   ...Object.keys(constants.levelMapping).map(ele => ({
     text: ele,
@@ -194,7 +196,9 @@ export default {
   data: () => ({
     groupedValue: [],
     subjectLimit: 10,
-    search: {},
+    search: {
+      WeaponID: types.harsHododId
+    },
     searchLoading: false,
     headers: [...searchHeaders],
     items: [],

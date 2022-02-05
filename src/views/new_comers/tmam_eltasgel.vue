@@ -328,6 +328,8 @@
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
 export default {
   name: "new_commers",
@@ -566,7 +568,7 @@ export default {
             });
 
             this.api("global/queryRunners", {
-              query: `SELECT  COUNT(ID) as total FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}'`
+              query: `SELECT  COUNT(ID) as total FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' and WeaponID = ${types.harsHododId}`
             }).then(data => {
               this.api("global/update_one", {
                 where: {
@@ -581,7 +583,7 @@ export default {
             });
 
             this.api("global/queryRunners", {
-              query: `SELECT Count(KnowledgeLevel) As 'Count' FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' AND UnitID != 0`
+              query: `SELECT Count(KnowledgeLevel) As 'Count' FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' AND UnitID != 0 and and WeaponID = ${types.harsHododId}`
             }).then(data => {
               this.api("global/update_one", {
                 where: {

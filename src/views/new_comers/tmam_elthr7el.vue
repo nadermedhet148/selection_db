@@ -236,6 +236,8 @@
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
 const Effects = require("./effects");
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
 export default {
   components: {
@@ -407,15 +409,17 @@ export default {
         }
         this.$refs.effects.search = {
           RecuStage: this.search.RecuStage,
-          UnitID: this.search.UnitID
+          UnitID: this.search.UnitID,
+          WeaponID: types.harsHododId
         };
         await this.$refs.effects.findItems();
 
-        this.$refs.elt7aq.search = {
-          RecuStage: this.search.RecuStage,
-          UnitID: this.search.UnitID
-        };
-        await this.$refs.elt7aq.findItems();
+        // this.$refs.elt7aq.search = {
+        //   RecuStage: this.search.RecuStage,
+        //   UnitID: this.search.UnitID,
+        //   WeaponID: types.harsHododId
+        // };
+        // await this.$refs.elt7aq.findItems();
 
         const res = await this.api("global/get_or_create", {
           table: "Moving",
