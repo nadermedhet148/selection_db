@@ -36,5 +36,6 @@ export default {
     unites: 3,
     directions: 4,
     headquertsWithUnits: 5
-  }
+  },
+  harsHododId: 52
 };

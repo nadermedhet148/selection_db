@@ -43,12 +43,13 @@ module.exports = async (db, params) => {
             mortabEle[category.mappedValue][level.mappedValue] = {};
 
           const count = await runQuery(`
-           select Coalesce ( count(ID),0) value  from SMSoldier
-           join Unit on Unit.UnitID = SMSoldier.UnitID 
+           select Coalesce ( count(ID),0) value  from Soldier
+           join Unit on Unit.UnitID = Soldier.UnitID 
            where Unit.Unit like N'%${ele.Unit}%'
            and RecuEndDate > getdate() and SoldierStatus = N'بالخدمة'
            and SoldierCategory  like  N'%${category.text}%'
            and SoldierLevel like N'%${level.soldierLevel}%' 
+           and WeaponID != ${types.harsHododId}
            `);
 
           const mortab = await runQuery(`
@@ -117,6 +118,7 @@ module.exports = async (db, params) => {
           and SoldierStatus = N'بالخدمة' 
           and SoldierCategory   = N'صف' 
           and SoldierLevel  like N'%${level.soldierLevel}%'
+          and WeaponID = ${types.harsHododId}
         `);
 
           hododCount[level.mappedValue] = count[0].count;

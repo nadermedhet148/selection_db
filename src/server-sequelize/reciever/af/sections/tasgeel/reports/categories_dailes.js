@@ -35,11 +35,12 @@ module.exports = async (db, params) => {
         // TODO: refactor it to check if wepon is not hars hodo from soldier table after refactor
         const totalSMCount = await db.sequelize.query(
           `
-          select  Coalesce ( count(ID),0) totalSoliderCount  from SMSoldier
-          join Unit on Unit.UnitID = SMSoldier.UnitID where Unit = N'${ele.Unit}'
+          select  Coalesce ( count(ID),0) totalSoliderCount  from Soldier
+          join Unit on Unit.UnitID = Soldier.UnitID where Unit = N'${ele.Unit}'
           and RecuEndDate ${recEndDateQuery}
           and SoldierStatus = N'بالخدمة'
           and SoldierCategory  like N'%${category.text}%' 
+          and WeaponID != ${types.harsHododId}
           `,
           {
             type: QueryTypes.SELECT
@@ -79,6 +80,8 @@ module.exports = async (db, params) => {
          RecuEndDate ${recEndDateQuery} and 
          SoldierStatus = N'بالخدمة'  and 
          SoldierCategory   = N'صف'
+         and WeaponID = ${types.harsHododId}
+
         `,
         {
           type: QueryTypes.SELECT
