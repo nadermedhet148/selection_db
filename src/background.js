@@ -382,30 +382,44 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
-// require(`./server-sequelize/reciever/af/sections/tasgeel/reports/360_mokrar_dailes.js`)(
-//   dbs["af"],
-//   {
-//     Type: 3,
-//     unitIds: [56],
-//     SoldierCategories: ["صف"],
-//     weapons: [
-//       "إدارة المشاه",
-//       "إدارة الخدمات الطبيه",
-//       "إدارة الخدمات البيطريه",
-//       "إدارة الحرب الكيميائيه",
-//       "إدارة المدفعيه"
-//     ]
-//   },
-//   win,
-//   dbs,
-//   webwin
-// )
-//   .then(result => {
-//     console.log("result", result[0], result[1]);
-//   })
-//   .catch(error => {
-//     console.log("error", error);
-//   });
+// playground for migration
+
+// dbs["af"].SMSoldier.findAll().then(async soliders => {
+//   for (const ele of soliders) {
+//     try {
+//       const isSoliderExsit = await dbs["af"].Soldier.findOne({
+//         where: {
+//           ID: ele.dataValues.ID
+//         }
+//       });
+
+//       const duty = await dbs["af"].Duty.findOne({
+//         where: {
+//           Duty: ele.dataValues.Duty
+//         }
+//       });
+
+//       const newEle = {
+//         ...ele.dataValues,
+//         DutyID: duty ? duty.dataValues.DutyID : 1,
+//         KnowledgeLevel: ele.dataValues.KnowLedgeLevel,
+//         MissingTime: ele.dataValues.RecuTreat,
+//         RelevantTELE: ele.dataValues.RelecantTELE
+//       };
+//       if (!isSoliderExsit) {
+//         await dbs["af"].Soldier.create(newEle);
+//       } else {
+//         await dbs["af"].Soldier.update(newEle, {
+//           where: {
+//             ID: ele.dataValues.ID
+//           }
+//         });
+//       }
+//     } catch (error) {
+//       console.log(ele.dataValues.ID, error);
+//     }
+//   }
+// });
 
 let fs = require("fs"),
   mkdirp = require("mkdirp"),
