@@ -289,6 +289,12 @@ export default {
           sortable: true
         },
         {
+          value: "Weapon.Weapon",
+          dbvalue: "Weapon.WeaponID",
+          text: "السلاح",
+          sortable: true
+        },
+        {
           value: "SoldierStatus",
           dbvalue: "SoldierStatus",
           text: "حالة الفرد",
@@ -396,22 +402,11 @@ export default {
             label: "مدة الفاقدة",
             type: "text"
           },
-          // {
-          //   model: "reductionStateId",
-          //   label: "قرار التخفيض",
-          //   type: "select"
-          // },
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",
             type: "select"
           },
-          // {
-          //   model: "periodId",
-          //   label: "الحاق",
-          //   type: "select"
-          // },
-
           {
             model: "Direction",
             label: " الاتجاه",
