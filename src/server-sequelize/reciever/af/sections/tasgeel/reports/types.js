@@ -36,5 +36,10 @@ export default {
     unites: 3,
     directions: 4,
     headquertsWithUnits: 5
-  }
+  },
+  serviceTypes: [
+    { text: "راتب عالى", mappedValue: "rateb" },
+    { text: "مجند", mappedValue: "solider" },
+    { text: "رع/مجند", mappedValue: "ratebOversolider" }
+  ]
 };
