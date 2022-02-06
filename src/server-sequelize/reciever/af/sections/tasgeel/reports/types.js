@@ -38,8 +38,8 @@ export default {
     headquertsWithUnits: 5
   },
   serviceTypes: [
-    { text: "راتب عالى", mappedValue: "rateb" },
-    { text: "مجند", mappedValue: "solider" },
+    { text: "راتب عالى", mappedValue: "ratab" },
+    { text: "مجند", mappedValue: "soliders" },
     { text: "رع/مجند", mappedValue: "ratebOversolider" }
   ]
 };

@@ -6,7 +6,6 @@ const lodash = require("lodash");
 
 module.exports = async (db, params) => {
   function runQuery(query) {
-    console.log(query);
     return db.sequelize.query(query, {
       type: QueryTypes.SELECT
     });
@@ -83,9 +82,9 @@ module.exports = async (db, params) => {
       };
 
       ele.neededAfterTasreh = {
-        ratab: ele.siasa.rateb - ele.avaible.ratab,
+        ratab: ele.siasa.ratab - ele.avaible.ratab,
         soliders:
-          ele.siasa.solider +
+          ele.siasa.soliders +
           ele.siasa.ratebOversolider -
           ele.avaibleAfterTasreh.soliders
       };
