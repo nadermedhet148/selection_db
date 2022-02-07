@@ -188,6 +188,25 @@ const basicHeaders = [
     sort: 1
   },
   {
+    text: "الفئات",
+    value: "SoldierCategories",
+    searchValue: "SoldierCategories",
+    sortable: true,
+    type: "select",
+    inSearch: true,
+    inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
+  },
+  {
+    text: " الواجب المدرب عليه",
+    value: "job",
+    searchValue: "job",
+    type: "select",
+    inSearch: true
+  },
+  {
     text: "الاتجاه",
     value: "Direction",
     searchValue: "directions",
@@ -318,6 +337,11 @@ export default {
         table: "Weapon",
         value: "Weapon",
         text: "Weapon"
+      },
+      job: {
+        table: "Duty",
+        value: "Duty",
+        text: "Duty"
       },
       unitIds: {
         table: "Unit",

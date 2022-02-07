@@ -388,7 +388,9 @@ ipcMain.on("db-send-api", (event, args) => {
 //     Type: 3,
 //     unitIds: [56],
 //     weapon: "إدارة المركبات",
-//     RecuEndDate: "2022-09-01"
+//     RecuEndDate: "2022-09-01",
+//     job: "سائق عربة",
+//     SoldierCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
 //   },
 //   win,
 //   dbs,
