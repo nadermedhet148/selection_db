@@ -460,40 +460,6 @@ export default {
     printer: {}
   }),
   methods: {
-    log(item) {
-      console.log("====================================");
-      console.log("item", item);
-      console.log("====================================");
-    },
-    tableUpdated(v) {
-      let tables = this.$refs.mainTable;
-      if (tables) {
-        tables = Array.isArray(tables) ? tables : [tables];
-        for (let i = 0; i < tables.length; i++) {
-          let table = tables[i],
-            childTable = table?.$children[0].$children[0].$children[0]?.table,
-            filteredItems,
-            sorted;
-
-          // when first table exists
-          if ("filteredItems" in table?.$children[0]) {
-            filteredItems = table.$children[0].filteredItems;
-            sorted = filteredItems;
-            // when the second table exists
-            if (childTable) {
-              let sortBy = childTable.props.options.sortBy, // -_-
-                sortDesc = childTable.props.options.sortDesc; // -_-
-              sorted = table.customSort(filteredItems, sortBy, sortDesc);
-            }
-            this.result.printer.cons = sorted;
-          }
-        }
-      }
-    },
-    runFun(f) {
-      return this[f]();
-    },
-
     findItems() {
       if (!this.search.Stage) {
         this.showError("يجب اختيار المرحلة اولا");
@@ -583,7 +549,7 @@ export default {
             });
 
             this.api("global/queryRunners", {
-              query: `SELECT Count(KnowledgeLevel) As 'Count' FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' AND UnitID != 0 and and WeaponID = ${types.harsHododId}`
+              query: `SELECT Count(KnowledgeLevel) As 'Count' FROM Soldier where KnowledgeLevel = N'${text}' and RecuStage = N'${this.search.Stage}' AND UnitID != 0 and WeaponID = ${types.harsHododId}`
             }).then(data => {
               this.api("global/update_one", {
                 where: {

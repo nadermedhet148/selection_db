@@ -1,6 +1,26 @@
 module.exports = async (db, params) => {
   let search = params.search,
     like = ["ID", "Name"],
+    multi = [
+      "SoldierLevel",
+      "SoldierStatus",
+      "KnowledgeLevel",
+      "SoldierCategory",
+      "RecuTreat",
+      "RecuStage",
+      "Direction",
+      "WeaponID",
+      "UnitID",
+      "DutyID",
+      "CityID",
+      "CentreID",
+      "Religion",
+      "BloodType",
+      "College",
+      "RecuRegion",
+      "Treatment",
+      "DriverLevel"
+    ],
     date = ["ArrivalDate", "BirthDate", "RecuStartDate", "RecuEndDate"],
     ignore = [],
     where = {};
@@ -18,6 +38,10 @@ module.exports = async (db, params) => {
         if (like.includes(key)) {
           where[key] = {
             $like: `${val}%`
+          };
+        } else if (multi.includes(key)) {
+          where[key] = {
+            $in: val
           };
         } else if (date.includes(key)) {
           if (val.from || val.to) {

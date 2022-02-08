@@ -301,5 +301,6 @@ export default {
       value: 2
     }
   ],
-  dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
+  dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"],
+  serviceTypes: [{ text: "راتب عالى" }, { text: "مجند" }, { text: "رع/مجند" }]
 };

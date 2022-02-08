@@ -478,7 +478,7 @@ export default {
           {
             model: "ServiceType",
             label: "نوع الخدمة",
-            type: "text"
+            type: "select"
           }
         ]
       }
@@ -577,13 +577,17 @@ export default {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
+      },
+      ServiceType: {
+        text: "text",
+        value: "text",
+        data: constants.serviceTypes
       }
     },
     loading: false
   }),
   watch: {
     "conscripte.WeaponID"(v) {
-      console.log(v);
       this.$set(
         this.conscripte,
         "Markez_Tadreb",
@@ -663,14 +667,6 @@ export default {
         conscripte.image = await this.toBase64(conscripte.image);
       }
 
-      if (![0, 12, 1, 3].includes(this.$store.state.currentUser.section)) {
-        this.showError(
-          "عفواً, ليس لديك صلاحية التعديل. هذه خاصة بقسم التسجيل."
-        );
-
-        this.$set(this, "loading", false);
-        return;
-      }
       if (!conscripte.ID) {
         this.showError("من فضلك قم بتسجيل الرقم العسكري");
         this.$set(this, "loading", false);
@@ -686,15 +682,6 @@ export default {
         this.$set(this, "loading", false);
         return;
       }
-      // /////
-      // if (conscripte.soldierLevel == 2) {
-      //   // جندي
-      //   conscripte.typeId = 1;
-      // } else {
-      //   // راتب عالي
-      //   conscripte.typeId = 2;
-      // }
-
       let isExists = false,
         exists = await this.api("global/get_one", {
           table: "Soldier",
@@ -722,7 +709,6 @@ export default {
         this.$set(this, "loading", false);
         return;
       }
-      console.log(conscripte);
       let addCon = await this.api("global/create_one", {
         table: "Soldier",
         where: conscripte

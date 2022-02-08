@@ -382,46 +382,6 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
-<<<<<<< HEAD
-// playground for migration
-
-// dbs["af"].SMSoldier.findAll().then(async soliders => {
-//   for (const ele of soliders) {
-//     try {
-//       const isSoliderExsit = await dbs["af"].Soldier.findOne({
-//         where: {
-//           ID: ele.dataValues.ID
-//         }
-//       });
-
-//       const duty = await dbs["af"].Duty.findOne({
-//         where: {
-//           Duty: ele.dataValues.Duty
-//         }
-//       });
-
-//       const newEle = {
-//         ...ele.dataValues,
-//         DutyID: duty ? duty.dataValues.DutyID : 1,
-//         KnowledgeLevel: ele.dataValues.KnowLedgeLevel,
-//         MissingTime: ele.dataValues.RecuTreat,
-//         RelevantTELE: ele.dataValues.RelecantTELE
-//       };
-//       if (!isSoliderExsit) {
-//         await dbs["af"].Soldier.create(newEle);
-//       } else {
-//         await dbs["af"].Soldier.update(newEle, {
-//           where: {
-//             ID: ele.dataValues.ID
-//           }
-//         });
-//       }
-//     } catch (error) {
-//       console.log(ele.dataValues.ID, error);
-//     }
-//   }
-// });
-=======
 // require(`./server-sequelize/reciever/af/sections/tasgeel/reports/SMYearQuarter.js`)(
 //   dbs["af"],
 //   {
@@ -429,7 +389,7 @@ ipcMain.on("db-send-api", (event, args) => {
 //     unitIds: [56],
 //     weapon: "إدارة المركبات",
 //     RecuEndDate: "2022-09-01",
-//     job: "سائق عربة",
+//     job: "سائق عsربة",
 //     SoldierCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
 //   },
 //   win,
@@ -442,7 +402,6 @@ ipcMain.on("db-send-api", (event, args) => {
 //   .catch(error => {
 //     console.log("error", error);
 //   });
->>>>>>> b12ee279d3dfb6c5fedcd00c449dcf1ca8a84f5f
 
 let fs = require("fs"),
   mkdirp = require("mkdirp"),

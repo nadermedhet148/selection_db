@@ -57,6 +57,7 @@
                   :hint="option.hint"
                   v-model="search[option.model]"
                   :items="selects[option.model].data"
+                  :multiple="option.multiple"
                   :item-value="selects[option.model].value"
                   :item-text="selects[option.model].text"
                   filled
@@ -209,58 +210,7 @@ export default {
     this.fillKeys();
     this.init();
   },
-  watch: {
-    "search.stateIdCurrent"(v) {
-      if (v) {
-        if (!this.fullDatas.stateId) {
-          this.$set(this.fullDatas, "stateId", this.selects.stateId.data);
-        }
-        if (v == 1) {
-          this.$set(
-            this.selects.stateId,
-            "data",
-            this.fullDatas.stateId.filter(w => w.stateId == 101)
-          );
-          if (this.search.stateId !== 101) {
-            this.$set(this.search, "stateId", null);
-          }
-        } else {
-          this.$set(
-            this.selects.stateId,
-            "data",
-            this.fullDatas.stateId.filter(w => w.stateId !== 101)
-          );
-          if (this.search.stateId == 101) {
-            this.$set(this.search, "stateId", null);
-          }
-        }
-      } else {
-        this.$set(this.selects.stateId, "data", this.fullDatas.stateId);
-      }
-    },
-    "search.webCivilQualificationGroupId"(v) {
-      if (v) {
-        if (!this.fullDatas.webCivilQualificationId) {
-          this.$set(
-            this.fullDatas,
-            "webCivilQualificationId",
-            this.selects.webCivilQualificationId.data
-          );
-        }
-        this.$set(
-          this.selects.webCivilQualificationId,
-          "data",
-          this.fullDatas.webCivilQualificationId.filter(w => w.groupId == v)
-        );
-      } else {
-        this.$set(
-          this.selects.webCivilQualificationId,
-          "data",
-          this.fullDatas.webCivilQualificationId
-        );
-      }
-    }
-  },
+  watch: {},
   data: () => ({
     componentName: "soldiers_plus",
     tableFilters: {},
@@ -371,11 +321,13 @@ export default {
           },
           {
             model: "SoldierLevel",
+            multiple: true,
             label: "الدرجة",
             type: "select"
           },
           {
             model: "SoldierStatus",
+            multiple: true,
             label: "حالة الفرد",
             type: "select",
             forEnhaa: true
@@ -387,32 +339,32 @@ export default {
           },
           {
             model: "KnowledgeLevel",
+            multiple: true,
             label: "المؤهل",
             type: "select"
           },
 
           {
             model: "SoldierCategory",
+            multiple: true,
             label: "الفئة",
             type: "select"
           },
           {
             model: "RecuTreat",
+            multiple: true,
             label: "المعاملة التجنيدية",
             type: "select"
           },
           {
-            model: "MissingTime",
-            label: "مدة الفاقدة",
-            type: "text"
-          },
-          {
             model: "RecuStage",
+            multiple: true,
             label: "المرحلة التجنيدية",
             type: "select"
           },
           {
             model: "Direction",
+            multiple: true,
             label: " الاتجاه",
             type: "select"
           }
@@ -423,22 +375,19 @@ export default {
         options: [
           {
             model: "WeaponID",
+            multiple: true,
             label: "السلاح",
             type: "select"
           },
           {
             model: "UnitID",
+            multiple: true,
             label: "الوحدة",
             type: "select"
           },
           {
-            model: "Markez_Tadreb",
-            label: " مركز التدريب",
-            type: "text",
-            readonly: true
-          },
-          {
             model: "DutyID",
+            multiple: true,
             label: " الواجب المدرب عليه",
             type: "select"
           }
@@ -459,57 +408,34 @@ export default {
             counter: 14
           },
           {
-            model: "SoldierTELE",
-            label: "رقم التليفون",
-            type: "text",
-            counter: 11,
-            forEnhaa: true
-          },
-          {
-            model: "RelevantTELE",
-            label: "رقم تلفون الاقارب",
-            type: "text",
-            counter: 11
-          },
-          {
-            model: "Address",
-            label: "العنوان المدني",
-            type: "text"
-          },
-          {
-            model: "Job",
-            label: "المهنة ",
-            type: "text"
-          },
-          {
             model: "CityID",
+            multiple: true,
             label: "المحافظة",
             type: "select"
           },
           {
             model: "CentreID",
+            multiple: true,
             label: "المركز",
             type: "select"
           },
           {
             model: "Religion",
+            multiple: true,
             label: "الديانة",
             type: "select"
           },
           {
             model: "BloodType",
+            multiple: true,
             label: "فصيلة الدم",
             type: "select"
           },
           {
             model: "College",
+            multiple: true,
             label: "الكلية ",
             type: "select"
-          },
-          {
-            model: "Specialization",
-            label: "التخصص ",
-            type: "text"
           }
         ]
       },
@@ -534,14 +460,9 @@ export default {
           },
           {
             model: "RecuRegion",
+            multiple: true,
             label: "منطقة التجنيد",
             type: "select"
-          },
-          {
-            model: "Notes",
-            label: "ملاحظات عامة",
-            type: "textarea",
-            forEnhaa: true
           }
         ]
       },
@@ -550,18 +471,21 @@ export default {
         options: [
           {
             model: "Treatment",
+            multiple: true,
             label: "المعاملة",
             type: "select"
           },
           {
             model: "DriverLevel",
+            multiple: true,
             label: "درجة الرخصة",
             type: "select"
           },
           {
             model: "ServiceType",
             label: "نوع الخدمة",
-            type: "text"
+            type: "select",
+            multiple: true
           }
         ]
       }
@@ -607,7 +531,7 @@ export default {
         value: "text",
         data: constants.RecuRegion.data
       },
-     RecuStage: {
+      RecuStage: {
         text: "text",
         value: "text",
         data: lodash.flattenDeep(
@@ -661,6 +585,11 @@ export default {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
+      },
+      ServiceType: {
+        text: "text",
+        value: "text",
+        data: constants.serviceTypes
       }
     }
   }),
@@ -726,8 +655,10 @@ export default {
         options = [...options, ...arr];
       });
       options.forEach(option => {
-        if (option.type == "date" || option.multiple) {
+        if (option.type == "date") {
           this.$set(this.search, option.model, {});
+        } else if (option.multiple) {
+          this.$set(this.search, option.model, []);
         } else {
           this.$set(this.search, option.model, "");
         }
