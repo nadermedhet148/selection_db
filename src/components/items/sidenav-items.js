@@ -169,26 +169,14 @@ let nozom = function(t) {
         click: "request_logout"
       }
     ],
-    // ../Footer
-    // Nozom
     nozom: [
       {
-        type: "group",
-        icon: "mdi-code-json",
-        text: nozom("_self"),
-        model: false,
-        onlySegelat: true,
-        children: [
-          {
-            type: "single",
-            icon: "mdi-view-dashboard-outline",
-            text: admin("operations"),
-            href: "/admin_operations"
-          }
-        ]
+        type: "single",
+        icon: "mdi-view-dashboard-outline",
+        text: admin("operations"),
+        href: "/admin_operations"
       }
     ],
-    // admin
     admin: [
       {
         type: "single",
@@ -204,8 +192,6 @@ let nozom = function(t) {
         href: "/edit_users"
       }
     ],
-    // ../admin
-    // Tasgeel
     tas: [
       {
         type: "single",
@@ -478,7 +464,7 @@ let nozom = function(t) {
     ...items.footer
   ],
   _0 = [...items.admin],
-  _12 = [...items.nozom],
+  _4 = [...items.nozom],
   _1 = [
     // قسم التسجيل
     ...items.tas
@@ -491,7 +477,7 @@ let nozom = function(t) {
     // انهاء
     ...items.en
   ],
-  _4 = [
+  _12 = [
     // هروب
     ...items.ho
     // {

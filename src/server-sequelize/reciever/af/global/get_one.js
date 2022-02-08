@@ -15,7 +15,7 @@ module.exports = async (db, params) => {
       if (t.include && t.include.length > 0) {
         t.include.forEach(ti => {
           let __obj = {
-            model: db[ti.model],
+            model: db[ti.model]
             // as: ti.as
           };
           if (ti.attrs) {
