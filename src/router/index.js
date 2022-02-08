@@ -133,6 +133,15 @@ const routes = [
     }
   },
   {
+    path: "/SMYearQuarter",
+    name: "SMYearQuarter",
+    component: mix.fun.loadView("tasgeel/SMYearQuarter"),
+    meta: {
+      title: "يومية الربع السنوي",
+      ok: true
+    }
+  },
+  {
     path: "/360_normal_dailes",
     name: "360_normal_dailes",
     component: mix.fun.loadView("tasgeel/360_normal_dailes"),

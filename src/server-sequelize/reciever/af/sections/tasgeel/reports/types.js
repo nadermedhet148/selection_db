@@ -37,5 +37,10 @@ export default {
     directions: 4,
     headquertsWithUnits: 5
   },
-  harsHododId: 52
+  harsHododId: 52,
+  serviceTypes: [
+    { text: "راتب عالى", mappedValue: "ratab" },
+    { text: "مجند", mappedValue: "soliders" },
+    { text: "رع/مجند", mappedValue: "ratebOversolider" }
+  ]
 };

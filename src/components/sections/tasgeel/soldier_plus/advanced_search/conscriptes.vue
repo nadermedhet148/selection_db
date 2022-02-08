@@ -293,6 +293,12 @@ export default {
           sortable: true
         },
         {
+          value: "Weapon.Weapon",
+          dbvalue: "Weapon.WeaponID",
+          text: "السلاح",
+          sortable: true
+        },
+        {
           value: "SoldierStatus",
           dbvalue: "SoldierStatus",
           text: "حالة الفرد",
@@ -400,7 +406,6 @@ export default {
             label: "مدة الفاقدة",
             type: "text"
           },
-
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",

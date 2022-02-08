@@ -382,6 +382,7 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
+<<<<<<< HEAD
 // playground for migration
 
 // dbs["af"].SMSoldier.findAll().then(async soliders => {
@@ -420,6 +421,28 @@ ipcMain.on("db-send-api", (event, args) => {
 //     }
 //   }
 // });
+=======
+// require(`./server-sequelize/reciever/af/sections/tasgeel/reports/SMYearQuarter.js`)(
+//   dbs["af"],
+//   {
+//     Type: 3,
+//     unitIds: [56],
+//     weapon: "إدارة المركبات",
+//     RecuEndDate: "2022-09-01",
+//     job: "سائق عربة",
+//     SoldierCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
+//   },
+//   win,
+//   dbs,
+//   webwin
+// )
+//   .then(result => {
+//     console.log("result", result[0]);
+//   })
+//   .catch(error => {
+//     console.log("error", error);
+//   });
+>>>>>>> b12ee279d3dfb6c5fedcd00c449dcf1ca8a84f5f
 
 let fs = require("fs"),
   mkdirp = require("mkdirp"),
