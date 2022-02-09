@@ -582,7 +582,6 @@ const lodash = require("lodash");
 export default {
   name: "distributed_suggest",
   mounted() {
-    this.initDates();
     this.init();
   },
   filters: {
@@ -686,7 +685,7 @@ export default {
         sort: 2
       },
       {
-        text: "الموجود بدون  ",
+        text: " الموجود بدون الراتب العالي",
         value: "ExistWithoutHighPay",
         sortable: true,
         inEdit: true,
@@ -896,7 +895,10 @@ export default {
         value: "text",
         data: lodash.flattenDeep(
           constants.years.map(year =>
-            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+            constants.RecuStage.data.map(stage => ({
+              text: `${stage.text}-${year}`,
+              year: `${stage.year}-${year}`
+            }))
           )
         )
       },
@@ -928,15 +930,6 @@ export default {
     printer: {}
   }),
   methods: {
-    log(item) {
-      console.log("====================================");
-      console.log("item", item);
-      console.log("====================================");
-    },
-    runFun(f) {
-      return this[f]();
-    },
-
     findItems() {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
@@ -954,8 +947,25 @@ export default {
           }
         ]
       })
-        .then(x => {
-          let data = x.data,
+        .then(async x => {
+          const unitsSalaries = await this.api(`global/queryRunners`, {
+            query: `
+                select Coalesce ( SUM(El_Moratab),0) mortab , Coalesce ( SUM(Siasa) ,0) siasa, UNIT_NAME from SMGeneral 
+                WHERE Khedma_Type = N'مجند' and Feaa_Code = N'صف'
+                group by UNIT_NAME
+            `
+          });
+
+          let data = x.data.map(ele => {
+              let unit = unitsSalaries.data.find(
+                slaray => slaray.UNIT_NAME === ele.Unit.Unit
+              );
+              return {
+                ...ele,
+                PayPolitics: unit ? unit.siasa : ele.PayPolitics,
+                PayWar: unit ? unit.mortab : ele.PayWar
+              };
+            }),
             printer = {
               cons: [...data],
               excelKey: "cons",
@@ -988,43 +998,10 @@ export default {
         })
         .catch(error => {
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
-          console.log(error);
         })
         .finally(() => {
           this.$set(this, "searchLoading", false);
         });
-    },
-    init(specificTable = "") {
-      // Get selects
-      Object.keys(this.selects).forEach(key => {
-        let { table, localTable, text, value } = this.selects[key];
-        if (table) {
-          let obj = {
-            table
-          };
-          obj.attrs = [text, value];
-          this.$set(this.selects[key], "loading", true);
-          this.api("global/get_all", obj)
-            .then(x => {
-              this.$set(this.selects[key], "data", x.data);
-            })
-            .catch(error => {
-              this.$set(
-                this.selects[key],
-                "error",
-                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-              );
-            })
-            .finally(() => {
-              this.$set(this.selects[key], "loading", false);
-            });
-        } else if (localTable) {
-          this.$set(this.selects[key], "loading", true);
-          let data = this.localTable(localTable);
-          this.$set(this.selects[key], "data", data);
-          this.$set(this.selects[key], "loading", false);
-        }
-      });
     },
     copyOne() {
       this.api("global/get_all", {
@@ -1061,19 +1038,9 @@ export default {
               TotalAfterRelease: ele.TotalAfterRelease,
               UnitID: ele.UnitID
             }
-          }).then(res => {
-            console.log(res);
-          });
+          }).then(res => {});
         });
         this.$set(this.copyModel, "model", false);
-      });
-    },
-    initDates() {
-      let dates = this.headers
-        .filter(h => h.type == "date")
-        .map(h => h.searchValue);
-      dates.forEach(d => {
-        this.$set(this.search, d, []);
       });
     },
     handleClick(v) {
@@ -1108,7 +1075,6 @@ export default {
       }).then(x => {
         let newObject = {
           ...x.data,
-
           RecuStage: this.search.RecuStage,
           PlanName: `${this.search.RecommendTypes} ${this.search.RecuStage}`,
           UnitID: this.newDist.item.UnitID

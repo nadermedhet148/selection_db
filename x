@@ -47,3 +47,19 @@
 in new commers
 يوميات المهندسين 
 تراخيص النقل 
+
+  select Coalesce ( count(ID),0) value , Unit.Unit  as Unit from Soldier
+           join Unit on Unit.UnitID = Soldier.UnitID 
+           where RecuEndDate > getdate() and SoldierStatus = N'بالخدمة'
+           and SoldierCategory  like  N'صف'
+           and SoldierLevel like N'جندي' 
+           and WeaponID = 52
+           GROUP by Unit.Unit 
+///////////////////////////////////////////////////////////
+  select Coalesce ( count(ID),0) value , Unit.Unit  as Unit from Soldier
+           join Unit on Unit.UnitID = Soldier.UnitID 
+           where RecuEndDate > getdate() and SoldierStatus = N'بالخدمة'
+           and SoldierCategory  like  N'صف'
+           and SoldierLevel like N'جندي' 
+           and WeaponID = 52
+           GROUP by Unit.Unit 

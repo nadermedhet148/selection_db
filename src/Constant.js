@@ -110,7 +110,10 @@ export default {
     text: "text",
     value: "text",
     data: [
-      ...["الاولي", "الثانية", "الثالثة", "الرابعة"].map(text => ({ text }))
+      { text: "الاولي", value: "1-3" },
+      { text: "الثانية", value: "1-6" },
+      { text: "الثالثة", value: "1-9" },
+      { text: "الرابعة", value: "1-12" }
     ]
   },
   Certificator: {
