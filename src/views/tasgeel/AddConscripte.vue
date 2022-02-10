@@ -54,6 +54,16 @@
                   "
                   :readonly="item.readonly"
                 ></v-text-field>
+
+                <v-file-input
+                  v-model="conscripte[item.model]"
+                  v-if="item.type == 'file'"
+                  :label="item.label"
+                  accept="image/png, image/jpeg, image/bmp, image/jpg"
+                  prepend-icon="mdi-camera"
+                  show-size
+                  truncate-length="14"
+                ></v-file-input>
                 <v-textarea
                   v-model="conscripte[item.model]"
                   v-else-if="item.type == 'textarea'"
@@ -188,6 +198,8 @@
 
 <script>
 const constants = require("../../Constant").default;
+const lodash = require("lodash");
+
 export default {
   name: "add_conscripte",
   computed: {
@@ -212,11 +224,7 @@ export default {
   },
   data: () => ({
     findingConscripte: false,
-    conscripte: {
-      conscriptionDate: null,
-      unitID: null
-    },
-
+    conscripte: {},
     isEnhaa: false,
     groups: [
       {
@@ -284,22 +292,12 @@ export default {
             label: "مدة الفاقدة",
             type: "text"
           },
-          // {
-          //   model: "reductionStateId",
-          //   label: "قرار التخفيض",
-          //   type: "select"
-          // },
+
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",
             type: "select"
           },
-          // {
-          //   model: "periodId",
-          //   label: "الحاق",
-          //   type: "select"
-          // },
-
           {
             model: "Direction",
             label: " الاتجاه",
@@ -321,12 +319,7 @@ export default {
             label: "الوحدة",
             type: "select"
           },
-          {
-            model: "",
-            label: " التشكيل",
-            type: "text",
-            readonly: true
-          },
+
           {
             model: "Markez_Tadreb",
             label: " مركز التدريب",
@@ -340,15 +333,15 @@ export default {
           },
           {
             model: "",
-            label: "التسكين",
+            label: " التشكيل",
             type: "text",
             readonly: true
           },
-
           {
-            model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
-            type: "date"
+            model: "",
+            label: "التسكين",
+            type: "text",
+            readonly: true
           },
           {
             model: "SourceId",
@@ -425,6 +418,11 @@ export default {
             model: "Specialization",
             label: "التخصص ",
             type: "text"
+          },
+          {
+            model: "image",
+            label: "الصورة الشخصية ",
+            type: "file"
           }
         ]
       },
@@ -445,6 +443,11 @@ export default {
             type: "date"
           },
           {
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
             model: "RecuRegion",
             label: "منطقة التجنيد",
             type: "select"
@@ -454,6 +457,28 @@ export default {
             label: "ملاحظات عامة",
             type: "textarea",
             forEnhaa: true
+          }
+        ]
+      },
+      {
+        title: "الإدارات التخصصية",
+        desc: "",
+        forEnhaa: true,
+        items: [
+          {
+            model: "Treatment",
+            label: "المعاملة",
+            type: "select"
+          },
+          {
+            model: "DriverLevel",
+            label: "درجة الرخصة",
+            type: "select"
+          },
+          {
+            model: "ServiceType",
+            label: "نوع الخدمة",
+            type: "select"
           }
         ]
       }
@@ -484,6 +509,11 @@ export default {
         value: "text",
         data: constants.SoldierCategory.data
       },
+      DriverLevel: {
+        text: "text",
+        value: "text",
+        data: constants.DriverLevel.data
+      },
       BloodType: {
         text: "text",
         value: "text",
@@ -497,7 +527,16 @@ export default {
       RecuStage: {
         text: "text",
         value: "text",
-        data: constants.RecuStage.data
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      },
+      Treatment: {
+        text: "text",
+        value: "text",
+        data: constants.Treatment.data
       },
       SoldierStatus: {
         text: "text",
@@ -538,16 +577,17 @@ export default {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
+      },
+      ServiceType: {
+        text: "text",
+        value: "text",
+        data: constants.serviceTypes
       }
     },
     loading: false
   }),
   watch: {
-    // "conscripte.conscriptionDate"(v) {
-    //   this.calculateDemobilizationDate();
-    // }
     "conscripte.WeaponID"(v) {
-      console.log(v);
       this.$set(
         this.conscripte,
         "Markez_Tadreb",
@@ -563,149 +603,7 @@ export default {
         militaryId: exeptId ? this.conscripte.militaryId : null
       });
     },
-    init(specificTable = "") {
-      // for enhaa department can change the ending duty date
-      if (this.$store.state.currentUser.section == 3) {
-        let endingDutyModel = this.groups[3].items.find(x => {
-          return x.model == "endingDutyDate";
-        });
-
-        endingDutyModel.readonly = false;
-        this.isEnhaa = true;
-      }
-
-      // Get selects
-      Object.keys(this.selects).forEach(key => {
-        let { table, localTable, text, value, attrs } = this.selects[key];
-        attrs = attrs ? attrs : [];
-        if (table) {
-          let obj = {
-            table
-          };
-          // if (text && value) {
-          //   obj.attrs = [text, value, ...attrs];
-          // }
-          this.$set(this.selects[key], "loading", true);
-          this.api("global/get_all", obj)
-            .then(x => {
-              this.$set(this.selects[key], "data", x.data);
-            })
-            .catch(error => {
-              // console.log(this.selects[key]);
-              console.log(error);
-              this.$set(
-                this.selects[key],
-                "error",
-                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-              );
-            })
-            .finally(() => {
-              this.$set(this.selects[key], "loading", false);
-            });
-        } else if (localTable) {
-          this.$set(this.selects[key], "loading", true);
-          let data = this.localTable(localTable);
-          this.$set(this.selects[key], "data", data);
-          this.$set(this.selects[key], "loading", false);
-        }
-      });
-    },
-    async calculateDemobilizationDate(isExists = false) {
-      let {
-        conscriptionDate,
-        knowLedgeLevel,
-        additionalYearStateId,
-        forceId,
-        militaryId
-      } = this.conscripte;
-
-      // علشان ميطلعش
-      // error لمكتب الانهاء
-      if (this.$store.state.currentUser.section == 3) {
-        return;
-      }
-
-      if (
-        !conscriptionDate ||
-        (!knowLedgeLevel && knowLedgeLevel !== 0) ||
-        (!additionalYearStateId && additionalYearStateId !== 0) ||
-        (!forceId && forceId !== 0)
-      ) {
-        this.showError(
-          "يجب تسجيل تاريخ التجنيد والمؤهل وبيان السنة الزيادة والسلاح لحساب تاريخ التسريح. في حال إذا كان ينقصك واحد أو أكثر منها, قم بتسجيله من فضلك"
-        );
-        return false;
-      }
-      let cdate = new Date(conscriptionDate),
-        // 2020-01-15
-        requiredMonths = {
-          0: 35,
-          7: 11,
-          2: 11,
-          8: 17,
-          1: 23
-        },
-        hasAdditionalYear = additionalYearStateId == 4,
-        period = requiredMonths[knowLedgeLevel],
-        demobilizationDate = new Date(
-          cdate.setMonth(new Date(conscriptionDate).getMonth() + period)
-        );
-      demobilizationDate = new Date(
-        demobilizationDate.setMonth(demobilizationDate.getMonth() + 2)
-      );
-      demobilizationDate = this.getClosestDof3a(
-        demobilizationDate,
-        hasAdditionalYear
-      );
-      let { points } = isExists
-        ? await this.fixDemobilizationDate(militaryId)
-        : {};
-      this.$set(
-        this.conscripte,
-        "demobilizationDate",
-        isExists ? this.fixDate(points.demobilizationDate) : demobilizationDate
-      );
-      this.$set(
-        this.conscripte,
-        "demobilizationDateStarter",
-        isExists
-          ? this.fixDate(points.demobilizationDateStarter)
-          : demobilizationDate
-      );
-      this.$set(
-        this.conscripte,
-        "endingDutyDate",
-        isExists ? this.fixDate(points.endingDutyDate) : demobilizationDate
-      );
-      return true;
-    },
-    getClosestDof3a(date = new Date(), hasAdditionalYear = false) {
-      let { year, month, day } = {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()
-        },
-        mainDof3as = [3, 6, 9, 12],
-        // secondaryDof3as = [2, 5, 8, 11],
-        // dof3asToUse = hasAdditionalYear ? secondaryDof3as : mainDof3as;
-        dof3asToUse = mainDof3as;
-      if (dof3asToUse.includes(month) && day == 1) {
-        return this.fixDate(date);
-      }
-      dof3asToUse.push(month);
-      dof3asToUse.sort((a, b) => a - b);
-      let index = dof3asToUse.indexOf(month) + 1,
-        requiredIndex = index == dof3asToUse.length ? 0 : index,
-        requiredMonth = dof3asToUse[requiredIndex],
-        finalDate = new Date(
-          `${requiredIndex == 0 ? year + 1 : year}-${
-            hasAdditionalYear ? requiredMonth + 2 : requiredMonth
-          }-1`
-        );
-      return this.fixDate(finalDate);
-    },
     async findConscripte() {
-      // this.emptyFields(true);
       let { ID } = this.conscripte,
         forceCode = ID.substr(6, 2),
         areaCode = ID.substr(4, 1),
@@ -725,9 +623,7 @@ export default {
         where: {
           ID
         }
-        // attrs: models
       });
-      // 2020178800544
       if (
         conscripte &&
         conscripte.ok &&
@@ -744,103 +640,19 @@ export default {
             "birthDate"
           ]
         )[0];
-        // this.showError("الرقم العسكري موجود بالفعل.");
         models.forEach(model => {
           this.$set(this.conscripte, model, data[model]);
         });
-        // this.$set(this, "findingConscripte", false);
-        // return;
       }
-      // let {
-      //   periodId,
-      //   areaId,
-      //   groupId,
-      //   knowLedgeLevel,
-      //   forceId,
-      //   stateIdCurrent,
-      //   additionalYearStateId,
-      //   reductionStateId,
-      //   soldierLevel,
-      //   martialStateId,
-      //   stateId
-      // } = this.conscripte;
-      // if (ID.length >= 13) {
-      //   // substr(index(included), length)
-      //   // substring(index(included), index(not included))
-      //   // Example: 2020 5 2 52 0011 5
-      //   // 2020 [Year of Conscription]
-      //   // 5 [ Mobilization Area ]
-      //   // 2 [ knowLedgeLevel ]
-      //   // 52 [ ForceId ]
-      //   // 0011 [ Series in Mobilization Area ]
-      //   // 5 Random Integer
-      //   // Fill other fields depending on militaryId
-      //   if (!stateIdCurrent) {
-      //     this.$set(this.conscripte, "stateIdCurrent", 1);
-      //   }
-      //   if (!stateId) {
-      //     this.$set(this.conscripte, "stateId", 101);
-      //   }
-      //   if (!martialStateId) {
-      //     this.$set(this.conscripte, "martialStateId", 1);
-      //   }
-      //   if (!soldierLevel) {
-      //     this.$set(
-      //       this.conscripte,
-      //       "soldierLevel",
-      //       forceCode == "88" ? 13 : 2
-      //     );
-      //   }
-      //   if (!additionalYearStateId) {
-      //     this.$set(this.conscripte, "additionalYearStateId", 1);
-      //   }
-      //   if (!reductionStateId) {
-      //     this.$set(this.conscripte, "reductionStateId", 1);
-      //   }
-      //   // if (!areaId) {
-      //   this.$set(this.conscripte, "areaId", Number(areaCode));
-      //   // }
-      //   // if (!knowLedgeLevel) {
-      //   this.$set(
-      //     this.conscripte,
-      //     "knowLedgeLevel",
-      //     forceCode == "88" ? 7 : Number(qualificationCode)
-      //   );
-      //   // }
-      //   if (!forceId) {
-      //     if (["04", "18", "10", "52", "66", "77", "88"].includes(forceCode)) {
-      //       this.$set(this.conscripte, "forceId", Number(forceCode));
-      //     }
-      //   }
-      //   if (!periodId) {
-      //     let year = militaryId.substr(0, 4),
-      //       month = new Date().getMonth() + 1,
-      //       isOfficer = forceCode == "88",
-      //       periodText = `${year}/${
-      //         isOfficer ? (month > 6 ? 2 : 1) : Math.ceil(month / 3.9)
-      //       }`,
-      //       period = this.selects.periodId.data
-      //         ? this.selects.periodId.data.find(f => f.periodText == periodText)
-      //         : {};
-      //     if (this.selects.periodId.data && period && period.id) {
-      //       this.$set(this.conscripte, "periodId", period.id);
-      //     }
-      //   }
-      //   // if (!groupId) {
-      //   let groups = {
-      //     "66": 2,
-      //     "77": 3,
-      //     "88": 4
-      //   };
-      //   this.$set(
-      //     this.conscripte,
-      //     "groupId",
-      //     groups[forceCode] ? groups[forceCode] : 1
-      //   );
-      //   // }
-      // }
-      // this.$set(this, "findingConscripte", false);
     },
+
+    toBase64: file =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      }),
     async addConscripte() {
       this.$set(this, "loading", true);
       let conscripte = { ...this.conscripte };
@@ -851,16 +663,10 @@ export default {
         }
       });
 
-      // تم السماح لمكتب الانهاء للاضافة
-      // بسبب البطاقات العلاجية
-      if (![0, 12, 1, 3].includes(this.$store.state.currentUser.section)) {
-        this.showError(
-          "عفواً, ليس لديك صلاحية التعديل. هذه خاصة بقسم التسجيل."
-        );
-
-        this.$set(this, "loading", false);
-        return;
+      if (conscripte.image) {
+        conscripte.image = await this.toBase64(conscripte.image);
       }
+
       if (!conscripte.ID) {
         this.showError("من فضلك قم بتسجيل الرقم العسكري");
         this.$set(this, "loading", false);
@@ -876,69 +682,6 @@ export default {
         this.$set(this, "loading", false);
         return;
       }
-      //////
-      // نوع الخدمة
-      /////
-      if (conscripte.soldierLevel == 2) {
-        // جندي
-        conscripte.typeId = 1;
-      } else {
-        // راتب عالي
-        conscripte.typeId = 2;
-      }
-
-      // let isEnhaa = this.isEnhaa;
-      // if (isEnhaa && conscripte.stateIdCurrent != 2) {
-      //   this.showError("غير مسموح لك بإضافة فرد حالته غير منتهي خدمته");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.stateId) {
-      //   this.showError("من فضلك ادخل سبب الانهاء");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.soldierLevel) {
-      //   this.showError("من فضلك أدخل الدرجة");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.endingDutyDate) {
-      //   this.showError("من فضلك ادخل تاريخ الانهاء");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.nationalId) {
-      //   this.showError("من فضلك أدخل الرقم القومي");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.phone) {
-      //   this.showError("من فضلك ادخل رقم التليفون");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.address) {
-      //   this.showError("من فضلك ادخل العنوان المدني");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.governorateId) {
-      //   this.showError("من فضلك ادخل المحافظة");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.religionId) {
-      //   this.showError("من فضلك ادخل الديانة");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-      // if (isEnhaa && !conscripte.martialStateId) {
-      //   this.showError("من فضلك ادخل الحالة الاجتماعية");
-      //   this.$set(this, "loading", false);
-      //   return;
-      // }
-
       let isExists = false,
         exists = await this.api("global/get_one", {
           table: "Soldier",
@@ -950,8 +693,6 @@ export default {
       if (exists && exists.ok && exists.data && exists.data.ID) {
         isExists = true;
       }
-      // let addedDemobilizationDate = this.calculateDemobilizationDate(isExists);
-      // if (addedDemobilizationDate) {
       if (isExists) {
         let addCon = await this.api("global/update_one", {
           table: "Soldier",
@@ -962,29 +703,22 @@ export default {
         });
         if (addCon && addCon.ok) {
           this.showSuccess("تم تحديث الفرد بنجاح");
-          // this.emptyFields();
         } else {
           this.showError("تعذر تحديث الفرد في قاعدة البيانات");
         }
-        // this.showError("هذا الفرد موجود بالفعل بنفس الرقم العسكري");
         this.$set(this, "loading", false);
         return;
       }
-      console.log(conscripte);
       let addCon = await this.api("global/create_one", {
         table: "Soldier",
         where: conscripte
       });
       if (addCon && addCon.ok) {
         this.showSuccess("تم إضافة الفرد بنجاح");
-        // this.emptyFields();
       } else {
         this.showError("تعذر إضافة الفرد في قاعدة البيانات");
       }
       this.$set(this, "loading", false);
-      // } else {
-      //   this.$set(this, "loading", false);
-      // }
     }
   }
 };

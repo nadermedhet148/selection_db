@@ -84,7 +84,7 @@
                 <v-col cols="">{{ stat.gnoodCounter }}</v-col>
               </v-row>
               <v-row>
-                <v-col>الراتب العالي:</v-col>
+                <v-col> :</v-col>
                 <v-col cols="">{{ stat.ratbAlyCounter }}</v-col>
               </v-row>
               <!-- debug issues -->
@@ -383,8 +383,8 @@ export default {
     header: function() {
       let typeString = {
         0: "الجنود",
-        1: "الراتب العالي",
-        2: "الراتب العالي و الجنود"
+        1: " ",
+        2: "  الجنود"
       };
       let type =
         this.consTypes?.length == 2 || !this.consTypes?.length

@@ -38,7 +38,21 @@
                 :item-text="
                   selects[h.searchValue] ? selects[h.searchValue].text : 'text'
                 "
-              ></v-autocomplete>
+              >
+                <template
+                  v-if="
+                    search[h.searchValue] && search[h.searchValue].length > 10
+                  "
+                  v-slot:selection="{ item, index }"
+                >
+                  <v-chip v-if="index === 0">
+                    <span>{{ item.text }}</span>
+                  </v-chip>
+                  <span v-if="index === 1" class="grey--text text-caption">
+                    (+{{ search[h.searchValue].length - 1 }} اخري)
+                  </span>
+                </template>
+              </v-autocomplete>
               <v-textarea
                 v-else-if="h.type == 'textarea'"
                 filled
@@ -153,6 +167,15 @@ const basicHeaders = [
     sort: 1
   },
   {
+    text: "الاسلحة",
+    value: "weapon",
+    searchValue: "weapon",
+    sortable: true,
+    type: "select",
+    inSearch: true,
+    sort: 1
+  },
+  {
     text: "الوحدة",
     value: "Unit",
     searchValue: "unitIds",
@@ -162,36 +185,6 @@ const basicHeaders = [
     inTable: true,
     inModel: false,
     multiple: true,
-    sort: 1
-  },
-  {
-    text: "الاتجاه",
-    value: "DirectionforFeaat",
-    sortable: true,
-    inTable: true,
-    multiple: true,
-    sort: 1
-  },
-
-  {
-    text: "الاتجاه",
-    value: "Direction",
-    searchValue: "directions",
-    sortable: true,
-    type: "select",
-    inSearch: false,
-    inTable: false,
-    inModel: false,
-    multiple: true,
-    sort: 1
-  },
-  {
-    text: "",
-    value: "type",
-    searchValue: "type",
-    sortable: true,
-    type: "select",
-    inTable: true,
     sort: 1
   },
   {
@@ -205,13 +198,112 @@ const basicHeaders = [
     inModel: false,
     multiple: true,
     sort: 1
+  },
+  {
+    text: " الواجب المدرب عليه",
+    value: "job",
+    searchValue: "job",
+    type: "select",
+    inSearch: true
+  },
+  {
+    text: "الاتجاه",
+    value: "Direction",
+    searchValue: "directions",
+    sortable: true,
+    type: "select",
+    inSearch: false,
+    inTable: false,
+    inModel: false,
+    multiple: true,
+    sort: 1
+  },
+  ...lodash
+    .flattenDeep(
+      [
+        { text: "سياسة", mappedValue: "siasa" },
+        { text: "مرتب", mappedValue: "mortab" },
+        { text: "موجود", mappedValue: "avaible" }
+      ].map(ele => [
+        {
+          text: `${ele.text}/راتب عالى`,
+          mappedValue: `${ele.mappedValue}.ratab`
+        },
+        {
+          text: `${ele.text}/مجند`,
+          mappedValue: `${ele.mappedValue}.soliders`
+        },
+        ele.mappedValue !== "avaible"
+          ? {
+              text: `${ele.text}/(رع/مجند)`,
+              mappedValue: `${ele.mappedValue}.ratebOversolider`
+            }
+          : null,
+        {
+          text: `${ele.text}/اجمالي`,
+          mappedValue: `${ele.mappedValue}.total`
+        }
+      ])
+    )
+    .filter(ele => ele)
+    .map(ele => ({
+      text: ele.text,
+      value: ele.mappedValue,
+      searchValue: ele.mappedValues,
+      inTable: true
+    })),
+
+  {
+    text: "المسرحين",
+    value: "mosrah",
+    searchValue: "mosrah",
+    sortable: true,
+    inTable: true,
+    sort: 1
+  },
+
+  ...lodash
+    .flattenDeep(
+      [
+        { text: "الموجود بعد التسريح", mappedValue: "avaibleAfterTasreh" },
+        { text: "مطلوب بعد التسريح", mappedValue: "neededAfterTasreh" }
+      ].map(ele => [
+        {
+          text: `${ele.text}/راتب عالى`,
+          mappedValue: `${ele.mappedValue}.ratab`
+        },
+        {
+          text: `${ele.text}/مجند`,
+          mappedValue: `${ele.mappedValue}.soliders`
+        },
+
+        {
+          text: `${ele.text}/اجمالي`,
+          mappedValue: `${ele.mappedValue}.total`
+        }
+      ])
+    )
+    .map(ele => ({
+      text: ele.text,
+      value: ele.mappedValue,
+      searchValue: ele.mappedValues,
+      inTable: true
+    })),
+  {
+    text: "تاريخ التسريح",
+    value: "RecuEndDate",
+    searchValue: "RecuEndDate",
+    type: "select",
+    inSearch: true,
+    sort: 1
   }
 ];
 export default {
-  name: "_360NormaDailes",
+  name: "SMYearQuarter",
   props: {},
-  mounted() {
-    this.init();
+  async mounted() {
+    await this.init();
+    this.getRecuEndDateOptions();
   },
   data: () => ({
     Effect: {},
@@ -226,7 +318,8 @@ export default {
       items: [],
       printer: {}
     },
-    componentName: "_360NormaDailes",
+
+    componentName: "_30MokrarDailes",
     selects: {
       directions: {
         text: "text",
@@ -240,10 +333,25 @@ export default {
           text
         }))
       },
+      weapon: {
+        table: "Weapon",
+        value: "Weapon",
+        text: "Weapon"
+      },
+      job: {
+        table: "Duty",
+        value: "Duty",
+        text: "Duty"
+      },
       unitIds: {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
+      },
+      RecuEndDate: {
+        text: "text",
+        value: "value",
+        data: []
       },
       Type: {
         text: "text",
@@ -273,6 +381,8 @@ export default {
     "search.Type"(newValue) {
       this.search = {
         SoldierCategories: this.search.SoldierCategories,
+        weapon: this.search.weapon,
+        RecuEndDate: this.search.RecuEndDate,
         Type: newValue
       };
       const unitFeildIndex = this.mainTable.headers.findIndex(
@@ -293,13 +403,12 @@ export default {
   },
   methods: {
     async findItems() {
-      this.buildHeaders();
       this.$set(this, "searchLoading", true);
       this.$set(this.mainTable, "items", []);
 
       try {
         const result = await this.api(
-          "sections/tasgeel/reports/360_normal_dailes",
+          "sections/tasgeel/reports/SMYearQuarter",
           {
             ...this.search
           }
@@ -316,89 +425,14 @@ export default {
 
       this.$set(this, "searchLoading", false);
     },
-
-    buildHeaders() {
-      const categories = SoldierCategoryMap.filter(
-        ele => this.search.SoldierCategories.indexOf(ele.text) > -1
-      );
-      let headers = [];
-      categories.forEach(category => {
-        headers = [
-          ...headers,
-          ...[
-            {
-              text: ` ${category.text} / مساعد`,
-              value: `${category.mappedValue}.Mosaad.value`
-            },
-            {
-              text: ` ${category.text} /رقيب اول `,
-              value: `${category.mappedValue}.RkaabA.value`
-            },
-            {
-              text: `${category.text} / رقيب`,
-              value: `${category.mappedValue}.Rkaab.value`
-            },
-            {
-              text: ` ${category.text} / عريف`,
-              value: `${category.mappedValue}.Arraf.value`
-            },
-            {
-              text: ` ${category.text} / عريف مجند`,
-              value: `${category.mappedValue}.SoliderArraf.value`
-            },
-            {
-              text: ` ${category.text} / جندي`,
-              value: `${category.mappedValue}.Solider.value`
-            }
-          ]
-        ]
-          .filter(ele => ele)
-          .map(ele => ({
-            text: ele.text,
-            value: ele.value,
-            sortable: true,
-            type: "select",
-            inTable: true,
-            sort: 1
-          }));
+    async getRecuEndDateOptions() {
+      const result = await this.api("global/queryRunners", {
+        query: `   select count (ID) count ,  RecuEndDate  from Soldier where RecuEndDate > getdate() GROUP  By RecuEndDate`
       });
-      this.$set(this.mainTable, "headers", [
-        ...basicHeaders,
-        ...headers,
-        ...[
-          {
-            text: "اجمالي مساعد",
-            value: "totals.Mosaad.value"
-          },
-          {
-            text: "اجمالي رقيب اول",
-            value: "totals.RkaabA.value"
-          },
-          {
-            text: "اجمالي  رقيب",
-            value: "totals.Rkaab.value"
-          },
-          {
-            text: "اجمالي عريف ",
-            value: "totals.Arraf.value"
-          },
-          {
-            text: "اجمالي عريف مجند",
-            value: "totals.SoliderArraf.value"
-          },
-          {
-            text: "اجمالي جندي",
-            value: "totals.Solider.value"
-          }
-        ].map(ele => ({
-          text: ele.text,
-          value: ele.value,
-          sortable: true,
-          type: "select",
-          inTable: true,
-          sort: 1
-        }))
-      ]);
+      this.selects.RecuEndDate.data = result.data.map(ele => ({
+        value: `${ele.RecuEndDate}`,
+        text: ele.RecuEndDate
+      }));
     }
   }
 };

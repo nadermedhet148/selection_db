@@ -1,38 +1,9 @@
 const { QueryTypes } = require("sequelize");
 const getUnits = require("./getUnits");
+const types = require("./types").default;
 
-const SoldierCategoryMap = [
-  { text: "صف", mappedValue: "officer" },
-  { text: "كاتب", mappedValue: "writer" },
-  { text: "مهنى", mappedValue: "professional" },
-  { text: "حرفى", mappedValue: "literal" },
-  { text: "سائق عجل", mappedValue: "driver" }
-];
-
-const SoliderLevelsMap = [
-  { soldierLevel: "جندي", mappedValue: "Solider", isSolider: true },
-  { soldierLevel: "عريف", mappedValue: "SoliderArraf", isSolider: true },
-  {
-    soldierLevel: "عريف",
-    mappedValue: "Arraf",
-    optionsQuery: `in (N'عريف' ,N'صـانع عسكرى')`
-  },
-  {
-    soldierLevel: "رقيب",
-    mappedValue: "Rkaab",
-    optionsQuery: `in (N'رقيب',N'صانع ماهر')`
-  },
-  {
-    soldierLevel: "رقيب أ",
-    mappedValue: "RkaabA",
-    optionsQuery: `in (N'رقيب أ' , N'صانع دقيق',N'رقيب اول')`
-  },
-  {
-    soldierLevel: "مساعد",
-    mappedValue: "Mosaad",
-    optionsQuery: `in (N'مساعد' , N'ملاحظ فنى عسكرى' , N'صانع  ممتاز')`
-  }
-];
+const SoldierCategoryMap = types.SoldierCategoryMap;
+const SoliderLevelsMap = types.SoliderLevelsMap;
 
 const lodash = require("lodash");
 
@@ -72,12 +43,13 @@ module.exports = async (db, params) => {
             mortabEle[category.mappedValue][level.mappedValue] = {};
 
           const count = await runQuery(`
-           select Coalesce ( count(ID),0) value  from SMSoldier
-           join Unit on Unit.UnitID = SMSoldier.UnitID 
+           select Coalesce ( count(ID),0) value  from Soldier
+           join Unit on Unit.UnitID = Soldier.UnitID 
            where Unit.Unit like N'%${ele.Unit}%'
            and RecuEndDate > getdate() and SoldierStatus = N'بالخدمة'
            and SoldierCategory  like  N'%${category.text}%'
            and SoldierLevel like N'%${level.soldierLevel}%' 
+           and WeaponID != ${types.harsHododId}
            `);
 
           const mortab = await runQuery(`
@@ -118,7 +90,10 @@ module.exports = async (db, params) => {
            select  Coalesce ( SUM(El_Moratab),0) value FROM SMGeneral
             where UNIT_NAME like N'%${ele.Unit}%'
             and Feaa_Code like N'%${category.text}%'
-            and Rotaba_Code   ${level.optionsQuery}
+            and Rotaba_Code   ${level.optionsQuery.replaceAll(
+              "RatebLevel",
+              "Rotaba_Code"
+            )}
             and Khedma_Type like N'%راتب عالى%'
             `);
 
@@ -143,6 +118,7 @@ module.exports = async (db, params) => {
           and SoldierStatus = N'بالخدمة' 
           and SoldierCategory   = N'صف' 
           and SoldierLevel  like N'%${level.soldierLevel}%'
+          and WeaponID = ${types.harsHododId}
         `);
 
           hododCount[level.mappedValue] = count[0].count;

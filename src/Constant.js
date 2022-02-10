@@ -45,6 +45,16 @@ export default {
       }))
     ]
   },
+  Treatment: {
+    text: "text",
+    value: "text",
+    data: ["ثلاث شهور", "ست شهور", "سنتين"].map(text => ({ text }))
+  },
+  DriverLevel: {
+    text: "text",
+    value: "text",
+    data: ["اولي", "ثانية"].map(text => ({ text }))
+  },
   SoldierCategory: {
     text: "text",
     value: "text",
@@ -113,7 +123,10 @@ export default {
     text: "text",
     value: "text",
     data: [
-      ...["الاولي", "الثانية", "الثالثة", "الرابعة"].map(text => ({ text }))
+      { text: "الاولي", value: "1-3" },
+      { text: "الثانية", value: "1-6" },
+      { text: "الثالثة", value: "1-9" },
+      { text: "الرابعة", value: "1-12" }
     ]
   },
   Certificator: {
@@ -304,5 +317,7 @@ export default {
       value: 2
     }
   ],
-  dailesSoliderCategories: ["صف", "كاتب", "سائق عجل", "مهنى", "حرفى"]
+  dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"],
+  serviceTypes: [{ text: "راتب عالى" }, { text: "مجند" }, { text: "رع/مجند" }],
+  harsHododId: 52
 };

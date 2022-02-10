@@ -56,6 +56,10 @@ let nozom = function(t) {
     // المساعدة
     return "sections.11." + t;
   },
+  selections = function(t) {
+    // الانتقاء
+    return "sections.13." + t;
+  },
   /*
    ! You can't use '12' - because it's for nozom ( see first 2 lines in this file )
   */
@@ -84,6 +88,26 @@ let nozom = function(t) {
         text: tas("soldier_plus"),
         desc: "[ بحث - تعديل - حذف ]",
         href: "/soldiers_plus"
+      },
+      // Selections
+      {
+        type: "group",
+        icon: "mdi-bullseye-arrow",
+        text: selections("_self"),
+        children: [
+          {
+            type: "single",
+            icon: "mdi-view-dashboard-outline",
+            text: selections("soldiers"),
+            href: "/selections_soldiers"
+          },
+          {
+            type: "single",
+            icon: "mdi-view-dashboard-outline",
+            text: selections("rateb3ali"),
+            href: "/selections_rateb3ali"
+          }
+        ]
       }
     ],
     // ../Header
@@ -145,26 +169,14 @@ let nozom = function(t) {
         click: "request_logout"
       }
     ],
-    // ../Footer
-    // Nozom
     nozom: [
       {
-        type: "group",
-        icon: "mdi-code-json",
-        text: nozom("_self"),
-        model: false,
-        onlySegelat: true,
-        children: [
-          {
-            type: "single",
-            icon: "mdi-view-dashboard-outline",
-            text: admin("operations"),
-            href: "/admin_operations"
-          }
-        ]
+        type: "single",
+        icon: "mdi-view-dashboard-outline",
+        text: admin("operations"),
+        href: "/admin_operations"
       }
     ],
-    // admin
     admin: [
       {
         type: "single",
@@ -180,8 +192,6 @@ let nozom = function(t) {
         href: "/edit_users"
       }
     ],
-    // ../admin
-    // Tasgeel
     tas: [
       {
         type: "single",
@@ -194,6 +204,18 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: tas("_360_normal_dailes"),
         href: "/360_normal_dailes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: tas("_360_mokrar_dailes"),
+        href: "/360_mokrar_dailes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: tas("SMYearQuarter"),
+        href: "/SMYearQuarter"
       }
     ],
     new_comers: [
@@ -232,6 +254,7 @@ let nozom = function(t) {
         href: "/malaheq_suggest",
         onlySegelat: true
       },
+
       {
         type: "single",
         icon: "mdi-update",
@@ -248,6 +271,7 @@ let nozom = function(t) {
         href: "/tmam_elthr7el",
         onlySegelat: true
       },
+
       {
         type: "single",
         icon: "mdi-update",
@@ -431,7 +455,7 @@ let nozom = function(t) {
     ...items.footer
   ],
   _0 = [...items.admin],
-  _12 = [...items.nozom],
+  _4 = [...items.nozom],
   _1 = [
     // قسم التسجيل
     ...items.tas
@@ -444,7 +468,7 @@ let nozom = function(t) {
     // انهاء
     ...items.salaries
   ],
-  _4 = [
+  _12 = [
     // هروب
     ...items.ho
     // {

@@ -292,8 +292,7 @@
             v-text="windows[window].btnText"
             @click="runFun(windows[window].fun)"
             :disabled="
-              (window == 1 && !search.ID) ||
-                (window == 2 && !search.fullName)
+              (window == 1 && !search.ID) || (window == 2 && !search.fullName)
             "
             large
             color="primary"
@@ -307,7 +306,7 @@
 
 <script>
 export default {
-  name: "intrance",
+  name: "AddSoldierDialog",
   data: () => ({
     componentName: "soldiers_plus",
     tableFilters: {},
@@ -355,7 +354,7 @@ export default {
     window: 0,
     windows: [
       {
-        title: " المجندين",
+        title: "الراتب العالي والمجندين",
         desc: "[ بحث - تعديل - حذف ]",
         childs: [
           {
@@ -376,7 +375,7 @@ export default {
             desc: "يوفر لك العديد من الخيارات للبحث",
             icon: "",
             to: 4
-          },
+          }
           // {
           //   title: "إضافة جديد",
           //   desc: "إضافة مجند أو راتب عالي غير موجود",
@@ -423,11 +422,11 @@ export default {
         backTo: 0,
         childs: [
           {
-            title: "المجندين /  ",
-            // desc: "بحث متقدم عن المجندين و ",
+            title: "المجندين / الراتب العالي",
+            // desc: "بحث متقدم عن المجندين والراتب العالي",
             to: "conscriptes",
             icon: ""
-          },
+          }
           // {
           //   title: "الحالات الإصابية / المرضية",
           //   desc: "",
@@ -459,7 +458,7 @@ export default {
       {
         title: "إضافة جديد",
         backTo: 0
-      },
+      }
       // {
       //   title: "حذف مجند أو راتب عالي",
       //   btnText: "إرسال الطلب",

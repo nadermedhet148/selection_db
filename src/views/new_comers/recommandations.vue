@@ -439,6 +439,8 @@
 <script>
 const constants = require("../../Constant").default;
 const lodash = require("lodash");
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
 export default {
   name: "recommandations",
@@ -818,7 +820,8 @@ export default {
               }
             ],
             where: this.cleanObject({
-              RecuStage: this.search.RecuStage
+              RecuStage: this.search.RecuStage,
+              WeaponID: types.harsHododId
             })
           }
         ]

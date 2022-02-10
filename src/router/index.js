@@ -133,6 +133,15 @@ const routes = [
     }
   },
   {
+    path: "/SMYearQuarter",
+    name: "SMYearQuarter",
+    component: mix.fun.loadView("tasgeel/SMYearQuarter"),
+    meta: {
+      title: "يومية الربع السنوي",
+      ok: true
+    }
+  },
+  {
     path: "/360_normal_dailes",
     name: "360_normal_dailes",
     component: mix.fun.loadView("tasgeel/360_normal_dailes"),
@@ -150,12 +159,22 @@ const routes = [
       ok: true
     }
   },
+
   {
     path: "/drivers_support",
     name: "drivers_support",
     component: mix.fun.loadView("salaries/drivers_support"),
     meta: {
       title: "امداد السائقين",
+      ok: true
+    }
+  },
+  {
+    path: "/360_mokrar_dailes",
+    name: "360_mokrar_dailes",
+    component: mix.fun.loadView("tasgeel/360_mokrar_dailes"),
+    meta: {
+      title: "يومية 360 مكرر",
       ok: true
     }
   },
@@ -521,6 +540,26 @@ const routes = [
     component: mix.fun.loadView("tasgeel/SoldiersPlus"),
     meta: {
       title: "الراتب العالي والمجندين",
+      ok: true
+    }
+  },
+  {
+    path: "/selections_soldiers",
+    name: "selections_soldiers",
+    component: mix.fun.loadView("Selections/SelectionsSoldiers"),
+    meta: {
+      title: "إنتقاء الجنود",
+      sections: [0, 12, 1, 2, 3, 4, 5, 6],
+      ok: true
+    }
+  },
+  {
+    path: "/selections_rateb3ali",
+    name: "selections_rateb3ali",
+    component: mix.fun.loadView("Selections/SelectionsRateb3ali"),
+    meta: {
+      title: "إنتقاء الراتب العالي",
+      sections: [0, 12, 1, 2, 3, 4, 5, 6],
       ok: true
     }
   },

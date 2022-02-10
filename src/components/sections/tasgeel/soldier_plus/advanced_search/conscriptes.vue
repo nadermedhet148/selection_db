@@ -2,7 +2,7 @@
   <div>
     <v-card class="mb-6">
       <v-card-title>
-        البحث المتقدم عن الراتب العالي والمجندين
+        البحث المتقدم عن المجندين
       </v-card-title>
       <v-card-text>
         من فضلك قم بتحديد الخيارات التي تريدها من الأسفل, ثم اضغط على زر البحث
@@ -57,6 +57,7 @@
                   :hint="option.hint"
                   v-model="search[option.model]"
                   :items="selects[option.model].data"
+                  :multiple="option.multiple"
                   :item-value="selects[option.model].value"
                   :item-text="selects[option.model].text"
                   filled
@@ -122,8 +123,6 @@
       <v-icon class="me-3">mdi-magnify</v-icon>
       بحث
     </v-btn>
-    <!-- </v-card-actions>
-    </v-card> -->
     <v-card class="mb-6">
       <v-card-title class="sidenav white--text">
         النتائج
@@ -203,6 +202,7 @@
 
 <script>
 const constants = require("../../../../../Constant").default;
+const lodash = require("lodash");
 
 export default {
   name: "conscriptes",
@@ -210,58 +210,7 @@ export default {
     this.fillKeys();
     this.init();
   },
-  watch: {
-    "search.stateIdCurrent"(v) {
-      if (v) {
-        if (!this.fullDatas.stateId) {
-          this.$set(this.fullDatas, "stateId", this.selects.stateId.data);
-        }
-        if (v == 1) {
-          this.$set(
-            this.selects.stateId,
-            "data",
-            this.fullDatas.stateId.filter(w => w.stateId == 101)
-          );
-          if (this.search.stateId !== 101) {
-            this.$set(this.search, "stateId", null);
-          }
-        } else {
-          this.$set(
-            this.selects.stateId,
-            "data",
-            this.fullDatas.stateId.filter(w => w.stateId !== 101)
-          );
-          if (this.search.stateId == 101) {
-            this.$set(this.search, "stateId", null);
-          }
-        }
-      } else {
-        this.$set(this.selects.stateId, "data", this.fullDatas.stateId);
-      }
-    },
-    "search.webCivilQualificationGroupId"(v) {
-      if (v) {
-        if (!this.fullDatas.webCivilQualificationId) {
-          this.$set(
-            this.fullDatas,
-            "webCivilQualificationId",
-            this.selects.webCivilQualificationId.data
-          );
-        }
-        this.$set(
-          this.selects.webCivilQualificationId,
-          "data",
-          this.fullDatas.webCivilQualificationId.filter(w => w.groupId == v)
-        );
-      } else {
-        this.$set(
-          this.selects.webCivilQualificationId,
-          "data",
-          this.fullDatas.webCivilQualificationId
-        );
-      }
-    }
-  },
+  watch: {},
   data: () => ({
     componentName: "soldiers_plus",
     tableFilters: {},
@@ -283,9 +232,20 @@ export default {
           sortable: true
         },
         {
+          value: "Weapon.Weapon",
+          text: "السلاح",
+          sortable: true
+        },
+        {
           value: "Unit.Unit",
           dbvalue: "UnitID",
           text: "الوحدة",
+          sortable: true
+        },
+        {
+          value: "Weapon.Weapon",
+          dbvalue: "Weapon.WeaponID",
+          text: "السلاح",
           sortable: true
         },
         {
@@ -361,11 +321,13 @@ export default {
           },
           {
             model: "SoldierLevel",
+            multiple: true,
             label: "الدرجة",
             type: "select"
           },
           {
             model: "SoldierStatus",
+            multiple: true,
             label: "حالة الفرد",
             type: "select",
             forEnhaa: true
@@ -377,43 +339,32 @@ export default {
           },
           {
             model: "KnowledgeLevel",
+            multiple: true,
             label: "المؤهل",
             type: "select"
           },
 
           {
             model: "SoldierCategory",
+            multiple: true,
             label: "الفئة",
             type: "select"
           },
           {
             model: "RecuTreat",
+            multiple: true,
             label: "المعاملة التجنيدية",
             type: "select"
           },
           {
-            model: "MissingTime",
-            label: "مدة الفاقدة",
-            type: "text"
-          },
-          // {
-          //   model: "reductionStateId",
-          //   label: "قرار التخفيض",
-          //   type: "select"
-          // },
-          {
             model: "RecuStage",
+            multiple: true,
             label: "المرحلة التجنيدية",
             type: "select"
           },
-          // {
-          //   model: "periodId",
-          //   label: "الحاق",
-          //   type: "select"
-          // },
-
           {
             model: "Direction",
+            multiple: true,
             label: " الاتجاه",
             type: "select"
           }
@@ -424,48 +375,21 @@ export default {
         options: [
           {
             model: "WeaponID",
+            multiple: true,
             label: "السلاح",
             type: "select"
           },
           {
             model: "UnitID",
+            multiple: true,
             label: "الوحدة",
             type: "select"
           },
           {
-            model: "",
-            label: " التشكيل",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "Markez_Tadreb",
-            label: " مركز التدريب",
-            type: "text",
-            readonly: true
-          },
-          {
             model: "DutyID",
+            multiple: true,
             label: " الواجب المدرب عليه",
             type: "select"
-          },
-          {
-            model: "",
-            label: "التسكين",
-            type: "text",
-            readonly: true
-          },
-
-          {
-            model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
-            type: "date"
-          },
-          {
-            model: "SourceId",
-            label: "جهة الإمداد",
-            type: "text",
-            readonly: true
           }
         ]
       },
@@ -484,57 +408,34 @@ export default {
             counter: 14
           },
           {
-            model: "SoldierTELE",
-            label: "رقم التليفون",
-            type: "text",
-            counter: 11,
-            forEnhaa: true
-          },
-          {
-            model: "RelevantTELE",
-            label: "رقم تلفون الاقارب",
-            type: "text",
-            counter: 11
-          },
-          {
-            model: "Address",
-            label: "العنوان المدني",
-            type: "text"
-          },
-          {
-            model: "Job",
-            label: "المهنة ",
-            type: "text"
-          },
-          {
             model: "CityID",
+            multiple: true,
             label: "المحافظة",
             type: "select"
           },
           {
             model: "CentreID",
+            multiple: true,
             label: "المركز",
             type: "select"
           },
           {
             model: "Religion",
+            multiple: true,
             label: "الديانة",
             type: "select"
           },
           {
             model: "BloodType",
+            multiple: true,
             label: "فصيلة الدم",
             type: "select"
           },
           {
             model: "College",
+            multiple: true,
             label: "الكلية ",
             type: "select"
-          },
-          {
-            model: "Specialization",
-            label: "التخصص ",
-            type: "text"
           }
         ]
       },
@@ -553,15 +454,38 @@ export default {
             type: "date"
           },
           {
+            model: "ArrivalDate",
+            label: " تاريخ الوصول لمركز التدريب",
+            type: "date"
+          },
+          {
             model: "RecuRegion",
+            multiple: true,
             label: "منطقة التجنيد",
+            type: "select"
+          }
+        ]
+      },
+      {
+        title: "الإدارات التخصصية",
+        options: [
+          {
+            model: "Treatment",
+            multiple: true,
+            label: "المعاملة",
             type: "select"
           },
           {
-            model: "Notes",
-            label: "ملاحظات عامة",
-            type: "textarea",
-            forEnhaa: true
+            model: "DriverLevel",
+            multiple: true,
+            label: "درجة الرخصة",
+            type: "select"
+          },
+          {
+            model: "ServiceType",
+            label: "نوع الخدمة",
+            type: "select",
+            multiple: true
           }
         ]
       }
@@ -581,6 +505,11 @@ export default {
         text: "text",
         value: "text",
         data: constants.Religion.data
+      },
+      DriverLevel: {
+        text: "text",
+        value: "text",
+        data: constants.DriverLevel.data
       },
       RecuTreat: {
         text: "text",
@@ -605,7 +534,16 @@ export default {
       RecuStage: {
         text: "text",
         value: "text",
-        data: constants.RecuStage.data
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      },
+      Treatment: {
+        text: "text",
+        value: "text",
+        data: constants.Treatment.data
       },
       SoldierStatus: {
         text: "text",
@@ -637,78 +575,21 @@ export default {
         text: "Duty",
         value: "DutyID"
       },
-      periodId: {
-        table: "periods",
-        text: "periodText",
-        value: "id"
-      },
-      microfilmId: {
-        table: "microfilms",
-        text: "microfilmId",
-        value: "microfilmId"
-      },
-      ignorantId: {
-        table: "ignorants",
-        text: "displayedText",
-        value: "id"
-      },
-      ignorantSupporterId: {
-        value: "id",
-        text: "displayedText",
-        table: "ignorantSupporters"
-      },
-
-      groupId: {
-        table: "groups",
-        text: "groupName",
-        value: "groupId"
-      },
-      stateIdCurrent: {
-        table: "dutyCurrentStates",
-        text: "text",
-        value: "stateId"
-      },
-      sourceId: {
-        table: "suplySources",
-        text: "sourceName",
-        value: "sourceId"
-      },
-      martialStateId: {
-        table: "martialStates",
-        text: "state",
-        value: "martialStateId"
-      },
       WeaponID: {
         table: "Weapon",
         text: "Weapon",
         value: "WeaponID"
-      },
-      reductionStateId: {
-        table: "reductionStates",
-        text: "state",
-        value: "reductionStateId"
-      },
-      zoneId: {
-        table: "zones",
-        text: "zoneText",
-        value: "zoneId"
-      },
-      additionalYearStateId: {
-        table: "additionalYears",
-        text: "state",
-        value: "additionalYearStateId"
       },
 
       UnitID: {
         table: "Unit",
         value: "UnitID",
         text: "Unit"
-        // attrs: ["zoneId"]
       },
-      licenseId: {
-        table: "licenses",
-        value: "licenseId",
-        text: "licenseType"
+      ServiceType: {
+        text: "text",
+        value: "text",
+        data: constants.serviceTypes
       }
     }
   }),
@@ -746,10 +627,6 @@ export default {
         search: { ...search, getWhoNotRelatedWithSelah: null }
       })
         .then(x => {
-          console.log("x", x);
-          // let cons = this.search["getWhoNotRelatedWithSelah"]
-          //   ? x.data
-          //   : x.data.filter(f => this.isHodod(f));
           let fixedData = this.fixDates(x.data, [
               "ArrivalDate",
               "BirthDate",
@@ -762,9 +639,7 @@ export default {
               excelHeaders: this.result.headers
             };
           this.$set(this.result, "items", fixedData);
-          console.log("data", this.result.items);
           this.$set(this.result, "printer", printer);
-          // this.goSearch(where);
         })
         .catch(error => {
           console.log(error);
@@ -780,58 +655,12 @@ export default {
         options = [...options, ...arr];
       });
       options.forEach(option => {
-        if (option.type == "date" || option.multiple) {
+        if (option.type == "date") {
           this.$set(this.search, option.model, {});
+        } else if (option.multiple) {
+          this.$set(this.search, option.model, []);
         } else {
           this.$set(this.search, option.model, "");
-        }
-      });
-    },
-    init(specificTable = "") {
-      // Get selects
-      Object.keys(this.selects).forEach(key => {
-        let { table, localTable, attrs } = this.selects[key];
-        if (table) {
-          let obj = {
-            table
-          };
-          if (attrs && attrs.length > 0) {
-            obj.attrs = attrs;
-          }
-          this.$set(this.selects[key], "loading", true);
-          this.api("global/get_all", obj)
-            .then(x => {
-              this.$set(
-                this.selects[key],
-                "data",
-                x.data.sort(
-                  (a, b) =>
-                    a[this.selects[key].value] - b[this.selects[key].value]
-                )
-              );
-            })
-            .catch(error => {
-              console.log(error);
-              this.$set(
-                this.selects[key],
-                "error",
-                "حدث خطأ أثناء استدعاء الداتا من قاعدة البيانات"
-              );
-            })
-            .finally(() => {
-              this.$set(this.selects[key], "loading", false);
-            });
-        } else if (localTable) {
-          this.$set(this.selects[key], "loading", true);
-          let data = this.localTable(localTable);
-          this.$set(
-            this.selects[key],
-            "data",
-            data.sort(
-              (a, b) => a[this.selects[key].value] - b[this.selects[key].value]
-            )
-          );
-          this.$set(this.selects[key], "loading", false);
         }
       });
     },

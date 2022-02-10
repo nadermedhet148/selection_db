@@ -28,8 +28,7 @@ let { ipcRenderer } = window.require("electron");
 export default {
   name: "App",
   components: {
-    MainLayout: () => import("@/layouts/main.vue"),
-    WebsitesLayout: () => import("@/layouts/websites.vue")
+    MainLayout: () => import("@/layouts/main.vue")
   },
   async mounted() {
     await this.getAppConfig();

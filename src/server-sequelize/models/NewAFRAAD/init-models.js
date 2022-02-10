@@ -186,6 +186,8 @@ function initModels(sequelize) {
   City.hasMany(SMSoldier, { foreignKey: "CityID" });
   Soldier.belongsTo(City, { foreignKey: "CityID" });
   City.hasMany(Soldier, { foreignKey: "CityID" });
+  SelectionSoldier.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(SelectionSoldier, { foreignKey: "CityID" });
   Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
 
   Soldier.hasMany(Recommendations, { foreignKey: "ID" });
@@ -198,6 +200,10 @@ function initModels(sequelize) {
   //   as: "Followers",
   //   foreignKey: "FollowRigionID"
   // });
+
+  Selections.belongsTo(City, { foreignKey: "CityID" });
+  City.hasMany(Selections, { foreignKey: "CityID" });
+
   FollowingNos.belongsTo(FollowingRigion, {
     foreignKey: "FollowRigionID"
   });
@@ -249,6 +255,12 @@ function initModels(sequelize) {
   Unit.hasMany(DistributionSuggestion, {
     foreignKey: "UnitID"
   });
+
+  SMDriversSuggestion.belongsTo(Unit, { foreignKey: "UnitID" });
+  Unit.hasMany(SMDriversSuggestion, {
+    foreignKey: "UnitID"
+  });
+
   Moving.belongsTo(Unit, { foreignKey: "UnitID" });
   Unit.hasMany(Moving, { foreignKey: "UnitID" });
   OldFollowersNo.belongsTo(Unit, { foreignKey: "UnitID" });

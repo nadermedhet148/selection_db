@@ -355,7 +355,6 @@ export default {
       "mdi-file-document-edit-outline",
       "mdi-account",
       "mdi-account-box-multiple-outline",
-      "mdi-account-question-outline",
       "mdi-movie"
     ]
   }),

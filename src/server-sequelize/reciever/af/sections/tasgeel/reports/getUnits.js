@@ -1,12 +1,7 @@
 const { QueryTypes } = require("sequelize");
+const types = require("./types").default;
 
-const displayTypes = {
-  headquerts: 0,
-  intelligence: 1,
-  unites: 3,
-  directions: 4,
-  headquertsWithUnits: 5
-};
+const displayTypes = types.displayTypes;
 
 module.exports = async (db, params) => {
   // get units

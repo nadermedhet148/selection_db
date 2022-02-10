@@ -146,23 +146,13 @@
 
 <script>
 const constants = require("../../Constant").default;
-const lodash = require("lodash");
-const displayTypes = {
-  headquerts: 0,
-  intelligence: 1,
-  artillery: 2,
-  unites: 3,
-  directions: 4,
-  headquertsWithUnits: 5
-};
+const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
+  .default;
 
-const SoldierCategoryMap = [
-  { text: "صف", mappedValue: "officer" },
-  { text: "كاتب", mappedValue: "writer" },
-  { text: "مهنى", mappedValue: "professional" },
-  { text: "حرفى", mappedValue: "literal" },
-  { text: "سائق عجل", mappedValue: "driver" }
-];
+const lodash = require("lodash");
+const displayTypes = types.displayTypes;
+
+const SoldierCategoryMap = types.SoldierCategoryMap;
 
 const displayedCoulmns = [
   "المرتب",

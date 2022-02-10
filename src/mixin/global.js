@@ -307,6 +307,31 @@ Vue.mixin({
       let section = this.$store.state.currentUser.section;
       return section.indexOf("0") > -1;
     },
+    tableUpdated(v) {
+      let tables = this.$refs.mainTable;
+      if (tables) {
+        tables = Array.isArray(tables) ? tables : [tables];
+        for (let i = 0; i < tables.length; i++) {
+          let table = tables[i],
+            childTable = table?.$children[0].$children[0].$children[0]?.table,
+            filteredItems,
+            sorted;
+
+          // when first table exists
+          if ("filteredItems" in table?.$children[0]) {
+            filteredItems = table.$children[0].filteredItems;
+            sorted = filteredItems;
+            // when the second table exists
+            if (childTable) {
+              let sortBy = childTable.props.options.sortBy, // -_-
+                sortDesc = childTable.props.options.sortDesc; // -_-
+              sorted = table.customSort(filteredItems, sortBy, sortDesc);
+            }
+            this.result.printer.cons = sorted;
+          }
+        }
+      }
+    },
     // TODO: speerate them.
     isTasgilOrEnhaa() {
       let section = this.$store.state.currentUser.section;

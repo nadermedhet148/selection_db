@@ -135,8 +135,13 @@ var _default = {
       },
       "1": {
         _self: "قسم التسجيل",
+        new_profile: "البروفايل الجديد",
+        injuries: "الحالات الإصابية / المرضية",
+        soldier_plus: " المجندين",
         categories_dailes: "اليومية العددية",
         _360_normal_dailes: "يومية 360 عادة",
+        _360_mokrar_dailes: "يومية 360 مكرر",
+        SMYearQuarter: "يومية الربع السنوي",
         soldier_plus: "الراتب العالي والمجندين",
         monthly_rev: "المراجعة الشهرية",
         promotion: "مشروع الترقي",
@@ -156,8 +161,9 @@ var _default = {
         dalies: " اليوميات العددية للمجندين ",
         soliders_brothers: " تسجيل الاشقاء",
         tmam_eltarhel: "تمام الترحيل",
-        malaheq_suggest: "الملاحق",
-        effects: "المؤثرات",
+        malaheq_suggest: "مقترح ملاحق المرحلة",
+        effects: "مؤثرات المرحلة",
+        trained_duty: "حصر الواجب المدرب عليه",
         tmam_elthr7el: "تمام الترحيل"
       },
       "3": {
@@ -173,7 +179,7 @@ var _default = {
         stats: "احصاءات بيانية"
       },
       "4": {
-        _self: "الهروب وخدمة المواطنين",
+        _self: "قسم النظم",
         fugitives: "الهاربين",
         advanced_search: "البحث المتقدم",
         stats: "احصاءات",
@@ -244,8 +250,14 @@ var _default = {
         tsgel: "أسئلة التسجيل",
         anhaa: "أسئلة الانهاء",
         hasb: "أسئلة الحاسب"
-      }
+      },
       // ! You can't use '12' because it's for nozom
+      "13": {
+        // cards in_service and out_service
+        _self: "الإنتقاء",
+        soldiers: "الجنود",
+        rateb3ali: "الراتب العالي"
+      }
     },
     language: "اللغة",
     theme: "السمات",

@@ -1,5 +1,5 @@
 <template>
-  <div tabindex="0" class="no-focus">
+  <div tabindex="0" class="no-focus profile">
     <template v-for="(group, i) in groups">
       <v-card
         v-if="(isEnhaa && group.forEnhaa) || !isEnhaa"
@@ -26,9 +26,23 @@
                   v-model="conscripte[item.model]"
                   :label="item.label"
                   filled
+                  v-if="item.type == 'text'"
                   disabled
                   outlined
                 ></v-text-field>
+
+                <v-card v-if="item.type == 'image'">
+                  <v-card-title class="text-h6">
+                    {{ item.label }}
+                  </v-card-title>
+                  <v-img
+                    :lazy-src="conscripte[item.model]"
+                    max-height="300"
+                    contain
+                    max-width="250"
+                    :src="conscripte[item.model]"
+                  ></v-img>
+                </v-card>
               </v-col>
             </template>
           </v-row>
@@ -56,6 +70,31 @@
   </div>
 </template>
 
+<style>
+.profile .v-input__slot {
+  background: none !important;
+}
+.profile .v-label {
+  color: #000 !important;
+  font-size: 16px !important;
+}
+.profile
+  .theme--light.v-text-field--outlined:not(.v-input--is-focused).v-input--is-disabled
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: var(--v-primary-base) !important;
+}
+
+.theme--light.v-input input,
+.theme--light.v-input textarea {
+  color: rgba(0, 0, 0, 0.87) !important ;
+}
+
+.profile .v-sheet.v-card:not(.v-sheet--outlined) {
+  box-shadow: none;
+}
+</style>
 <script>
 const constants = require("../../Constant").default;
 const _ = require("lodash");
@@ -281,6 +320,7 @@ export default {
             counter: 11,
             readonly: true
           },
+
           {
             model: "Religion",
             label: "الديانة",
@@ -307,6 +347,11 @@ export default {
             label: "التخصص ",
             type: "text",
             readonly: true
+          },
+          {
+            model: "image",
+            label: "الصورة الشخصية",
+            type: "image"
           }
         ]
       },
@@ -336,8 +381,30 @@ export default {
           {
             model: "Notes",
             label: "ملاحظات عامة",
-            type: "textarea",
+            type: "text",
             forEnhaa: true
+          }
+        ]
+      },
+      {
+        title: "الإدارات التخصصية",
+        desc: "",
+        forEnhaa: true,
+        items: [
+          {
+            model: "Treatment",
+            label: "المعاملة",
+            type: "text"
+          },
+          {
+            model: "DriverLevel",
+            label: "درجة الرخصة",
+            type: "text"
+          },
+          {
+            model: "ServiceType",
+            label: "نوع الخدمة",
+            type: "text"
           }
         ]
       }
