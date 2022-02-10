@@ -154,7 +154,7 @@
           ></table-footer-filters>
         </template>
         <template v-slot:group.header="{ items, isOpen, toggle }">
-          <th colspan="10">
+          <th colspan="30">
             <v-icon @click="toggle"
               >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
             </v-icon>
@@ -434,6 +434,7 @@
                   filled
                   :type="h.type == 'date' ? 'date' : 'text'"
                   :label="h.text"
+                  :disabled="h.readonly"
                   v-model="rowEditModel.item[h.value]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
@@ -445,6 +446,7 @@
                   :label="h.text"
                   :multiple="h.multiple"
                   :readonly="h.readonly"
+                  :disabled="h.readonly"
                   v-model="rowEditModel.item[h.value]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
@@ -456,6 +458,7 @@
                   v-else-if="h.type == 'textarea'"
                   filled
                   :label="h.text"
+                  :disabled="h.readonly"
                   v-model="rowEditModel.item[h.searchValue]"
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
@@ -589,6 +592,20 @@ export default {
       return `${str.length <= limit ? str : str.substr(0, limit) + ".."}`;
     }
   },
+  watch: {
+    "rowEditModel.item.High"(newValue) {
+      this.calculateRawValues();
+    },
+    "rowEditModel.item.AboveAvg"(newValue) {
+      this.calculateRawValues();
+    },
+    "rowEditModel.item.Avg"(newValue) {
+      this.calculateRawValues();
+    },
+    "rowEditModel.item.Normal"(newValue) {
+      this.calculateRawValues();
+    }
+  },
   data: () => ({
     subjectLimit: 10,
     createdObject: {
@@ -642,7 +659,6 @@ export default {
         inEdit: false,
         type: "text",
         readOnly: true,
-
         inSearch: false,
         inTable: true,
         width: "200px",
@@ -670,6 +686,8 @@ export default {
         inSearch: false,
         inTable: true,
         width: "200px",
+        readOnly: true,
+
         sort: 2
       },
       {
@@ -678,6 +696,7 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
+        readOnly: true,
 
         inSearch: false,
         inTable: true,
@@ -690,6 +709,7 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
+        readOnly: true,
 
         inSearch: false,
         inTable: true,
@@ -702,6 +722,7 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
+        readOnly: true,
 
         inSearch: false,
         inTable: true,
@@ -709,108 +730,140 @@ export default {
         sort: 2
       },
       {
-        text: " الموجود بعد المسرح",
+        text: "الموجود بعد المسرح / عليا",
+        value: "hightAfterRelease",
+        sortable: true,
+        inEdit: true,
+        type: "text",
+        readOnly: true,
+        inSearch: false,
+        inTable: true,
+        width: "200px",
+        sort: 2
+      },
+      {
+        text: "الموجود بعد المسرح / فوق متوسطة",
+        value: "apovAverageAfterRelease",
+        sortable: true,
+        inEdit: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        readOnly: true,
+        width: "200px",
+        sort: 2
+      },
+      {
+        text: "الموجود بعد المسرح / متوسطة",
+        value: "averageAfterRelease",
+        sortable: true,
+        inEdit: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        width: "200px",
+        readOnly: true,
+        sort: 2
+      },
+      {
+        text: "الموجود بعد المسرح / عادة",
+        value: "normalAfterRelease",
+        sortable: true,
+        inEdit: true,
+        type: "text",
+        inSearch: false,
+        inTable: true,
+        width: "200px",
+        readOnly: true,
+        sort: 2
+      },
+      {
+        text: "الموجود بعد المسرح / اجمالي",
         value: "TotalAfterRelease",
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
         inTable: true,
         width: "200px",
-        sort: 2
+        sort: 2,
+        readOnly: true
       },
       {
-        text: "نسبة الحرب",
+        text: "نسبة حرب",
         value: "NWarOne",
         sortable: true,
         inEdit: true,
         type: "text",
-
+        readOnly: true,
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: " الموجود بعد المسرح",
-        value: "TotalAfterRelease",
-        sortable: true,
-        inEdit: true,
-        type: "text",
-
-        inSearch: false,
-        inTable: true,
-        width: "200px",
-        sort: 2
-      },
-      {
-        text: "نسبة السياسة",
+        text: "نسبة سياسة",
         value: "NPoliticsOne",
         sortable: true,
         inEdit: true,
         type: "text",
-
+        readOnly: true,
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: "عليا",
+        text: "الامداد / عليا",
         value: "High",
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: "فوق متوسطة",
+        text: "الامداد/ فوق متوسطة",
         value: "AboveAvg",
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: "متوسطه",
+        text: " الامداد / متوسطه",
         value: "Avg",
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: "عادة",
+        text: "الامداد / عادة",
         value: "Normal",
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
         inTable: true,
         width: "200px",
         sort: 2
       },
       {
-        text: "الاجمالي",
+        text: "الامداد / الاجمالي",
         value: "Total",
         sortable: true,
         inEdit: true,
         type: "text",
-
+        readOnly: true,
         inSearch: false,
         inTable: true,
         width: "200px",
@@ -822,8 +875,8 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
-
         inSearch: false,
+        readOnly: true,
         inTable: true,
         width: "200px",
         sort: 2
@@ -834,7 +887,7 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
-
+        readOnly: true,
         inSearch: false,
         inTable: true,
         width: "200px",
@@ -846,7 +899,7 @@ export default {
         sortable: true,
         inEdit: true,
         type: "text",
-
+        readOnly: true,
         inSearch: false,
         inTable: true,
         width: "200px",
@@ -874,17 +927,6 @@ export default {
         inTable: false,
         sort: 5
       }
-      // {
-      //   text: "تجميع",
-      //   value: "groupBy",
-      //   searchValue: "groupBy",
-      //   sortable: true,
-      //   inEdit: false,
-      //   type: "select",
-      //   inSearch: true,
-      //   inTable: false,
-      //   sort: 5
-      // }
     ],
     items: [],
     tableFilters: {},
@@ -897,7 +939,7 @@ export default {
           constants.years.map(year =>
             constants.RecuStage.data.map(stage => ({
               text: `${stage.text}-${year}`,
-              year: `${stage.year}-${year}`
+              year: `${stage.value}-${year}`
             }))
           )
         )
@@ -950,22 +992,102 @@ export default {
         .then(async x => {
           const unitsSalaries = await this.api(`global/queryRunners`, {
             query: `
-                select Coalesce ( SUM(El_Moratab),0) mortab , Coalesce ( SUM(Siasa) ,0) siasa, UNIT_NAME from SMGeneral 
-                WHERE Khedma_Type = N'مجند' and Feaa_Code = N'صف'
+               select Coalesce ( SUM(El_Moratab),0) mortab , Coalesce ( SUM(Siasa) ,0) siasa, UNIT_NAME from SMGeneral 
+                WHERE Khedma_Type in (  N'مجند' , N'رع/مجند') and Feaa_Code = N'صف'
                 group by UNIT_NAME
             `
           });
 
-          let data = x.data.map(ele => {
-              let unit = unitsSalaries.data.find(
-                slaray => slaray.UNIT_NAME === ele.Unit.Unit
-              );
-              return {
-                ...ele,
-                PayPolitics: unit ? unit.siasa : ele.PayPolitics,
-                PayWar: unit ? unit.mortab : ele.PayWar
-              };
-            }),
+          let data = await Promise.all(
+              x.data.map(async ele => {
+                let unit = unitsSalaries.data.find(
+                  slaray => slaray.UNIT_NAME === ele.Unit.Unit
+                );
+                const totalSoliders = await this.api("global/queryRunners", {
+                  query: `
+                      select  Coalesce ( count(ID),0) totalSoliderCount  from Soldier
+                      join Unit on Unit.UnitID = Soldier.UnitID where Unit = N'${ele.Unit.Unit}'
+                      and RecuEndDate > getdate()
+                      and SoldierStatus = N'بالخدمة'
+                      and SoldierCategory  like N'صف' 
+                      and WeaponID = ${constants.harsHododId}
+                  `
+                });
+
+                const totalSolidersAfterTsra7 = await this.api(
+                  "global/queryRunners",
+                  {
+                    query: `
+                      select  Coalesce ( count(ID),0) totalSoliderCount , KnowledgeLevel  from Soldier
+                      join Unit on Unit.UnitID = Soldier.UnitID 
+                      where Unit = N'${ele.Unit.Unit}'
+                      and RecuEndDate > '${
+                        this.selects.RecuStage.data.find(
+                          ele => ele.text === this.search.RecuStage
+                        ).year
+                      }'
+                      and SoldierStatus = N'بالخدمة'
+                      and SoldierCategory  like N'صف' 
+                      and WeaponID = ${constants.harsHododId}
+                    	GROUP by KnowledgeLevel
+                  `
+                  }
+                );
+
+                let TotalAfterRelease = totalSolidersAfterTsra7.data.reduce(
+                  (perv, ele) => ele.totalSoliderCount + perv,
+                  0
+                );
+                const Total =
+                    parseInt(ele.Avg) +
+                    parseInt(ele.High) +
+                    parseInt(ele.Normal) +
+                    parseInt(ele.AboveAvg),
+                  AfterSupply = Total + TotalAfterRelease,
+                  PayPolitics = unit ? unit.siasa : ele.PayPolitics,
+                  PayWar = unit ? unit.mortab : ele.PayWar,
+                  NWarOne = Math.ceil((TotalAfterRelease / PayWar) * 100) + "%",
+                  NPoliticsOne =
+                    Math.ceil((TotalAfterRelease / PayWar) * 100) + "%",
+                  NWarTwo = Math.ceil((AfterSupply / PayWar) * 100) + "%",
+                  NPoliticsTwo =
+                    Math.ceil((AfterSupply / PayPolitics) * 100) + "%";
+
+                let getSoliderCount = value =>
+                  (
+                    totalSolidersAfterTsra7.data.find(
+                      ele => ele.KnowledgeLevel == value
+                    ) || {}
+                  ).totalSoliderCount || 0;
+
+                return {
+                  ...ele,
+                  PayPolitics,
+                  PayWar,
+                  ExistWithoutHighPay: totalSoliders.data[0].totalSoliderCount,
+                  TotalAfterRelease,
+                  ReleasedOne:
+                    totalSoliders.data[0].totalSoliderCount - TotalAfterRelease,
+                  hightAfterRelease: getSoliderCount(
+                    constants.levelMappingEn.High
+                  ),
+                  apovAverageAfterRelease: getSoliderCount(
+                    constants.levelMappingEn.AboveAvg
+                  ),
+                  averageAfterRelease: getSoliderCount(
+                    constants.levelMappingEn.Avg
+                  ),
+                  normalAfterRelease: getSoliderCount(
+                    constants.levelMappingEn.Normal
+                  ),
+                  AfterSupply,
+                  NWarTwo,
+                  NPoliticsTwo,
+                  NWarOne,
+                  NPoliticsOne
+                };
+              })
+            ),
             printer = {
               cons: [...data],
               excelKey: "cons",
@@ -997,6 +1119,7 @@ export default {
           this.$set(this, "printer", printer);
         })
         .catch(error => {
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {
@@ -1102,6 +1225,25 @@ export default {
           return addedUnits.indexOf(ele.UnitID) == -1;
         })
       );
+    },
+    calculateRawValues() {
+      let ele = this.rowEditModel.item;
+
+      const Total =
+          parseInt(ele.Avg) +
+          parseInt(ele.High) +
+          parseInt(ele.Normal) +
+          parseInt(ele.AboveAvg),
+        AfterSupply = Total + ele.TotalAfterRelease,
+        NWarTwo = Math.ceil((AfterSupply / ele.PayWar) * 100) + "%",
+        NPoliticsTwo = Math.ceil((AfterSupply / ele.PayPolitics) * 100) + "%";
+
+      this.rowEditModel.item = {
+        ...this.rowEditModel.item,
+        AfterSupply,
+        NWarTwo,
+        NPoliticsTwo
+      };
     }
   }
 };

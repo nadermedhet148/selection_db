@@ -305,5 +305,6 @@ export default {
     }
   ],
   dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"],
-  serviceTypes: [{ text: "راتب عالى" }, { text: "مجند" }, { text: "رع/مجند" }]
+  serviceTypes: [{ text: "راتب عالى" }, { text: "مجند" }, { text: "رع/مجند" }],
+  harsHododId: 52
 };
