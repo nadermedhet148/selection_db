@@ -125,8 +125,7 @@ let nozom = function(t) {
       //   type: "single",
       //   icon: "mdi-eye-outline",
       //   text: "followup",
-      //   href: "/followup",
-      //   onlySegelat: true
+      //   href: "/followup"
       // },
       // // {
       // //   type: "single",
