@@ -219,6 +219,7 @@ export default {
     this.init();
     if (this.params.id) {
       this.conscripte.ID = this.params.id;
+      this.conscripte.Type = this.params.type;
       this.findConscripte();
     }
   },
@@ -257,7 +258,6 @@ export default {
             label: "توع المجند",
             type: "select"
           },
-
           {
             model: "IndexNo",
             label: "رقم السجل ",
@@ -475,13 +475,12 @@ export default {
       {
         title: "بيانات الراتب العالي",
         desc: "",
-        forEnhaa: true,
         items: [
           { model: "FileNo", label: "رقم الملف", type: "text" },
-          { model: "RatebCategory", label: "الفئة", type: "text" },
-          { model: "RatebLevel", label: "الدرجة", type: "text" },
+          { model: "RatebCategory", label: "الفئة", type: "select" },
+          { model: "RatebLevel", label: "الدرجة", type: "select" },
           { model: "Directionforunit", label: "الاتجاة", type: "text" },
-          { model: "RatebState", label: "الحالة", type: "text" },
+          { model: "RatebState", label: "الحالة", type: "select" },
           { model: "ServiceStyle", label: "نوع الخدمة", type: "select" },
           {
             model: "SatrtingSarefRateb",
@@ -495,12 +494,16 @@ export default {
           { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
           { model: "JobBefore", label: "الوظيفة", type: "text" },
           { model: "UnitJob", label: "العمل في الوحدة", type: "text" },
-          { model: "MartialStatus", label: "الحالة الاجتماعية", type: "text" },
+          {
+            model: "MartialStatus",
+            label: "الحالة الاجتماعية",
+            type: "select"
+          },
           { model: "NumOfChilds", label: "عدد الاطفال", type: "text" },
           {
             model: "UnitJoinDate",
             label: "تاريخ الالتحاق بالوحدة",
-            type: "text"
+            type: "date"
           },
           { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "select" }
         ]
@@ -620,6 +623,26 @@ export default {
         text: "text",
         value: "text",
         data: constants.RatebCategoryFari.data
+      },
+      RatebCategory: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierCategory.data
+      },
+      RatebLevel: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierLevel.data
+      },
+      RatebState: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierStatus.data
+      },
+      MartialStatus: {
+        text: "text",
+        value: "text",
+        data: constants.matrialStatus.data
       }
     },
     loading: false

@@ -292,8 +292,7 @@
             v-text="windows[window].btnText"
             @click="runFun(windows[window].fun)"
             :disabled="
-              (window == 1 && !search.ID) ||
-                (window == 2 && !search.fullName)
+              (window == 1 && !search.ID) || (window == 2 && !search.fullName)
             "
             large
             color="primary"
@@ -376,7 +375,7 @@ export default {
             desc: "يوفر لك العديد من الخيارات للبحث",
             icon: "",
             to: 4
-          },
+          }
           // {
           //   title: "إضافة جديد",
           //   desc: "إضافة مجند أو راتب عالي غير موجود",
@@ -423,11 +422,11 @@ export default {
         backTo: 0,
         childs: [
           {
-            title: "المجندين /  ",
+            title: "المجندين / الراتب العالي ",
             // desc: "بحث متقدم عن المجندين و ",
             to: "conscriptes",
             icon: ""
-          },
+          }
           // {
           //   title: "الحالات الإصابية / المرضية",
           //   desc: "",
@@ -459,7 +458,7 @@ export default {
       {
         title: "إضافة جديد",
         backTo: 0
-      },
+      }
       // {
       //   title: "حذف مجند أو راتب عالي",
       //   btnText: "إرسال الطلب",
@@ -615,17 +614,26 @@ export default {
         },
         attrs: ["ID"]
       })
-        .then(x => {
-          console.log(x);
+        .then(async x => {
           if (x.data) {
             // this.goThere(`/social_profile/${x.data.ID}`);
             this.goThere(`/soldiers_plus/${x.data.ID}`);
           } else {
-            this.showError("الرقم العسكري غير صحيح.");
+            const rateb = await this.api("global/get_one", {
+              table: "Rateb",
+              where: {
+                ID
+              },
+              attrs: ["ID"]
+            });
+            if (rateb.data) {
+              this.goThere(`/soldiers_plus/${rateb.data.ID}`);
+            } else {
+              this.showError("الرقم العسكري غير صحيح.");
+            }
           }
         })
         .catch(error => {
-          console.log(error);
           if (error.data) {
             this.showError(
               "حدث خطأ أثناء البحث بالرقم العسكري. من فضلك أعد المحاولة"

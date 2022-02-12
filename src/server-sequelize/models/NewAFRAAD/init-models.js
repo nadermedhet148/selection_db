@@ -189,17 +189,13 @@ function initModels(sequelize) {
   SelectionSoldier.belongsTo(City, { foreignKey: "CityID" });
   City.hasMany(SelectionSoldier, { foreignKey: "CityID" });
   Soldier.belongsTo(Duty, { foreignKey: "DutyID" });
+  Duty.hasMany(Soldier, { foreignKey: "DutyID" });
 
   Soldier.hasMany(Recommendations, { foreignKey: "ID" });
   Recommendations.belongsTo(Soldier, { foreignKey: "ID" });
-  Duty.hasMany(Soldier, { foreignKey: "DutyID" });
   Followers.belongsTo(FollowingRigion, {
     foreignKey: "FollowRigionID"
   });
-  // FollowingRigion.hasMany(Followers, {
-  //   as: "Followers",
-  //   foreignKey: "FollowRigionID"
-  // });
 
   Selections.belongsTo(City, { foreignKey: "CityID" });
   City.hasMany(Selections, { foreignKey: "CityID" });
@@ -233,10 +229,7 @@ function initModels(sequelize) {
   Situations.belongsTo(SituationStates, {
     foreignKey: "SituationID"
   });
-  // SituationStates.hasMany(Situations, {
-  //   as: "Situations",
-  //   foreignKey: "SituationID"
-  // });
+
   Brothers.belongsTo(Soldier, { foreignKey: "ID" });
   Soldier.hasOne(Brothers, { foreignKey: "ID" });
   Followers.belongsTo(Soldier, { foreignKey: "ID" });
@@ -276,6 +269,18 @@ function initModels(sequelize) {
   Weapon.hasMany(SMSoldier, { foreignKey: "WeaponID" });
   Soldier.belongsTo(Weapon, { foreignKey: "WeaponID" });
   Weapon.hasMany(Soldier, { foreignKey: "WeaponID" });
+
+  Rateb.belongsTo(Unit, { foreignKey: "UnitID" });
+  Rateb.belongsTo(Weapon, { foreignKey: "WeaponID" });
+  Rateb.belongsTo(Duty, { foreignKey: "DutyID" });
+  Rateb.belongsTo(Centre, { foreignKey: "CentreID" });
+  Rateb.belongsTo(City, { foreignKey: "CityID" });
+
+  Unit.hasMany(Rateb, { foreignKey: "UnitID" });
+  Weapon.hasMany(Rateb, { foreignKey: "WeaponID" });
+  Duty.hasMany(Rateb, { foreignKey: "DutyID" });
+  Centre.hasMany(Rateb, { foreignKey: "CentreID" });
+  City.hasMany(Rateb, { foreignKey: "CityID" });
 
   return {
     Brothers,

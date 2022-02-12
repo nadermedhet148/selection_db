@@ -2,7 +2,7 @@
   <div tabindex="0" class="no-focus profile">
     <template v-for="(group, i) in groups">
       <v-card
-        v-if="(isEnhaa && group.forEnhaa) || !isEnhaa"
+        v-if="filterItemsForType(group.items).length > 0"
         class="mb-8"
         :key="i"
       >
@@ -14,7 +14,7 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-row>
-            <template v-for="(item, ii) in group.items">
+            <template v-for="(item, ii) in filterItemsForType(group.items)">
               <v-col
                 v-if="(isEnhaa && item.forEnhaa) || !isEnhaa"
                 :key="ii"
@@ -109,12 +109,12 @@ export default {
   mounted() {
     this.conscripte = {
       ...this.conscripteObJ,
-      weapon: this.conscripteObJ.Weapon.Weapon,
-      Markez_Tadreb: this.conscripteObJ.Weapon.Markez_Tadreb,
-      unit: this.conscripteObJ.Unit.Unit,
-      duty: this.conscripteObJ.Duty.Duty,
-      centre: this.conscripteObJ.Centre.Centre,
-      city: this.conscripteObJ.City.City
+      weapon: (this.conscripteObJ.Weapon || {}).Weapon,
+      Markez_Tadreb: (this.conscripteObJ.Weapon || {}).Markez_Tadreb,
+      unit: (this.conscripteObJ.Unit || {}).Unit,
+      duty: (this.conscripteObJ.Duty || {}).Duty,
+      centre: (this.conscripteObJ.Centre || {}).Centre,
+      city: (this.conscripteObJ.City || {}).City
     };
   },
   data: () => ({
@@ -148,6 +148,12 @@ export default {
             type: "text",
             readonly: true
           },
+          {
+            model: "Type",
+            label: "توع المجند",
+            type: "text"
+          },
+
           {
             model: "IndexNo",
             label: "رقم السجل ",
@@ -228,12 +234,7 @@ export default {
             type: "text",
             readonly: true
           },
-          {
-            model: "",
-            label: " التشكيل",
-            type: "text",
-            readonly: true
-          },
+
           {
             model: "Markez_Tadreb",
             label: " مركز التدريب",
@@ -246,22 +247,10 @@ export default {
             type: "text",
             readonly: true
           },
-          {
-            model: "",
-            label: "التسكين",
-            type: "text",
-            readonly: true
-          },
 
           {
             model: "ArrivalDate",
             label: " تاريخ الوصول لمركز التدريب",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "SourceId",
-            label: "جهة الإمداد",
             type: "text",
             readonly: true
           }
@@ -407,6 +396,38 @@ export default {
             type: "text"
           }
         ]
+      },
+      {
+        title: "بيانات الراتب العالي",
+        desc: "",
+        items: [
+          { model: "FileNo", label: "رقم الملف", type: "text" },
+          { model: "RatebCategory", label: "الفئة", type: "text" },
+          { model: "RatebLevel", label: "الدرجة", type: "text" },
+          { model: "Directionforunit", label: "الاتجاة", type: "text" },
+          { model: "RatebState", label: "الحالة", type: "text" },
+          { model: "ServiceStyle", label: "نوع الخدمة", type: "text" },
+          {
+            model: "SatrtingSarefRateb",
+            label: "تاريح صرف الراتب",
+            type: "text"
+          },
+          { model: "VolunteeringDate", label: "تاريخ التطوع", type: "text" },
+          { model: "OlderindNo", label: "رقم الاقدمية", type: "text" },
+          { model: "Qualification", label: "المؤهل", type: "text" },
+          { model: "Namat", label: "النمط", type: "text" },
+          { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
+          { model: "JobBefore", label: "الوظيفة", type: "text" },
+          { model: "UnitJob", label: "العمل في الوحدة", type: "text" },
+          { model: "MartialStatus", label: "الحالة الاجتماعية", type: "text" },
+          { model: "NumOfChilds", label: "عدد الاطفال", type: "text" },
+          {
+            model: "UnitJoinDate",
+            label: "تاريخ الالتحاق بالوحدة",
+            type: "text"
+          },
+          { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "text" }
+        ]
       }
     ],
 
@@ -509,7 +530,6 @@ export default {
       return this.fixDate(finalDate);
     },
     async findConscripte() {
-      // this.emptyFields(true);
       let { ID } = this.conscripte,
         forceCode = ID.substr(6, 2),
         areaCode = ID.substr(4, 1),
@@ -529,9 +549,7 @@ export default {
         where: {
           ID
         }
-        // attrs: models
       });
-      // 2020178800544
       if (
         conscripte &&
         conscripte.ok &&
@@ -548,102 +566,65 @@ export default {
             "birthDate"
           ]
         )[0];
-        // this.showError("الرقم العسكري موجود بالفعل.");
         models.forEach(model => {
           this.$set(this.conscripte, model, data[model]);
         });
-        // this.$set(this, "findingConscripte", false);
-        // return;
       }
-      // let {
-      //   periodId,
-      //   areaId,
-      //   groupId,
-      //   knowLedgeLevel,
-      //   forceId,
-      //   stateIdCurrent,
-      //   additionalYearStateId,
-      //   reductionStateId,
-      //   soldierLevel,
-      //   martialStateId,
-      //   stateId
-      // } = this.conscripte;
-      // if (ID.length >= 13) {
-      //   // substr(index(included), length)
-      //   // substring(index(included), index(not included))
-      //   // Example: 2020 5 2 52 0011 5
-      //   // 2020 [Year of Conscription]
-      //   // 5 [ Mobilization Area ]
-      //   // 2 [ knowLedgeLevel ]
-      //   // 52 [ ForceId ]
-      //   // 0011 [ Series in Mobilization Area ]
-      //   // 5 Random Integer
-      //   // Fill other fields depending on militaryId
-      //   if (!stateIdCurrent) {
-      //     this.$set(this.conscripte, "stateIdCurrent", 1);
-      //   }
-      //   if (!stateId) {
-      //     this.$set(this.conscripte, "stateId", 101);
-      //   }
-      //   if (!martialStateId) {
-      //     this.$set(this.conscripte, "martialStateId", 1);
-      //   }
-      //   if (!soldierLevel) {
-      //     this.$set(
-      //       this.conscripte,
-      //       "soldierLevel",
-      //       forceCode == "88" ? 13 : 2
-      //     );
-      //   }
-      //   if (!additionalYearStateId) {
-      //     this.$set(this.conscripte, "additionalYearStateId", 1);
-      //   }
-      //   if (!reductionStateId) {
-      //     this.$set(this.conscripte, "reductionStateId", 1);
-      //   }
-      //   // if (!areaId) {
-      //   this.$set(this.conscripte, "areaId", Number(areaCode));
-      //   // }
-      //   // if (!knowLedgeLevel) {
-      //   this.$set(
-      //     this.conscripte,
-      //     "knowLedgeLevel",
-      //     forceCode == "88" ? 7 : Number(qualificationCode)
-      //   );
-      //   // }
-      //   if (!forceId) {
-      //     if (["04", "18", "10", "52", "66", "77", "88"].includes(forceCode)) {
-      //       this.$set(this.conscripte, "forceId", Number(forceCode));
-      //     }
-      //   }
-      //   if (!periodId) {
-      //     let year = militaryId.substr(0, 4),
-      //       month = new Date().getMonth() + 1,
-      //       isOfficer = forceCode == "88",
-      //       periodText = `${year}/${
-      //         isOfficer ? (month > 6 ? 2 : 1) : Math.ceil(month / 3.9)
-      //       }`,
-      //       period = this.selects.periodId.data
-      //         ? this.selects.periodId.data.find(f => f.periodText == periodText)
-      //         : {};
-      //     if (this.selects.periodId.data && period && period.id) {
-      //       this.$set(this.conscripte, "periodId", period.id);
-      //     }
-      //   }
-      //   // if (!groupId) {
-      //   let groups = {
-      //     "66": 2,
-      //     "77": 3,
-      //     "88": 4
-      //   };
-      //   this.$set(
-      //     this.conscripte,
-      //     "groupId",
-      //     groups[forceCode] ? groups[forceCode] : 1
-      //   );
-      //   // }
-      // }
-      // this.$set(this, "findingConscripte", false);
+    },
+    filterItemsForType(items) {
+      let ratebCoulmns = [
+        "FileNo",
+        "RatebCategory",
+        "RatebLevel",
+        "Directionforunit",
+        "RatebState",
+        "ServiceStyle",
+        "SatrtingSarefRateb",
+        "VolunteeringDate",
+        "OlderindNo",
+        "Qualification",
+        "Namat",
+        "Taskeen",
+        "TahtElTawze3",
+        "Dof3aNum",
+        "JobBefore",
+        "UnitJob",
+        "MartialStatus",
+        "NumOfChilds",
+        "UnitJoinDate",
+        "RatebCategoryFari"
+      ];
+
+      let soliderCoulmns = [
+        "IndexNo",
+        "SoldierCategory",
+        "SoldierLevel",
+        "RecuRegion",
+        "RecuStartDate",
+        "RecuStage",
+        "RecuTreat",
+        "MissingTime",
+        "RecuEndDate",
+        "SoldierStatus",
+        "EndingCause",
+        "College",
+        "Specialization",
+        "Job",
+        "Direction",
+        "Directionforunit",
+        "ArrivalDate",
+        "Alhaq",
+        "TahtEltawze3",
+        "BrotherID",
+        "ServiceType",
+        "GHA",
+        "DriverLevel",
+        "Treatment",
+        "Markez_Tadreb"
+      ];
+      return this.conscripte.Type == constants.serviceTypesMap.solider
+        ? items.filter(ele => ratebCoulmns.indexOf(ele.model) == -1)
+        : items.filter(ele => soliderCoulmns.indexOf(ele.model) == -1);
     }
   }
 };

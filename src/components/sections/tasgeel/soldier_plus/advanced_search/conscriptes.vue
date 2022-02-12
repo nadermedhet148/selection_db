@@ -169,30 +169,46 @@
         <template v-slot:item.ID="{ item }">
           <v-chip
             color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
+            :to="
+              `/soldiers_plus/${item.ID}/${
+                item.RecuStage
+                  ? constants.serviceTypesMap.solider
+                  : constants.serviceTypesMap.highLevel
+              }`
+            "
             @click.right="copyText(item.ID)"
           >
             {{ item.ID }}
           </v-chip>
         </template>
         <template v-slot:item.Name="{ item }">
-          <v-chip
-            color="transparent"
-            :to="`/soldiers_plus/${item.ID}`"
-            @click.right="copyText(item.Name)"
-          >
+          <v-chip color="transparent" @click.right="copyText(item.Name)">
             {{ item.Name }}
           </v-chip>
         </template>
-        <template v-slot:item.dutyCurrentState="{ item }">
-          <v-chip
-            v-if="item.dutyCurrentState && item.dutyCurrentState.text"
-            small
-            :color="
-              item.dutyCurrentState.text == 'بالخدمة' ? 'success' : 'error'
-            "
-          >
-            {{ item.dutyCurrentState.text }}
+        <template v-slot:item.Type="{ item }">
+          <v-chip color="transparent">
+            {{ item.RecuStage ? "مجند" : "راتب عالي" }}
+          </v-chip>
+        </template>
+        <template v-slot:item.SoldierStatus="{ item }">
+          <v-chip color="transparent">
+            {{ item.RecuStage ? item.SoldierStatus : item.RatebState }}
+          </v-chip>
+        </template>
+        <template v-slot:item.SoldierCategory="{ item }">
+          <v-chip color="transparent">
+            {{ item.RecuStage ? item.SoldierCategory : item.RatebCategory }}
+          </v-chip>
+        </template>
+        <template v-slot:item.SoldierLevel="{ item }">
+          <v-chip color="transparent">
+            {{ item.SoldierLevel ? item.SoldierLevel : item.RatebLevel }}
+          </v-chip>
+        </template>
+        <template v-slot:item.RecuStartDate="{ item }">
+          <v-chip color="transparent">
+            {{ item.RecuStage ? item.RecuStartDate : item.VolunteeringDate }}
           </v-chip>
         </template>
       </v-data-table>
@@ -249,6 +265,12 @@ export default {
           sortable: true
         },
         {
+          value: "Type",
+          dbvalue: "Type",
+          text: "نوع الفرد",
+          sortable: true
+        },
+        {
           value: "SoldierStatus",
           dbvalue: "SoldierStatus",
           text: "حالة الفرد",
@@ -269,11 +291,6 @@ export default {
         {
           value: "RecuStartDate",
           text: "تاريخ التجنيد / التطوع",
-          sortable: true
-        },
-        {
-          value: "RecuEndDate",
-          text: "تاريخ التسريح",
           sortable: true
         }
       ]
@@ -313,6 +330,12 @@ export default {
             model: "TripleNo",
             label: "الرقم الثلاثي",
             type: "text"
+          },
+          {
+            model: "Type",
+            label: "توع المجند",
+            type: "select",
+            multiple: true
           },
           {
             model: "IndexNo",
@@ -488,8 +511,59 @@ export default {
             multiple: true
           }
         ]
+      },
+      {
+        title: "بيانات الراتب العالي",
+        options: [
+          { model: "FileNo", label: "رقم الملف", type: "text" },
+          {
+            model: "RatebCategory",
+            label: "الفئة",
+            type: "select",
+            multiple: true
+          },
+          {
+            model: "RatebLevel",
+            label: "الدرجة",
+            type: "select",
+            multiple: true
+          },
+          {
+            model: "RatebState",
+            label: "الحالة",
+            type: "select",
+            multiple: true
+          },
+          {
+            model: "ServiceStyle",
+            label: "نوع الخدمة",
+            type: "select",
+            multiple: true
+          },
+          {
+            model: "SatrtingSarefRateb",
+            label: "تاريح صرف الراتب",
+            type: "date"
+          },
+          { model: "OlderindNo", label: "رقم الاقدمية", type: "text" },
+          { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
+          { model: "VolunteeringDate", label: "تاريخ التطوع", type: "date" },
+          {
+            model: "MartialStatus",
+            label: "الحالة الاجتماعية",
+            type: "select",
+            multiple: true
+          },
+          {
+            model: "UnitJoinDate",
+            label: "تاريخ الالتحاق بالوحدة",
+            type: "date"
+          },
+          { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "select" }
+        ]
       }
     ],
+    constants: constants,
     selects: {
       SoldierLevel: {
         text: "text",
@@ -590,6 +664,41 @@ export default {
         text: "text",
         value: "text",
         data: constants.serviceTypes
+      },
+      ServiceStyle: {
+        text: "text",
+        value: "text",
+        data: constants.ServiceStyle
+      },
+      RatebCategoryFari: {
+        text: "text",
+        value: "text",
+        data: constants.RatebCategoryFari.data
+      },
+      RatebCategory: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierCategory.data
+      },
+      RatebLevel: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierLevel.data
+      },
+      RatebState: {
+        text: "text",
+        value: "text",
+        data: constants.SoldierStatus.data
+      },
+      MartialStatus: {
+        text: "text",
+        value: "text",
+        data: constants.matrialStatus.data
+      },
+      Type: {
+        text: "text",
+        value: "text",
+        data: [{ text: "راتب عالى" }, { text: "مجند" }]
       }
     }
   }),
@@ -624,15 +733,10 @@ export default {
 
       let search = this.search;
       this.api("sections/tasgeel/search/conscriptes", {
-        search: { ...search, getWhoNotRelatedWithSelah: null }
+        search: { ...search }
       })
         .then(x => {
-          let fixedData = this.fixDates(x.data, [
-              "ArrivalDate",
-              "BirthDate",
-              "RecuStartDate",
-              "RecuEndDate"
-            ]),
+          let fixedData = x.data,
             printer = {
               cons: [...fixedData],
               excelKey: "cons",

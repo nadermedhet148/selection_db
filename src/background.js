@@ -382,26 +382,6 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
-// require(`./server-sequelize/reciever/af/sections/tasgeel/reports/SMYearQuarter.js`)(
-//   dbs["af"],
-//   {
-//     Type: 3,
-//     unitIds: [56],
-//     weapon: "إدارة المركبات",
-//     RecuEndDate: "2022-09-01",
-//     job: "سائق عsربة",
-//     SoldierCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"]
-//   },
-//   win,
-//   dbs,
-//   webwin
-// )
-//   .then(result => {
-//     console.log("result", result[0]);
-//   })
-//   .catch(error => {
-//     console.log("error", error);
-//   });
 
 let fs = require("fs"),
   mkdirp = require("mkdirp"),

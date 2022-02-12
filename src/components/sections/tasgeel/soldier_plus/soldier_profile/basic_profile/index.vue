@@ -92,8 +92,7 @@
             large
             @click="Edit()"
           >
-            تعديل
-            {{ conscripte.typeId == 1 ? "المجند" : "المتطوع" }}
+            تعديل الفرد
           </v-btn>
         </v-card-actions>
       </v-card-title>
@@ -837,7 +836,9 @@ export default {
       }
     },
     Edit() {
-      this.goThere(`/add_conscripte/${this.conscripte.ID}`);
+      this.goThere(
+        `/add_conscripte/${this.conscripte.ID}/${this.conscripte.Type}`
+      );
     },
     // TODO :
     async createMedCommittees(injury_id, caseType) {
