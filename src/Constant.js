@@ -8,7 +8,24 @@ export default {
   KnowledgeLevel: {
     text: "text",
     value: "text",
-    data: [...["عليا", "فوق متوسطة", "متوسطه", "عادة"].map(text => ({ text }))]
+    data: [
+      ...[
+        "عليا",
+        "فوق متوسطة",
+        "متوسطه",
+        "عادة",
+        "اعداديه",
+        "راسب اعداديه",
+        "ابتدائيه",
+        "راسب ابتدائيه",
+        "امي"
+      ].map(text => ({ text }))
+    ]
+  },
+  matrialStatus: {
+    text: "text",
+    value: "text",
+    data: ["اعزب", "متزوج", "مطلق", "ارمل"].map(text => ({ text }))
   },
   Religion: {
     text: "text",
@@ -319,5 +336,17 @@ export default {
   ],
   dailesSoliderCategories: ["صف", "كاتب", "مهني", "حرفي", "سائق عجل"],
   serviceTypes: [{ text: "راتب عالى" }, { text: "مجند" }, { text: "رع/مجند" }],
-  harsHododId: 52
+  serviceTypesMap: {
+    highLevel: "راتب عالى",
+    solider: "مجند"
+  },
+  harsHododId: 52,
+  ServiceStyle: ["متطوع", "مكلف"],
+  RatebCategoryFari: {
+    text: "text",
+    value: "text",
+    data: ["", "معلم", "قصاص أثر"].map(text => ({
+      text
+    }))
+  }
 };

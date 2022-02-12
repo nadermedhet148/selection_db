@@ -7,7 +7,7 @@
   >
     <template v-for="(group, i) in groups">
       <v-card
-        v-if="(isEnhaa && group.forEnhaa) || !isEnhaa"
+        v-if="filterItemsForType(group.items).length > 0"
         class="mb-8"
         :key="i"
       >
@@ -19,7 +19,7 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-row>
-            <template v-for="(item, ii) in group.items">
+            <template v-for="(item, ii) in filterItemsForType(group.items)">
               <v-col
                 v-if="(isEnhaa && item.forEnhaa) || !isEnhaa"
                 :key="ii"
@@ -224,7 +224,9 @@ export default {
   },
   data: () => ({
     findingConscripte: false,
-    conscripte: {},
+    conscripte: {
+      Type: constants.serviceTypesMap.solider
+    },
     isEnhaa: false,
     groups: [
       {
@@ -250,6 +252,12 @@ export default {
             label: "الرقم الثلاثي",
             type: "text"
           },
+          {
+            model: "Type",
+            label: "توع المجند",
+            type: "select"
+          },
+
           {
             model: "IndexNo",
             label: "رقم السجل ",
@@ -330,24 +338,6 @@ export default {
             model: "DutyID",
             label: " الواجب المدرب عليه",
             type: "select"
-          },
-          {
-            model: "",
-            label: " التشكيل",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "",
-            label: "التسكين",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "SourceId",
-            label: "جهة الإمداد",
-            type: "text",
-            readonly: true
           }
         ]
       },
@@ -423,6 +413,12 @@ export default {
             model: "image",
             label: "الصورة الشخصية ",
             type: "file"
+          },
+          {
+            model: "Notes",
+            label: "ملاحظات عامة",
+            type: "textarea",
+            forEnhaa: true
           }
         ]
       },
@@ -451,12 +447,6 @@ export default {
             model: "RecuRegion",
             label: "منطقة التجنيد",
             type: "select"
-          },
-          {
-            model: "Notes",
-            label: "ملاحظات عامة",
-            type: "textarea",
-            forEnhaa: true
           }
         ]
       },
@@ -480,6 +470,39 @@ export default {
             label: "نوع الخدمة",
             type: "select"
           }
+        ]
+      },
+      {
+        title: "بيانات الراتب العالي",
+        desc: "",
+        forEnhaa: true,
+        items: [
+          { model: "FileNo", label: "رقم الملف", type: "text" },
+          { model: "RatebCategory", label: "الفئة", type: "text" },
+          { model: "RatebLevel", label: "الدرجة", type: "text" },
+          { model: "Directionforunit", label: "الاتجاة", type: "text" },
+          { model: "RatebState", label: "الحالة", type: "text" },
+          { model: "ServiceStyle", label: "نوع الخدمة", type: "select" },
+          {
+            model: "SatrtingSarefRateb",
+            label: "تاريح صرف الراتب",
+            type: "date"
+          },
+          { model: "VolunteeringDate", label: "تاريخ التطوع", type: "date" },
+          { model: "OlderindNo", label: "رقم الاقدمية", type: "text" },
+          { model: "Qualification", label: "المؤهل", type: "text" },
+          { model: "Namat", label: "النمط", type: "text" },
+          { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
+          { model: "JobBefore", label: "الوظيفة", type: "text" },
+          { model: "UnitJob", label: "العمل في الوحدة", type: "text" },
+          { model: "MartialStatus", label: "الحالة الاجتماعية", type: "text" },
+          { model: "NumOfChilds", label: "عدد الاطفال", type: "text" },
+          {
+            model: "UnitJoinDate",
+            label: "تاريخ الالتحاق بالوحدة",
+            type: "text"
+          },
+          { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "select" }
         ]
       }
     ],
@@ -582,6 +605,21 @@ export default {
         text: "text",
         value: "text",
         data: constants.serviceTypes
+      },
+      Type: {
+        text: "text",
+        value: "text",
+        data: [{ text: "راتب عالى" }, { text: "مجند" }]
+      },
+      ServiceStyle: {
+        text: "text",
+        value: "text",
+        data: constants.ServiceStyle
+      },
+      RatebCategoryFari: {
+        text: "text",
+        value: "text",
+        data: constants.RatebCategoryFari.data
       }
     },
     loading: false
@@ -606,6 +644,7 @@ export default {
     async findConscripte() {
       let { ID } = this.conscripte,
         forceCode = ID.substr(6, 2),
+        type = this.conscripte.Type,
         areaCode = ID.substr(4, 1),
         qualificationCode = ID.substr(5, 1),
         groupItems = this.groups.map(g => g.items),
@@ -618,8 +657,9 @@ export default {
         return;
       }
       this.$set(this, "findingConscripte", true);
+
       let conscripte = await this.api("global/get_one", {
-        table: "Soldier",
+        table: type === constants.serviceTypesMap.solider ? "Soldier" : "Rateb",
         where: {
           ID
         }
@@ -640,9 +680,11 @@ export default {
             "birthDate"
           ]
         )[0];
+        data.DutyID = parseInt(data.DutyID);
         models.forEach(model => {
           this.$set(this.conscripte, model, data[model]);
         });
+        this.conscripte.Type = type;
       }
     },
 
@@ -677,14 +719,12 @@ export default {
         this.$set(this, "loading", false);
         return;
       }
-      if (!conscripte.RecuStartDate) {
-        this.showError("من فضلك قم بتسجيل تاريخ التجنيد");
-        this.$set(this, "loading", false);
-        return;
-      }
       let isExists = false,
         exists = await this.api("global/get_one", {
-          table: "Soldier",
+          table:
+            this.conscripte.Type === constants.serviceTypesMap.solider
+              ? "Soldier"
+              : "Rateb",
           where: {
             ID: conscripte.ID
           },
@@ -695,7 +735,10 @@ export default {
       }
       if (isExists) {
         let addCon = await this.api("global/update_one", {
-          table: "Soldier",
+          table:
+            this.conscripte.Type === constants.serviceTypesMap.solider
+              ? "Soldier"
+              : "Rateb",
           where: {
             ID: conscripte.ID
           },
@@ -710,7 +753,10 @@ export default {
         return;
       }
       let addCon = await this.api("global/create_one", {
-        table: "Soldier",
+        table:
+          this.conscripte.Type === constants.serviceTypesMap.solider
+            ? "Soldier"
+            : "Rateb",
         where: conscripte
       });
       if (addCon && addCon.ok) {
@@ -719,6 +765,61 @@ export default {
         this.showError("تعذر إضافة الفرد في قاعدة البيانات");
       }
       this.$set(this, "loading", false);
+    },
+    filterItemsForType(items) {
+      let ratebCoulmns = [
+        "FileNo",
+        "RatebCategory",
+        "RatebLevel",
+        "Directionforunit",
+        "RatebState",
+        "ServiceStyle",
+        "SatrtingSarefRateb",
+        "VolunteeringDate",
+        "OlderindNo",
+        "Qualification",
+        "Namat",
+        "Taskeen",
+        "TahtElTawze3",
+        "Dof3aNum",
+        "JobBefore",
+        "UnitJob",
+        "MartialStatus",
+        "NumOfChilds",
+        "UnitJoinDate",
+        "RatebCategoryFari"
+      ];
+
+      let soliderCoulmns = [
+        "IndexNo",
+        "SoldierCategory",
+        "SoldierLevel",
+        "RecuRegion",
+        "RecuStartDate",
+        "RecuStage",
+        "RecuTreat",
+        "MissingTime",
+        "RecuEndDate",
+        "SoldierStatus",
+        "EndingCause",
+        "College",
+        "Specialization",
+        "Job",
+        "Direction",
+        "Directionforunit",
+        "ArrivalDate",
+        "Alhaq",
+        "TahtEltawze3",
+        "BrotherID",
+        "ServiceType",
+        "GHA",
+        "DriverLevel",
+        "Treatment",
+        "Markez_Tadreb"
+      ];
+      return this.conscripte.Type == constants.serviceTypesMap.solider
+        ? items.filter(ele => ratebCoulmns.indexOf(ele.model) == -1)
+        : items.filter(ele => soliderCoulmns.indexOf(ele.model) == -1);
     }
   }
 };

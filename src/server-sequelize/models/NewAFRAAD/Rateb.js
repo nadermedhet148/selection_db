@@ -33,12 +33,12 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       },
       DutyID: {
-        type: DataTypes.TEXT,
+        type: DataTypes.INTEGER,
         allowNull: true
       },
       SupplyingRigion: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: true
       },
       Directionforunit: {
         type: DataTypes.STRING(100),
@@ -120,7 +120,7 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true
       },
-      KnowLevel: {
+      KnowledgeLevel: {
         type: DataTypes.TEXT,
         allowNull: true
       },
