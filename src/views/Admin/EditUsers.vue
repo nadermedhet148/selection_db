@@ -508,7 +508,7 @@ export default {
           return;
         }
         let edited = await this.api(`global/${actionType}_one`, {
-          table: "users",
+          table: "Users",
           where:
             actionType == "update"
               ? {
@@ -551,7 +551,7 @@ export default {
       this.$set(this.del, "loading", true);
       let { id, type } = this.del,
         delItem = await this.api("global/update_one", {
-          table: "users",
+          table: "Users",
           where: {
             userId: id
           },
@@ -573,7 +573,7 @@ export default {
     async getUsers() {
       this.$set(this.result, "loading", true);
       let items = await this.api("global/get_all", {
-        table: "users"
+        table: "Users"
       });
       if (items && items.ok && items.data) {
         let users = items.data.sort((a, b) => a.section - b.section);

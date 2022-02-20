@@ -88,26 +88,6 @@ let nozom = function(t) {
         text: tas("soldier_plus"),
         desc: "[ بحث - تعديل - حذف ]",
         href: "/soldiers_plus"
-      },
-      // Selections
-      {
-        type: "group",
-        icon: "mdi-bullseye-arrow",
-        text: selections("_self"),
-        children: [
-          {
-            type: "single",
-            icon: "mdi-view-dashboard-outline",
-            text: selections("soldiers"),
-            href: "/selections_soldiers"
-          },
-          {
-            type: "single",
-            icon: "mdi-view-dashboard-outline",
-            text: selections("rateb3ali"),
-            href: "/selections_rateb3ali"
-          }
-        ]
       }
     ],
     // ../Header
@@ -168,22 +148,8 @@ let nozom = function(t) {
         click: "request_logout"
       }
     ],
-    nozom: [
-      {
-        type: "single",
-        icon: "mdi-view-dashboard-outline",
-        text: admin("operations"),
-        href: "/admin_operations"
-      }
-    ],
+
     admin: [
-      {
-        type: "single",
-        icon: " ",
-        text: admin("connected_devices"),
-        href: "/connected_devices",
-        onlySegelat: true
-      },
       {
         type: "single",
         icon: "mdi-account-group-outline",
@@ -191,101 +157,7 @@ let nozom = function(t) {
         href: "/edit_users"
       }
     ],
-    tas: [
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: tas("categories_dailes"),
-        href: "/categories_dailes"
-      },
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: tas("_360_normal_dailes"),
-        href: "/360_normal_dailes"
-      },
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: tas("_360_mokrar_dailes"),
-        href: "/360_mokrar_dailes"
-      },
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: tas("SMYearQuarter"),
-        href: "/SMYearQuarter"
-      }
-    ],
-    new_comers: [
-      {
-        type: "single",
-        icon: "mdi-new-box",
-        text: new_comers("tmam_elwosol"),
-        href: "/tmam_elwosol",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("tmam_eltasgel"),
-        href: "/tmam_eltasgel",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("distributed_suggest"),
-        href: "/distributed_suggest",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("recommandations"),
-        href: "/recommandations",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("malaheq_suggest"),
-        href: "/malaheq_suggest",
-        onlySegelat: true
-      },
 
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("effects"),
-        href: "/effects",
-        onlySegelat: true,
-        href: "/effects",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("tmam_elthr7el"),
-        href: "/tmam_elthr7el",
-        onlySegelat: true
-      },
-
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("soliders_brothers"),
-        href: "/soliders_brothers",
-        onlySegelat: true
-      },
-      {
-        type: "single",
-        icon: "mdi-update",
-        text: new_comers("dalies"),
-        href: "/dalies",
-        onlySegelat: true
-      }
-    ],
     salaries: [
       {
         type: "single",
@@ -454,19 +326,10 @@ let nozom = function(t) {
     ...items.footer
   ],
   _0 = [...items.admin],
-  _4 = [...items.nozom],
-  _1 = [
-    // قسم التسجيل
-    ...items.tas
-  ],
-  _2 = [
-    // احتياط
-    ...items.new_comers
-  ],
-  _3 = [
-    // انهاء
-    ...items.salaries
-  ],
+  _4 = [],
+  _1 = [],
+  _2 = [],
+  _3 = [],
   _12 = [
     // هروب
     ...items.ho
