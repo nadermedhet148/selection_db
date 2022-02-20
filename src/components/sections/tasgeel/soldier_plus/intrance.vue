@@ -87,8 +87,25 @@
                     ></v-list-item-title>
                     <v-list-item-subtitle
                       v-text="
-                        'إضافة مجند أو راتب عالي غير موجود أو تعديل من هو موجود'
+                        'اضافة بيانات فرد جديد او تعديل بيانات فرد موجود '
                       "
+                    ></v-list-item-subtitle>
+                    <!-- <v-list-item-subtitle class="error--text">
+                      -- تم تعطيل هذا الزر لحل بعض المشكلات --
+                    </v-list-item-subtitle> -->
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item class="wrap" to="/buck_conscript">
+                  <v-list-item-avatar>
+                    <v-icon size="30">mdi-plus</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      class="primary--text font-weight-bold"
+                      v-text="'إضافة افراد'"
+                    ></v-list-item-title>
+                    <v-list-item-subtitle
+                      v-text="'اضافة مجندين عن طريق رفع excel '"
                     ></v-list-item-subtitle>
                     <!-- <v-list-item-subtitle class="error--text">
                       -- تم تعطيل هذا الزر لحل بعض المشكلات --
@@ -362,40 +379,7 @@ export default {
             desc: "يقوم بالبحث عن شخص واحد فقط, من خلال رقمه العسكري.",
             to: 1,
             icon: ""
-          },
-          {
-            title: "بحث بالإسم",
-            desc:
-              "يقوم بالبحث عن عدة أشخاص تحتوي أسمائم على الإسم الذي ستكتبه.",
-            to: 2,
-            icon: ""
-          },
-          {
-            title: "بحث متقدم",
-            desc: "يوفر لك العديد من الخيارات للبحث",
-            icon: "",
-            to: 4
           }
-          // {
-          //   title: "إضافة جديد",
-          //   desc: "إضافة مجند أو راتب عالي غير موجود",
-          //   goThere: "/add_conscripte",
-          //   to: 16,
-          //   icon: ""
-          // },
-          // {
-          //   title: "طلب حذف فرد",
-          //   desc: "إرسال طلب حذف مجند أو راتب عالي الى مدير النظام",
-          //   to: 6,
-          //   icon: ""
-          // },
-          // {
-          //   title: "طلب تعديل رقم عسكري",
-          //   desc:
-          //     "إرسال طلب تعديل رقم عسكري لمجند أو راتب عالي الى مدير النظام",
-          //   to: 7,
-          //   icon: ""
-          // }
         ]
       },
       {
@@ -416,44 +400,6 @@ export default {
         title: "نتائج البحث",
         backTo: 2,
         width: "800"
-      },
-      {
-        title: "بحث متقدم",
-        backTo: 0,
-        childs: [
-          {
-            title: "المجندين / الراتب العالي ",
-            // desc: "بحث متقدم عن المجندين و ",
-            to: "conscriptes",
-            icon: ""
-          }
-          // {
-          //   title: "الحالات الإصابية / المرضية",
-          //   desc: "",
-          //   to: "injuries",
-          //   icon: ""
-          // },
-          // {
-          //   title: "التحقيقات / المحاكم",
-          //   desc: "",
-          //   to: "courts",
-          //   icon: ""
-          // },
-          // {
-          //   title: "العقوبات",
-          //   desc: "",
-          //   to: "penalties",
-          //   href: "/penalties",
-          //   icon: ""
-          // },
-          // {
-          //   title: "محو الأمية",
-          //   desc: "",
-          //   to: "ignorants",
-          //   href: "/ignorants",
-          //   icon: ""
-          // }
-        ]
       },
       {
         title: "إضافة جديد",
@@ -477,132 +423,10 @@ export default {
     msg: "Light"
   }),
   methods: {
-    async requestDeleteCon() {
-      this.$set(this.results, "loading", true);
-      let that = this,
-        emptyFields = function() {
-          that.$set(that.deleteCon, "ID", "");
-          that.$set(that.deleteCon, "notes", "");
-        },
-        { ID, notes } = this.deleteCon,
-        exists = await this.api("global/get_one", {
-          table: "conscriptes",
-          where: {
-            ID
-          },
-          attrs: ["ID"]
-        });
-      if (exists && exists.ok && exists.data && exists.data.ID) {
-        let date = await this.api("server/get-time"),
-          request = await this.api("global/create_one", {
-            table: "adminRequests",
-            where: {
-              type: "حذف",
-              ID,
-              userNotes: notes,
-              date: date.data
-            }
-          });
-        if (request && request.ok && request.data) {
-          this.showSuccess("تم ارسال طلبك.");
-          emptyFields();
-          this.tabTo();
-        } else {
-          this.showError("حدث خطأ أثناء ارسال طلبك");
-        }
-        this.$set(this.results, "loading", false);
-      } else {
-        this.showError("الرقم العسكري المراد حذفه غير موجود.");
-        this.$set(this.results, "loading", false);
-      }
-    },
-    async requestEditCon() {
-      this.$set(this.results, "loading", true);
-      let that = this,
-        emptyFields = function() {
-          that.$set(that.editCon, "ID", "");
-          that.$set(that.editCon, "newID", "");
-          that.$set(that.editCon, "notes", "");
-        },
-        { ID, newID, notes } = this.editCon,
-        exists = await this.api("global/get_one", {
-          table: "conscriptes",
-          where: {
-            ID
-          },
-          attrs: ["ID"]
-        });
-      if (exists && exists.ok && exists.data && exists.data.ID) {
-        let date = await this.api("server/get-time"),
-          request = await this.api("global/create_one", {
-            table: "adminRequests",
-            where: {
-              type: "تعديل",
-              ID,
-              newID,
-              userNotes: notes,
-              date: date.data
-            }
-          });
-        if (request && request.ok && request.data) {
-          this.showSuccess("تم ارسال طلبك.");
-          emptyFields();
-          this.tabTo();
-        } else {
-          this.showError("حدث خطأ أثناء ارسال طلبك");
-        }
-        this.$set(this.results, "loading", false);
-      } else {
-        this.showError("الرقم العسكري المراد حذفه غير موجود.");
-        this.$set(this.results, "loading", false);
-      }
-    },
-    runFun(fun) {
-      return this[fun]();
-    },
     tabTo() {
       return (this.window = this.windows[this.window].backTo
         ? this.windows[this.window].backTo
         : 0);
-    },
-    findByFullName() {
-      let fullName = this.fixName(this.search.fullName);
-      this.$set(this.results, "loading", true);
-      this.api("global/get_all", {
-        table: "conscriptes",
-        where: {
-          fullName: {
-            $like: `${fullName}%`
-          }
-        },
-        attrs: ["ID", "stateIdCurrent", "fullName"],
-        include: [
-          {
-            model: "units",
-            attrs: ["unitText"]
-          },
-          {
-            model: "degrees",
-            attrs: ["degreeType"]
-          },
-          {
-            model: "dutyCurrentStates",
-            attrs: ["text"]
-          }
-        ]
-      })
-        .then(x => {
-          console.log(x);
-          this.$set(this.results, "items", x.data);
-          this.$set(this, "window", 3);
-        })
-        .catch(error => {
-          console.log(error);
-          this.showError("حدث خطأ أثناء البحث بالإسم. من فضلك أعد المحاولة");
-        })
-        .finally(() => {
-          this.$set(this.results, "loading", false);
-        });
     },
     findById() {
       let ID = this.search.ID;
@@ -619,18 +443,7 @@ export default {
             // this.goThere(`/social_profile/${x.data.ID}`);
             this.goThere(`/soldiers_plus/${x.data.ID}`);
           } else {
-            const rateb = await this.api("global/get_one", {
-              table: "Rateb",
-              where: {
-                ID
-              },
-              attrs: ["ID"]
-            });
-            if (rateb.data) {
-              this.goThere(`/soldiers_plus/${rateb.data.ID}`);
-            } else {
-              this.showError("الرقم العسكري غير صحيح.");
-            }
+            this.showError("الرقم العسكري غير صحيح.");
           }
         })
         .catch(error => {

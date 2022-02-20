@@ -1,11 +1,7 @@
 <template>
   <div tabindex="0" class="no-focus profile">
     <template v-for="(group, i) in groups">
-      <v-card
-        v-if="filterItemsForType(group.items).length > 0"
-        class="mb-8"
-        :key="i"
-      >
+      <v-card v-if="group.items.length > 0" class="mb-8" :key="i">
         <v-card-title
           class="primary white--text"
           v-text="group.title"
@@ -14,14 +10,8 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-row>
-            <template v-for="(item, ii) in filterItemsForType(group.items)">
-              <v-col
-                v-if="(isEnhaa && item.forEnhaa) || !isEnhaa"
-                :key="ii"
-                cols="6"
-                lg="4"
-                xl="3"
-              >
+            <template v-for="(item, ii) in group.items">
+              <v-col :key="ii" cols="6" lg="4" xl="3">
                 <v-text-field
                   v-model="conscripte[item.model]"
                   :label="item.label"
@@ -133,300 +123,54 @@ export default {
           {
             model: "ID",
             label: "الرقم العسكري",
-            type: "text",
-            readonly: true
+            type: "text"
           },
           {
             model: "Name",
             label: "الإسم الكامل",
-            type: "text",
-            readonly: true
+            type: "text"
           },
           {
             model: "TripleNo",
             label: "الرقم الثلاثي",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "Type",
-            label: "توع المجند",
             type: "text"
-          },
-
-          {
-            model: "IndexNo",
-            label: "رقم السجل ",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "SoldierLevel",
-            label: "الدرجة",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "SoldierStatus",
-            label: "حالة الفرد",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "EndingCause",
-            label: "سبب الإنهاء",
-            type: "text",
-            readonly: true
           },
           {
             model: "KnowledgeLevel",
             label: "المؤهل",
-            type: "text",
-            readonly: true
-          },
-
-          {
-            model: "SoldierCategory",
-            label: "الفئة",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "RecuTreat",
-            label: "المعاملة التجنيدية",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "MissingTime",
-            label: "مدة الفاقدة",
-            type: "text",
-            readonly: true
+            type: "text"
           },
 
           {
             model: "RecuStage",
             label: "المرحلة التجنيدية",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "Direction",
-            label: " الاتجاه",
-            type: "text",
-            readonly: true
-          }
-        ]
-      },
-      {
-        title: "مكان الخدمة",
-        desc: "",
-        items: [
-          {
-            model: "weapon",
-            label: "السلاح",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "unit",
-            label: "الوحدة",
-            type: "text",
-            readonly: true
-          },
-
-          {
-            model: "Markez_Tadreb",
-            label: " مركز التدريب",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "duty",
-            label: " الواجب المدرب عليه",
-            type: "text",
-            readonly: true
-          },
-
-          {
-            model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
-            type: "text",
-            readonly: true
-          }
-        ]
-      },
-      {
-        title: "بيانات شخصية",
-        desc: "",
-        items: [
-          {
-            model: "BirthDate",
-            label: "تاريخ الميلاد",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "IdentityNo",
-            label: "الرقم القومي",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "SoldierTELE",
-            label: "رقم التليفون",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "RelevantTELE",
-            label: "رقم تلفون الاقارب",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "Address",
-            label: "العنوان المدني",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "Job",
-            label: "المهنة ",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "city",
-            label: "المحافظة",
-            type: "text",
-            counter: 11
-          },
-          {
-            model: "centre",
-            label: "المركز",
-            type: "text",
-            counter: 11,
-            readonly: true
-          },
-
-          {
-            model: "Religion",
-            label: "الديانة",
-            type: "text",
-            counter: 11,
-            readonly: true
-          },
-          {
-            model: "BloodType",
-            label: "فصيلة الدم",
-            type: "text",
-            counter: 11,
-            readonly: true
-          },
-          {
-            model: "College",
-            label: "الكلية ",
-            type: "text",
-            counter: 11,
-            readonly: true
-          },
-          {
-            model: "Specialization",
-            label: "التخصص ",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "image",
-            label: "الصورة الشخصية",
-            type: "image"
-          }
-        ]
-      },
-      {
-        title: "بيانات الخدمة",
-        desc: "",
-        forEnhaa: true,
-        items: [
-          {
-            model: "RecuStartDate",
-            label: "تاريخ التجنيد",
-            type: "text",
-            readonly: true
-          },
-          {
-            model: "RecuEndDate",
-            label: "تاريخ التسريح",
-            type: "text",
-            readonly: true
+            type: "text"
           },
           {
             model: "RecuRegion",
-            label: "منطقة التجنيد",
-            type: "text",
-            counter: 11
-          },
-          {
-            model: "Notes",
-            label: "ملاحظات عامة",
-            type: "text",
-            forEnhaa: true
-          }
-        ]
-      },
-      {
-        title: "الإدارات التخصصية",
-        desc: "",
-        forEnhaa: true,
-        items: [
-          {
-            model: "Treatment",
-            label: "المعاملة",
+            label: "مكان التجنيد",
             type: "text"
           },
           {
-            model: "DriverLevel",
-            label: "درجة الرخصة",
+            model: "IdentityNo",
+            label: " الرقم القومي",
             type: "text"
           },
           {
-            model: "ServiceType",
-            label: "نوع الخدمة",
+            model: "BirthDate",
+            label: " تاريخ الميلاد",
+            type: "text"
+          },
+          {
+            model: "Centre",
+            label: " المركز ",
+            type: "text"
+          },
+          {
+            model: "Religion",
+            label: "الديانة",
             type: "text"
           }
-        ]
-      },
-      {
-        title: "بيانات الراتب العالي",
-        desc: "",
-        items: [
-          { model: "FileNo", label: "رقم الملف", type: "text" },
-          { model: "RatebCategory", label: "الفئة", type: "text" },
-          { model: "RatebLevel", label: "الدرجة", type: "text" },
-          { model: "Directionforunit", label: "الاتجاة", type: "text" },
-          { model: "RatebState", label: "الحالة", type: "text" },
-          { model: "ServiceStyle", label: "نوع الخدمة", type: "text" },
-          {
-            model: "SatrtingSarefRateb",
-            label: "تاريح صرف الراتب",
-            type: "text"
-          },
-          { model: "VolunteeringDate", label: "تاريخ التطوع", type: "text" },
-          { model: "OlderindNo", label: "رقم الاقدمية", type: "text" },
-          { model: "Qualification", label: "المؤهل", type: "text" },
-          { model: "Namat", label: "النمط", type: "text" },
-          { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
-          { model: "JobBefore", label: "الوظيفة", type: "text" },
-          { model: "UnitJob", label: "العمل في الوحدة", type: "text" },
-          { model: "MartialStatus", label: "الحالة الاجتماعية", type: "text" },
-          { model: "NumOfChilds", label: "عدد الاطفال", type: "text" },
-          {
-            model: "UnitJoinDate",
-            label: "تاريخ الالتحاق بالوحدة",
-            type: "text"
-          },
-          { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "text" }
         ]
       }
     ],
@@ -435,100 +179,6 @@ export default {
   }),
   watch: {},
   methods: {
-    async calculateDemobilizationDate(isExists = false) {
-      let {
-        conscriptionDate,
-        knowLedgeLevel,
-        additionalYearStateId,
-        forceId,
-        militaryId
-      } = this.conscripte;
-
-      // علشان ميطلعش
-      // error لمكتب الانهاء
-      if (this.$store.state.currentUser.section == 3) {
-        return;
-      }
-
-      if (
-        !conscriptionDate ||
-        (!knowLedgeLevel && knowLedgeLevel !== 0) ||
-        (!additionalYearStateId && additionalYearStateId !== 0) ||
-        (!forceId && forceId !== 0)
-      ) {
-        this.showError(
-          "يجب تسجيل تاريخ التجنيد والمؤهل وبيان السنة الزيادة والسلاح لحساب تاريخ التسريح. في حال إذا كان ينقصك واحد أو أكثر منها, قم بتسجيله من فضلك"
-        );
-        return false;
-      }
-      let cdate = new Date(conscriptionDate),
-        // 2020-01-15
-        requiredMonths = {
-          0: 35,
-          7: 11,
-          2: 11,
-          8: 17,
-          1: 23
-        },
-        hasAdditionalYear = additionalYearStateId == 4,
-        period = requiredMonths[knowLedgeLevel],
-        demobilizationDate = new Date(
-          cdate.setMonth(new Date(conscriptionDate).getMonth() + period)
-        );
-      demobilizationDate = new Date(
-        demobilizationDate.setMonth(demobilizationDate.getMonth() + 2)
-      );
-      demobilizationDate = this.getClosestDof3a(
-        demobilizationDate,
-        hasAdditionalYear
-      );
-      let { points } = isExists
-        ? await this.fixDemobilizationDate(militaryId)
-        : {};
-      this.$set(
-        this.conscripte,
-        "demobilizationDate",
-        isExists ? this.fixDate(points.demobilizationDate) : demobilizationDate
-      );
-      this.$set(
-        this.conscripte,
-        "demobilizationDateStarter",
-        isExists
-          ? this.fixDate(points.demobilizationDateStarter)
-          : demobilizationDate
-      );
-      this.$set(
-        this.conscripte,
-        "endingDutyDate",
-        isExists ? this.fixDate(points.endingDutyDate) : demobilizationDate
-      );
-      return true;
-    },
-    getClosestDof3a(date = new Date(), hasAdditionalYear = false) {
-      let { year, month, day } = {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()
-        },
-        mainDof3as = [3, 6, 9, 12],
-        // secondaryDof3as = [2, 5, 8, 11],
-        // dof3asToUse = hasAdditionalYear ? secondaryDof3as : mainDof3as;
-        dof3asToUse = mainDof3as;
-      if (dof3asToUse.includes(month) && day == 1) {
-        return this.fixDate(date);
-      }
-      dof3asToUse.push(month);
-      dof3asToUse.sort((a, b) => a - b);
-      let index = dof3asToUse.indexOf(month) + 1,
-        requiredIndex = index == dof3asToUse.length ? 0 : index,
-        requiredMonth = dof3asToUse[requiredIndex],
-        finalDate = new Date(
-          `${requiredIndex == 0 ? year + 1 : year}-${
-            hasAdditionalYear ? requiredMonth + 2 : requiredMonth
-          }-1`
-        );
-      return this.fixDate(finalDate);
-    },
     async findConscripte() {
       let { ID } = this.conscripte,
         forceCode = ID.substr(6, 2),
@@ -570,61 +220,6 @@ export default {
           this.$set(this.conscripte, model, data[model]);
         });
       }
-    },
-    filterItemsForType(items) {
-      let ratebCoulmns = [
-        "FileNo",
-        "RatebCategory",
-        "RatebLevel",
-        "Directionforunit",
-        "RatebState",
-        "ServiceStyle",
-        "SatrtingSarefRateb",
-        "VolunteeringDate",
-        "OlderindNo",
-        "Qualification",
-        "Namat",
-        "Taskeen",
-        "TahtElTawze3",
-        "Dof3aNum",
-        "JobBefore",
-        "UnitJob",
-        "MartialStatus",
-        "NumOfChilds",
-        "UnitJoinDate",
-        "RatebCategoryFari"
-      ];
-
-      let soliderCoulmns = [
-        "IndexNo",
-        "SoldierCategory",
-        "SoldierLevel",
-        "RecuRegion",
-        "RecuStartDate",
-        "RecuStage",
-        "RecuTreat",
-        "MissingTime",
-        "RecuEndDate",
-        "SoldierStatus",
-        "EndingCause",
-        "College",
-        "Specialization",
-        "Job",
-        "Direction",
-        "Directionforunit",
-        "ArrivalDate",
-        "Alhaq",
-        "TahtEltawze3",
-        "BrotherID",
-        "ServiceType",
-        "GHA",
-        "DriverLevel",
-        "Treatment",
-        "Markez_Tadreb"
-      ];
-      return this.conscripte.Type == constants.serviceTypesMap.solider
-        ? items.filter(ele => ratebCoulmns.indexOf(ele.model) == -1)
-        : items.filter(ele => soliderCoulmns.indexOf(ele.model) == -1);
     }
   }
 };

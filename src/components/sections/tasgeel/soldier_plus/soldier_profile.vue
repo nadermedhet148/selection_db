@@ -192,24 +192,7 @@ export default {
         table: type,
         where: {
           ID
-        },
-        include: [
-          {
-            model: "Weapon"
-          },
-          {
-            model: "Unit"
-          },
-          {
-            model: "Duty"
-          },
-          {
-            model: "City"
-          },
-          {
-            model: "Centre"
-          }
-        ]
+        }
       })
         .then(async x => {
           if (x.data) {

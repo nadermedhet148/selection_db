@@ -16,20 +16,8 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true
       },
-      IndexNo: {
-        type: DataTypes.STRING(6),
-        allowNull: true
-      },
       TripleNo: {
         type: DataTypes.STRING(14),
-        allowNull: true
-      },
-      SoldierCategory: {
-        type: DataTypes.STRING(10),
-        allowNull: true
-      },
-      SoldierLevel: {
-        type: DataTypes.STRING(10),
         allowNull: true
       },
       RecuRegion: {
@@ -37,42 +25,6 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       },
       KnowledgeLevel: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      RecuStartDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: true
-      },
-      RecuStage: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      RecuTreat: {
-        type: DataTypes.STRING(20),
-        allowNull: true
-      },
-      MissingTime: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      RecuEndDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: true
-      },
-      SoldierStatus: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      EndingCause: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      image: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      Address: {
         type: DataTypes.TEXT,
         allowNull: true
       },
@@ -84,97 +36,14 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.DATEONLY,
         allowNull: true
       },
-      College: {
+
+      Centre: {
         type: DataTypes.STRING(50),
         allowNull: true
       },
-      Specialization: {
-        type: DataTypes.STRING(50),
-        allowNull: true
-      },
-      // CityID: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      //   references: {
-      //     model: "City",
-      //     key: "CityID"
-      //   }
-      // },
-      // CentreID: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      //   references: {
-      //     model: "Centre",
-      //     key: "CentreID"
-      //   }
-      // },
-      SoldierTELE: {
-        type: DataTypes.STRING(11),
-        allowNull: true
-      },
-      RelevantTELE: {
-        type: DataTypes.STRING(30),
-        allowNull: true
-      },
-      Job: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
+
       Religion: {
         type: DataTypes.STRING(5),
-        allowNull: true
-      },
-      BloodType: {
-        type: DataTypes.STRING(6),
-        allowNull: true
-      },
-      Direction: {
-        type: DataTypes.STRING(50),
-        allowNull: true
-      },
-      Directionforunit: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      ArrivalDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: true
-      },
-      Notes: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      Alhaq: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-      TahtEltawze3: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 1
-      },
-      Revision: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true
-      },
-      BrotherID: {
-        type: DataTypes.STRING(20),
-        allowNull: true
-      },
-      ServiceType: {
-        type: DataTypes.STRING(100),
-        allowNull: true
-      },
-      GHA: {
-        type: DataTypes.STRING(100),
-        allowNull: true
-      },
-      DriverLevel: {
-        type: DataTypes.STRING(100),
-        allowNull: true
-      },
-      Treatment: {
-        type: DataTypes.STRING(100),
         allowNull: true
       }
     },

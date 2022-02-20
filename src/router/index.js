@@ -543,6 +543,16 @@ const routes = [
       ok: true
     }
   },
+
+  {
+    path: "/buck_conscript",
+    name: "buck_conscript",
+    component: mix.fun.loadView("tasgeel/buck_conscript"),
+    meta: {
+      title: "رفع الملف",
+      ok: true
+    }
+  },
   {
     path: "/selections_soldiers",
     name: "selections_soldiers",

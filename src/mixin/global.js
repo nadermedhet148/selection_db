@@ -104,6 +104,14 @@ Vue.mixin({
       notification.onclose = onclose;
       notification.onshow = onshow;
     },
+
+    nationalIdToDate(NationalID) {
+      let Year =
+          NationalID[0] == "2" ? "19" : "20" + NationalID[1] + NationalID[2],
+        Month = NationalID[3] + "" + NationalID[4] + "",
+        Day = NationalID[5] + "" + NationalID[6] + "";
+      return `${Year}-${Month}-${Day}`;
+    },
     async addModification(militaryId = "", changeTypeId = 1, formId = 1) {
       if (!militaryId) {
         console.log("Add Modification Rejected");
