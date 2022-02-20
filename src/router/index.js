@@ -563,6 +563,24 @@ const routes = [
     }
   },
   {
+    path: "/centerNotes",
+    name: "centerNotes",
+    component: mix.fun.loadView("Notes/center_notes"),
+    meta: {
+      title: "ملاحظات مركز الانتقاء",
+      ok: true
+    }
+  },
+  {
+    path: "/committeNotes",
+    name: "committeNotes",
+    component: mix.fun.loadView("Notes/committe_notes"),
+    meta: {
+      title: "ملاحظات اللجنة النفسية",
+      ok: true
+    }
+  },
+  {
     path: "/selections_soldiers",
     name: "selections_soldiers",
     component: mix.fun.loadView("Selections/SelectionsSoldiers"),

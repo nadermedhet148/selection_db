@@ -169,7 +169,8 @@ var _default = {
       "3": {
         _self: "ملاحظات",
         branchNotes: "ملاحظات فرع الانتقاء",
-        drivers_support: "امداد السائقين",
+        centerNotes: "ملاحظات مركز الانتقاء",
+        committeNotes: "ملاحظات اللجنة النفسية",
         late_stuff: "المتأخرات",
         kashf_40: "كشف الأربعين",
         kashf_bologSen: "كشف بلوغ السن",
@@ -181,7 +182,8 @@ var _default = {
       "4": {
         _self: "ملاحظات",
         branchNotes: "ملاحظات فرع الانتقاء",
-        advanced_search: "البحث المتقدم",
+        centerNotes: "ملاحظات مركز الانتقاء",
+        committeNotes: "ملاحظات اللجنة النفسية",
         stats: "احصاءات",
         late_stuff: "المتأخرات",
         name_change_requests: "طلبات تعديل الأسماء",

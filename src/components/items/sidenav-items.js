@@ -164,6 +164,18 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: notes("branchNotes"),
         href: "/branchNotes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: notes("centerNotes"),
+        href: "/centerNotes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: notes("committeNotes"),
+        href: "/committeNotes"
       }
     ],
     en: [],
