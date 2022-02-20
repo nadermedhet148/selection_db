@@ -24,31 +24,6 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(14),
         allowNull: true
       },
-      WeaponID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: "Weapon",
-          key: "WeaponID"
-        }
-      },
-      UnitID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: "Unit",
-          key: "UnitID"
-        }
-      },
-      DutyID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0,
-        references: {
-          model: "Duty",
-          key: "DutyID"
-        }
-      },
       SoldierCategory: {
         type: DataTypes.STRING(10),
         allowNull: true
@@ -117,22 +92,22 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(50),
         allowNull: true
       },
-      CityID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: "City",
-          key: "CityID"
-        }
-      },
-      CentreID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: "Centre",
-          key: "CentreID"
-        }
-      },
+      // CityID: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: true,
+      //   references: {
+      //     model: "City",
+      //     key: "CityID"
+      //   }
+      // },
+      // CentreID: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: true,
+      //   references: {
+      //     model: "Centre",
+      //     key: "CentreID"
+      //   }
+      // },
       SoldierTELE: {
         type: DataTypes.STRING(11),
         allowNull: true

@@ -1,5 +1,5 @@
 module.exports = async (db, params) => {
-  return await db.users.findOne({
+  return await db.Users.findOne({
     where: {
       username: params.username
     },

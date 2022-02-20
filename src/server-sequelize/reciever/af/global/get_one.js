@@ -30,7 +30,6 @@ module.exports = async (db, params) => {
       include.push(obj);
     });
   }
-  // console.log(db);
   let record = await db[params.table].findOne({
     where: params.where ? params.where : {},
     [params.attrs ? "attributes" : "include"]: params.attrs ? params.attrs : [],

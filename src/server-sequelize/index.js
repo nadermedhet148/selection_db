@@ -123,7 +123,7 @@ Object.keys(databases).forEach(dbKey => {
 });
 const newAffradDbInitlizer = require("./models/NewAFRAAD/init-models");
 
-let sequelize = new Sequelize("NewAFRAAD", config.username, config.password, {
+let sequelize = new Sequelize("SelectionDb", config.username, config.password, {
   ...config,
   logging: config.logging ? console.log : false, // [false] or [console.log]
   operatorsAliases: {
