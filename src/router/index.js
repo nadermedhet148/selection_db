@@ -554,6 +554,15 @@ const routes = [
     }
   },
   {
+    path: "/branchNotes",
+    name: "branchNotes",
+    component: mix.fun.loadView("Notes/branch_notes"),
+    meta: {
+      title: "ملاحظات فرع الانتقاء",
+      ok: true
+    }
+  },
+  {
     path: "/selections_soldiers",
     name: "selections_soldiers",
     component: mix.fun.loadView("Selections/SelectionsSoldiers"),

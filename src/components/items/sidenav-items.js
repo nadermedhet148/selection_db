@@ -14,7 +14,7 @@ let nozom = function(t) {
     return "sections.2." + t;
   },
   // الإنهاء
-  salaries = function(t) {
+  notes = function(t) {
     return "sections.3." + t;
   },
   // الهروب
@@ -158,18 +158,12 @@ let nozom = function(t) {
       }
     ],
 
-    salaries: [
+    notes: [
       {
         type: "single",
         icon: "mdi-account-outline",
-        text: salaries("unit_managment"),
-        href: "/unit_managment"
-      },
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: salaries("drivers_support"),
-        href: "/drivers_support"
+        text: notes("branchNotes"),
+        href: "/branchNotes"
       }
     ],
     en: [],
@@ -326,7 +320,7 @@ let nozom = function(t) {
     ...items.footer
   ],
   _0 = [...items.admin],
-  _4 = [],
+  _4 = [...items.notes],
   _1 = [],
   _2 = [],
   _3 = [],

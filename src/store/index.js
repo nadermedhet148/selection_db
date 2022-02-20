@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-let app_title = "منظومة فرع الافراد";
+let app_title = "منظومة فرع الانتقاء حرس الحدود";
 let root_ip = "192.9.201.30";
 export default new Vuex.Store({
   state: {

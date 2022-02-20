@@ -77,7 +77,7 @@
             <!-- <span class="">
               {{ $store.getters.isFullApp ? "السجلات" : "الوحدات" }}</span
             > -->
-            <span class=""> منظومة فرع الافراد </span>
+            <span class=""> منظومة فرع الانتقاء حرس الحدود </span>
           </div>
         </v-container>
         <v-divider v-if="!$store.state.options['mini_variant']"></v-divider>

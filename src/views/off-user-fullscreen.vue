@@ -37,12 +37,12 @@
               <v-card tile flat dark color="transparent">
                 <v-card-subtitle class="pb-0" style="font-size: 18px">
                   حرس الحدود
-                  {{ $store.getters.isFullApp ? " -  فرع الافراد" : "" }}
+                  {{ $store.getters.isFullApp ? " -  فرع الانتقاء حرس الحدود" : "" }}
                 </v-card-subtitle>
                 <v-card-title
                   class="text-h4 break-word line-height-4 pt-0 mb-0 pb-0"
                 >
-                  منظومة فرع الافراد
+                  منظومة فرع الانتقاء حرس الحدود
                   <!-- {{ $store.getters.isFullApp ? "السجلات" : "الوحدات" }}
                   العسكرية -->
                 </v-card-title>

@@ -167,8 +167,8 @@ var _default = {
         tmam_elthr7el: "تمام الترحيل"
       },
       "3": {
-        _self: "قسم المرتبات",
-        unit_managment: "اداراة الوحدات",
+        _self: "ملاحظات",
+        branchNotes: "ملاحظات فرع الانتقاء",
         drivers_support: "امداد السائقين",
         late_stuff: "المتأخرات",
         kashf_40: "كشف الأربعين",
@@ -179,8 +179,8 @@ var _default = {
         stats: "احصاءات بيانية"
       },
       "4": {
-        _self: "قسم النظم",
-        fugitives: "الهاربين",
+        _self: "ملاحظات",
+        branchNotes: "ملاحظات فرع الانتقاء",
         advanced_search: "البحث المتقدم",
         stats: "احصاءات",
         late_stuff: "المتأخرات",
