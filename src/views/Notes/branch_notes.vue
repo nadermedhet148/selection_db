@@ -2,7 +2,7 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-          بحث متقدم في الملاحظات الخاصة بمعمل الانتقاء والتوجيه 
+        بحث متقدم في الملاحظات الخاصة بمعمل الانتقاء والتوجيه
         <v-spacer></v-spacer>
         <v-btn @click="actionAdd()" large outlined color="primary">
           إضافة ملاحظة
@@ -429,6 +429,9 @@ export default {
             where: this.cleanObject({
               RecuStage: this.search.RecuStage
             })
+          },
+          {
+            model: "Action"
           }
         ],
         where: this.mapToQuery(where, likes, multi)

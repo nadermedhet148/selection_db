@@ -1,5 +1,7 @@
 <template>
   <div>
+    <AddActions ref="actions" :parentFilters="true"></AddActions>
+
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
         بحث متقدم في المتابعات
@@ -129,6 +131,12 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </v-chip>
+
+        <v-chip color="transparent">
+          <v-btn icon @click="openActionDialog(item)" color="primary">
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+        </v-chip>
       </template>
     </table-bulider>
 
@@ -245,6 +253,9 @@ const types = require("../../server-sequelize/reciever/af/sections/tasgeel/repor
 export default {
   name: "followedSoldiers",
   props: {},
+  components: {
+    AddActions: () => import("@/views/Notes/add_action.vue")
+  },
   mounted() {
     this.init();
   },
@@ -453,6 +464,9 @@ export default {
             where: this.cleanObject({
               RecuStage: this.search.RecuStage
             })
+          },
+          {
+            model: "Action"
           }
         ],
         where: this.mapToQuery(where, likes, multi)
@@ -486,6 +500,9 @@ export default {
         ...item,
         isEdit: true
       });
+    },
+    openActionDialog(item) {
+      this.$refs.actions.openDialog(item);
     }
   }
 };
