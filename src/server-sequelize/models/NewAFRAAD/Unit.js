@@ -1,70 +1,69 @@
 const Sequelize = require("sequelize");
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
-    "Soldier",
+    "Unit",
     {
-      ID: {
-        type: DataTypes.STRING(13),
+      UnitID: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true,
-        references: {
-          model: "Soldier",
-          key: "ID"
-        }
-      },
-      Name: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      TripleNo: {
-        type: DataTypes.STRING(14),
-        allowNull: true
-      },
-      RecuRegion: {
-        type: DataTypes.STRING(15),
-        allowNull: true
-      },
-      RecuStage: {
-        type: DataTypes.STRING(15),
-        allowNull: true
-      },
-      KnowledgeLevel: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      IdentityNo: {
-        type: DataTypes.STRING(14),
-        allowNull: true
-      },
-      BirthDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: true
-      },
-
-      Centre: {
-        type: DataTypes.STRING(50),
-        allowNull: true
+        primaryKey: true
       },
       Unit: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.TEXT,
         allowNull: true
       },
-      Religion: {
-        type: DataTypes.STRING(5),
+      Directionforunit: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      SupplyLayer: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      ordering: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      DirectionforFeaat: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      General_Direction: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      OrderingFeaat: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      TaabeaaCode: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      DirectionForSM: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      tamrkoz: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      statue: {
+        type: DataTypes.TEXT,
         allowNull: true
       }
     },
     {
       sequelize,
-      tableName: "Soldier",
+      tableName: "Unit",
       schema: "dbo",
       timestamps: false
       // indexes: [
       //   {
-      //     name: "PK_Soldier",
+      //     name: "PK_Unit",
       //     unique: true,
       //     fields: [
-      //       { name: "ID" },
+      //       { name: "UnitID" },
       //     ]
       //   },
       // ]

@@ -281,6 +281,11 @@ export default {
             model: "Religion",
             label: "الديانة",
             type: "select"
+          },
+          {
+            model: "Unit",
+            label: "الوحدة",
+            type: "select"
           }
         ]
       }
@@ -314,6 +319,11 @@ export default {
         table: "Centre",
         text: "Centre",
         value: "Centre"
+      },
+      Unit: {
+        table: "Unit",
+        text: "Unit",
+        value: "Unit"
       }
     },
     loading: false

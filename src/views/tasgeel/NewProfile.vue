@@ -170,6 +170,11 @@ export default {
             model: "Religion",
             label: "الديانة",
             type: "text"
+          },
+          {
+            model: "Unit",
+            label: "الوحدة",
+            type: "text"
           }
         ]
       }

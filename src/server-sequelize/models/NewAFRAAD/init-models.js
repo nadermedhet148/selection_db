@@ -4,6 +4,7 @@ var _City = require("./City");
 var _Soldier = require("./Soldier");
 var _Users = require("./Users");
 var _Notes = require("./Notes");
+var _Unit = require("./Unit");
 
 function initModels(sequelize) {
   var City = _City(sequelize, DataTypes);
@@ -11,6 +12,7 @@ function initModels(sequelize) {
   var Centre = _Centre(sequelize, DataTypes);
   var Soldier = _Soldier(sequelize, DataTypes);
   var Notes = _Notes(sequelize, DataTypes);
+  var Unit = _Unit(sequelize, DataTypes);
 
   Soldier.hasMany(Notes, { foreignKey: "ID" });
   Notes.belongsTo(Soldier, { foreignKey: "ID" });
@@ -20,7 +22,8 @@ function initModels(sequelize) {
     Users,
     Centre,
     Soldier,
-    Notes
+    Notes,
+    Unit
   };
 }
 module.exports = initModels;

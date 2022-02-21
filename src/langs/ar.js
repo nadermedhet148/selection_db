@@ -142,7 +142,7 @@ var _default = {
         _360_normal_dailes: "يومية 360 عادة",
         _360_mokrar_dailes: "يومية 360 مكرر",
         SMYearQuarter: "يومية الربع السنوي",
-        soldier_plus: "الراتب العالي والمجندين",
+        soldier_plus: "المجندين",
         monthly_rev: "المراجعة الشهرية",
         promotion: "مشروع الترقي",
         reports: "التقارير",
