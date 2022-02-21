@@ -558,7 +558,7 @@ const routes = [
     name: "branchNotes",
     component: mix.fun.loadView("Notes/branch_notes"),
     meta: {
-      title: "ملاحظات فرع الانتقاء",
+      title: "ملاحظات معمل الانتقاء والتوجيه ",
       ok: true
     }
   },
@@ -581,12 +581,11 @@ const routes = [
     }
   },
   {
-    path: "/selections_soldiers",
-    name: "selections_soldiers",
-    component: mix.fun.loadView("Selections/SelectionsSoldiers"),
+    path: "/followed_soldiers",
+    name: "followed_soldiers",
+    component: mix.fun.loadView("activites/followed_soldiers"),
     meta: {
-      title: "إنتقاء الجنود",
-      sections: [0, 12, 1, 2, 3, 4, 5, 6],
+      title: "متابعة الجنود",
       ok: true
     }
   },

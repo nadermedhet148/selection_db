@@ -152,8 +152,8 @@ var _default = {
         penalties: "العقوبات"
       },
       "2": {
-        _self: "قسم المستجدين",
-        tmam_elwosol: "تمام الوصول",
+        _self: "المتابعات",
+        followed_soldiers: "متابعة المجندين",
         distributed_suggest: "مقترح التوزيع",
         tmam_eltasgel: "تمام التسجيل",
         effects: "المؤثرات",
@@ -168,9 +168,9 @@ var _default = {
       },
       "3": {
         _self: "ملاحظات",
-        branchNotes: "ملاحظات فرع الانتقاء",
-        centerNotes: "ملاحظات مركز الانتقاء",
-        committeNotes: "ملاحظات اللجنة النفسية",
+        branchNotes: "ملاحظات معمل الانتقاء و التوجيه ",
+        centerNotes: "ملاحظات فرع الانتقاء و التوجيه ق م",
+        committeNotes: "ملاحظات جهاز العمل النفسي ق م",
         late_stuff: "المتأخرات",
         kashf_40: "كشف الأربعين",
         kashf_bologSen: "كشف بلوغ السن",
@@ -181,7 +181,7 @@ var _default = {
       },
       "4": {
         _self: "ملاحظات",
-        branchNotes: "ملاحظات فرع الانتقاء",
+        branchNotes: "ملاحظات معمل الانتقاء",
         centerNotes: "ملاحظات مركز الانتقاء",
         committeNotes: "ملاحظات اللجنة النفسية",
         stats: "احصاءات",

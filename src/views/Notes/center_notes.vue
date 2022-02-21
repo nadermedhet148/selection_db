@@ -2,7 +2,7 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في الملاحظات الخاصة مركز الانتقاء و التوجيه
+        بحث متقدم في الملاحظات الخاصة فرع الانتقاء و التوجيه
         <v-spacer></v-spacer>
         <v-btn @click="actionAdd()" large outlined color="primary">
           إضافة ملاحظة
@@ -254,7 +254,7 @@ export default {
   data: () => ({
     note: {
       section: constants.sections[1],
-      isFollowed: false
+      isFollowed: true
     },
     subjectLimit: 10,
     createdObject: {
@@ -324,31 +324,9 @@ export default {
           sort: 1
         },
         {
-          text: "القرار",
-          value: "decision",
-          searchValue: "decision",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
           text: "متابع",
           value: "isFollowed",
           searchValue: "isFollowed",
-          sortable: true,
-          type: "checkbox",
-          inSearch: true,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "",
-          value: "edit",
-          searchValue: "edit",
           sortable: true,
           type: "checkbox",
           inSearch: false,
@@ -356,6 +334,17 @@ export default {
           inModel: false,
           sort: 1
         }
+        // {
+        //   text: "",
+        //   value: "edit",
+        //   searchValue: "edit",
+        //   sortable: true,
+        //   type: "checkbox",
+        //   inSearch: false,
+        //   inTable: true,
+        //   inModel: false,
+        //   sort: 1
+        // }
       ],
       items: [],
       printer: {}

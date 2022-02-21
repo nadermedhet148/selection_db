@@ -197,8 +197,8 @@ module.exports = async (db, params) => {
       {
         name: "AllowManzoma",
         paths: [
-          `${appPath}\\منظومة فرع الانتقاء حرس الحدود.exe`,
-          "%USERPROFILE%\\AppData\\Local\\Programs\\militaryrecords\\منظومة فرع الانتقاء حرس الحدود.exe"
+          `${appPath}\\منظومة معمل الانتقاء حرس الحدود.exe`,
+          "%USERPROFILE%\\AppData\\Local\\Programs\\militaryrecords\\منظومة معمل الانتقاء حرس الحدود.exe"
         ],
         dir: "in",
         action: "allow"

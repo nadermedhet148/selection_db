@@ -2,11 +2,8 @@
   <div>
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في الملاحظات الخاصة باللجنة النفسية
+        بحث متقدم في المتابعات
         <v-spacer></v-spacer>
-        <v-btn @click="actionAdd()" large outlined color="primary">
-          إضافة ملاحظة
-        </v-btn>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -246,15 +243,14 @@ const types = require("../../server-sequelize/reciever/af/sections/tasgeel/repor
   .default;
 
 export default {
-  name: "CommitteeNotes",
+  name: "followedSoldiers",
   props: {},
   mounted() {
     this.init();
   },
   data: () => ({
     note: {
-      section: constants.sections[2],
-      isFollowed: true
+      isFollowed: false
     },
     subjectLimit: 10,
     createdObject: {
@@ -272,7 +268,7 @@ export default {
       text: ""
     },
     search: {
-      section: constants.sections[2]
+      isFollowed: true
     },
     searchLoading: false,
     mainTable: {
@@ -301,6 +297,18 @@ export default {
           sort: 1
         },
         {
+          text: "الوحدة",
+          value: "Soldier.Unit",
+          searchValue: "Unit",
+          sortable: true,
+          type: "select",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          readonly: true,
+          sort: 1
+        },
+        {
           text: "المرحلة التجندية",
           value: "Soldier.RecuStage",
           searchValue: "RecuStage",
@@ -324,6 +332,17 @@ export default {
           sort: 1
         },
         {
+          text: "المختص",
+          value: "section",
+          searchValue: "section",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          sort: 1
+        },
+        {
           text: "متابع",
           value: "isFollowed",
           searchValue: "isFollowed",
@@ -331,20 +350,20 @@ export default {
           type: "checkbox",
           inSearch: false,
           inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "",
+          value: "edit",
+          searchValue: "edit",
+          sortable: true,
+          type: "checkbox",
+          inSearch: false,
+          inTable: true,
           inModel: false,
           sort: 1
         }
-        // {
-        //   text: "",
-        //   value: "edit",
-        //   searchValue: "edit",
-        //   sortable: true,
-        //   type: "checkbox",
-        //   inSearch: false,
-        //   inTable: true,
-        //   inModel: false,
-        //   sort: 1
-        // }
       ],
       items: [],
       printer: {}
@@ -361,6 +380,11 @@ export default {
           )
         )
       }
+    },
+    Unit: {
+      table: "Unit",
+      text: "Unit",
+      value: "Unit"
     }
   }),
   watch: {

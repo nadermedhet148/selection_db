@@ -7,7 +7,7 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
-        productName: "منظومة فرع الانتقاء حرس الحدود",
+        productName: "منظومة معمل الانتقاء  والتوجيه حرس الحدود",
         appId: "com.military.records",
         mac: {
           category: "public.app-category.business",
@@ -63,7 +63,7 @@ module.exports = {
     config.plugin("html").tap(args => {
       args[0].title =
         require("./package.json").isFullApp === "true"
-          ? "منظومة فرع الانتقاء حرس الحدود"
+          ? "منظومة معمل الانتقاء والتوجيه  حرس الحدود"
           : "منظومة الوحدات العسكرية";
       args[0].version = require("./package.json").version;
       args[0].description = require("./package.json").description;

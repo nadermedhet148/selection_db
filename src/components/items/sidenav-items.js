@@ -10,7 +10,7 @@ let nozom = function(t) {
     return "sections.1." + t;
   },
   // الإحتياط
-  new_comers = function(t) {
+  activities = function(t) {
     return "sections.2." + t;
   },
   // الإنهاء
@@ -178,6 +178,14 @@ let nozom = function(t) {
         href: "/committeNotes"
       }
     ],
+    activities: [
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: activities("followed_soldiers"),
+        href: "/followed_soldiers"
+      }
+    ],
     en: [],
     // ../Enhaa
     // ..Horob
@@ -334,7 +342,7 @@ let nozom = function(t) {
   _0 = [...items.admin],
   _4 = [...items.notes],
   _1 = [],
-  _2 = [],
+  _2 = [...items.activities],
   _3 = [],
   _12 = [
     // هروب
