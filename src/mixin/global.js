@@ -553,6 +553,14 @@ Vue.mixin({
       }
       return Object.keys(obj).length > 0 ? obj : null;
     },
+    initDates() {
+      let dates = this.mainTable.headers
+        .filter(h => h.type == "date")
+        .map(h => h.searchValue);
+      dates.forEach(d => {
+        this.$set(this.search, d, []);
+      });
+    },
     mapToQuery(where, likes, multi, dates = []) {
       Object.keys(where).forEach(key => {
         let val = where[key];

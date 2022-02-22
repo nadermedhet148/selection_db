@@ -1027,14 +1027,6 @@ export default {
         }
       });
     },
-    initDates() {
-      let dates = this.headers
-        .filter(h => h.type == "date")
-        .map(h => h.searchValue);
-      dates.forEach(d => {
-        this.$set(this.search, d, []);
-      });
-    },
     actionAdd() {
       this.$set(this.followup, "item", {});
       this.$set(this.followup, "model", true);

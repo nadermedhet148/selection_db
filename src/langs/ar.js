@@ -154,17 +154,7 @@ var _default = {
       "2": {
         _self: "المتابعات",
         followed_soldiers: "متابعة المجندين",
-        distributed_suggest: "مقترح التوزيع",
-        tmam_eltasgel: "تمام التسجيل",
-        effects: "المؤثرات",
-        recommandations: "التوصيات",
-        dalies: " اليوميات العددية للمجندين ",
-        soliders_brothers: " تسجيل الاشقاء",
-        tmam_eltarhel: "تمام الترحيل",
-        malaheq_suggest: "مقترح ملاحق المرحلة",
-        effects: "مؤثرات المرحلة",
-        trained_duty: "حصر الواجب المدرب عليه",
-        tmam_elthr7el: "تمام الترحيل"
+        delays: "المتأخرات"
       },
       "3": {
         _self: "ملاحظات",

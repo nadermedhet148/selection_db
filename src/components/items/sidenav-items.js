@@ -184,6 +184,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: activities("followed_soldiers"),
         href: "/followed_soldiers"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: activities("delays"),
+        href: "/delays"
       }
     ],
     en: [],

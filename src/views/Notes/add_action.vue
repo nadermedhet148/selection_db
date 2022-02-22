@@ -275,7 +275,7 @@ export default {
             ...this.note,
             noteId: this.noteData.noteId,
             createdTime: new Date(),
-            file: this.note.file.path
+            file: this.note.file?.path
           }
         });
       else
@@ -292,7 +292,7 @@ export default {
           ...this.note,
           noteId: this.noteData.noteId,
           createdTime: new Date(),
-          file: this.note.file.path
+          file: this.note.file?.path
         });
 
         this.note = {};
