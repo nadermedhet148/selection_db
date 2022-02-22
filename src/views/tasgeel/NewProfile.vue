@@ -21,17 +21,20 @@
                   outlined
                 ></v-text-field>
 
-                <v-card v-if="item.type == 'image'">
-                  <v-card-title class="text-h6">
+                <v-card v-if="item.type == 'file'">
+                  <div>
                     {{ item.label }}
-                  </v-card-title>
-                  <v-img
-                    :lazy-src="conscripte[item.model]"
-                    max-height="300"
-                    contain
-                    max-width="250"
-                    :src="conscripte[item.model]"
-                  ></v-img>
+                  </div>
+
+                  <v-chip color="transparent">
+                    <v-btn
+                      icon
+                      @click="openFile(conscripte[item.model])"
+                      color="primary"
+                    >
+                      <v-icon>mdi-file</v-icon>
+                    </v-btn>
+                  </v-chip>
                 </v-card>
               </v-col>
             </template>
@@ -162,6 +165,16 @@ export default {
             type: "text"
           },
           {
+            model: "ArrivalDate",
+            label: "تاريخ الوصول",
+            type: "text"
+          },
+          {
+            model: "TestDate",
+            label: " تاريخ الاختبار",
+            type: "text"
+          },
+          {
             model: "Centre",
             label: " المركز ",
             type: "text"
@@ -175,6 +188,16 @@ export default {
             model: "Unit",
             label: "الوحدة",
             type: "text"
+          },
+          {
+            model: "Brigade",
+            label: "السرية",
+            type: "text"
+          },
+          {
+            model: "VideoPath",
+            label: "مكان فيديو المقابلة",
+            type: "file"
           }
         ]
       }
@@ -225,6 +248,11 @@ export default {
           this.$set(this.conscripte, model, data[model]);
         });
       }
+    },
+    async openFile(path) {
+      await this.api("server/open-item", {
+        path
+      });
     }
   }
 };

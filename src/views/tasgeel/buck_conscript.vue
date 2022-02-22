@@ -130,6 +130,22 @@
             v-model="openExcel.file"
           ></v-file-input>
         </v-card-text>
+        <v-card-text>
+          <v-autocomplete
+            v-model="openExcel.RecuStage"
+            label="مرحلة التجنيد"
+            :items="RecuStages"
+            item-text="text"
+            item-value="value"
+          ></v-autocomplete>
+        </v-card-text>
+        <v-card-text>
+          <v-text-field
+            v-model="openExcel.TestDate"
+            type="date"
+            label="وقت الاختبار"
+          ></v-text-field>
+        </v-card-text>
 
         <v-card-actions class="px-4">
           <v-spacer></v-spacer>
@@ -154,6 +170,9 @@
 <script>
 ("use strict");
 const xlsxParser = require("xlsx-parse-json");
+const lodash = require("lodash");
+const constants = require("../../Constant").default;
+
 export default {
   name: "admin_operations",
   components: {
@@ -190,6 +209,11 @@ export default {
       disableOperateBtn: false,
       functions: {}
     },
+    RecuStages: lodash.flattenDeep(
+      constants.years.map(year =>
+        constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+      )
+    ),
     currentUnitId: null,
     tableFilters: {},
 
@@ -344,28 +368,12 @@ export default {
           label: "الإسم الكامل"
         },
         {
-          model: "TripleNo",
-          label: "الرقم الثلاثي"
-        },
-        {
           model: "KnowledgeLevel",
           label: "المؤهل"
         },
         {
-          model: "RecuStage",
-          label: "المرحلة التجنيدية"
-        },
-        {
           model: "RecuRegion",
           label: "مكان التجنيد"
-        },
-        {
-          model: "IdentityNo",
-          label: "الرقم القومي"
-        },
-        {
-          model: "Religion",
-          label: "الديانة"
         }
       ];
 
@@ -375,17 +383,19 @@ export default {
         this.operation.begin = true;
         await Promise.all(
           Object.values(data)[0].map(async ele => {
-            console.log(ele);
-            let conscripte = {};
+            let conscripte = {
+              RecuStage: this.openExcel.RecuStage,
+              TestDate: this.openExcel.TestDate
+            };
             fields.forEach(field => {
               conscripte[field.model] = ele[field.label];
             });
-            conscripte.BirthDate = this.nationalIdToDate(conscripte.IdentityNo);
-            conscripte.Centre = Centres.data.find(
-              ele => ele.CentreID == conscripte.TripleNo.split("-")[1] || {}
-            ).Centre;
+            // conscripte.BirthDate = this.nationalIdToDate(conscripte.IdentityNo);
+            // conscripte.Centre = Centres.data.find(
+            //   ele => ele.CentreID == conscripte.TripleNo.split("-")[1] || {}
+            // ).Centre;
 
-            console.log(conscripte);
+            // console.log(conscripte);
 
             let isExists = false,
               exists = await this.api("global/get_one", {

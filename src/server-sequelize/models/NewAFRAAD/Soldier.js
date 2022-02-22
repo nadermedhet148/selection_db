@@ -40,7 +40,14 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.DATEONLY,
         allowNull: true
       },
-
+      ArrivalDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+      },
+      TestDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+      },
       Centre: {
         type: DataTypes.STRING(50),
         allowNull: true
@@ -51,6 +58,14 @@ module.exports = function(sequelize, DataTypes) {
       },
       Religion: {
         type: DataTypes.STRING(5),
+        allowNull: true
+      },
+      VideoPath: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Brigade: {
+        type: DataTypes.TEXT,
         allowNull: true
       }
     },

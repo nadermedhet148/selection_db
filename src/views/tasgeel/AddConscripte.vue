@@ -270,7 +270,17 @@ export default {
           {
             model: "BirthDate",
             label: " تاريخ الميلاد",
-            type: "text"
+            type: "date"
+          },
+          {
+            model: "ArrivalDate",
+            label: "تاريخ الوصول",
+            type: "date"
+          },
+          {
+            model: "TestDate",
+            label: " تاريخ الاختبار",
+            type: "date"
           },
           {
             model: "Centre",
@@ -286,6 +296,16 @@ export default {
             model: "Unit",
             label: "الوحدة",
             type: "select"
+          },
+          {
+            model: "VideoPath",
+            label: "مكان فيديو المقابلة",
+            type: "file"
+          },
+          {
+            model: "Brigade",
+            label: "السرية",
+            type: "text"
           }
         ]
       }
@@ -341,6 +361,7 @@ export default {
           this.conscripte,
           "Centre",
           this.selects.Centre.data.find(ele => ele.CentreID == splittedValue[1])
+            .Centre
         );
       }
     }
@@ -371,7 +392,7 @@ export default {
       this.$set(this, "findingConscripte", true);
 
       let conscripte = await this.api("global/get_one", {
-        table: type === constants.serviceTypesMap.solider ? "Soldier" : "Rateb",
+        table: "Soldier",
         where: {
           ID
         }
@@ -417,8 +438,8 @@ export default {
         }
       });
 
-      if (conscripte.image) {
-        conscripte.image = await this.toBase64(conscripte.image);
+      if (conscripte.VideoPath) {
+        conscripte.VideoPath = await conscripte.VideoPath.path;
       }
 
       if (!conscripte.ID) {
@@ -433,10 +454,7 @@ export default {
       }
       let isExists = false,
         exists = await this.api("global/get_one", {
-          table:
-            this.conscripte.Type === constants.serviceTypesMap.solider
-              ? "Soldier"
-              : "Rateb",
+          table: "Soldier",
           where: {
             ID: conscripte.ID
           },
@@ -447,10 +465,7 @@ export default {
       }
       if (isExists) {
         let addCon = await this.api("global/update_one", {
-          table:
-            this.conscripte.Type === constants.serviceTypesMap.solider
-              ? "Soldier"
-              : "Rateb",
+          table: "Soldier",
           where: {
             ID: conscripte.ID
           },
@@ -465,10 +480,7 @@ export default {
         return;
       }
       let addCon = await this.api("global/create_one", {
-        table:
-          this.conscripte.Type === constants.serviceTypesMap.solider
-            ? "Soldier"
-            : "Rateb",
+        table: "Soldier",
         where: conscripte
       });
       if (addCon && addCon.ok) {
@@ -476,62 +488,8 @@ export default {
       } else {
         this.showError("تعذر إضافة الفرد في قاعدة البيانات");
       }
+      this.emptyFields();
       this.$set(this, "loading", false);
-    },
-    filterItemsForType(items) {
-      let ratebCoulmns = [
-        "FileNo",
-        "RatebCategory",
-        "RatebLevel",
-        "Directionforunit",
-        "RatebState",
-        "ServiceStyle",
-        "SatrtingSarefRateb",
-        "VolunteeringDate",
-        "OlderindNo",
-        "Qualification",
-        "Namat",
-        "Taskeen",
-        "TahtElTawze3",
-        "Dof3aNum",
-        "JobBefore",
-        "UnitJob",
-        "MartialStatus",
-        "NumOfChilds",
-        "UnitJoinDate",
-        "RatebCategoryFari"
-      ];
-
-      let soliderCoulmns = [
-        "IndexNo",
-        "SoldierCategory",
-        "SoldierLevel",
-        "RecuRegion",
-        "RecuStartDate",
-        "RecuStage",
-        "RecuTreat",
-        "MissingTime",
-        "RecuEndDate",
-        "SoldierStatus",
-        "EndingCause",
-        "College",
-        "Specialization",
-        "Job",
-        "Direction",
-        "Directionforunit",
-        "ArrivalDate",
-        "Alhaq",
-        "TahtEltawze3",
-        "BrotherID",
-        "ServiceType",
-        "GHA",
-        "DriverLevel",
-        "Treatment",
-        "Markez_Tadreb"
-      ];
-      return this.conscripte.Type == constants.serviceTypesMap.solider
-        ? items.filter(ele => ratebCoulmns.indexOf(ele.model) == -1)
-        : items.filter(ele => soliderCoulmns.indexOf(ele.model) == -1);
     }
   }
 };
