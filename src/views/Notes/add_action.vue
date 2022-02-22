@@ -92,13 +92,9 @@
         </v-card-text>
         <v-card-actions class="px-4">
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            large
-            class="px-6"
-            @click="saveItem()"
-            v-text="'اضافة اجراء جديد '"
-          ></v-btn>
+          <v-btn color="primary" large class="px-6" @click="saveItem()">
+            {{ note.isEdit ? "حفظ الاجراء" : "اضافة اجراء جديد" }}
+          </v-btn>
         </v-card-actions>
         <v-spacer></v-spacer>
 
@@ -131,10 +127,22 @@
             </v-chip>
           </template>
           <template v-slot:item.file="{ item }">
-            <v-chip color="transparent">
+            <v-chip v-if="item.file" color="transparent">
               <v-btn icon @click="openFile(item.file)" color="primary">
                 <v-icon>mdi-file</v-icon>
               </v-btn>
+            </v-chip>
+            <v-chip v-if="!item.file" color="yellow">
+              ?
+            </v-chip>
+          </template>
+
+          <template v-slot:item.result="{ item }">
+            <td v-if="item.result" color="transparent">
+              {{ item.result }}
+            </td>
+            <v-chip v-if="!item.result" color="yellow">
+              ?
             </v-chip>
           </template>
         </table-bulider>
@@ -239,6 +247,17 @@ export default {
           inTable: true,
           inModel: true,
           sort: 1
+        },
+        {
+          text: "",
+          value: "edit",
+          searchValue: "edit",
+          sortable: true,
+          type: "checkbox",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          sort: 1
         }
       ],
       items: [],
@@ -268,7 +287,7 @@ export default {
       this.$set(this.createdObject, "loading", true);
       let saveItem;
 
-      if (!this.note.isEdit)
+      if (!this.note.isEdit) {
         saveItem = await this.api(`global/create_one`, {
           table: "Action",
           where: {
@@ -278,23 +297,25 @@ export default {
             file: this.note.file?.path
           }
         });
-      else
-        saveItem = await this.api(`global/update_one`, {
-          table: "Notes",
-          update: this.note,
-          where: {
-            noteId: this.note.noteId
-          }
-        });
-
-      if (saveItem && saveItem.data && saveItem.ok) {
         this.mainTable.items.push({
           ...this.note,
           noteId: this.noteData.noteId,
           createdTime: new Date(),
           file: this.note.file?.path
         });
+      } else
+        saveItem = await this.api(`global/update_one`, {
+          table: "Action",
+          update: {
+            ...this.note,
+            file: this.note.file?.path ? this.note.file?.path : this.note.file
+          },
+          where: {
+            actionId: this.note.actionId
+          }
+        });
 
+      if (saveItem && saveItem.data && saveItem.ok) {
         this.note = {};
         this.showSuccess("تم حفظ ");
       } else {
@@ -307,7 +328,6 @@ export default {
       this.$set(this.createdObject, "model", true);
     },
     actionEdit(item) {
-      this.$set(this.createdObject, "model", true);
       this.$set(this, "note", {
         ...item,
         isEdit: true
