@@ -102,107 +102,9 @@
           <v-tab-item>
             <new-profile :conscripteObJ="conscripte"></new-profile>
           </v-tab-item>
-          <!-- Notes -->
-          <!-- <v-tab-item>
-            <v-row>
-              <template v-for="(note, i) in notes.childs">
-                <v-col cols="12" md="6" :key="i">
-                  <v-card>
-                    <v-card-title>
-                      {{ note.label }}
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                      <v-textarea
-                        prepend-inner-icon="mdi-comment-outline"
-                        filled
-                        rows="7"
-                        auto-grow
-                        v-model="conscripte[note.model]"
-                      ></v-textarea>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </template>
-            </v-row>
-          </v-tab-item> -->
+
           <v-tab-item>
-            <fugitives-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.fugitives"
-            ></fugitives-card>
-          </v-tab-item>
-          <v-tab-item>
-            <injuries-card
-              @addOrRemoveMedicalCommittee="addOrRemoveMedicalCommittee"
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.injuries"
-            ></injuries-card>
-          </v-tab-item>
-          <v-tab-item>
-            <medical-committees-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.medicalCommittees"
-            ></medical-committees-card>
-          </v-tab-item>
-          <!--  -->
-          <v-tab-item>
-            <courts-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.courts"
-            ></courts-card>
-          </v-tab-item>
-          <v-tab-item>
-            <penalties-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.penalties"
-            ></penalties-card>
-          </v-tab-item>
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 1">
-            <ignorant-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.failureSessions"
-            ></ignorant-card>
-          </v-tab-item>
-          <v-tab-item>
-            <promotions-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.promotions"
-            ></promotions-card>
-          </v-tab-item>
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 1">
-            <exemption-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.exemptions"
-            ></exemption-card>
-          </v-tab-item>
-          <!-- serveUnits -->
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 2">
-            <exemption-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.serveUnits"
-            ></exemption-card>
-          </v-tab-item>
-          <!-- efficiencyReports -->
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 2">
-            <exemption-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.efficiencyReports"
-            ></exemption-card>
-          </v-tab-item>
-          <!-- medicalStates -->
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 2">
-            <exemption-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.medicalStates"
-            ></exemption-card>
-          </v-tab-item>
-          <!-- travilingAbroads -->
-          <v-tab-item v-if="!conscripte.typeId || conscripte.typeId == 2">
-            <exemption-card
-              :conscripte.sync="conscripte"
-              :externals.sync="externals.travilingAbroads"
-            ></exemption-card>
+            <Notes-card :conscripteObJ="conscripte"></Notes-card>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -223,13 +125,7 @@ const constants = require("@/Constant").default;
 export default {
   name: "basic-profile",
   components: {
-    FugitivesCard: loadView("fugitives"),
-    InjuriesCard: loadView("injuries"),
-    MedicalCommitteesCard: loadView("medical-committees"),
-    CourtsCard: loadView("courts"),
-    IgnorantCard: loadView("ignorants"),
-    ExemptionCard: loadView("exemption"),
-    PenaltiesCard: loadView("penalties"),
+    NotesCard: loadView("notes"),
     NewProfile: () => import("@/views/tasgeel/NewProfile"),
     PrintConscripteProfile: () =>
       import("@/components/items/military_printer/conscripte-profile.vue")
@@ -336,11 +232,11 @@ export default {
       {
         title: "الأساسية",
         id: "main"
+      },
+      {
+        title: "الملاحظات",
+        id: "notes"
       }
-      // {
-      //   title: "الملاحظات",
-      //   id: "notes"
-      // },
       // {
       //   title: "الهروب",
       //   id: "fugitives"
