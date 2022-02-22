@@ -52,7 +52,7 @@
       <v-col>
         <v-card>
           <v-card-title>
-            النتائج
+            {{ resultTitle }}
           </v-card-title>
           <v-divider></v-divider>
           <v-text-field
@@ -158,7 +158,54 @@
           >
             عودة
           </v-btn>
-          <v-btn class="px-6" color="primary" @click="readopenExcel()" large>
+          <v-btn class="px-6" color="primary" @click="readOpenExcel()" large>
+            تشغيل
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="compareDialog.model"
+      scrollable
+      max-width="500"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          قم بتحديد ملف Excel
+        </v-card-title>
+        <v-card-text>
+          <v-file-input
+            clearable
+            filled
+            label="الملف"
+            persistent-hint
+            v-model="compareDialog.file"
+          ></v-file-input>
+        </v-card-text>
+        <v-card-text>
+          <v-autocomplete
+            v-model="compareDialog.RecuStage"
+            label="مرحلة التجنيد"
+            :items="RecuStages"
+            item-text="text"
+            item-value="value"
+          ></v-autocomplete>
+        </v-card-text>
+
+        <v-card-actions class="px-4">
+          <v-spacer></v-spacer>
+          <v-btn
+            class="px-6"
+            color="primary"
+            outlined
+            @click="compareDialog.model = false"
+            large
+          >
+            عودة
+          </v-btn>
+          <v-btn class="px-6" color="primary" @click="compareExcel()" large>
             تشغيل
           </v-btn>
         </v-card-actions>
@@ -221,6 +268,10 @@ export default {
       model: "",
       loading: false
     },
+    compareDialog: {
+      model: "",
+      loading: false
+    },
     restore_options: {
       model: false,
       done: false,
@@ -253,6 +304,7 @@ export default {
         }
       ]
     },
+    resultTitle: "نتائج",
     file: null,
     allowChilds: true,
     stopOperationModel: false,
@@ -272,6 +324,10 @@ export default {
       {
         name: "استخراج البيانات من ملف Excel",
         method: "openExcelReader"
+      },
+      {
+        name: "مقارنة مجندين المرحلة بمكتب الاستقبال",
+        method: "openCompareDialog"
       }
     ],
     results: {
@@ -345,13 +401,45 @@ export default {
       );
     },
     runOperation(method) {
-      console.log(method);
       this[method]();
     },
     openExcelReader() {
       this.$set(this.openExcel, "model", true);
     },
-    async readopenExcel() {
+    openCompareDialog() {
+      this.$set(this.compareDialog, "model", true);
+    },
+    async compareExcel() {
+      this.resultTitle = "الارقام العسكرية الغير مسجلة لدينا";
+      this.$set(this.compareDialog, "model", false);
+
+      xlsxParser.onFileSelection(this.compareDialog.file).then(async data => {
+        let total = Object.values(data)[0].length,
+          currentIndex = 0;
+        const stageSoldiers = await this.api("global/get_all", {
+          table: "Soldier",
+          where: {
+            RecuStage: this.compareDialog.RecuStage
+          }
+        });
+        Object.values(data)[0].forEach(soldier => {
+          let isExist = stageSoldiers.data.find(ele => {
+            return soldier["الرقم العسكرى"] == ele.ID;
+          });
+          if (!isExist && soldier["الرقم العسكرى"]) {
+            currentIndex++;
+            this.operation.perc = Math.ceil((currentIndex / total) * 100);
+            this.results.items.push({
+              ID: soldier["الرقم العسكرى"],
+              status: this.statusTexts.error
+            });
+          }
+        });
+      });
+    },
+    async readOpenExcel() {
+      this.resultTitle = "النتائج";
+
       this.$set(this.openExcel, "model", false);
 
       let Centres = await this.api("global/get_all", {
