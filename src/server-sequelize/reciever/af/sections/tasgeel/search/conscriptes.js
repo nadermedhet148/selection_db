@@ -1,93 +1,15 @@
 module.exports = async (db, params) => {
-  let ratebCoulmns = [
-    "FileNo",
-    "RatebCategory",
-    "RatebLevel",
-    "Directionforunit",
-    "RatebState",
-    "ServiceStyle",
-    "SatrtingSarefRateb",
-    "VolunteeringDate",
-    "OlderindNo",
-    "Qualification",
-    "Namat",
-    "Taskeen",
-    "TahtElTawze3",
-    "Dof3aNum",
-    "JobBefore",
-    "UnitJob",
-    "MartialStatus",
-    "NumOfChilds",
-    "UnitJoinDate",
-    "RatebCategoryFari",
-    "Type"
-  ];
-
-  let soliderCoulmns = [
-    "IndexNo",
-    "SoldierCategory",
-    "SoldierLevel",
-    "RecuRegion",
-    "RecuStartDate",
-    "RecuStage",
-    "RecuTreat",
-    "MissingTime",
-    "RecuEndDate",
-    "SoldierStatus",
-    "EndingCause",
-    "College",
-    "Specialization",
-    "Job",
-    "Direction",
-    "Directionforunit",
-    "ArrivalDate",
-    "Alhaq",
-    "TahtEltawze3",
-    "BrotherID",
-    "ServiceType",
-    "GHA",
-    "DriverLevel",
-    "Treatment",
-    "Markez_Tadreb",
-    "Type"
-  ];
   let search = params.search,
     like = ["ID", "Name"],
     multi = [
-      "SoldierLevel",
-      "SoldierStatus",
       "KnowledgeLevel",
-      "SoldierCategory",
-      "RecuTreat",
       "RecuStage",
-      "Direction",
-      "WeaponID",
-      "UnitID",
-      "DutyID",
-      "CityID",
-      "CentreID",
-      "Religion",
-      "BloodType",
-      "College",
       "RecuRegion",
-      "Treatment",
-      "DriverLevel",
-      "ServiceStyle",
-      "RatebCategoryFari",
-      "RatebCategory",
-      "RatebLevel",
-      "RatebState",
-      "MartialStatus"
+      "Centre",
+      "Religion",
+      "Unit"
     ],
-    date = [
-      "ArrivalDate",
-      "BirthDate",
-      "RecuStartDate",
-      "RecuEndDate",
-      "VolunteeringDate",
-      "UnitJoinDate",
-      "SatrtingSarefRateb"
-    ],
+    date = ["ArrivalDate", "TestDate", "BirthDate", "ArrivalDate", "TestDate"],
     ignore = [],
     where = {};
   Object.keys(search).forEach(key => {
@@ -136,60 +58,11 @@ module.exports = async (db, params) => {
     }
   });
 
-  let filterObject = (obj, array) => {
-    array.forEach(ele => {
-      delete obj[ele];
-    });
-    return obj;
-  };
   try {
-    let conscriptes =
-        params.search.Type.indexOf("مجند") > -1
-          ? await db.Soldier.findAll({
-              where: filterObject({ ...where }, ratebCoulmns),
-              include: [
-                {
-                  model: db.Weapon
-                },
-                {
-                  model: db.Unit
-                },
-                {
-                  model: db.Duty
-                },
-                {
-                  model: db.City
-                },
-                {
-                  model: db.Centre
-                }
-              ]
-            })
-          : [],
-      hightLevel =
-        params.search.Type.indexOf("راتب عالى") > -1
-          ? await db.Rateb.findAll({
-              where: filterObject({ ...where }, soliderCoulmns),
-              include: [
-                {
-                  model: db.Weapon
-                },
-                {
-                  model: db.Unit
-                },
-                {
-                  model: db.Duty
-                },
-                {
-                  model: db.City
-                },
-                {
-                  model: db.Centre
-                }
-              ]
-            })
-          : [],
-      parsed = JSON.parse(JSON.stringify([...conscriptes, ...hightLevel]));
+    let conscriptes = await db.Soldier.findAll({
+        where: where
+      }),
+      parsed = JSON.parse(JSON.stringify(conscriptes));
     return parsed;
   } catch (error) {
     return error;

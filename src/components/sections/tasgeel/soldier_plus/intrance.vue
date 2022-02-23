@@ -107,190 +107,24 @@
                     <v-list-item-subtitle
                       v-text="'اضافة مجندين عن طريق رفع excel '"
                     ></v-list-item-subtitle>
-                    <!-- <v-list-item-subtitle class="error--text">
-                      -- تم تعطيل هذا الزر لحل بعض المشكلات --
-                    </v-list-item-subtitle> -->
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item
+                  class="wrap"
+                  to="/soldiers_plus/advanced_search/conscriptes"
+                >
+                  <v-list-item-avatar>
+                    <v-icon size="30">mdi-eye</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      class="primary--text font-weight-bold"
+                      v-text="'بحث متقدم عن المجندين'"
+                    ></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-window-item>
-            <v-window-item>
-              <!-- Search by ID -->
-              <v-card-text>
-                <v-text-field
-                  prepend-inner-icon="mdi-magnify"
-                  filled
-                  label="الرقم العسكري"
-                  hint="من فضلك أدخل الرقم العسكري"
-                  counter="13"
-                  @keypress.enter="findById()"
-                  v-model="search.ID"
-                  persistent-hint
-                ></v-text-field>
-              </v-card-text>
-            </v-window-item>
-            <v-window-item>
-              <!-- Search by name -->
-              <v-card-text>
-                <v-text-field
-                  prepend-inner-icon="mdi-magnify"
-                  filled
-                  label="الإسم"
-                  hint="بإمكانك استخدام الرمز % في حالة عدم معرفة كلمة أو حرف من ضمن الإسم بالكامل"
-                  @keypress.enter="findByFullName()"
-                  v-model="search.fullName"
-                  persistent-hint
-                ></v-text-field>
-              </v-card-text>
-            </v-window-item>
-            <v-window-item>
-              <!-- Search by name - Results -->
-              <!-- <v-text-field
-                v-model.lazy="results.search"
-                filled
-                dense
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-              ></v-text-field> -->
-              <v-data-table
-                :headers="results.headers"
-                :items="results.items"
-                fixed-header
-                :search.sync="results.search"
-                hide-default-header
-                multi-sort
-              >
-                <template v-slot:header="table">
-                  <table-header-filters
-                    :items="results.items"
-                    :table="table"
-                    :filters.sync="tableFilters"
-                  ></table-header-filters>
-                </template>
-                <template v-slot:footer="table">
-                  <table-footer-filters
-                    :filters.sync="tableFilters"
-                    :table="table"
-                  ></table-footer-filters>
-                </template>
-                <template v-slot:item.ID="{ item }">
-                  <v-chip
-                    :to="`/soldiers_plus/${item.ID}`"
-                    @click.right="copyText(item.ID)"
-                    class="transparent"
-                  >
-                    {{ item.ID }}
-                  </v-chip>
-                </template>
-                <template v-slot:item.fullName="{ item }">
-                  <v-chip class="transparent">
-                    {{ item.fullName }}
-                  </v-chip>
-                </template>
-                <template v-slot:item.dutyCurrentState.text="{ item }">
-                  <v-chip
-                    :color="
-                      item.stateIdCurrent == '1'
-                        ? 'success'
-                        : item.stateIdCurrent == 2
-                        ? 'error'
-                        : 'orange white--text'
-                    "
-                    small
-                    class="font-weight-bold"
-                  >
-                    {{
-                      item &&
-                      item.dutyCurrentState &&
-                      item.dutyCurrentState.text
-                        ? item.dutyCurrentState.text
-                        : "غير معروف"
-                    }}
-                  </v-chip>
-                </template>
-              </v-data-table>
-            </v-window-item>
-            <v-window-item>
-              <!-- Advanced search options -->
-              <v-list>
-                <template v-for="(w, i) in windows[4].childs">
-                  <v-list-item
-                    class="wrap"
-                    :key="i"
-                    :to="
-                      w.href ? w.href : `/soldiers_plus/advanced_search/${w.to}`
-                    "
-                  >
-                    <v-list-item-avatar>
-                      <v-icon size="30" v-text="w.icon"></v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="w.title"></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-text="w.desc"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-list>
-            </v-window-item>
-            <v-window-item>
-              <!-- Add new conscripte -->
-            </v-window-item>
-            <v-window-item>
-              <!-- Request delete conscripte -->
-              <v-card-text>
-                <v-text-field
-                  v-model="deleteCon.ID"
-                  filled
-                  label="الرقم العسكري"
-                  hint="من فضلك أدخل الرقم العسكري المراد حذفه"
-                  persistent-hint
-                  clearable
-                  class="mb-4"
-                ></v-text-field>
-                <v-textarea
-                  v-model="deleteCon.notes"
-                  filled
-                  label="ملاحظات"
-                  hint="من فضلك أدخل سبب طلب الحذف"
-                  persistent-hint
-                  clearable
-                  auto-grow
-                ></v-textarea>
-              </v-card-text>
-            </v-window-item>
-            <v-window-item>
-              <!-- Request update ID of a conscripte -->
-              <v-card-text>
-                <v-text-field
-                  v-model="editCon.ID"
-                  filled
-                  label="الرقم العسكري الحالي"
-                  hint="من فضلك أدخل الرقم العسكري المراد تعديله"
-                  persistent-hint
-                  clearable
-                  class="mb-4"
-                ></v-text-field>
-                <v-text-field
-                  v-model="editCon.newID"
-                  filled
-                  label="الرقم العسكري الجديد"
-                  hint="من فضلك أدخل الرقم العسكري الجديد"
-                  persistent-hint
-                  clearable
-                  class="mb-4"
-                ></v-text-field>
-                <v-textarea
-                  v-model="editCon.notes"
-                  filled
-                  label="ملاحظات"
-                  hint="من فضلك أدخل سبب طلب التعديل"
-                  persistent-hint
-                  clearable
-                  auto-grow
-                ></v-textarea>
-              </v-card-text>
             </v-window-item>
           </v-window>
         </v-card-text>
@@ -405,20 +239,6 @@ export default {
         title: "إضافة جديد",
         backTo: 0
       }
-      // {
-      //   title: "حذف مجند أو راتب عالي",
-      //   btnText: "إرسال الطلب",
-      //   hasFooter: true,
-      //   fun: "requestDeleteCon",
-      //   backTo: 0
-      // },
-      // {
-      //   title: "تعديل رقم عسكري",
-      //   btnText: "إرسال الطلب",
-      //   hasFooter: true,
-      //   fun: "requestEditCon",
-      //   backTo: 0
-      // }
     ],
     msg: "Light"
   }),

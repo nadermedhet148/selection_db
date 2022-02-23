@@ -240,58 +240,58 @@ export default {
         {
           value: "ID",
           text: "الرقم العسكري",
-          sortable: true
+          type: "text",
+          counter: 13
         },
         {
           value: "Name",
-          text: "الإسم",
-          sortable: true
+          text: "الإسم الكامل",
+          type: "text"
         },
         {
-          value: "Weapon.Weapon",
-          text: "السلاح",
-          sortable: true
+          value: "TripleNo",
+          text: "الرقم الثلاثي",
+          type: "text"
         },
         {
-          value: "Unit.Unit",
-          dbvalue: "UnitID",
+          value: "KnowledgeLevel",
+          text: "المؤهل",
+          type: "select"
+        },
+        {
+          value: "RecuStage",
+          text: "المرحلة التجنيدية",
+          type: "select"
+        },
+        {
+          value: "IdentityNo",
+          text: " الرقم القومي",
+          type: "text"
+        },
+        {
+          value: "ArrivalDate",
+          text: "تاريخ الوصول",
+          type: "date"
+        },
+        {
+          value: "TestDate",
+          text: " تاريخ الاختبار",
+          type: "date"
+        },
+        {
+          value: "Centre",
+          text: " المركز ",
+          type: "select"
+        },
+        {
+          value: "Religion",
+          text: "الديانة",
+          type: "select"
+        },
+        {
+          value: "Unit",
           text: "الوحدة",
-          sortable: true
-        },
-        {
-          value: "Weapon.Weapon",
-          dbvalue: "Weapon.WeaponID",
-          text: "السلاح",
-          sortable: true
-        },
-        {
-          value: "Type",
-          dbvalue: "Type",
-          text: "نوع الفرد",
-          sortable: true
-        },
-        {
-          value: "SoldierStatus",
-          dbvalue: "SoldierStatus",
-          text: "حالة الفرد",
-          sortable: true
-        },
-        {
-          value: "SoldierCategory",
-          dbvalue: "SoldierCategory",
-          text: "الفئة",
-          sortable: true
-        },
-        {
-          value: "SoldierLevel",
-          dbvalue: "SoldierLevel",
-          text: "الدرجة",
-          sortable: true
-        },
-        {
-          value: "RecuStartDate",
-          text: "تاريخ التجنيد / التطوع",
-          sortable: true
+          type: "select"
         }
       ]
     },
@@ -317,259 +317,58 @@ export default {
             model: "ID",
             label: "الرقم العسكري",
             type: "text",
-            counter: 13,
-            forEnhaa: true
+            counter: 13
           },
           {
-            model: "Name",
-            label: "الإسم الكامل",
-            type: "text",
-            forEnhaa: true
-          },
-          {
-            model: "TripleNo",
-            label: "الرقم الثلاثي",
-            type: "text"
-          },
-          {
-            model: "Type",
-            label: "توع المجند",
+            model: "KnowledgeLevel",
+            label: "المؤهل",
             type: "select",
             multiple: true
           },
           {
-            model: "IndexNo",
-            label: "رقم السجل ",
-            type: "text"
-          },
-          {
-            model: "SoldierLevel",
-            multiple: true,
-            label: "الدرجة",
-            type: "select"
-          },
-          {
-            model: "SoldierStatus",
-            multiple: true,
-            label: "حالة الفرد",
-            type: "select",
-            forEnhaa: true
-          },
-          {
-            model: "EndingCause",
-            label: "سبب الإنهاء",
-            type: "text"
-          },
-          {
-            model: "KnowledgeLevel",
-            multiple: true,
-            label: "المؤهل",
-            type: "select"
-          },
-
-          {
-            model: "SoldierCategory",
-            multiple: true,
-            label: "الفئة",
-            type: "select"
-          },
-          {
-            model: "RecuTreat",
-            multiple: true,
-            label: "المعاملة التجنيدية",
-            type: "select"
-          },
-          {
             model: "RecuStage",
-            multiple: true,
             label: "المرحلة التجنيدية",
-            type: "select"
+            type: "select",
+            multiple: true
           },
           {
-            model: "Direction",
-            multiple: true,
-            label: " الاتجاه",
-            type: "select"
-          }
-        ]
-      },
-      {
-        title: "مكان الخدمة",
-        options: [
-          {
-            model: "WeaponID",
-            multiple: true,
-            label: "السلاح",
-            type: "select"
+            model: "RecuRegion",
+            label: "مكان التجنيد",
+            type: "select",
+            multiple: true
           },
-          {
-            model: "UnitID",
-            multiple: true,
-            label: "الوحدة",
-            type: "select"
-          },
-          {
-            model: "DutyID",
-            multiple: true,
-            label: " الواجب المدرب عليه",
-            type: "select"
-          }
-        ]
-      },
-      {
-        title: "بيانات شخصية",
-        options: [
           {
             model: "BirthDate",
-            label: "تاريخ الميلاد",
-            type: "date"
-          },
-          {
-            model: "IdentityNo",
-            label: "الرقم القومي",
-            type: "text",
-            counter: 14
-          },
-          {
-            model: "CityID",
-            multiple: true,
-            label: "المحافظة",
-            type: "select"
-          },
-          {
-            model: "CentreID",
-            multiple: true,
-            label: "المركز",
-            type: "select"
-          },
-          {
-            model: "Religion",
-            multiple: true,
-            label: "الديانة",
-            type: "select"
-          },
-          {
-            model: "BloodType",
-            multiple: true,
-            label: "فصيلة الدم",
-            type: "select"
-          },
-          {
-            model: "College",
-            multiple: true,
-            label: "الكلية ",
-            type: "select"
-          }
-        ]
-      },
-      {
-        title: "بيانات الخدمة",
-        options: [
-          {
-            model: "RecuStartDate",
-            label: "تاريخ التجنيد",
-            type: "date",
-            forEnhaa: true
-          },
-          {
-            model: "RecuEndDate",
-            label: "تاريخ التسريح",
+            label: " تاريخ الميلاد",
             type: "date"
           },
           {
             model: "ArrivalDate",
-            label: " تاريخ الوصول لمركز التدريب",
+            label: "تاريخ الوصول",
             type: "date"
           },
           {
-            model: "RecuRegion",
-            multiple: true,
-            label: "منطقة التجنيد",
-            type: "select"
-          }
-        ]
-      },
-      {
-        title: "الإدارات التخصصية",
-        options: [
-          {
-            model: "Treatment",
-            multiple: true,
-            label: "المعاملة",
-            type: "select"
+            model: "TestDate",
+            label: " تاريخ الاختبار",
+            type: "date"
           },
           {
-            model: "DriverLevel",
-            multiple: true,
-            label: "درجة الرخصة",
-            type: "select"
+            model: "Centre",
+            label: " المركز ",
+            type: "select",
+            multiple: true
           },
           {
-            model: "ServiceType",
-            label: "نوع الخدمة",
+            model: "Religion",
+            label: "الديانة",
             type: "select",
             multiple: true
           }
-        ]
-      },
-      {
-        title: "بيانات الراتب العالي",
-        options: [
-          { model: "FileNo", label: "رقم الملف", type: "text" },
-          {
-            model: "RatebCategory",
-            label: "الفئة",
-            type: "select",
-            multiple: true
-          },
-          {
-            model: "RatebLevel",
-            label: "الدرجة",
-            type: "select",
-            multiple: true
-          },
-          {
-            model: "RatebState",
-            label: "الحالة",
-            type: "select",
-            multiple: true
-          },
-          {
-            model: "ServiceStyle",
-            label: "نوع الخدمة",
-            type: "select",
-            multiple: true
-          },
-          {
-            model: "SatrtingSarefRateb",
-            label: "تاريح صرف الراتب",
-            type: "date"
-          },
-          { model: "OlderindNo", label: "رقم الاقدمية", type: "text" },
-          { model: "Dof3aNum", label: "رقم الدفعة", type: "text" },
-          { model: "VolunteeringDate", label: "تاريخ التطوع", type: "date" },
-          {
-            model: "MartialStatus",
-            label: "الحالة الاجتماعية",
-            type: "select",
-            multiple: true
-          },
-          {
-            model: "UnitJoinDate",
-            label: "تاريخ الالتحاق بالوحدة",
-            type: "date"
-          },
-          { model: "RatebCategoryFari", label: "الفئة الفرعية", type: "select" }
         ]
       }
     ],
     constants: constants,
     selects: {
-      SoldierLevel: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierLevel.data
-      },
       KnowledgeLevel: {
         text: "text",
         value: "text",
@@ -579,26 +378,6 @@ export default {
         text: "text",
         value: "text",
         data: constants.Religion.data
-      },
-      DriverLevel: {
-        text: "text",
-        value: "text",
-        data: constants.DriverLevel.data
-      },
-      RecuTreat: {
-        text: "text",
-        value: "text",
-        data: constants.RecuTreat.data
-      },
-      SoldierCategory: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierCategory.data
-      },
-      BloodType: {
-        text: "text",
-        value: "text",
-        data: constants.BloodType.data
       },
       RecuRegion: {
         text: "text",
@@ -614,91 +393,15 @@ export default {
           )
         )
       },
-      Treatment: {
-        text: "text",
-        value: "text",
-        data: constants.Treatment.data
-      },
-      SoldierStatus: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierStatus.data
-      },
-      College: {
-        text: "text",
-        value: "text",
-        data: constants.College.data
-      },
-      Direction: {
-        text: "text",
-        value: "text",
-        data: constants.Direction.data
-      },
-      CityID: {
-        table: "City",
-        text: "City",
-        value: "CityID"
-      },
-      CentreID: {
+      Centre: {
         table: "Centre",
         text: "Centre",
-        value: "CentreID"
+        value: "Centre"
       },
-      DutyID: {
-        table: "Duty",
-        text: "Duty",
-        value: "DutyID"
-      },
-      WeaponID: {
-        table: "Weapon",
-        text: "Weapon",
-        value: "WeaponID"
-      },
-
-      UnitID: {
+      Unit: {
         table: "Unit",
-        value: "UnitID",
-        text: "Unit"
-      },
-      ServiceType: {
-        text: "text",
-        value: "text",
-        data: constants.serviceTypes
-      },
-      ServiceStyle: {
-        text: "text",
-        value: "text",
-        data: constants.ServiceStyle
-      },
-      RatebCategoryFari: {
-        text: "text",
-        value: "text",
-        data: constants.RatebCategoryFari.data
-      },
-      RatebCategory: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierCategory.data
-      },
-      RatebLevel: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierLevel.data
-      },
-      RatebState: {
-        text: "text",
-        value: "text",
-        data: constants.SoldierStatus.data
-      },
-      MartialStatus: {
-        text: "text",
-        value: "text",
-        data: constants.matrialStatus.data
-      },
-      Type: {
-        text: "text",
-        value: "text",
-        data: [{ text: "راتب عالى" }, { text: "مجند" }]
+        text: "Unit",
+        value: "Unit"
       }
     }
   }),
