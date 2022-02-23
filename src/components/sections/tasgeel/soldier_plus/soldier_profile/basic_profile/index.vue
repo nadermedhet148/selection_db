@@ -106,6 +106,10 @@
           <v-tab-item>
             <Notes-card :conscripteObJ="conscripte"></Notes-card>
           </v-tab-item>
+
+          <v-tab-item>
+            <Cases-card :conscripteObJ="conscripte"></Cases-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -126,6 +130,7 @@ export default {
   name: "basic-profile",
   components: {
     NotesCard: loadView("notes"),
+    CasesCard: loadView("cases"),
     NewProfile: () => import("@/views/tasgeel/NewProfile"),
     PrintConscripteProfile: () =>
       import("@/components/items/military_printer/conscripte-profile.vue")
@@ -161,7 +166,6 @@ export default {
     "conscripte.ID"(a, b) {
       // It's not required to have a before value
       // Because this function will run once.
-      console.log("working ________");
       this.updateBasedOnTypeId();
       if (this.conLoaded()) {
         this.updateBasedOnMilitaryId();
@@ -236,11 +240,11 @@ export default {
       {
         title: "الملاحظات",
         id: "notes"
+      },
+      {
+        title: "الاحداث",
+        id: "fugitives"
       }
-      // {
-      //   title: "الهروب",
-      //   id: "fugitives"
-      // },
       // {
       //   title: "إصابات / أمراض",
       //   id: "injuries"

@@ -56,9 +56,7 @@ export default {
     this.findItems();
   },
   data: () => ({
-    note: {
-      isFollowed: false
-    },
+    note: {},
     subjectLimit: 10,
     createdObject: {
       model: false,
@@ -74,9 +72,7 @@ export default {
       title: "",
       text: ""
     },
-    search: {
-      isFollowed: true
-    },
+    search: {},
     searchLoading: false,
     mainTable: {
       headers: [
