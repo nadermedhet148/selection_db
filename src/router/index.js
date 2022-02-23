@@ -260,6 +260,15 @@ const routes = [
     }
   },
   {
+    path: "/add_conscripte/:id?/:type?",
+    name: "add_conscripte",
+    component: mix.fun.loadView("tasgeel/AddConscripte"),
+    meta: {
+      title: "إضافة / تعديل فرد",
+      ok: true
+    }
+  },
+  {
     path: "/dafater_view",
     name: "dafater_view",
     component: mix.fun.loadView("Dafater/DafaterView"),
@@ -539,7 +548,7 @@ const routes = [
     name: "soldiers_plus",
     component: mix.fun.loadView("tasgeel/SoldiersPlus"),
     meta: {
-      title: "الراتب العالي والمجندين",
+      title: "المجندين",
       ok: true
     }
   },

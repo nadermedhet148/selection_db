@@ -335,5 +335,6 @@ export default {
     data: ["", "معلم", "قصاص أثر"].map(text => ({
       text
     }))
-  }
+  },
+  meetingStatus: ["مستقرة"]
 };

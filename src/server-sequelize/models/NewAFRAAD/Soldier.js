@@ -1,3 +1,4 @@
+const { RelationshipType } = require("exceljs");
 const Sequelize = require("sequelize");
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
@@ -65,6 +66,74 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       },
       Brigade: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Job: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      FatherJob: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Tele: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      BrothersCount: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      RelationshipType: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Note: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Apprance: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      FocusEvent: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Mood: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Talking: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      Drugs: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      GoHospitalBefore: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      HospitalName: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      TakeDrugsBefore: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      DrugName: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      MeetingDescions: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      MeetingMaker: {
         type: DataTypes.TEXT,
         allowNull: true
       }

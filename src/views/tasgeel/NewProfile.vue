@@ -200,6 +200,41 @@ export default {
             type: "file"
           }
         ]
+      },
+      {
+        title: "بيانات المقابلة",
+        desc: "",
+        items: [
+          { model: "Job", label: "الوظيفة قبل التجنيد", type: "text" },
+          { model: "FatherJob", label: "وظيفة الاب", type: "text" },
+          { model: "Tele", label: "رقم التلفون", type: "text" },
+          { model: "BrothersCount", label: "عدد الاشقاء", type: "text" },
+          {
+            model: "RelationshipType",
+            label: "العلاقة مع العائلة",
+            type: "text"
+          },
+          { model: "Note", label: "شكوي الجندي", type: "text" },
+          { model: "Apprance", label: "المظهر", type: "text" },
+          { model: "FocusEvent", label: "درجة التركيز", type: "text" },
+          { model: "Mood", label: "الحالة المزاجية", type: "text" },
+          { model: "Talking", label: "اضطرابات الكلام", type: "text" },
+          { model: "Drugs", label: "تعاطي ادوية", type: "text" },
+          {
+            model: "GoHospitalBefore",
+            label: "ذهب لمستشفي او عيادة",
+            type: "text"
+          },
+          { model: "HospitalName", label: "اسم المستشفي", type: "text" },
+          {
+            model: "TakeDrugsBefore",
+            label: "له خبرة بتعاطي ادوية",
+            type: "text"
+          },
+          { model: "DrugName", label: "اسم الدواء", type: "text" },
+          { model: "MeetingMaker", label: "القائم بالمقابلة", type: "text" },
+          { model: "MeetingDescions", label: "راي المقابلة", type: "text" }
+        ]
       }
     ],
 

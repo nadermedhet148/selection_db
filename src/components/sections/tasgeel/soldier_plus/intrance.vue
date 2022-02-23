@@ -90,9 +90,6 @@
                         'اضافة بيانات فرد جديد او تعديل بيانات فرد موجود '
                       "
                     ></v-list-item-subtitle>
-                    <!-- <v-list-item-subtitle class="error--text">
-                      -- تم تعطيل هذا الزر لحل بعض المشكلات --
-                    </v-list-item-subtitle> -->
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="wrap" to="/buck_conscript">
@@ -125,6 +122,21 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
+            </v-window-item>
+            <v-window-item>
+              <!-- Search by ID -->
+              <v-card-text>
+                <v-text-field
+                  prepend-inner-icon="mdi-magnify"
+                  filled
+                  label="الرقم العسكري"
+                  hint="من فضلك أدخل الرقم العسكري"
+                  counter="13"
+                  @keypress.enter="findById()"
+                  v-model="search.ID"
+                  persistent-hint
+                ></v-text-field>
+              </v-card-text>
             </v-window-item>
           </v-window>
         </v-card-text>

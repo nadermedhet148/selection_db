@@ -299,7 +299,7 @@ export default {
           },
           {
             model: "VideoPath",
-            label: "مكان فيديو المقابلة",
+            label: "فيديو المقابلة",
             type: "file"
           },
           {
@@ -307,6 +307,42 @@ export default {
             label: "السرية",
             type: "text"
           }
+        ]
+      },
+      {
+        title: "بيانات المقابلة",
+        desc: "",
+        forEnhaa: true,
+        items: [
+          { model: "Job", label: "الوظيفة قبل التجنيد", type: "text" },
+          { model: "FatherJob", label: "وظيفة الاب", type: "text" },
+          { model: "Tele", label: "رقم التلفون", type: "text" },
+          { model: "BrothersCount", label: "عدد الاشقاء", type: "text" },
+          {
+            model: "RelationshipType",
+            label: "العلاقة مع العائلة",
+            type: "text"
+          },
+          { model: "Note", label: "شكوي الجندي", type: "text" },
+          { model: "Apprance", label: "المظهر", type: "select" },
+          { model: "FocusEvent", label: "درجة التركيز", type: "select" },
+          { model: "Mood", label: "الحالة المزاجية", type: "select" },
+          { model: "Talking", label: "اضطرابات الكلام", type: "select" },
+          { model: "Drugs", label: "تعاطي ادوية", type: "select" },
+          {
+            model: "GoHospitalBefore",
+            label: "ذهب لمستشفي او عيادة",
+            type: "select"
+          },
+          { model: "HospitalName", label: "اسم المستشفي", type: "text" },
+          {
+            model: "TakeDrugsBefore",
+            label: "له خبرة بتعاطي ادوية",
+            type: "select"
+          },
+          { model: "DrugName", label: "اسم الدواء", type: "text" },
+          { model: "MeetingMaker", label: "القائم بالمقابلة", type: "text" },
+          { model: "MeetingDescions", label: "راي المقابلة", type: "text" }
         ]
       }
     ],
@@ -344,6 +380,41 @@ export default {
         table: "Unit",
         text: "Unit",
         value: "Unit"
+      },
+      GoHospitalBefore: {
+        text: "text",
+        value: "text",
+        data: ["نعم", "لا"]
+      },
+      TakeDrugsBefore: {
+        text: "text",
+        value: "text",
+        data: ["نعم", "لا"]
+      },
+      Apprance: {
+        text: "text",
+        value: "text",
+        data: constants.meetingStatus
+      },
+      FocusEvent: {
+        text: "text",
+        value: "text",
+        data: constants.meetingStatus
+      },
+      Mood: {
+        text: "text",
+        value: "text",
+        data: constants.meetingStatus
+      },
+      Talking: {
+        text: "text",
+        value: "text",
+        data: constants.meetingStatus
+      },
+      Drugs: {
+        text: "text",
+        value: "text",
+        data: constants.meetingStatus
       }
     },
     loading: false
