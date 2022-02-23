@@ -202,12 +202,6 @@ export default {
         icon: "mdi-microsoft-excel",
         function: "printExcel"
       }
-      // {
-      //   title: "طباعة PDF",
-      //   desc: "تحميل ملف بصيغة pdf يمكن طباعته, ولكن لا يمكن التعديل عليه.",
-      //   icon: "mdi-file-pdf-outline",
-      //   function: "printPDF"
-      // }
     ]
   }),
   methods: {
@@ -215,9 +209,8 @@ export default {
       return this[fun]();
     },
     async showFileLocation(openFolder = false) {
-      let fileLocation = this.fileLocation;
       await this.api("server/open-item", {
-        path: openFolder ? fileLocation.folder : fileLocation.file
+        path: this.fileLocation.file.replaceAll("dist_electron%5C..%5C", "")
       });
     },
     closeMe() {
@@ -237,6 +230,7 @@ export default {
       this.$set(this, "loading", true);
       this.$set(this, "filetype", isPDF ? "PDF" : "Word");
       let filename = this.getFilename();
+      console.log(this.data);
       this.api(`printer/word/reports`, {
         // printer/word/${this.path}
         query: this.query,
@@ -257,7 +251,6 @@ export default {
         });
     },
     printExcel() {
-      console.log(this.data);
       this.$set(this, "model", true);
       this.$set(this, "loading", true);
       this.$set(this, "filetype", "Excel");

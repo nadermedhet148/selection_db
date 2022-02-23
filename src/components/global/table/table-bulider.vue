@@ -7,6 +7,7 @@
         <printer-menu
           :disabled="items.length == 0"
           :data="printer"
+          :query="query"
           :fab="false"
         ></printer-menu>
       </v-card-title>
@@ -65,6 +66,10 @@ export default {
     printer: {
       type: Object,
       default: () => ({})
+    },
+    query: {
+      type: String,
+      default: () => ""
     },
     title: {
       type: String,

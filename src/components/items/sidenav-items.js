@@ -18,7 +18,7 @@ let nozom = function(t) {
     return "sections.3." + t;
   },
   // الهروب
-  ho = function(t) {
+  archived = function(t) {
     return "sections.4." + t;
   },
   // الحاسب
@@ -192,6 +192,14 @@ let nozom = function(t) {
         href: "/delays"
       }
     ],
+    archived: [
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: archived("stage_soldiers"),
+        href: "/stage_soldiers"
+      }
+    ],
     en: [],
     // ../Enhaa
     // ..Horob
@@ -346,10 +354,10 @@ let nozom = function(t) {
     ...items.footer
   ],
   _0 = [...items.admin],
-  _4 = [...items.notes],
+  _4 = [...items.archived],
   _1 = [],
   _2 = [...items.activities],
-  _3 = [],
+  _3 = [...items.notes],
   _12 = [
     // هروب
     ...items.ho

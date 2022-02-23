@@ -42,6 +42,7 @@ module.exports = async (db, params) => {
       ),
       buffer
     );
+
     let executablePath = `${__dirname}\\${
       isDevelopment ? "..\\" : "..\\..\\"
     }printer\\outputs\\${params.filename}.docx`;
@@ -52,7 +53,9 @@ module.exports = async (db, params) => {
         console.log("Result: " + result);
       });
       return {
-        file: executablePathPDF,
+        file: `${__dirname}${
+          isDevelopment ? "/../" : "/../../"
+        }printer/outputs/${params.filename}.docx`,
         folder: executablePathPDF.replace(`${params.filename}.pdf`, "")
       };
     } else {

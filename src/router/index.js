@@ -278,6 +278,15 @@ const routes = [
     }
   },
   {
+    path: "/stage_soldiers",
+    name: "stage_soldiers",
+    component: mix.fun.loadView("archive/stage_soldiers"),
+    meta: {
+      title: "طباعة المجندين الذين تم اختبارهم بالمرحلة",
+      ok: true
+    }
+  },
+  {
     path: "/dafater_import",
     name: "dafater_import",
     component: mix.fun.loadView("Dafater/Import"),

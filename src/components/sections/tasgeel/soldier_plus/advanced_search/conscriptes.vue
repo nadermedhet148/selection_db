@@ -129,7 +129,6 @@
         <v-spacer></v-spacer>
         <printer-menu
           :disabled="result.items.length == 0"
-          :query="`tasgeel/search/conscriptes`"
           :data="result.printer"
           :fab="false"
           dark
