@@ -105,9 +105,9 @@
     <table-bulider
       :headers="mainTable.headers"
       :printer="mainTable.printer"
-      query="RecStageSoliders"
+      query="stagePlan"
       :items="mainTable.items"
-      :title="'المجندين'"
+      :title="'المخطط'"
     >
       <template v-slot:item.ID="{ item }">
         <v-chip
@@ -169,44 +169,20 @@ export default {
     mainTable: {
       headers: [
         {
-          text: "الرقم العسكري",
-          value: "ID",
-          searchValue: "ID",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "الاسم",
-          value: "Name",
-          searchValue: "Name",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: true,
-          sort: 1
-        },
-        {
-          text: "المؤهل",
-          value: "KnowledgeLevel",
-          searchValue: "KnowledgeLevel",
-          sortable: true,
-          type: "select",
-          inSearch: false,
-          inTable: true,
-          inModel: false,
-          readonly: true,
-          sort: 1
-        },
-        {
-          text: "تاريخ الاختبار",
+          text: "التاريخ",
           value: "TestDate",
           searchValue: "TestDate",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "اجمالي المختبرين",
+          value: "Total",
+          searchValue: "Total",
           sortable: true,
           type: "text",
           inSearch: false,
@@ -267,7 +243,11 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let data = x.data,
+          let groupedDate = lodash.groupBy(x.data, ele => ele.TestDate);
+          let data = Object.keys(groupedDate).map(key => ({
+              TestDate: key,
+              Total: groupedDate[key].length
+            })),
             printer = {
               data: [
                 ...data.map((ele, index) => ({
@@ -285,6 +265,7 @@ export default {
           this.$set(this.mainTable, "printer", printer);
         })
         .catch(error => {
+          console.log(error)
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {

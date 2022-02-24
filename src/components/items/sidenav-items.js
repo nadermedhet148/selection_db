@@ -208,6 +208,18 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: archived("reference"),
         href: "/references"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: archived("stage_notes"),
+        href: "/stage_notes"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: archived("stage_plan"),
+        href: "/stage_plan"
       }
     ],
     en: [],
