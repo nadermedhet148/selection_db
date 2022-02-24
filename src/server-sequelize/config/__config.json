@@ -46,7 +46,7 @@
   "Mandour": {
     "title": "local",
     "host": "localhost",
-    "username": "admin",
+    "username": "af",
     "password": "5650072",
     "dialect": "mssql",
     "seederStorage": "json",
@@ -54,7 +54,6 @@
     "seederStorageTableName": "SequelizeData",
     "dialectOptions": {
       "options": {
-        
         "trustedConnection": true,
         "--instanceName": "SQLEXPRESS",
         "encrypt": false,

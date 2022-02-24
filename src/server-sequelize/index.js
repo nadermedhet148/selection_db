@@ -9,7 +9,7 @@ Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
 };
 
 // This is a string prop holding the current server
-const config = require("./config/__config.json")["local"];
+const config = require("./config/__config.json")["Mandour"];
 // This prop has your current server configs username,password,server etc ...
 const databases = require("./dbs.js")();
 // This prop holds an object containing several databases

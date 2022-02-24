@@ -248,6 +248,12 @@ var _default = {
         _self: "الإنتقاء",
         soldiers: "الجنود",
         rateb3ali: "الراتب العالي"
+      },
+      "14": {
+        // cards in_service and out_service
+        _self: "",
+        soldiers: "",
+        rateb3ali: ""
       }
     },
     language: "اللغة",
