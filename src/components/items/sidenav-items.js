@@ -229,6 +229,12 @@ let nozom = function(t) {
         text: stats("stage_stats"),
         href: "/stage_stats"
       },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: stats("stage_notes"),
+        href: "/stage_notes_stats"
+      }
     ],
     en: [],
     // ../Enhaa

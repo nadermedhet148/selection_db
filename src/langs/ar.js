@@ -186,8 +186,8 @@ var _default = {
       },
       stats: {
         _self: "احصائيات",
-        stage_stats: "احصائيات المرحلة",
-        archive: "أرشيف البوابة",
+        stage_stats: "احصائيات مجندين المرحلة",
+        stage_notes: "احصائيات الملاحظات الخاصة بالمرحلة",
         followup: "المتابع",
         black_list: "القائمة السوداء"
       },

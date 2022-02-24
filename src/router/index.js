@@ -309,7 +309,16 @@ const routes = [
     name: "stage_stats",
     component: mix.fun.loadView("stats/stage_stats"),
     meta: {
-      title: "احصائيات المرحلة",
+      title: "احصائيات مجندين المرحلة",
+      ok: true
+    }
+  },
+  {
+    path: "/stage_notes_stats",
+    name: "stage_notes_stats",
+    component: mix.fun.loadView("stats/stage_notes"),
+    meta: {
+      title: "احصائيات الملاحظات الخاصة بالمرحلة",
       ok: true
     }
   },

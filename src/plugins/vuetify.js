@@ -18,13 +18,11 @@ const vuetify = new Vuetify({
         primary: "#1BF2A3",
         secondary: "#424242",
         sidenav: "#F29422",
-        // anchor: "#1976D2",
         accent: "#643DF2",
         error: "#D955B5",
         info: "#F25252",
         success: "#4CAF50",
         warning: "#D955B5",
-        // Editions
         white: "#F8F8FF",
         girly: "#F764b2"
       },

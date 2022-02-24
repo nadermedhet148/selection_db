@@ -40,6 +40,7 @@
         ></v-btn>
       </v-card-actions>
     </v-card>
+
     <v-spacer></v-spacer>
 
     <v-row>
@@ -106,29 +107,29 @@ export default {
   },
   data: () => ({
     charts: {
-      users_usage: {
-        title: "حالة المجندين العامة",
+      notes_stats: {
+        title: "حالة الملاحظات العامة",
         desc:
-          "عرض رسم بياني يوضح عدد المجندين الذي تم اختبارهم بالمرجلة و حالتهم.",
+          "عرض رسم بياني يوضح عدد الملاحظات الذي تم انهاء متابعتهم بالمرجلة مع المتابعات.",
         loading: true,
-        labels: ["ملحوظ", "لائق"],
+        labels: ["متابع", "منتهي"],
         series: [],
         expand: false,
         type: "pie"
       },
-      days_plan: {
-        title: "نتيجة خطة المرحلة",
-        desc: "عرض رسم بياني يوضح عدد المجندين التي تم اختبارهم يوما.",
-        loading: true,
-        categories: [],
-        series: [],
-        expand: false,
-        type: "line"
-      },
-      section_bars: {
-        title: "مقارنة ملحوظات المرحلة",
+      //   days_plan: {
+      //     title: "نتيجة خطة المرحلة",
+      //     desc: "عرض رسم بياني يوضح عدد المجندين التي تم اختبارهم يوما.",
+      //     loading: true,
+      //     categories: [],
+      //     series: [],
+      //     expand: false,
+      //     type: "line"
+      //   },
+      dalyes_stats: {
+        title: "مقارنة متاخرات المرحلة",
         desc:
-          "عرض رسم بياني يوضح عدد المجندين الذي تم اختبارهم بالمرجلة و حالتهم.",
+          "عرض رسم بياني يوضح عدد الاجرائات الذي تم اتخاذها بملاحظات المرحلة.",
         loading: true,
         // labels: constants.sections,
         categories: ["ق م"],
@@ -174,71 +175,50 @@ export default {
       if (!this.search.RecuStage) {
         return this.showError(`برجاء اختيار المرحلة اولا`);
       }
-      this.$set(this.charts.users_usage, "loading", true);
+      this.$set(this.charts.notes_stats, "loading", true);
       let items = await this.api("global/get_all", {
-        table: "Soldier",
+        table: "Notes",
         include: [
           {
-            model: "Notes"
+            model: "Soldier",
+            where: {
+              RecuStage: this.search.RecuStage
+            }
+          },
+          {
+            model: "Action"
           }
-        ],
-        where: {
-          RecuStage: this.search.RecuStage
-        }
+        ]
       });
       if (items && items.ok && items.data) {
-        this.$set(this.charts.users_usage, "series", [
-          items.data.filter(ele => ele.Notes.length > 0).length,
-          items.data.filter(ele => ele.Notes.length == 0).length
+        this.$set(this.charts.notes_stats, "series", [
+          items.data.filter(ele => ele.isFollowed).length,
+          items.data.filter(ele => !ele.isFollowed).length
         ]);
 
-        let groupedDataByTestData = lodash.groupBy(
-            items.data,
-            ele => ele.TestDate
-          ),
-          groupedDataBySection = lodash.groupBy(
-            lodash.flattenDeep(items.data.map(ele => ele.Notes)),
-            ele => ele.section
-          );
+        let dataFlatted = lodash.flattenDeep(
+          items.data.map(ele => ele.Actions)
+        );
 
-        this.$set(
-          this.charts.days_plan,
-          "series",
-
-          [
-            {
-              name: "ملحوظ",
-              data: Object.values(groupedDataByTestData).map(
-                data => data.filter(ele => ele.Notes.length > 0).length
-              )
-            },
-            {
-              name: "لائق",
-              data: Object.values(groupedDataByTestData).map(
-                data => data.filter(ele => ele.Notes.length == 0).length
-              )
-            }
-          ]
-        );
-        this.$set(
-          this.charts.section_bars,
-          "series",
-          Object.keys(groupedDataBySection).map(ele => ({
-            name: ele,
-            data: [groupedDataBySection[ele].length]
-          }))
-        );
-        this.$set(
-          this.charts.days_plan,
-          "categories",
-          Object.keys(groupedDataByTestData)
-        );
+        this.$set(this.charts.dalyes_stats, "series", [
+          {
+            name: "بدون مؤيد",
+            data: [dataFlatted.filter(ele => !ele.file).length]
+          },
+          {
+            name: "بدون نتيجة",
+            data: [dataFlatted.filter(ele => !ele.result).length]
+          },
+          {
+            name: "غير منتهي",
+            data: [dataFlatted.filter(ele => !ele.isDone).length]
+          }
+        ]);
       } else {
         this.showError(`لم يعمل أحد خلال الـ ${days} يوماً الماضية.`);
       }
-      this.$set(this.charts.users_usage, "loading", false);
-      this.$set(this.charts.days_plan, "loading", false);
-      this.$set(this.charts.section_bars, "loading", false);
+      this.$set(this.charts.notes_stats, "loading", false);
+      this.$set(this.charts.dalyes_stats, "loading", false);
     }
   }
 };

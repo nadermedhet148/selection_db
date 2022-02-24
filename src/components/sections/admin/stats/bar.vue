@@ -35,12 +35,14 @@ export default {
     colors: {
       type: Array,
       default: () => [
-        "#1976D2",
-        "#ffa146",
-        "#ed6d6e",
-        "#cd32df",
-        "#7ad734",
-        "#5c5c5c"
+        "#1BF2A3",
+        "#F29422",
+        "#643DF2",
+        "#D955B5",
+        "#F25252",
+        "#4CAF50",
+        "#D955B5",
+        "#F764b2"
       ]
     },
     id: {
