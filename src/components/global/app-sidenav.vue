@@ -47,11 +47,11 @@
         <v-img
           height="100%"
           :gradient="
-            `135deg, rgba(${
-              $store.getters.isFullApp ? '13, 0, 255' : '20, 167, 76'
-            }, 0.${isDark ? '3' : '5'}),  rgba(${
-              $store.getters.isFullApp ? '13, 0, 255' : '20, 167, 76'
-            }, 0.${isDark ? '3' : '5'})`
+            `90deg, rgba(${
+              $store.getters.isFullApp ? '238, 120, 120' : '238, 120, 120'
+            }, 1),  rgba(${
+              $store.getters.isFullApp ? '242,82,82' : '242, 82, 82'
+            }, 1)`
           "
           :src="require('@/assets/landing/bg/9.jpg')"
         ></v-img>
@@ -77,7 +77,7 @@
             <!-- <span class="">
               {{ $store.getters.isFullApp ? "السجلات" : "الوحدات" }}</span
             > -->
-            <span class=""> منظومة معمل الانتقاء  والتوجيه حرس الحدود </span>
+            <span class=""> منظومة معمل الانتقاء والتوجيه حرس الحدود </span>
           </div>
         </v-container>
         <v-divider v-if="!$store.state.options['mini_variant']"></v-divider>

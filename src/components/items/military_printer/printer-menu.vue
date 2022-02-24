@@ -11,7 +11,7 @@
           :large="large"
           :outlined="outlined"
           :x-large="xLarge"
-          :color="color ? color : !fab ? 'default' : 'primary'"
+          :color="'info'"
           :class="`${!fab ? '' : 'me-2'} ${btnClass}`"
           v-on="on"
         >

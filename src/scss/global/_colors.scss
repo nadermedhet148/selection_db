@@ -18,7 +18,11 @@
   &.theme--dark {
     .color_moqadem {
       color: white !important; // #0eff00
-      background-color: #083a6f !important;
+      background-color: #643df2 !important;
     }
   }
+}
+
+.v-btn:not(.v-btn--has-bg) .v-btn__content .v-icon {
+  color: #643df2 !important;
 }

@@ -3,10 +3,9 @@ import Vuetify from "vuetify/lib";
 import colors from "vuetify/lib/util/colors";
 import ar from "@/langs/ar";
 import en from "@/langs/en";
-import VuetifyConfirm from 'vuetify-confirm'
+import VuetifyConfirm from "vuetify-confirm";
 
 Vue.use(Vuetify);
-
 
 const vuetify = new Vuetify({
   theme: {
@@ -16,17 +15,17 @@ const vuetify = new Vuetify({
     dark: false,
     themes: {
       light: {
-        primary: window.isFullApp === "true" ? "#1976D2" : "#14a74c",
+        primary: "#1BF2A3",
         secondary: "#424242",
-        sidenav: window.isFullApp === "true" ? "#1976D2" : "#14a74c",
+        sidenav: "#F29422",
         // anchor: "#1976D2",
-        accent: "#82B1FF",
-        error: "#FF5252",
-        info: "#2196F3",
+        accent: "#643DF2",
+        error: "#D955B5",
+        info: "#F25252",
         success: "#4CAF50",
-        warning: "#FFC107",
+        warning: "#D955B5",
         // Editions
-        white: "#FFFFFF",
+        white: "#F8F8FF",
         girly: "#F764b2"
       },
       dark: {
@@ -40,7 +39,7 @@ const vuetify = new Vuetify({
         success: "#4CAF50",
         warning: "#FFC107",
         // Editions
-        white: "#FFFFFF", // 000000
+        white: "#F8F8FF", // 000000
         girly: "#F764b2",
         black: "#000000"
       }
@@ -56,15 +55,15 @@ const vuetify = new Vuetify({
   }
 });
 
-Vue.use(VuetifyConfirm , {
+Vue.use(VuetifyConfirm, {
   vuetify,
-  buttonTrueText: 'موافق',
-  buttonFalseText: 'رجوع',
-  color: 'success',
-  icon: 'warning',
-  title: 'Warning',
+  buttonTrueText: "موافق",
+  buttonFalseText: "رجوع",
+  color: "success",
+  icon: "warning",
+  title: "Warning",
   width: 350,
-  property: '$confirm'
+  property: "$confirm"
 });
 
 export default vuetify;
