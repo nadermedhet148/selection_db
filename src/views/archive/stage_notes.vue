@@ -105,9 +105,9 @@
     <table-bulider
       :headers="mainTable.headers"
       :printer="mainTable.printer"
-      query="RecStageSoliders"
+      query="stageNotes"
       :items="mainTable.items"
-      :title="'المجندين'"
+      :title="'الملاحظات'"
     >
       <template v-slot:item.ID="{ item }">
         <v-chip
@@ -170,7 +170,7 @@ export default {
       headers: [
         {
           text: "الرقم العسكري",
-          value: "ID",
+          value: "Soldier.ID",
           searchValue: "ID",
           sortable: true,
           type: "text",
@@ -181,7 +181,7 @@ export default {
         },
         {
           text: "الاسم",
-          value: "Name",
+          value: "Soldier.Name",
           searchValue: "Name",
           sortable: true,
           type: "text",
@@ -192,21 +192,20 @@ export default {
           sort: 1
         },
         {
-          text: "المؤهل",
-          value: "KnowledgeLevel",
-          searchValue: "KnowledgeLevel",
+          text: "تاريخ الاختبار",
+          value: "Soldier.TestDate",
+          searchValue: "TestDate",
           sortable: true,
-          type: "select",
+          type: "text",
           inSearch: false,
           inTable: true,
-          inModel: false,
-          readonly: true,
+          inModel: true,
           sort: 1
         },
         {
-          text: "تاريخ الاختبار",
-          value: "TestDate",
-          searchValue: "TestDate",
+          text: "الملحوظة",
+          value: "Note",
+          searchValue: "Note",
           sortable: true,
           type: "text",
           inSearch: false,
@@ -263,8 +262,13 @@ export default {
         multi = [];
 
       this.api("global/get_all", {
-        table: "Soldier",
-        where: this.mapToQuery(where, likes, multi)
+        table: "Notes",
+        include: [
+          {
+            model: "Soldier",
+            where: this.mapToQuery(where, likes, multi)
+          }
+        ]
       })
         .then(x => {
           let data = x.data,
@@ -285,6 +289,7 @@ export default {
           this.$set(this.mainTable, "printer", printer);
         })
         .catch(error => {
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {

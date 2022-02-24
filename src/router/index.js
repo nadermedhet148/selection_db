@@ -287,6 +287,15 @@ const routes = [
     }
   },
   {
+    path: "/stage_notes",
+    name: "stage_notes",
+    component: mix.fun.loadView("archive/stage_notes"),
+    meta: {
+      title: "طباعة الملحظوين الذين تم اختبارهم بالمرحلة",
+      ok: true
+    }
+  },
+  {
     path: "/dafater_import",
     name: "dafater_import",
     component: mix.fun.loadView("Dafater/Import"),

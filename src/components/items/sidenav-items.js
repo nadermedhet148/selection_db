@@ -198,6 +198,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: archived("stage_soldiers"),
         href: "/stage_soldiers"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: archived("stage_notes"),
+        href: "/stage_notes"
       }
     ],
     en: [],
