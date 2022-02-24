@@ -77,7 +77,7 @@
             <!-- <span class="">
               {{ $store.getters.isFullApp ? "السجلات" : "الوحدات" }}</span
             > -->
-            <span class=""> منظومة معمل الانتقاء  والتوجيه حرس الحدود </span>
+            <span class=""> منظومة معمل الانتقاء والتوجيه حرس الحدود </span>
           </div>
         </v-container>
         <v-divider v-if="!$store.state.options['mini_variant']"></v-divider>
@@ -355,7 +355,8 @@ export default {
       "mdi-file-document-edit-outline",
       "mdi-account",
       "mdi-account-box-multiple-outline",
-      "mdi-movie"
+      "mdi-movie",
+      "mdi-chart-bar"
     ]
   }),
   computed: {
@@ -417,7 +418,7 @@ export default {
           });
         }
       } else if (section != null) {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
           let new_list_group = [],
             items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
             groups_found = [];

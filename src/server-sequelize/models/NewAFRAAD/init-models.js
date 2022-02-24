@@ -8,6 +8,7 @@ var _Unit = require("./Unit");
 var _Action = require("./Action");
 var _Cases = require("./Cases");
 
+
 function initModels(sequelize) {
   var City = _City(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
@@ -17,6 +18,7 @@ function initModels(sequelize) {
   var Unit = _Unit(sequelize, DataTypes);
   var Action = _Action(sequelize, DataTypes);
   var Cases = _Cases(sequelize, DataTypes);
+
 
   Soldier.hasMany(Notes, { foreignKey: "ID" });
   Notes.belongsTo(Soldier, { foreignKey: "ID" });

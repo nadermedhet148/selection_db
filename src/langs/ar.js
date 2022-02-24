@@ -184,17 +184,15 @@ var _default = {
       haseb: {
         _self: "الحاسب"
       },
-      gate: {
-        _self: "البوابة",
-        today: "اليوم",
+      stats: {
+        _self: "احصائيات",
+        stage_stats: "احصائيات المرحلة",
         archive: "أرشيف البوابة",
         followup: "المتابع",
         black_list: "القائمة السوداء"
       },
       "5": {
-        _self: "الميكروفيلم",
-        all_microfilm: "الميكروفيلم",
-        ignorants: "محو الأمية"
+        _self: "احصائيات"
       },
       "6": {
         // Segelat Operations - البوابة

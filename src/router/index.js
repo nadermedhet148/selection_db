@@ -305,6 +305,15 @@ const routes = [
     }
   },
   {
+    path: "/stage_stats",
+    name: "stage_stats",
+    component: mix.fun.loadView("stats/stage_stats"),
+    meta: {
+      title: "احصائيات المرحلة",
+      ok: true
+    }
+  },
+  {
     path: "/dafater_import",
     name: "dafater_import",
     component: mix.fun.loadView("Dafater/Import"),

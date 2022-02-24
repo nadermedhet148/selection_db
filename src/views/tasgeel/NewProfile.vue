@@ -11,7 +11,7 @@
         <v-card-text>
           <v-row>
             <template v-for="(item, ii) in group.items">
-              <v-col :key="ii" cols="6" lg="4" xl="3">
+              <v-col :key="ii" cols="2" lg="2" xl="2">
                 <v-text-field
                   v-model="conscripte[item.model]"
                   :label="item.label"
@@ -196,7 +196,7 @@ export default {
           },
           {
             model: "VideoPath",
-            label: "مكان فيديو المقابلة",
+            label: "فيديو المقابلة",
             type: "file"
           }
         ]
