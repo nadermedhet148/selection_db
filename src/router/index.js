@@ -296,6 +296,15 @@ const routes = [
     }
   },
   {
+    path: "/stage_plan",
+    name: "stage_plan",
+    component: mix.fun.loadView("archive/stage_plan"),
+    meta: {
+      title: "طباعة خطة المرحلة",
+      ok: true
+    }
+  },
+  {
     path: "/dafater_import",
     name: "dafater_import",
     component: mix.fun.loadView("Dafater/Import"),
