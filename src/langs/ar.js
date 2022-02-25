@@ -179,7 +179,8 @@ var _default = {
         late_stuff: "المتأخرات",
         name_change_requests: "طلبات تعديل الأسماء",
         print_reports: "طباعة تقارير",
-        missed_data: "استعلام عن بيانات ناقصة"
+        missed_data: "استعلام عن بيانات ناقصة",
+        references: "المراجع"
       },
       haseb: {
         _self: "الحاسب"
@@ -250,12 +251,6 @@ var _default = {
         _self: "الإنتقاء",
         soldiers: "الجنود",
         rateb3ali: "الراتب العالي"
-      },
-      "14": {
-        // cards in_service and out_service
-        _self: "",
-        soldiers: "",
-        rateb3ali: ""
       }
     },
     language: "اللغة",

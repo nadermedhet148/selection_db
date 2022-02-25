@@ -308,7 +308,8 @@ export default {
           table: "Action",
           update: {
             ...this.note,
-            file: this.note.file?.path ? this.note.file?.path : this.note.file
+            file: this.note.file?.path ? this.note.file?.path : this.note.file,
+            sc
           },
           where: {
             actionId: this.note.actionId

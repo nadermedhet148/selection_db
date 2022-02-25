@@ -296,6 +296,15 @@ const routes = [
     }
   },
   {
+    path: "/references",
+    name: "references",
+    component: mix.fun.loadView("archive/references"),
+    meta: {
+      title: "المراجع",
+      ok: true
+    }
+  },
+  {
     path: "/stage_plan",
     name: "stage_plan",
     component: mix.fun.loadView("archive/stage_plan"),

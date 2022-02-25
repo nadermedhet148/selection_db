@@ -60,10 +60,6 @@ let nozom = function(t) {
     // الانتقاء
     return "sections.13." + t;
   },
-  references = function(t) {
-    // الانتقاء
-    return "sections.14." + t;
-  },
   /*
    ! You can't use '12' - because it's for nozom ( see first 2 lines in this file )
   */
@@ -206,7 +202,7 @@ let nozom = function(t) {
       {
         type: "single",
         icon: "mdi-account-outline",
-        text: archived("reference"),
+        text: archived("references"),
         href: "/references"
       },
       {
