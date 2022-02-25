@@ -336,5 +336,5 @@ export default {
       text
     }))
   },
-  meetingStatus: ["مستقرة"]
+  meetingStatus: ["مستقرة", "مضطربة ", "مستقرة غير مستقرة"]
 };

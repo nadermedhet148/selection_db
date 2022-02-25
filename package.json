@@ -72,7 +72,6 @@
     "register-service-worker": "^1.7.1",
     "roboto-fontface": "*",
     "sequelize": "^5.22.3",
-    "sharp": "^0.29.3",
     "smb2": "^0.2.11",
     "socket.io-client": "^2.3.0",
     "socketio-file-upload": "^0.7.2",

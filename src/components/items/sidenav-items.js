@@ -93,53 +93,12 @@ let nozom = function(t) {
     // ../Header
     // Footer
     footer: [
-      // {
-      //   type: "single",
-      //   icon: "mdi-web",
-      //   text: "websites",
-      //   href: "/websites",
-      //   targetBlank: true,
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-eye-outline",
-      //   text: "followup",
-      //   href: "/followup"
-      // },
-      // // {
-      // //   type: "single",
-      // //   icon: "mdi-file-document-multiple",
-      // //   text: "new_comerstyat_docs",
-      // //   href: "/new_comerstyat_docs"
-      // // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-collage",
-      //   text: "tasadek",
-      //   href: "/tasadek",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-calendar",
-      //   text: "calendar",
-      //   desc: "مفكرة لمهام الأقسام",
-      //   href: "/calendar"
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-facebook-messenger",
-      //   text: "messenger",
-      //   href: "/messenger",
-      //   onlySegelat: true
-      // },
-      // {
-      //   type: "single",
-      //   icon: "mdi-dresser-outline",
-      //   text: "change_log",
-      //   href: "/change_log"
-      // },
+      {
+        type: "single",
+        icon: "mdi-file",
+        text: archived("references"),
+        href: "/references"
+      },
       {
         type: "single",
         icon: "mdi-power",
@@ -198,12 +157,6 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: archived("stage_soldiers"),
         href: "/stage_soldiers"
-      },
-      {
-        type: "single",
-        icon: "mdi-account-outline",
-        text: archived("references"),
-        href: "/references"
       },
       {
         type: "single",

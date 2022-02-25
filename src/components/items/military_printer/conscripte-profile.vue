@@ -1,9 +1,11 @@
 <template>
   <div class="position-relative display-inline-block">
+    <!--
     <v-btn class="px-6" @click="printPerson()" large outlined color="primary">
       <v-icon class="me-3">mdi-printer</v-icon>
       طباعة بروفايل الفرد
     </v-btn>
+    -->
     <v-dialog scrollable persistent v-model="model" max-width="450">
       <v-card>
         <v-card-title>
