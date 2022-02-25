@@ -9,6 +9,7 @@ var _Action = require("./Action");
 var _Cases = require("./Cases");
 var _References = require("./References");
 
+
 function initModels(sequelize) {
   var City = _City(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
@@ -19,6 +20,7 @@ function initModels(sequelize) {
   var Action = _Action(sequelize, DataTypes);
   var Cases = _Cases(sequelize, DataTypes);
   var References = _References(sequelize, DataTypes);
+
 
   Soldier.hasMany(Notes, { foreignKey: "ID" });
   Notes.belongsTo(Soldier, { foreignKey: "ID" });

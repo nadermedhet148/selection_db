@@ -26,8 +26,8 @@ let nozom = function(t) {
     return "section.haseb." + t;
   },
   // البوابة
-  gate = function(t) {
-    return "sections.gate." + t;
+  stats = function(t) {
+    return "sections.stats." + t;
   },
   mic = function(t) {
     return "sections.5." + t;
@@ -218,6 +218,20 @@ let nozom = function(t) {
         href: "/stage_plan"
       }
     ],
+    stats: [
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: stats("stage_stats"),
+        href: "/stage_stats"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: stats("stage_notes"),
+        href: "/stage_notes_stats"
+      }
+    ],
     en: [],
     // ../Enhaa
     // ..Horob
@@ -373,7 +387,7 @@ let nozom = function(t) {
   ],
   _0 = [...items.admin],
   _4 = [...items.archived],
-  _1 = [],
+  _5 = [...items.stats],
   _2 = [...items.activities],
   _3 = [...items.notes],
   _12 = [
@@ -390,4 +404,4 @@ let nozom = function(t) {
 //   // ميكروفيلم
 //   ...items.mic
 // ]
-export { seperator, header, footer, _0, _12, _1, _2, _3, _4 };
+export { seperator, header, footer, _0, _12, _5, _2, _3, _4 };

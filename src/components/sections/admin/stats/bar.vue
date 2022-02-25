@@ -6,7 +6,7 @@
       :options="options"
       width="100%"
       :height="`${height}px`"
-      type="pie"
+      type="bar"
     >
     </apex-chart>
   </div>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "apex-pie-chart",
+  name: "apex-bar-chart",
   props: {
     height: {
       Type: String,
@@ -25,6 +25,10 @@ export default {
       default: () => []
     },
     labels: {
+      type: Array,
+      default: () => []
+    },
+    categories: {
       type: Array,
       default: () => []
     },
@@ -61,50 +65,25 @@ export default {
     options() {
       let that = this,
         obj = {
-          plotOptions: {
-            pie: {
-              customScale: 1,
-              offsetX: 0,
-              offsetY: 0,
-              expandOnClick: true,
-              dataLabels: {
-                offset: 0,
-                minAngleToShowLabel: 10
-              }
-            }
-          },
-          labels: this.labels,
           chart: {
-            id: this.id ? this.id : this.staticId,
-            zoom: {
-              enabled: false
-            },
-            toolbar: {
-              show: false
-            },
-            stacked: true
+            type: "bar",
+            height: 350
           },
-          fill: {
-            type: "gradient",
-            gradient: {
-              shade: "light",
-              shadeIntensity: 0.3
-            }
-          },
-          colors: this.colors,
-          dataLabels: {
-            enabled: true
-          },
-          tooltip: {
-            y: {
-              formatter: function(val) {
-                // return val + ` ${that.suffix}`;
-                return "";
-              }
+          plotOptions: {
+            bar: {
+              borderRadius: 4,
+              horizontal: false
             }
           },
           legend: {
-            show: true
+            show: true,
+            customLegendItems: this.categories
+          },
+          dataLabels: {
+            enabled: true
+          },
+          xaxis: {
+            categories: this.categories
           }
         };
       if (this.events && Object.keys(this.events).length > 0) {

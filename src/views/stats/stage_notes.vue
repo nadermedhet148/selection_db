@@ -1,0 +1,225 @@
+<template>
+  <div>
+    <v-card :loading="searchLoading" :disabled="searchLoading">
+      <v-card-text>
+        <v-row>
+          <template v-for="(h, i) in mainTable.headers.filter(h => h.inSearch)">
+            <v-col v-if="h.type !== 'date'" :key="i" cols="6" lg="4">
+              <v-autocomplete
+                v-if="h.type == 'select'"
+                filled
+                :multiple="h.multiple"
+                :label="h.text"
+                v-model="search[h.searchValue]"
+                :hide-details="h.hint ? false : true"
+                :persistent-hint="h.hint ? true : false"
+                :items="
+                  selects[h.searchValue] ? selects[h.searchValue].data : []
+                "
+                :item-value="
+                  selects[h.searchValue]
+                    ? selects[h.searchValue].value
+                    : 'value'
+                "
+                :item-text="
+                  selects[h.searchValue] ? selects[h.searchValue].text : 'text'
+                "
+              ></v-autocomplete>
+            </v-col>
+          </template>
+        </v-row>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions class="px-4 py-4">
+        <v-btn
+          class="px-6"
+          @click="calculateStats()"
+          large
+          color="primary"
+          v-text="'انشاء الاحصائيات'"
+        ></v-btn>
+      </v-card-actions>
+    </v-card>
+
+    <v-spacer></v-spacer>
+
+    <v-row>
+      <template v-for="(c, key, i) in charts">
+        <v-col :key="i" cols="12" :xl="c.expand ? '12' : '6'">
+          <v-card :loading="c.loading" class="mb-8">
+            <v-card-title class="pb-2">
+              {{ c.title }}
+              <v-spacer></v-spacer>
+              <v-btn
+                :disabled="c.fixedExpand ? true : false"
+                icon
+                @click="c.expand = !c.expand"
+              >
+                <v-icon
+                  >mdi-{{
+                    c.expand ? "arrow-collapse-horizontal" : "arrow-expand"
+                  }}
+                </v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text v-text="c.desc"></v-card-text>
+            <v-divider></v-divider>
+            <v-card-text>
+              <stats-pie
+                v-if="c.type == 'pie' && !c.loading"
+                :labels="c.labels"
+                :series="c.series"
+                :height="c.expand ? '700' : '400'"
+              ></stats-pie>
+              <stats-line
+                v-else-if="c.type == 'line' && !c.loading"
+                :labels="c.labels"
+                :categories="c.categories"
+                :series="c.series"
+                :height="c.expand ? '700' : '400'"
+              ></stats-line>
+              <bar-line
+                v-else-if="c.type == 'bar' && !c.loading"
+                :labels="c.labels"
+                :categories="c.categories"
+                :series="c.series"
+                :height="c.expand ? '700' : '400'"
+              ></bar-line>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </template>
+    </v-row>
+  </div>
+</template>
+
+<script>
+const lodash = require("lodash");
+const constants = require("../../Constant").default;
+
+export default {
+  name: "admin-stats",
+  mounted() {},
+  components: {
+    StatsPie: () => import("@/components/sections/admin/stats/pie.vue"),
+    StatsLine: () => import("@/components/sections/admin/stats/line.vue"),
+    BarLine: () => import("@/components/sections/admin/stats/bar.vue")
+  },
+  data: () => ({
+    charts: {
+      notes_stats: {
+        title: "حالة الملاحظات العامة",
+        desc:
+          "عرض رسم بياني يوضح عدد الملاحظات الذي تم انهاء متابعتهم بالمرجلة مع المتابعات.",
+        loading: true,
+        labels: ["متابع", "منتهي"],
+        series: [],
+        expand: false,
+        type: "pie"
+      },
+      //   days_plan: {
+      //     title: "نتيجة خطة المرحلة",
+      //     desc: "عرض رسم بياني يوضح عدد المجندين التي تم اختبارهم يوما.",
+      //     loading: true,
+      //     categories: [],
+      //     series: [],
+      //     expand: false,
+      //     type: "line"
+      //   },
+      dalyes_stats: {
+        title: "مقارنة متاخرات المرحلة",
+        desc:
+          "عرض رسم بياني يوضح عدد الاجرائات الذي تم اتخاذها بملاحظات المرحلة.",
+        loading: true,
+        // labels: constants.sections,
+        categories: ["ق م"],
+        series: [],
+        expand: false,
+        type: "bar"
+      }
+    },
+    search: {},
+    searchLoading: false,
+    mainTable: {
+      headers: [
+        {
+          text: "المرحلة التجندية",
+          value: "RecuStage",
+          searchValue: "RecuStage",
+          sortable: true,
+          type: "select",
+          inSearch: true,
+          inTable: false,
+          inModel: false,
+          readonly: true,
+          sort: 1
+        }
+      ],
+      items: [],
+      printer: {}
+    },
+    selects: {
+      RecuStage: {
+        text: "text",
+        value: "text",
+        data: lodash.flattenDeep(
+          constants.years.map(year =>
+            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
+          )
+        )
+      }
+    }
+  }),
+  methods: {
+    async calculateStats() {
+      if (!this.search.RecuStage) {
+        return this.showError(`برجاء اختيار المرحلة اولا`);
+      }
+      this.$set(this.charts.notes_stats, "loading", true);
+      let items = await this.api("global/get_all", {
+        table: "Notes",
+        include: [
+          {
+            model: "Soldier",
+            where: {
+              RecuStage: this.search.RecuStage
+            }
+          },
+          {
+            model: "Action"
+          }
+        ]
+      });
+      if (items && items.ok && items.data) {
+        this.$set(this.charts.notes_stats, "series", [
+          items.data.filter(ele => ele.isFollowed).length,
+          items.data.filter(ele => !ele.isFollowed).length
+        ]);
+
+        let dataFlatted = lodash.flattenDeep(
+          items.data.map(ele => ele.Actions)
+        );
+
+        this.$set(this.charts.dalyes_stats, "series", [
+          {
+            name: "بدون مؤيد",
+            data: [dataFlatted.filter(ele => !ele.file).length]
+          },
+          {
+            name: "بدون نتيجة",
+            data: [dataFlatted.filter(ele => !ele.result).length]
+          },
+          {
+            name: "غير منتهي",
+            data: [dataFlatted.filter(ele => !ele.isDone).length]
+          }
+        ]);
+      } else {
+        this.showError(`لم يعمل أحد خلال الـ ${days} يوماً الماضية.`);
+      }
+      this.$set(this.charts.notes_stats, "loading", false);
+      this.$set(this.charts.dalyes_stats, "loading", false);
+    }
+  }
+};
+</script>

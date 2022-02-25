@@ -600,7 +600,7 @@ export default {
         return {};
       };
       this.sidenav_items.push(...sidenav_items.header);
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 10; i++) {
         let new_list_group = [],
           items = sidenav_items[`_${i}`] ? sidenav_items[`_${i}`] : [],
           groups_found = [];

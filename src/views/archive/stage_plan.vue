@@ -265,7 +265,6 @@ export default {
           this.$set(this.mainTable, "printer", printer);
         })
         .catch(error => {
-          console.log(error)
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {
