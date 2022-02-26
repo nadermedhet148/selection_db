@@ -48,9 +48,9 @@
           height="100%"
           :gradient="
             `90deg, rgba(${
-              $store.getters.isFullApp ? '238, 120, 120' : '238, 120, 120'
+              $store.getters.isFullApp ? '133,91,75' : '133,91,75'
             }, 1),  rgba(${
-              $store.getters.isFullApp ? '242,82,82' : '242, 82, 82'
+              $store.getters.isFullApp ? '115,63,44' : '115,63,44'
             }, 1)`
           "
           :src="require('@/assets/landing/bg/9.jpg')"
