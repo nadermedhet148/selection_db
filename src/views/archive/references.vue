@@ -23,6 +23,11 @@
           ?
         </v-chip>
       </template>
+      <template v-slot:item.edit="{ item }">
+        <v-chip color="transparent" @click="deleteReference(item)">
+          <v-icon color="error">mdi-delete</v-icon>
+        </v-chip>
+      </template>
     </table-bulider>
 
     <!-- popup to add a reference -->
@@ -113,6 +118,12 @@ export default {
   },
   data: () => ({
     ref: {},
+    del: {
+      loading: false,
+      model: false,
+      id: null,
+      type: false
+    },
     searchLoading: false,
     mainTable: {
       headers: [
@@ -136,6 +147,17 @@ export default {
           type: "file",
           inTable: true,
           inModel: true
+        },
+        {
+          text: "",
+          value: "edit",
+          searchValue: "edit",
+          sortable: true,
+          type: "checkbox",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          sort: 1
         }
       ],
       items: []
@@ -198,6 +220,26 @@ export default {
       await this.api("server/open-item", {
         path
       });
+    },
+    async deleteReference(item) {
+      this.$set(this.del, "loading", true);
+      let { id, type } = this.del,
+        delItem = await this.api("global/delete_all", {
+          table: "References",
+          where: {
+            referenceID: item.referenceID
+          }
+        });
+      if (delItem && delItem.ok && delItem.data) {
+        this.showSuccess(`تم ${type ? "استعادة" : "حذف"} المطلوب`);
+        this.$set(this.del, "model", false);
+        this.$set(this.del, "id", "");
+        this.$set(this.del, "type", false);
+        this.findAllReferences();
+      } else {
+        this.showError(`تعذر ${isVisible ? "استعادة" : "حذف"} المطلوب.`);
+      }
+      this.$set(this.del, "loading", false);
     }
   }
 };
