@@ -282,7 +282,7 @@ export default {
                       ...ele,
                       index: index + 1
                     })),
-                    18
+                    11
                   )
                   .map(ele => ({ page: ele }))
               ],

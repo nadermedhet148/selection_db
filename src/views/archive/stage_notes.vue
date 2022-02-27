@@ -203,6 +203,17 @@ export default {
           sort: 1
         },
         {
+          text: "المختص",
+          value: "section",
+          searchValue: "section",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          sort: 1
+        },
+        {
           text: "الملحوظة",
           value: "Note",
           searchValue: "Note",
@@ -282,10 +293,17 @@ export default {
             })),
             printer = {
               data: [
-                ...data.map((ele, index) => ({
-                  ...ele,
-                  index: index + 1
-                }))
+                ...lodash
+                  .chunk(
+                    data.map((ele, index) => ({
+                      ...ele,
+                      index: index + 1
+                    })),
+                    5
+                  )
+                  .map(page => ({
+                    page
+                  }))
               ],
               year: this.search.RecuStage.split("-")[1],
               stage: this.search.RecuStage.split("-")[0],

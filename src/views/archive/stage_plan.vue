@@ -250,10 +250,15 @@ export default {
             })),
             printer = {
               data: [
-                ...data.map((ele, index) => ({
-                  ...ele,
-                  index: index + 1
-                }))
+                ...lodash
+                  .chunk(
+                    data.map((ele, index) => ({
+                      ...ele,
+                      index: index + 1
+                    })),
+                    8
+                  )
+                  .map(page => ({ page }))
               ],
               year: this.search.RecuStage.split("-")[1],
               stage: this.search.RecuStage.split("-")[0],

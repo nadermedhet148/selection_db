@@ -191,26 +191,6 @@ export default {
             lodash.flattenDeep(items.data.map(ele => ele.Notes)),
             ele => ele.section
           );
-
-        this.$set(
-          this.charts.days_plan,
-          "series",
-
-          [
-            {
-              name: "ملحوظ",
-              data: Object.values(groupedDataByTestData).map(
-                data => data.filter(ele => ele.Notes.length > 0).length
-              )
-            },
-            {
-              name: "لائق",
-              data: Object.values(groupedDataByTestData).map(
-                data => data.filter(ele => ele.Notes.length == 0).length
-              )
-            }
-          ]
-        );
         this.$set(
           this.charts.section_bars,
           "series",
@@ -219,16 +199,10 @@ export default {
             data: [groupedDataBySection[ele].length]
           }))
         );
-        this.$set(
-          this.charts.days_plan,
-          "categories",
-          Object.keys(groupedDataByTestData)
-        );
       } else {
         this.showError(`لم يعمل أحد خلال الـ ${days} يوماً الماضية.`);
       }
       this.$set(this.charts.users_usage, "loading", false);
-      this.$set(this.charts.days_plan, "loading", false);
       this.$set(this.charts.section_bars, "loading", false);
     }
   }
