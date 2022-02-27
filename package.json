@@ -1,8 +1,8 @@
 {
-  "name": "militaryrecords",
+  "name": "system",
   "version": "1.0.0",
   "private": true,
-  "title": "منظومة السجلات العسكرية",
+  "title": "منظومة  معمل الانتقاء  والتوجيه حرس الحدود",
   "isFullApp": true,
   "description": "عرض وتعديل بيانات الجنود وضباط الصف بقوات حرس الحدود, مع الكثير من التقارير المتنوعة.",
   "author": {

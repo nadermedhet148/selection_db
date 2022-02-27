@@ -438,7 +438,18 @@ export default {
         search: { ...search }
       })
         .then(x => {
-          let fixedData = x.data,
+          let fixedData = x.data.map(ele => ({
+              ...ele,
+              TestDate: ele.TestDate
+                ? new Date(ele.TestDate).toISOString().split("T")[0]
+                : null,
+              ArrivalDate: ele.ArrivalDate
+                ? new Date(ele.ArrivalDate).toISOString().split("T")[0]
+                : "",
+              BirthDate: ele.BirthDate
+                ? new Date(ele.BirthDate).toISOString().split("T")[0]
+                : null
+            })),
             printer = {
               cons: [...fixedData],
               excelKey: "cons",

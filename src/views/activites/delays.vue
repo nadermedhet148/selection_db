@@ -250,25 +250,15 @@ const lodash = require("lodash");
 const delayesOptions = [
   {
     text: "بدون مؤيد",
-    value: {
-      file: {
-        $eq: null
-      }
-    }
+    value: 1
   },
   {
     text: "بدون نتيجة",
-    value: {
-      result: {
-        $eq: ""
-      }
-    }
+    value: 2
   },
   {
     text: "ليس منتهي",
-    value: {
-      isDone: false
-    }
+    value: 3
   }
 ];
 const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
@@ -331,6 +321,18 @@ export default {
           inTable: true,
           inModel: true,
           readonly: true,
+          sort: 1
+        },
+        {
+          text: "نوع المتاخر",
+          value: "type",
+          searchValue: "Name",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          readonly: false,
           sort: 1
         },
         {
@@ -499,17 +501,15 @@ export default {
           delayes: null
         },
         likes = ["ID"],
-        dates = ["dueDate"],
+        dates = [],
         multi = [];
 
-      where = this.mapToQuery(where, likes, multi, dates);
+      // let actionsCriteria = this.cleanObject({
+      //   dueDate: where.dueDate,
+      //   $or: this.search.delayes.length ? this.search.delayes : null
+      // });
 
-      let actionsCriteria = this.cleanObject({
-        dueDate: where.dueDate,
-        $or: this.search.delayes
-      });
-
-      console.log(actionsCriteria);
+      // console.log(actionsCriteria);
 
       this.api("global/get_all", {
         table: "Notes",
@@ -521,13 +521,53 @@ export default {
             })
           },
           {
-            model: "Action",
-            where: actionsCriteria
+            model: "Action"
           }
         ]
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.filter(ele => {
+              if (!ele.Actions) return false;
+              if (
+                this.search.dueDate &&
+                ele.Actions.filter(item => {
+                  return (
+                    new Date(this.search.dueDate[0]) >=
+                      new Date(item.dueDate) ||
+                    new Date(this.search.dueDate[1]) <= new Date(item.dueDate)
+                  );
+                }).length
+              ) {
+                return Object.assign(ele, { type: "اجراء له وقت متابعة" });
+              }
+
+              if (
+                this.search.delayes.indexOf(2) > -1 &&
+                ele.Actions.filter(item => {
+                  return !item.result || item.result == "";
+                }).length
+              ) {
+                return Object.assign(ele, { type: "ليس مسحل له نتيجة" });
+              }
+
+              if (
+                this.search.delayes.indexOf(3) > -1 &&
+                ele.Actions.filter(item => {
+                  return !item.isDone;
+                }).length
+              ) {
+                return Object.assign(ele, { type: "ليس منتهي" });
+              }
+
+              if (
+                this.search.delayes.indexOf(1) > -1 &&
+                ele.Actions.filter(item => {
+                  return !item.file;
+                }).length
+              ) {
+                return Object.assign(ele, { type: "ليس لديه مؤيد" });
+              }
+            }),
             printer = {
               data: [...data],
               excelKey: "data",

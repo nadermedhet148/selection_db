@@ -166,6 +166,7 @@ export default {
     }
   },
   mounted() {
+    noteData.actions;
     this.init();
   },
   data: () => ({
@@ -297,8 +298,10 @@ export default {
             file: this.note.file?.path
           }
         });
+
         this.mainTable.items.push({
           ...this.note,
+          ...saveItem.data,
           noteId: this.noteData.noteId,
           createdTime: new Date(),
           file: this.note.file?.path
@@ -308,8 +311,7 @@ export default {
           table: "Action",
           update: {
             ...this.note,
-            file: this.note.file?.path ? this.note.file?.path : this.note.file,
-            sc
+            file: this.note.file?.path ? this.note.file?.path : this.note.file
           },
           where: {
             actionId: this.note.actionId
@@ -337,7 +339,12 @@ export default {
     async openDialog(item) {
       this.createdObject.model = true;
       this.noteData = item;
-      this.mainTable.items = item.Actions;
+      this.mainTable.items = item.Actions.map(ele => ({
+        ...ele,
+        dueDate: ele.dueDate
+          ? new Date(ele.dueDate).toISOString().split("T")[0]
+          : ""
+      }));
     },
     async openFile(path) {
       await this.api("server/open-item", {

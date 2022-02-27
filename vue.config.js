@@ -61,13 +61,10 @@ module.exports = {
       .use("file-loader")
       .loader("file-loader");
     config.plugin("html").tap(args => {
-      args[0].title =
-        require("./package.json").isFullApp === "true"
-          ? "منظومة معمل الانتقاء والتوجيه  حرس الحدود"
-          : "منظومة الوحدات العسكرية";
+      args[0].title = "منظومة معمل الانتقاء والتوجيه  حرس الحدود";
       args[0].version = require("./package.json").version;
       args[0].description = require("./package.json").description;
-      args[0].isFullApp = require("./package.json").isFullApp;
+      args[0].isFullApp = true;
       return args;
     });
     config.module

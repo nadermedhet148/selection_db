@@ -116,15 +116,6 @@ export default {
         expand: false,
         type: "pie"
       },
-      days_plan: {
-        title: "نتيجة خطة المرحلة",
-        desc: "عرض رسم بياني يوضح عدد المجندين التي تم اختبارهم يوما.",
-        loading: true,
-        categories: [],
-        series: [],
-        expand: false,
-        type: "line"
-      },
       section_bars: {
         title: "مقارنة ملحوظات المرحلة",
         desc:

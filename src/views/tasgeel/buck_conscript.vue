@@ -211,6 +211,39 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="UnitDialog.model" scrollable max-width="500" persistent>
+      <v-card>
+        <v-card-title>
+          قم بتحديد ملف Excel
+        </v-card-title>
+        <v-card-text>
+          <v-file-input
+            clearable
+            filled
+            label="الملف"
+            persistent-hint
+            v-model="UnitDialog.file"
+          ></v-file-input>
+        </v-card-text>
+
+        <v-card-actions class="px-4">
+          <v-spacer></v-spacer>
+          <v-btn
+            class="px-6"
+            color="primary"
+            outlined
+            @click="openExcel.model = false"
+            large
+          >
+            عودة
+          </v-btn>
+          <v-btn class="px-6" color="primary" @click="updateExcel()" large>
+            تشغيل
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -269,6 +302,10 @@ export default {
       loading: false
     },
     compareDialog: {
+      model: "",
+      loading: false
+    },
+    UnitDialog: {
       model: "",
       loading: false
     },
@@ -406,6 +443,9 @@ export default {
     openExcelReader() {
       this.$set(this.openExcel, "model", true);
     },
+    openUnitDialog() {
+      this.$set(this.UnitDialog, "model", true);
+    },
     openCompareDialog() {
       this.$set(this.compareDialog, "model", true);
     },
@@ -449,11 +489,11 @@ export default {
       let fields = [
         {
           model: "ID",
-          label: "الرقم العسكري"
+          label: "الرقم العسكرى"
         },
         {
           model: "Name",
-          label: "الإسم الكامل"
+          label: "الاسم"
         },
         {
           model: "KnowledgeLevel",
@@ -462,6 +502,14 @@ export default {
         {
           model: "RecuRegion",
           label: "مكان التجنيد"
+        },
+        {
+          model: "TestDate",
+          label: "تاريخ الاختبار"
+        },
+        {
+          model: "Unit",
+          label: "الوحده الموزع عليها"
         }
       ];
 
@@ -472,18 +520,28 @@ export default {
         await Promise.all(
           Object.values(data)[0].map(async ele => {
             let conscripte = {
-              RecuStage: this.openExcel.RecuStage,
-              TestDate: this.openExcel.TestDate
+              RecuStage: this.openExcel.RecuStage
             };
             fields.forEach(field => {
               conscripte[field.model] = ele[field.label];
             });
-            // conscripte.BirthDate = this.nationalIdToDate(conscripte.IdentityNo);
-            // conscripte.Centre = Centres.data.find(
-            //   ele => ele.CentreID == conscripte.TripleNo.split("-")[1] || {}
-            // ).Centre;
+            if (!conscripte.ID) return;
+            const levels = {
+              1: "متوسطه",
+              2: "عليا",
+              0: "فوق متوسطة",
+              8: "عادة"
+            };
+            const RecuRegionID = parseInt(conscripte.ID.charAt(4)) - 1;
+            const LevelID = parseInt(conscripte.ID.charAt(5));
 
-            // console.log(conscripte);
+            conscripte.RecuRegion =
+              constants.RecuRegion.data[RecuRegionID].text;
+            conscripte.KnowledgeLevel = levels[LevelID];
+
+            if (!conscripte.TestDate) {
+              conscripte.TestDate = this.openExcel.TestDate;
+            }
 
             let isExists = false,
               exists = await this.api("global/get_one", {
@@ -497,13 +555,15 @@ export default {
               isExists = true;
             }
             let addCon;
-            if (isExists) {
+            if ((isExists, conscripte.Unit)) {
               addCon = await this.api("global/update_one", {
                 table: "Soldier",
                 where: {
                   ID: conscripte.ID
                 },
-                update: conscripte
+                update: {
+                  Unit: conscripte.Unit
+                }
               });
 
               this.$set(this, "loading", false);
@@ -514,19 +574,14 @@ export default {
               });
             }
 
-            if (addCon && addCon.ok) {
-              currentIndex++;
-              this.operation.perc = Math.ceil((currentIndex / total) * 100);
-              this.results.items.push({
-                ID: conscripte.ID,
-                status: this.statusTexts.done
-              });
-            } else {
-              this.results.items.push({
-                ID: conscripte.ID,
-                status: this.statusTexts.error
-              });
-            }
+            currentIndex++;
+            this.operation.perc = Math.ceil((currentIndex / total) * 100);
+            this.results.items.push({
+              ID: conscripte.ID,
+              status: this.statusTexts.done
+            });
+
+            return addCon;
           })
         );
       });

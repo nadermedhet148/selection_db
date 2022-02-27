@@ -133,6 +133,12 @@
         </v-chip>
 
         <v-chip color="transparent">
+          <v-btn icon @click="deleteItem(item)" color="primary">
+            <v-icon>mdi-trash-can-outline</v-icon>
+          </v-btn>
+        </v-chip>
+
+        <v-chip color="transparent">
           <v-btn icon @click="openActionDialog(item)" color="primary">
             <v-icon>mdi-eye</v-icon>
           </v-btn>
@@ -493,6 +499,16 @@ export default {
     actionAdd() {
       this.$set(this.createdObject, "item", {});
       this.$set(this.createdObject, "model", true);
+    },
+    async deleteItem(item) {
+      await this.api("global/delete_all", {
+        where: {
+          noteId: item.noteId
+        },
+        table: "Notes"
+      });
+      this.showSuccess("تم الحفظ");
+      this.findItems();
     },
     actionEdit(item) {
       this.$set(this.createdObject, "model", true);

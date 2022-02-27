@@ -580,6 +580,7 @@ Vue.mixin({
           let f1 = val[0],
             f2 = val[1];
           if (f1 || f2) {
+            console.log(f1 , f2);
             where[key] =
               f1 && f2
                 ? {

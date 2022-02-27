@@ -245,14 +245,14 @@ export default {
         .then(x => {
           let groupedDate = lodash.groupBy(x.data, ele => ele.TestDate);
           let data = Object.keys(groupedDate).map(key => ({
-              TestDate: key,
+              TestDate: new Date(key).toISOString().split("T")[0],
               Total: groupedDate[key].length
             })),
             printer = {
               data: [
                 ...data.map((ele, index) => ({
                   ...ele,
-                  index: index++
+                  index: index + 1
                 }))
               ],
               year: this.search.RecuStage.split("-")[1],

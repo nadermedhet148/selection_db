@@ -107,7 +107,16 @@ export default {
       unit: (this.conscripteObJ.Unit || {}).Unit,
       duty: (this.conscripteObJ.Duty || {}).Duty,
       centre: (this.conscripteObJ.Centre || {}).Centre,
-      city: (this.conscripteObJ.City || {}).City
+      city: (this.conscripteObJ.City || {}).City,
+      TestDate: this.conscripteObJ.TestDate
+        ? new Date(this.conscripteObJ.TestDate).toISOString().split("T")[0]
+        : null,
+      ArrivalDate: this.conscripteObJ.ArrivalDate
+        ? new Date(this.conscripteObJ.ArrivalDate).toISOString().split("T")[0]
+        : "",
+      BirthDate: this.conscripteObJ.BirthDate
+        ? new Date(this.conscripteObJ.BirthDate).toISOString().split("T")[0]
+        : null
     };
   },
   data: () => ({

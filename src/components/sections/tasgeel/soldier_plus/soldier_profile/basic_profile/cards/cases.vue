@@ -276,7 +276,12 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.map(ele => ({
+              ...ele,
+              happenTime: ele.happenTime
+                ? new Date(ele.happenTime).toISOString().split("T")[0]
+                : ""
+            })),
             printer = {
               data: [...data],
               excelKey: "data",

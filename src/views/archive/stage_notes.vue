@@ -271,12 +271,20 @@ export default {
         ]
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.map(ele => ({
+              ...ele,
+              Soldier: {
+                ...ele.Soldier,
+                TestDate: ele.Soldier.TestDate
+                  ? new Date(ele.Soldier.TestDate).toISOString().split("T")[0]
+                  : ""
+              }
+            })),
             printer = {
               data: [
                 ...data.map((ele, index) => ({
                   ...ele,
-                  index: index++
+                  index: index + 1
                 }))
               ],
               year: this.search.RecuStage.split("-")[1],

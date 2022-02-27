@@ -267,13 +267,24 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let data = x.data,
+          console.log(x);
+          let data = x.data.map(ele => ({
+              ...ele,
+              TestDate: ele.TestDate
+                ? new Date(ele.TestDate).toISOString().split("T")[0]
+                : null
+            })),
             printer = {
               data: [
-                ...data.map((ele, index) => ({
-                  ...ele,
-                  index: index++
-                }))
+                ...lodash
+                  .chunk(
+                    data.map((ele, index) => ({
+                      ...ele,
+                      index: index + 1
+                    })),
+                    18
+                  )
+                  .map(ele => ({ page: ele }))
               ],
               year: this.search.RecuStage.split("-")[1],
               stage: this.search.RecuStage.split("-")[0],
@@ -285,6 +296,7 @@ export default {
           this.$set(this.mainTable, "printer", printer);
         })
         .catch(error => {
+          console.log(error, x);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {

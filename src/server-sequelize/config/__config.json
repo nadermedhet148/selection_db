@@ -41,6 +41,28 @@
     "define": {
       "timestamps": false
     },
+    "logging": true
+  },
+  "prod": {
+    "title": "local",
+    "username": "admin",
+    "password": "123456",
+    "host": "Core",
+    "dialect": "mssql",
+    "seederStorage": "json",
+    "seederStoragePath": "sequelize-data.json",
+    "seederStorageTableName": "SequelizeData",
+    "dialectOptions": {
+      "options": {
+        "--instanceName": "SQLEXPRESS",
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "requestTimeout": 30000
+      }
+    },
+    "define": {
+      "timestamps": false
+    },
     "logging": false
   },
   "Mandour": {
