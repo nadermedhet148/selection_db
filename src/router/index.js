@@ -506,6 +506,15 @@ const routes = [
     }
   },
   {
+    path: "/edit_stages",
+    name: "edit_stages",
+    component: mix.fun.loadView("Admin/EditStages"),
+    meta: {
+      title: "المراحل",
+      ok: true
+    }
+  },
+  {
     path: "/admin_stats",
     name: "admin_stats",
     component: mix.fun.loadView("Admin/Stats"),

@@ -555,23 +555,27 @@ export default {
               isExists = true;
             }
             let addCon;
-            if ((isExists, conscripte.Unit)) {
-              addCon = await this.api("global/update_one", {
-                table: "Soldier",
-                where: {
-                  ID: conscripte.ID
-                },
-                update: {
-                  Unit: conscripte.Unit
-                }
-              });
+            try {
+              if ((isExists, conscripte.Unit)) {
+                addCon = await this.api("global/update_one", {
+                  table: "Soldier",
+                  where: {
+                    ID: conscripte.ID
+                  },
+                  update: {
+                    Unit: conscripte.Unit
+                  }
+                });
 
-              this.$set(this, "loading", false);
-            } else {
-              addCon = await this.api("global/create_one", {
-                table: "Soldier",
-                where: conscripte
-              });
+                this.$set(this, "loading", false);
+              } else {
+                addCon = await this.api("global/create_one", {
+                  table: "Soldier",
+                  where: conscripte
+                });
+              }
+            } catch (e) {
+              //
             }
 
             currentIndex++;

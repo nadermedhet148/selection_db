@@ -149,7 +149,6 @@ export default {
             this.$set(this, "success", true);
           })
           .catch(error => {
-            console.log(error);
             this.$set(this, "fileLocation", {});
             this.$set(this, "error", false);
           })

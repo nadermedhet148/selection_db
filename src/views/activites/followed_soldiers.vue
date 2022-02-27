@@ -125,6 +125,11 @@
           {{ item.isFollowed ? "نعم" : "لا" }}
         </v-chip>
       </template>
+      <template v-slot:item.isPresented="{ item }">
+        <v-chip :color="!item.isPresented ? 'error' : 'success'">
+          {{ item.isPresented ? "نعم" : "لا" }}
+        </v-chip>
+      </template>
       <template v-slot:item.edit="{ item }">
         <v-chip color="transparent">
           <v-btn icon @click="actionEdit(item)" color="primary">
@@ -371,6 +376,39 @@ export default {
           sort: 1
         },
         {
+          text: "تم العرض",
+          value: "isPresented",
+          searchValue: "isPresented",
+          sortable: true,
+          type: "checkbox",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "المراد متابعته",
+          value: "decision",
+          searchValue: "decision",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "تاريخ المتابعة",
+          value: "followupTime",
+          searchValue: "followupTime",
+          sortable: true,
+          type: "date",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "",
           value: "edit",
           searchValue: "edit",
@@ -478,7 +516,12 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let data = x.data,
+          let data = x.data.map(ele => ({
+              ...ele,
+              followupTime: ele.followupTime
+                ? new Date(ele.followupTime).toISOString().split("T")[0]
+                : ""
+            })),
             printer = {
               data: [...data],
               excelKey: "data",
@@ -518,6 +561,9 @@ export default {
       });
     },
     openActionDialog(item) {
+      if (!item.isPresented) {
+        return this.showError("يجب ان يتم عرض المجند لاضافة اجرأ");
+      }
       this.$refs.actions.openDialog(item);
     }
   }

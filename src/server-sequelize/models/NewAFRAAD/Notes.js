@@ -33,6 +33,14 @@ module.exports = function(sequelize, DataTypes) {
       decision: {
         type: DataTypes.TEXT,
         allowNull: true
+      },
+      followupTime : {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
+      isPresented: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
       }
     },
     {

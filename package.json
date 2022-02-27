@@ -76,6 +76,7 @@
     "socket.io-client": "^2.3.0",
     "socketio-file-upload": "^0.7.2",
     "sortablejs": "^1.14.0",
+    "sql-bak-restore": "^3.0.4",
     "sqlite3": "^5.0.0",
     "streamsaver": "^2.0.4",
     "tedious": "^8.3.1",

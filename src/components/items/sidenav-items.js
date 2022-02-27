@@ -114,6 +114,12 @@ let nozom = function(t) {
         icon: "mdi-account-group-outline",
         text: admin("edit_users"),
         href: "/edit_users"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-group-outline",
+        text: admin("edit_stages"),
+        href: "/edit_stages"
       }
     ],
 

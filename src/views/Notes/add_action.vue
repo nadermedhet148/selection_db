@@ -228,17 +228,6 @@ export default {
           sort: 1
         },
         {
-          text: "وقت المتابعة التالية",
-          value: "dueDate",
-          searchValue: "dueDate",
-          sortable: true,
-          type: "date",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
           text: "تم الانتهاء ؟",
           value: "isDone",
           searchValue: "isDone",

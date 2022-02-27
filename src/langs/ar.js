@@ -115,7 +115,7 @@ var _default = {
       },
       "0": {
         _self: "مدير النظام",
-        followup_admin: "متابعة مدير النظام",
+        edit_stages: "اضافة مراحل",
         operations: "عمليات قسم النظم",
         home: "الصفحة الرئيسية",
         dashboard: "لوحة التحكم",

@@ -406,6 +406,39 @@ export default {
           sort: 1
         },
         {
+          text: "تم العرض",
+          value: "isPresented",
+          searchValue: "isPresented",
+          sortable: true,
+          type: "checkbox",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "المراد متابعته",
+          value: "decision",
+          searchValue: "decision",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "تاريخ المتابعة",
+          value: "followupTime",
+          searchValue: "followupTime",
+          sortable: true,
+          type: "date",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "",
           value: "edit",
           searchValue: "edit",
@@ -526,48 +559,51 @@ export default {
         ]
       })
         .then(x => {
-          let data = x.data.filter(ele => {
-              if (!ele.Actions) return false;
-              if (
-                this.search.dueDate &&
-                ele.Actions.filter(item => {
-                  return (
-                    new Date(this.search.dueDate[0]) >=
-                      new Date(item.dueDate) ||
-                    new Date(this.search.dueDate[1]) <= new Date(item.dueDate)
-                  );
-                }).length
-              ) {
-                return Object.assign(ele, { type: "اجراء له وقت متابعة" });
-              }
+          let data = x.data
+              .filter(ele => {
+                if (!ele.Actions) return false;
+                if (
+                  this.search.dueDate &&
+                  (new Date(this.search.dueDate[0]) >= new Date(ele.followupTime) ||
+                    new Date(this.search.dueDate[1]) <=
+                      new Date(ele.followupTime))
+                ) {
+                  return Object.assign(ele, { type: "اجراء له وقت متابعة" });
+                }
 
-              if (
-                this.search.delayes.indexOf(2) > -1 &&
-                ele.Actions.filter(item => {
-                  return !item.result || item.result == "";
-                }).length
-              ) {
-                return Object.assign(ele, { type: "ليس مسحل له نتيجة" });
-              }
+                if (
+                  this.search.delayes.indexOf(2) > -1 &&
+                  ele.Actions.filter(item => {
+                    return !item.result || item.result == "";
+                  }).length
+                ) {
+                  return Object.assign(ele, { type: "ليس مسحل له نتيجة" });
+                }
 
-              if (
-                this.search.delayes.indexOf(3) > -1 &&
-                ele.Actions.filter(item => {
-                  return !item.isDone;
-                }).length
-              ) {
-                return Object.assign(ele, { type: "ليس منتهي" });
-              }
+                if (
+                  this.search.delayes.indexOf(3) > -1 &&
+                  ele.Actions.filter(item => {
+                    return !item.isDone;
+                  }).length
+                ) {
+                  return Object.assign(ele, { type: "ليس منتهي" });
+                }
 
-              if (
-                this.search.delayes.indexOf(1) > -1 &&
-                ele.Actions.filter(item => {
-                  return !item.file;
-                }).length
-              ) {
-                return Object.assign(ele, { type: "ليس لديه مؤيد" });
-              }
-            }),
+                if (
+                  this.search.delayes.indexOf(1) > -1 &&
+                  ele.Actions.filter(item => {
+                    return !item.file;
+                  }).length
+                ) {
+                  return Object.assign(ele, { type: "ليس لديه مؤيد" });
+                }
+              })
+              .map(ele => ({
+                ...ele,
+                followupTime: ele.followupTime
+                  ? new Date(ele.followupTime).toISOString().split("T")[0]
+                  : ""
+              })),
             printer = {
               data: [...data],
               excelKey: "data",
