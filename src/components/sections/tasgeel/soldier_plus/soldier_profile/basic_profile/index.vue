@@ -83,7 +83,7 @@
 
           <print-conscripte-profile
             class="me-3"
-            :militaryId="conscripte.militaryId"
+            :militaryId="conscripte.ID"
           ></print-conscripte-profile>
           <v-btn
             v-if="!$store.state.allowConscripteEdit"
