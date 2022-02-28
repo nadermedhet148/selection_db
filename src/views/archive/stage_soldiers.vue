@@ -245,7 +245,7 @@ export default {
       RecuStage: {
         text: "text",
         value: "text",
-        data : []
+        data: []
       }
     }
   }),
@@ -287,7 +287,7 @@ export default {
                       ...ele,
                       index: index + 1
                     })),
-                    11
+                    15
                   )
                   .map(ele => ({ page: ele }))
               ],
