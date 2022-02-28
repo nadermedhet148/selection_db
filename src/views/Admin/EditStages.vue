@@ -51,7 +51,6 @@
                   :hide-details="h.hint ? false : true"
                   :persistent-hint="h.hint ? true : false"
                   :readonly="h.readonly"
-                  @keypress.enter="findOne()"
                 ></v-text-field>
                 <v-autocomplete
                   v-else-if="h.type == 'select'"
@@ -123,7 +122,6 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
 const lodash = require("lodash");
 const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
   .default;
@@ -133,17 +131,10 @@ export default {
   props: {},
   mounted() {
     this.init();
-    this.mainTable.items = lodash.flattenDeep(
-      constants.years.map(year =>
-        constants.RecuStage.data.map(stage => ({
-          text: `${stage.text}-${year}`
-        }))
-      )
-    );
+    this.findItems();
   },
   data: () => ({
     note: {
-      section: constants.sections[0],
       isFollowed: true
     },
     subjectLimit: 10,
@@ -162,7 +153,7 @@ export default {
       text: ""
     },
     search: {
-      section: constants.sections[0]
+      // section: this.$store.state.constants.sections[0]
     },
     searchLoading: false,
     mainTable: {
@@ -170,7 +161,7 @@ export default {
         {
           text: "السنة",
           value: "text",
-          searchValue: "ID",
+          searchValue: "text",
           sortable: true,
           type: "text",
           inSearch: true,
@@ -186,23 +177,38 @@ export default {
     componentName: "BranchNotes",
     selects: {}
   }),
-  watch: {
-    "note.ID"(newValue) {
-      this.findOne(newValue);
-    }
-  },
+  watch: {},
   methods: {
-    async saveItem(edirableFromTableItem) {
-      if (!this.note.Name) {
-        return this.showError("هذا الفرد غير مسجل لدينا");
-      }
+    findItems() {
+      this.mainTable.items = lodash.flattenDeep(
+        this.$store.state.constants.years
+          .sort((a, b) => b - a)
+          .map(year =>
+            this.$store.state.constants.RecuStage.data.map(stage => ({
+              text: `${stage.text}-${year}`
+            }))
+          )
+      );
+    },
+    async saveItem() {
       this.$set(this.createdObject, "loading", true);
       let saveItem;
 
-      saveItem = await this.api(`global/update_constant`, {
-        column: "Notes",
-        where: this.note
+      const constants = this.$store.state.constants;
+
+      saveItem = await this.api(`global/update_one`, {
+        table: "Config",
+        where: {
+          type: "constants"
+        },
+        update: {
+          json: JSON.stringify(constants)
+        }
       });
+
+      this.findItems();
+
+      this.$set(this.$store.state, "constants", constants);
 
       this.$set(this.createdObject, "loading", false);
       this.$set(this.createdObject, "model", false);

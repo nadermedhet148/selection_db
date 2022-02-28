@@ -251,7 +251,7 @@
 ("use strict");
 const xlsxParser = require("xlsx-parse-json");
 const lodash = require("lodash");
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 
 export default {
   name: "admin_operations",

@@ -193,7 +193,7 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 const lodash = require("lodash");
 
 export default {

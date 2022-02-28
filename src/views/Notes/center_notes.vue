@@ -240,7 +240,7 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 const lodash = require("lodash");
 const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
   .default;
@@ -250,6 +250,15 @@ export default {
   props: {},
   mounted() {
     this.init();
+        this.selects.RecuStage.data = lodash.flattenDeep(
+      this.$store.state.constants.years
+        .sort((a, b) => b - a)
+        .map(year =>
+          this.$store.state.constants.RecuStage.data.map(stage => ({
+            text: `${stage.text}-${year}`
+          }))
+        )
+    );
   },
   data: () => ({
     note: {

@@ -382,7 +382,6 @@ ipcMain.on("db-send-api", (event, args) => {
   }
 });
 
-
 let fs = require("fs"),
   mkdirp = require("mkdirp"),
   getDirName = require("path").dirname;

@@ -368,7 +368,7 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 let sidenav_items = require("@/components/items/sidenav-items.js");
 
 export default {

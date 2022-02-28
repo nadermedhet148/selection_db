@@ -94,11 +94,21 @@
 
 <script>
 const lodash = require("lodash");
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 
 export default {
   name: "admin-stats",
-  mounted() {},
+  mounted() {
+        this.selects.RecuStage.data = lodash.flattenDeep(
+      this.$store.state.constants.years
+        .sort((a, b) => b - a)
+        .map(year =>
+          this.$store.state.constants.RecuStage.data.map(stage => ({
+            text: `${stage.text}-${year}`
+          }))
+        )
+    );
+  },
   components: {
     StatsPie: () => import("@/components/sections/admin/stats/pie.vue"),
     StatsLine: () => import("@/components/sections/admin/stats/line.vue"),
@@ -152,11 +162,7 @@ export default {
       RecuStage: {
         text: "text",
         value: "text",
-        data: lodash.flattenDeep(
-          constants.years.map(year =>
-            constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
-          )
-        )
+        data: []
       }
     }
   }),

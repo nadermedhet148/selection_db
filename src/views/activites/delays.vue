@@ -250,7 +250,7 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 const lodash = require("lodash");
 const delayesOptions = [
   {
@@ -278,6 +278,15 @@ export default {
   mounted() {
     this.init();
     this.initDates();
+    this.selects.RecuStage.data = lodash.flattenDeep(
+      this.$store.state.constants.years
+        .sort((a, b) => b - a)
+        .map(year =>
+          this.$store.state.constants.RecuStage.data.map(stage => ({
+            text: `${stage.text}-${year}`
+          }))
+        )
+    );
   },
   data: () => ({
     note: {

@@ -152,7 +152,7 @@
 </template>
 
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 const lodash = require("lodash");
 const types = require("../../server-sequelize/reciever/af/sections/tasgeel/reports/types")
   .default;

@@ -89,7 +89,7 @@
 }
 </style>
 <script>
-const constants = require("../../Constant").default;
+import constants from "./../../assets/constants.json";
 const _ = require("lodash");
 export default {
   name: "new-profile",

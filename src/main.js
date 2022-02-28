@@ -118,6 +118,20 @@ if (!app) {
           if (isWebwinOpened) {
             this.$router.push("/websites");
           }
+
+          this.api("global/get_all", {
+            table: "Config",
+            where: {
+              type: "constants"
+            }
+          }).then(data => {
+            console.log();
+            this.$set(
+              this.$store.state,
+              "constants",
+              data.data[0]?.json ? JSON.parse(data.data[0]?.json) : {}
+            );
+          });
           let ls_user = this.$ls.get("currentUser"),
             user = ls_user ? JSON.parse(ls_user) : null;
           if (user) {
