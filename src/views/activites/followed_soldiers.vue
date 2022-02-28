@@ -387,7 +387,7 @@ export default {
           sort: 1
         },
         {
-          text: "المراد متابعته",
+          text: "المطلوب متابعته",
           value: "decision",
           searchValue: "decision",
           sortable: true,

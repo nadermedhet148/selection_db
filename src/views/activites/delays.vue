@@ -125,6 +125,11 @@
           {{ item.isFollowed ? "نعم" : "لا" }}
         </v-chip>
       </template>
+      <template v-slot:item.isPresented="{ item }">
+        <v-chip :color="!item.isPresented ? 'error' : 'success'">
+          {{ item.isPresented ? "نعم" : "لا" }}
+        </v-chip>
+      </template>
       <template v-slot:item.edit="{ item }">
         <v-chip color="transparent">
           <v-btn icon @click="actionEdit(item)" color="primary">
@@ -410,14 +415,14 @@ export default {
           value: "isPresented",
           searchValue: "isPresented",
           sortable: true,
-          type: "checkbox",
-          inSearch: false,
+          type: "select",
+          inSearch: true,
           inTable: true,
           inModel: true,
           sort: 1
         },
         {
-          text: "المراد متابعته",
+          text: "المطلوب متابعته",
           value: "decision",
           searchValue: "decision",
           sortable: true,
@@ -469,6 +474,24 @@ export default {
         text: "text",
         value: "value",
         data: delayesOptions
+      },
+      isPresented: {
+        text: "text",
+        value: "value",
+        data: [
+          {
+            text: "تم عرضهم",
+            value: true
+          },
+          {
+            text: "لم يتم عرضهم",
+            value: null
+          },
+          {
+            text: "الكل",
+            value: "all"
+          }
+        ]
       }
     },
     Unit: {
@@ -561,12 +584,14 @@ export default {
         .then(x => {
           let data = x.data
               .filter(ele => {
-                if (!ele.Actions) return false;
+                if (this.search.isPresented != "all")
+                  return ele.isPresented == this.search.isPresented;
+
                 if (
                   this.search.dueDate &&
-                  (new Date(this.search.dueDate[0]) >= new Date(ele.followupTime) ||
-                    new Date(this.search.dueDate[1]) <=
-                      new Date(ele.followupTime))
+                  new Date(this.search.dueDate[0]) <=
+                    new Date(ele.followupTime) &&
+                  new Date(this.search.dueDate[1]) >= new Date(ele.followupTime)
                 ) {
                   return Object.assign(ele, { type: "اجراء له وقت متابعة" });
                 }
