@@ -556,7 +556,7 @@ export default {
             }
             let addCon;
             try {
-              if ((isExists, conscripte.Unit)) {
+              if (isExists && conscripte.Unit) {
                 addCon = await this.api("global/update_one", {
                   table: "Soldier",
                   where: {

@@ -157,6 +157,28 @@ export default {
           sort: 1
         },
         {
+          text: "المطلوب متابعته",
+          value: "decision",
+          searchValue: "decision",
+          sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "تاريخ المتابعة",
+          value: "followupTime",
+          searchValue: "followupTime",
+          sortable: true,
+          type: "date",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "",
           value: "edit",
           searchValue: "edit",

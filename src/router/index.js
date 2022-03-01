@@ -524,6 +524,15 @@ const routes = [
     }
   },
   {
+    path: "/years_notes_stats",
+    name: "years_notes_stats",
+    component: mix.fun.loadView("stats/years_notes_stats"),
+    meta: {
+      title: "احصائات مقارنة المراحل",
+      ok: true
+    }
+  },
+  {
     path: "/admin_holder/:id?",
     name: "admin_holder",
     component: mix.fun.loadView("Admin/Holder"),

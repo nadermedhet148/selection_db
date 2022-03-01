@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import lodash from "lodash";
+
 export default {
   name: "PrintConscripteProfile",
   props: {
@@ -84,7 +86,17 @@ export default {
           table: "Soldier",
           where: {
             ID
-          }
+          },
+          include: [
+            {
+              model: "Notes",
+              include: [
+                {
+                  model: "Action"
+                }
+              ]
+            }
+          ]
         });
 
         const data = {
@@ -98,10 +110,25 @@ export default {
             : "",
           BirthDate: conscripte.data.BirthDate
             ? new Date(conscripte.data.BirthDate).toISOString().split("T")[0]
-            : null
+            : null,
+
+          actions: lodash
+            .flattenDeep(conscripte.data.Notes.map(ele => ele.Actions))
+            .map(ele => ({
+              takedAction: ele.takedAction ? ele.takedAction : "",
+              result: ele.result ? ele.result : "",
+              createdTime: ele.createdTime ? ele.createdTime : ""
+            })),
+          Notes: conscripte.data.Notes.map(ele => ({
+            Note: ele.Note ? ele.Note : "",
+            section: ele.section ? ele.section : "",
+            decision: ele.decision ? ele.decision : "",
+            followupTime: ele.followupTime ? ele.followupTime : ""
+          }))
         };
+
         [
-          "ID",
+          ("ID",
           "Name",
           "TripleNo",
           "KnowledgeLevel",
@@ -132,7 +159,7 @@ export default {
           "TakeDrugsBefore",
           "DrugName",
           "MeetingMaker",
-          "MeetingDescions"
+          "MeetingDescions")
         ].forEach(key => {
           if (!data[key]) {
             data[key] = "";

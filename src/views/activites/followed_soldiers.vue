@@ -524,7 +524,7 @@ export default {
               ...ele,
               followupTime: ele.followupTime
                 ? new Date(ele.followupTime).toISOString().split("T")[0]
-                : ""
+                : null
             })),
             printer = {
               data: [...data],

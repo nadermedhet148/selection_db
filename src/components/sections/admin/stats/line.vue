@@ -11,6 +11,12 @@
   </div>
 </template>
 
+<style>
+.apexcharts-xaxis-texts-g {
+  display: none !important;
+}
+</style>
+
 <script>
 export default {
   name: "apex-line-chart",
@@ -102,7 +108,6 @@ export default {
           curve: "smooth"
         },
         xaxis: {
-          type: "datetime",
           categories: this.categories // Array of dates
         },
         yaxis: {

@@ -189,6 +189,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: stats("stage_notes"),
         href: "/stage_notes_stats"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: stats("years_notes_stats"),
+        href: "/years_notes_stats"
       }
     ],
     en: [],

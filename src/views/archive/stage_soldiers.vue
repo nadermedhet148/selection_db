@@ -212,6 +212,7 @@ export default {
           readonly: true,
           sort: 1
         },
+
         {
           text: "تاريخ الاختبار",
           value: "TestDate",
@@ -221,6 +222,18 @@ export default {
           inSearch: false,
           inTable: true,
           inModel: true,
+          sort: 1
+        },
+        {
+          text: "الوحدة",
+          value: "Unit",
+          searchValue: "Unit",
+          sortable: true,
+          type: "select",
+          inSearch: false,
+          inTable: true,
+          inModel: false,
+          readonly: true,
           sort: 1
         },
         {
@@ -287,7 +300,7 @@ export default {
                       ...ele,
                       index: index + 1
                     })),
-                    15
+                    13
                   )
                   .map(ele => ({ page: ele }))
               ],
