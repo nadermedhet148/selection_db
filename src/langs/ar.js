@@ -123,7 +123,7 @@ var _default = {
         dafaterReport: "تقرير الدفاتر",
         s2followup: "متابعة 2 س",
         edit_users: "المستخدمين",
-        edit_units: "الوحدات والمناطق",
+        units: "الوحدات والمناطق",
         edit_units_passwords: "باسوردات الوحدات",
         admin_stats: "احصائات",
         missed_data: "بيانات ناقصة",
@@ -154,7 +154,8 @@ var _default = {
       "2": {
         _self: "المتابعات",
         followed_soldiers: "متابعة المجندين",
-        delays: "المتأخرات"
+        delays: "المتأخرات",
+        safeSoliders: "نقرير المستبعدين من البؤر الارهابية"
       },
       "3": {
         _self: "ملاحظات",

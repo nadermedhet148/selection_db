@@ -51,6 +51,10 @@ module.exports = function(sequelize, DataTypes) {
       statue: {
         type: DataTypes.TEXT,
         allowNull: true
+      },
+      notSafe: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
       }
     },
     {

@@ -28,3 +28,6 @@ INSERT INTO [dbo].[Config] ([type],json) VALUES
 	json nvarchar COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT PK__Config__3213E83FBAB4107C PRIMARY KEY (id)
 );
+
+ALTER TABLE SelectionDb.dbo.Unit ADD notSafe bit NULL;
+ALTER TABLE SelectionDb.dbo.Notes ADD safe bit NULL;

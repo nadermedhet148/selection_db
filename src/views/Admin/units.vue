@@ -1,11 +1,13 @@
 <template>
   <div>
-    <AddActions ref="actions" :parentFilters="true"></AddActions>
-
+    <!--
     <v-card :loading="searchLoading" :disabled="searchLoading">
       <v-card-title>
-        بحث متقدم في المتابعات
+        بحث متقدم في الملاحظات الخاصة فرع الانتقاء و التوجيه
         <v-spacer></v-spacer>
+        <v-btn @click="actionAdd()" large outlined color="primary">
+          إضافة ملاحظة
+        </v-btn>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -104,11 +106,13 @@
       </v-card-actions>
     </v-card>
 
+-->
+
     <table-bulider
       :headers="mainTable.headers"
       :printer="mainTable.printer"
       :items="mainTable.items"
-      :title="'الملاحظات'"
+      :title="'الوحدات'"
     >
       <template v-slot:item.ID="{ item }">
         <v-chip
@@ -120,42 +124,18 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.isFollowed="{ item }">
-        <v-chip :color="!item.isFollowed ? 'error' : 'success'">
-          {{ item.isFollowed ? "نعم" : "لا" }}
-        </v-chip>
-      </template>
-      <template v-slot:item.isPresented="{ item }">
-        <v-chip :color="!item.isPresented ? 'error' : 'success'">
-          {{ item.isPresented ? "نعم" : "لا" }}
-        </v-chip>
-      </template>
-      <template v-slot:item.safe="{ item }">
-        <v-chip :color="!item.safe ? 'error' : 'success'">
-          {{ item.safe ? "نعم" : "لا" }}
-        </v-chip>
-      </template>
-      <template v-slot:item.matching="{ item }">
-        <v-chip :color="!item.matching ? 'error' : 'success'">
-          {{ isMatching(item) ? "نعم" : "لا" }}
+      <template v-slot:item.notSafe="{ item }">
+        <v-chip
+          @click="actionEdit(item)"
+          :color="!item.notSafe ? 'error' : 'success'"
+        >
+          {{ item.notSafe ? "نعم" : "لا" }}
         </v-chip>
       </template>
       <template v-slot:item.edit="{ item }">
         <v-chip color="transparent">
           <v-btn icon @click="actionEdit(item)" color="primary">
             <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </v-chip>
-
-        <v-chip color="transparent">
-          <v-btn icon @click="deleteItem(item)" color="primary">
-            <v-icon>mdi-trash-can-outline</v-icon>
-          </v-btn>
-        </v-chip>
-
-        <v-chip color="transparent">
-          <v-btn icon @click="openActionDialog(item)" color="primary">
-            <v-icon>mdi-eye</v-icon>
           </v-btn>
         </v-chip>
       </template>
@@ -272,13 +252,11 @@ const types = require("../../server-sequelize/reciever/af/sections/tasgeel/repor
   .default;
 
 export default {
-  name: "followedSoldiers",
+  name: "CenterNotes",
   props: {},
-  components: {
-    AddActions: () => import("@/views/Notes/add_action.vue")
-  },
   mounted() {
     this.init();
+    this.findItems();
     this.selects.RecuStage.data = lodash.flattenDeep(
       this.$store.state.constants.years
         .sort((a, b) => b - a)
@@ -291,7 +269,8 @@ export default {
   },
   data: () => ({
     note: {
-      isFollowed: false
+      section: constants.sections[1],
+      isFollowed: true
     },
     subjectLimit: 10,
     createdObject: {
@@ -309,144 +288,32 @@ export default {
       text: ""
     },
     search: {
-      isFollowed: true
+      section: constants.sections[1]
     },
     searchLoading: false,
     mainTable: {
       headers: [
         {
-          text: "الرقم العسكري",
-          value: "ID",
-          searchValue: "ID",
-          sortable: true,
-          type: "text",
-          inSearch: true,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "الاسم",
-          value: "Soldier.Name",
-          searchValue: "Name",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          readonly: true,
-          sort: 1
-        },
-        {
           text: "الوحدة",
-          value: "Soldier.Unit",
+          value: "Unit",
           searchValue: "Unit",
           sortable: true,
+          type: "text",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
+          text: "المنطقة بؤرة ارهابية",
+          value: "notSafe",
+          searchValue: "notSafe",
+          sortable: true,
           type: "select",
           inSearch: false,
           inTable: true,
           inModel: false,
           readonly: true,
-          sort: 1
-        },
-        {
-          text: "المرحلة التجندية",
-          value: "Soldier.RecuStage",
-          searchValue: "RecuStage",
-          sortable: true,
-          type: "select",
-          inSearch: true,
-          inTable: true,
-          inModel: false,
-          readonly: true,
-          sort: 1
-        },
-        {
-          text: "الملحوظة",
-          value: "Note",
-          searchValue: "Note",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "المختص",
-          value: "section",
-          searchValue: "section",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: false,
-          sort: 1
-        },
-        {
-          text: "متابع",
-          value: "isFollowed",
-          searchValue: "isFollowed",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "تم العرض",
-          value: "isPresented",
-          searchValue: "isPresented",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "المطلوب متابعته",
-          value: "decision",
-          searchValue: "decision",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "تاريخ المتابعة",
-          value: "followupTime",
-          searchValue: "followupTime",
-          sortable: true,
-          type: "date",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "يجب ان يستبعد من البؤر الارهابية",
-          value: "safe",
-          searchValue: "safe",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "",
-          value: "edit",
-          searchValue: "edit",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: false,
           sort: 1
         }
       ],
@@ -455,23 +322,9 @@ export default {
     },
 
     componentName: "BranchNotes",
-    selects: {
-      RecuStage: {
-        text: "text",
-        value: "text"
-      },
-      Unit: {
-        table: "Unit",
-        text: "Unit",
-        value: "Unit"
-      }
-    }
+    selects: {}
   }),
-  watch: {
-    "note.ID"(newValue) {
-      this.findOne(newValue);
-    }
-  },
+  watch: {},
   methods: {
     async saveItem(edirableFromTableItem) {
       if (!this.note.Name) {
@@ -504,17 +357,6 @@ export default {
       this.$set(this.createdObject, "loading", false);
       this.$set(this.createdObject, "model", false);
     },
-    findOne(ID) {
-      this.api("global/get_one", {
-        table: "Soldier",
-        where: { ID }
-      })
-        .then(x => {
-          this.$set(this.note, "Name", x.data.Name);
-        })
-        .catch(error => {})
-        .finally(() => {});
-    },
     findItems() {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
@@ -526,27 +368,10 @@ export default {
         multi = [];
 
       this.api("global/get_all", {
-        table: "Notes",
-        include: [
-          {
-            model: "Soldier",
-            where: this.cleanObject({
-              RecuStage: this.search.RecuStage
-            })
-          },
-          {
-            model: "Action"
-          }
-        ],
-        where: this.mapToQuery(where, likes, multi)
+        table: "Unit"
       })
         .then(x => {
-          let data = x.data.map(ele => ({
-              ...ele,
-              followupTime: ele.followupTime
-                ? new Date(ele.followupTime).toISOString().split("T")[0]
-                : null
-            })),
+          let data = x.data,
             printer = {
               data: [...data],
               excelKey: "data",
@@ -568,29 +393,18 @@ export default {
       this.$set(this.createdObject, "item", {});
       this.$set(this.createdObject, "model", true);
     },
-    async deleteItem(item) {
-      await this.api("global/delete_all", {
+    async actionEdit(item) {
+      await this.api(`global/update_one`, {
+        table: "Unit",
         where: {
-          noteId: item.noteId
+          UnitID: item.UnitID
         },
-        table: "Notes"
+        update: {
+          notSafe: !item.notSafe
+        }
       });
-      this.showSuccess("تم الحفظ");
-      this.findItems();
-    },
-    actionEdit(item) {
-      this.$set(this.createdObject, "model", true);
-      this.$set(this, "note", {
-        ...item,
-        isEdit: true
-      });
-    },
-    openActionDialog(item) {
-      if (!item.isPresented) {
-        return this.showError("يجب ان يتم عرض المجند لاضافة اجرأ");
-      }
-      this.$refs.actions.openDialog(item);
-    },
+      await this.findItems();
+    }
   }
 };
 </script>

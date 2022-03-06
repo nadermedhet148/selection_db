@@ -221,8 +221,7 @@ export default {
       RecuStage: {
         text: "text",
         value: "text",
-        data : []
-
+        data: []
       }
     }
   }),
@@ -249,7 +248,10 @@ export default {
         where: this.mapToQuery(where, likes, multi)
       })
         .then(x => {
-          let groupedDate = lodash.groupBy(x.data, ele => ele.TestDate);
+          let groupedDate = lodash.groupBy(
+            x.data.sort((a, b) => new Date(a.TestDate) - new Date(b.TestDate)),
+            ele => ele.TestDate
+          );
           let data = Object.keys(groupedDate).map(key => ({
               TestDate: new Date(key).toISOString().split("T")[0],
               Total: groupedDate[key].length
@@ -264,7 +266,9 @@ export default {
                     })),
                     8
                   )
-                  .map(page => ({ page }))
+                  .map(page => ({
+                    page
+                  }))
               ],
               year: this.search.RecuStage.split("-")[1],
               stage: this.search.RecuStage.split("-")[0],
@@ -276,7 +280,7 @@ export default {
           this.$set(this.mainTable, "printer", printer);
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
           this.showError("حدث خطأ أثناء احضار البيانات من قاعدة البيانات");
         })
         .finally(() => {

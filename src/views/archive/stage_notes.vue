@@ -216,8 +216,8 @@ export default {
           value: "section",
           searchValue: "section",
           sortable: true,
-          type: "text",
-          inSearch: false,
+          type: "select",
+          inSearch: true,
           inTable: true,
           inModel: false,
           sort: 1
@@ -227,8 +227,9 @@ export default {
           value: "Note",
           searchValue: "Note",
           sortable: true,
-          type: "text",
-          inSearch: false,
+          type: "select",
+          multiple: true,
+          inSearch: true,
           inTable: true,
           inModel: true,
           sort: 1
@@ -256,6 +257,16 @@ export default {
         text: "text",
         value: "text",
         data: []
+      },
+      section: {
+        text: "text",
+        value: "text",
+        data: constants.sections
+      },
+      Note: {
+        text: "Note",
+        value: "Note",
+        table: "Notes"
       }
     }
   }),
@@ -272,17 +283,25 @@ export default {
       this.$set(this, "searchLoading", true);
       this.$set(this, "items", []);
       let where = {
-          ...this.search
+          ...this.search,
+          section: null
         },
         likes = ["ID"],
-        multi = [];
+        multi = ["Note"];
 
       this.api("global/get_all", {
         table: "Notes",
+        where: this.cleanObject({
+          section: this.search.section,
+          Note: this.mapToQuery(where, likes, multi).Note
+        }),
         include: [
           {
             model: "Soldier",
-            where: this.mapToQuery(where, likes, multi)
+            where: this.cleanObject({
+              ...this.mapToQuery(where, likes, multi),
+              Note: null
+            })
           }
         ]
       })

@@ -41,6 +41,10 @@ module.exports = function(sequelize, DataTypes) {
       isPresented: {
         type: DataTypes.BOOLEAN,
         allowNull: true
+      },
+      safe: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
       }
     },
     {

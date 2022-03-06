@@ -120,6 +120,12 @@ let nozom = function(t) {
         icon: "mdi-account-group-outline",
         text: admin("edit_stages"),
         href: "/edit_stages"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-group-outline",
+        text: admin("units"),
+        href: "/units"
       }
     ],
 
@@ -155,6 +161,12 @@ let nozom = function(t) {
         icon: "mdi-account-outline",
         text: activities("delays"),
         href: "/delays"
+      },
+      {
+        type: "single",
+        icon: "mdi-account-outline",
+        text: activities("safeSoliders"),
+        href: "/safeSoliders"
       }
     ],
     archived: [
@@ -193,8 +205,8 @@ let nozom = function(t) {
       {
         type: "single",
         icon: "mdi-account-outline",
-        text: stats("years_notes_stats"),
-        href: "/years_notes_stats"
+        text: stats("units"),
+        href: "/units"
       }
     ],
     en: [],

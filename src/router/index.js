@@ -479,9 +479,18 @@ const routes = [
     }
   },
   {
-    path: "/edit_units",
-    name: "edit_units",
-    component: mix.fun.loadView("Admin/EditUnits"),
+    path: "/safeSoliders",
+    name: "safeSoliders",
+    component: mix.fun.loadView("activites/safeSoliders"),
+    meta: {
+      title: "تقرير الجنود المستبعدة من البؤر الارهابية",
+      ok: true
+    }
+  },
+  {
+    path: "/units",
+    name: "units",
+    component: mix.fun.loadView("Admin/units"),
     meta: {
       title: "الوحدات",
       ok: true

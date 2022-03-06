@@ -135,9 +135,9 @@
           {{ item.safe ? "نعم" : "لا" }}
         </v-chip>
       </template>
-      <template v-slot:item.matching="{ item }">
-        <v-chip :color="!item.matching ? 'error' : 'success'">
-          {{ isMatching(item) ? "نعم" : "لا" }}
+      <template v-slot:item.isMatching="{ item }">
+        <v-chip :color="item.isMatching == 'لا' ? 'error' : 'success'">
+          {{ item.isMatching }}
         </v-chip>
       </template>
       <template v-slot:item.edit="{ item }">
@@ -362,72 +362,6 @@ export default {
           sort: 1
         },
         {
-          text: "الملحوظة",
-          value: "Note",
-          searchValue: "Note",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "المختص",
-          value: "section",
-          searchValue: "section",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: false,
-          sort: 1
-        },
-        {
-          text: "متابع",
-          value: "isFollowed",
-          searchValue: "isFollowed",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "تم العرض",
-          value: "isPresented",
-          searchValue: "isPresented",
-          sortable: true,
-          type: "checkbox",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "المطلوب متابعته",
-          value: "decision",
-          searchValue: "decision",
-          sortable: true,
-          type: "text",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
-          text: "تاريخ المتابعة",
-          value: "followupTime",
-          searchValue: "followupTime",
-          sortable: true,
-          type: "date",
-          inSearch: false,
-          inTable: true,
-          inModel: true,
-          sort: 1
-        },
-        {
           text: "يجب ان يستبعد من البؤر الارهابية",
           value: "safe",
           searchValue: "safe",
@@ -439,14 +373,14 @@ export default {
           sort: 1
         },
         {
-          text: "",
-          value: "edit",
-          searchValue: "edit",
+          text: "التوزريع مطابق للتوصية ؟",
+          value: "isMatching",
+          searchValue: "isMatching",
           sortable: true,
           type: "checkbox",
           inSearch: false,
           inTable: true,
-          inModel: false,
+          inModel: true,
           sort: 1
         }
       ],
@@ -545,7 +479,8 @@ export default {
               ...ele,
               followupTime: ele.followupTime
                 ? new Date(ele.followupTime).toISOString().split("T")[0]
-                : null
+                : null,
+              isMatching: this.isMatching(ele) ? "نعم" : "لا"
             })),
             printer = {
               data: [...data],
@@ -591,6 +526,15 @@ export default {
       }
       this.$refs.actions.openDialog(item);
     },
+    isMatching(item) {
+      if (
+        !item.safe ||
+        !this.selects.Unit.data.find(ele => ele.Unit == item.Soldier.Unit)
+          .notSafe
+      ) {
+        return true;
+      }
+    }
   }
 };
 </script>
