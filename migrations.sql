@@ -31,3 +31,9 @@ INSERT INTO [dbo].[Config] ([type],json) VALUES
 
 ALTER TABLE SelectionDb.dbo.Unit ADD notSafe bit NULL;
 ALTER TABLE SelectionDb.dbo.Notes ADD safe bit NULL;
+//////////////////////////////////////////////////////////////////////
+
+ALTER TABLE SelectionDb.dbo.Notes ADD type nvarchar(100) ' ';
+
+
+

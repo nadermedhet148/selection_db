@@ -235,6 +235,17 @@ export default {
           sort: 1
         },
         {
+          text: "نوع الملحوظة",
+          value: "type",
+          searchValue: "type",
+          sortable: true,
+          type: "select",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "المرحلة التجندية",
           value: "RecuStage",
           searchValue: "RecuStage",
@@ -267,6 +278,11 @@ export default {
         text: "Note",
         value: "Note",
         table: "Notes"
+      },
+      type: {
+        table: "Notes",
+        text: "type",
+        value: "type"
       }
     }
   }),
@@ -310,7 +326,7 @@ export default {
               ...ele,
               Soldier: {
                 ...ele.Soldier,
-                TestDate: ele.Soldier.TestDate
+                TestDate: ele.Soldier?.TestDate
                   ? new Date(ele.Soldier.TestDate).toISOString().split("T")[0]
                   : ""
               }

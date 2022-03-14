@@ -170,11 +170,11 @@
                   :readonly="h.readonly"
                   @keypress.enter="findOne()"
                 ></v-text-field>
-                <v-autocomplete
+                <v-combobox
                   v-else-if="h.type == 'select'"
                   filled
                   :label="h.text"
-                  :multiple="true"
+                  :multiple="h.multiple"
                   :readonly="h.readonly"
                   v-model="note[h.searchValue]"
                   :hide-details="h.hint ? false : true"
@@ -192,7 +192,7 @@
                       ? selects[h.searchValue].text
                       : 'text'
                   "
-                ></v-autocomplete>
+                ></v-combobox>
                 <v-textarea
                   v-else-if="h.type == 'textarea'"
                   filled
@@ -250,7 +250,7 @@ export default {
   props: {},
   mounted() {
     this.init();
-        this.selects.RecuStage.data = lodash.flattenDeep(
+    this.selects.RecuStage.data = lodash.flattenDeep(
       this.$store.state.constants.years
         .sort((a, b) => b - a)
         .map(year =>
@@ -333,6 +333,17 @@ export default {
           sort: 1
         },
         {
+          text: "نوع الملحوظة",
+          value: "type",
+          searchValue: "type",
+          sortable: true,
+          type: "select",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "متابع",
           value: "isFollowed",
           searchValue: "isFollowed",
@@ -369,12 +380,20 @@ export default {
             constants.RecuStage.data.map(stage => `${stage.text}-${year}`)
           )
         )
+      },
+      type: {
+        table: "Notes",
+        text: "type",
+        value: "type"
       }
     }
   }),
   watch: {
     "note.ID"(newValue) {
       this.findOne(newValue);
+    },
+    "note.type"(value) {
+      this.note.type = value.type || value;
     }
   },
   methods: {

@@ -170,11 +170,11 @@
                   :readonly="h.readonly"
                   @keypress.enter="findOne()"
                 ></v-text-field>
-                <v-autocomplete
+                <v-combobox
                   v-else-if="h.type == 'select'"
                   filled
                   :label="h.text"
-                  :multiple="true"
+                  :multiple="h.multiple"
                   :readonly="h.readonly"
                   v-model="note[h.searchValue]"
                   :hide-details="h.hint ? false : true"
@@ -192,7 +192,7 @@
                       ? selects[h.searchValue].text
                       : 'text'
                   "
-                ></v-autocomplete>
+                ></v-combobox>
                 <v-textarea
                   v-else-if="h.type == 'textarea'"
                   filled
@@ -333,6 +333,17 @@ export default {
           sort: 1
         },
         {
+          text: "نوع الملحوظة",
+          value: "type",
+          searchValue: "type",
+          sortable: true,
+          type: "select",
+          inSearch: false,
+          inTable: true,
+          inModel: true,
+          sort: 1
+        },
+        {
           text: "متابع",
           value: "isFollowed",
           searchValue: "isFollowed",
@@ -365,12 +376,20 @@ export default {
         text: "text",
         value: "text",
         data: []
+      },
+      type: {
+        table: "Notes",
+        text: "type",
+        value: "type"
       }
     }
   }),
   watch: {
     "note.ID"(newValue) {
       this.findOne(newValue);
+    },
+    "note.type"(value) {
+      this.note.type = value.type || value;
     }
   },
   methods: {

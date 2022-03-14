@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true
       },
-      followupTime : {
+      followupTime: {
         type: DataTypes.DATE,
         allowNull: true
       },
@@ -44,6 +44,10 @@ module.exports = function(sequelize, DataTypes) {
       },
       safe: {
         type: DataTypes.BOOLEAN,
+        allowNull: true
+      },
+      type: {
+        type: DataTypes.TEXT,
         allowNull: true
       }
     },
